@@ -1,4 +1,4 @@
-irs1318_general
+irs1318_2017
 ============
 
-General robot code that can be copied from year to year
+2017 FRC robot code
