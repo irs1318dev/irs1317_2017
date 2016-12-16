@@ -8,7 +8,7 @@ import org.usfirst.frc.team1318.robot.Driver.User.UserDriver;
 import edu.wpi.first.wpilibj.IterativeRobot;
 
 /**
- * Main class for the FRC 201? [competition name] Competition
+ * Main class for the FRC 2017 [competition name] Competition
  * Robot for IRS1318 - [robot name]
  * 
  * 
