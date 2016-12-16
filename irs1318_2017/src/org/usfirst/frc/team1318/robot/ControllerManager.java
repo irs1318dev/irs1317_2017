@@ -27,7 +27,17 @@ public class ControllerManager implements IController
     {
         for (IController controller : this.controllerList)
         {
-            controller.update();
+            try
+            {
+                controller.update();
+            }
+            catch (Exception ex)
+            {
+                if (TuningConstants.THROW_EXCEPTIONS)
+                {
+                    throw ex;
+                }
+            }
         }
     }
 
@@ -36,7 +46,17 @@ public class ControllerManager implements IController
     {
         for (IController controller : this.controllerList)
         {
-            controller.stop();
+            try
+            {
+                controller.stop();
+            }
+            catch (Exception ex)
+            {
+                if (TuningConstants.THROW_EXCEPTIONS)
+                {
+                    throw ex;
+                }
+            }
         }
     }
 
