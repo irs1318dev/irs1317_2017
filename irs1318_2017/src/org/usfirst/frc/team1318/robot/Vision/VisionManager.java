@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1318.robot.Vision;
 
 import org.opencv.core.Point;
+import org.usfirst.frc.team1318.robot.Common.DashboardLogger;
 import org.usfirst.frc.team1318.robot.Common.IController;
 import org.usfirst.frc.team1318.robot.Driver.Driver;
 import org.usfirst.frc.team1318.robot.Vision.Analyzer.HSVCenterPipeline;
@@ -47,6 +48,14 @@ public class VisionManager implements IController, VisionRunner.Listener<HSVCent
     @Override
     public void update()
     {
+        String centerString = "n/a";
+        Point center = this.getCenter();
+        if (center != null)
+        {
+            centerString = String.format("%f,%f", center.x, center.y);
+        }
+
+        DashboardLogger.putString("center", centerString);
     }
 
     @Override
