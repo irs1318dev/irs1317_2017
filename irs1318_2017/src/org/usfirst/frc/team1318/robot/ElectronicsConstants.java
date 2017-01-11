@@ -22,12 +22,12 @@ public class ElectronicsConstants
 
     //================================================== DriveTrain ==============================================================
 
-    public static final int DRIVETRAIN_LEFT_TALON_CHANNEL = -1;
-    public static final int DRIVETRAIN_RIGHT_TALON_CHANNEL = -1;
+    public static final int DRIVETRAIN_LEFT_TALON_CHANNEL = 5;
+    public static final int DRIVETRAIN_RIGHT_TALON_CHANNEL = 4;
 
-    public static final int DRIVETRAIN_RIGHT_ENCODER_CHANNEL_A = -1;
-    public static final int DRIVETRAIN_RIGHT_ENCODER_CHANNEL_B = -1;
+    public static final int DRIVETRAIN_RIGHT_ENCODER_CHANNEL_A = 0;
+    public static final int DRIVETRAIN_RIGHT_ENCODER_CHANNEL_B = 1;
 
-    public static final int DRIVETRAIN_LEFT_ENCODER_CHANNEL_A = -1;
-    public static final int DRIVETRAIN_LEFT_ENCODER_CHANNEL_B = -1;
+    public static final int DRIVETRAIN_LEFT_ENCODER_CHANNEL_A = 2;
+    public static final int DRIVETRAIN_LEFT_ENCODER_CHANNEL_B = 3;
 }

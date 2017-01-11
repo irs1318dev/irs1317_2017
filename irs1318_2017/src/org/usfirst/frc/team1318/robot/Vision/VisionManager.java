@@ -30,7 +30,7 @@ public class VisionManager implements IController, VisionRunner.Listener<HSVCent
     public VisionManager()
     {
         this.visionLock = new Object();
-        AxisCamera camera = CameraServer.getInstance().addAxisCamera("10.13.18.11");
+        AxisCamera camera = CameraServer.getInstance().addAxisCamera(VisionConstants.CAMERA_IP_ADDRESS);
         this.visionThread = new VisionThread(camera, new HSVCenterPipeline(), this);
         this.visionThread.start();
 

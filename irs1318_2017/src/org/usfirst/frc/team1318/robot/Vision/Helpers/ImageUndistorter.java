@@ -5,7 +5,6 @@ import org.opencv.core.Mat;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
-import org.usfirst.frc.team1318.robot.Vision.VisionConstants;
 
 public class ImageUndistorter
 {
@@ -20,16 +19,8 @@ public class ImageUndistorter
     {
         Size size;
         Mat intrinsicMatrix;
-        if (VisionConstants.CAMERA_RESOLUTION.equals("640x480"))
-        {
-            intrinsicMatrix = ImageUndistorter.build640x480Intrinsic();
-            size = new Size(640, 480);
-        }
-        else
-        {
-            intrinsicMatrix = ImageUndistorter.build320x240Intrinsic();
-            size = new Size(320, 240);
-        }
+        intrinsicMatrix = ImageUndistorter.build320x240Intrinsic();
+        size = new Size(320, 240);
 
         Mat distCoeffs = ImageUndistorter.buildDistortion();
 
