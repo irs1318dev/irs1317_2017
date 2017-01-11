@@ -11,6 +11,7 @@ import org.usfirst.frc.team1318.robot.Vision.Helpers.ContourHelper;
 import org.usfirst.frc.team1318.robot.Vision.Helpers.HSVFilter;
 import org.usfirst.frc.team1318.robot.Vision.Helpers.ImageUndistorter;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.vision.VisionPipeline;
 
 public class HSVCenterPipeline implements VisionPipeline
@@ -18,8 +19,12 @@ public class HSVCenterPipeline implements VisionPipeline
     private final ImageUndistorter undistorter;
     private final HSVFilter hsvFilter;
 
-    private int count;
     private Point center;
+
+    // FPS Measurement
+    private long analyzedFrameCount;
+    private double lastMeasuredTime;
+    private double lastFpsMeasurement;
 
     /**
      * Initializes a new instance of the HSVCenterAnalyzer class.
@@ -29,9 +34,10 @@ public class HSVCenterPipeline implements VisionPipeline
     {
         this.undistorter = new ImageUndistorter();
         this.hsvFilter = new HSVFilter(VisionConstants.HSV_FILTER_LOW, VisionConstants.HSV_FILTER_HIGH);
-        this.count = 0;
 
         this.center = null;
+        this.analyzedFrameCount = 0;
+        this.lastMeasuredTime = Timer.getFPGATimestamp();
     }
 
     /**
@@ -41,13 +47,24 @@ public class HSVCenterPipeline implements VisionPipeline
     @Override
     public void process(Mat image)
     {
-        this.count++;
+        this.analyzedFrameCount++;
+        if (VisionConstants.DEBUG
+            && VisionConstants.DEBUG_PRINT_OUTPUT && this.analyzedFrameCount % VisionConstants.DEBUG_FPS_AVERAGING_INTERVAL == 0)
+        {
+            double now = Timer.getFPGATimestamp();
+            double elapsedTime = now - this.lastMeasuredTime;
+
+            this.lastFpsMeasurement = ((double)VisionConstants.DEBUG_FPS_AVERAGING_INTERVAL) / elapsedTime;
+            this.lastMeasuredTime = now;
+        }
 
         // first, undistort the image.
         image = this.undistorter.undistortFrame(image);
-        if (VisionConstants.DEBUG && VisionConstants.DEBUG_FRAME_OUTPUT && this.count % VisionConstants.DEBUG_FRAME_OUTPUT_GAP == 0)
+        if (VisionConstants.DEBUG
+            && VisionConstants.DEBUG_FRAME_OUTPUT && this.analyzedFrameCount % VisionConstants.DEBUG_FRAME_OUTPUT_GAP == 0)
         {
-            Imgcodecs.imwrite(String.format("%simage%d-1.undistorted.jpg", VisionConstants.DEBUG_OUTPUT_FOLDER, this.count), image);
+            Imgcodecs.imwrite(String.format("%simage%d-1.undistorted.jpg", VisionConstants.DEBUG_OUTPUT_FOLDER, this.analyzedFrameCount),
+                image);
         }
 
         // save the undistorted image for possible output later...
@@ -55,9 +72,11 @@ public class HSVCenterPipeline implements VisionPipeline
 
         // second, filter HSV
         image = this.hsvFilter.filterHSV(image);
-        if (VisionConstants.DEBUG && VisionConstants.DEBUG_FRAME_OUTPUT && this.count % VisionConstants.DEBUG_FRAME_OUTPUT_GAP == 0)
+        if (VisionConstants.DEBUG
+            && VisionConstants.DEBUG_FRAME_OUTPUT && this.analyzedFrameCount % VisionConstants.DEBUG_FRAME_OUTPUT_GAP == 0)
         {
-            Imgcodecs.imwrite(String.format("%simage%d-2.hsvfiltered.jpg", VisionConstants.DEBUG_OUTPUT_FOLDER, this.count), image);
+            Imgcodecs.imwrite(String.format("%simage%d-2.hsvfiltered.jpg", VisionConstants.DEBUG_OUTPUT_FOLDER, this.analyzedFrameCount),
+                image);
         }
 
         // third, find the largest contour.
@@ -92,10 +111,11 @@ public class HSVCenterPipeline implements VisionPipeline
                 }
             }
 
-            if (centerOfMass != null && VisionConstants.DEBUG_FRAME_OUTPUT && this.count % VisionConstants.DEBUG_FRAME_OUTPUT_GAP == 0)
+            if (centerOfMass != null
+                && VisionConstants.DEBUG_FRAME_OUTPUT && this.analyzedFrameCount % VisionConstants.DEBUG_FRAME_OUTPUT_GAP == 0)
             {
                 Imgproc.circle(undistortedImage, centerOfMass, 2, new Scalar(0, 0, 255), -1);
-                Imgcodecs.imwrite(String.format("%simage%d-3.redrawn.jpg", VisionConstants.DEBUG_OUTPUT_FOLDER, this.count),
+                Imgcodecs.imwrite(String.format("%simage%d-3.redrawn.jpg", VisionConstants.DEBUG_OUTPUT_FOLDER, this.analyzedFrameCount),
                     undistortedImage);
             }
         }
@@ -109,5 +129,10 @@ public class HSVCenterPipeline implements VisionPipeline
     public Point getCenter()
     {
         return this.center;
+    }
+
+    public double getFps()
+    {
+        return this.lastFpsMeasurement;
     }
 }

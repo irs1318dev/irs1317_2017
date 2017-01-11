@@ -23,6 +23,7 @@ public class VisionManager implements IController, VisionRunner.Listener<HSVCent
     private final VisionThread visionThread;
 
     private Point center;
+    private double lastMeasuredFps;
 
     /**
      * Initializes a new VisionManager
@@ -35,6 +36,7 @@ public class VisionManager implements IController, VisionRunner.Listener<HSVCent
         this.visionThread.start();
 
         this.center = null;
+        this.lastMeasuredFps = 0.0;
     }
 
     public Point getCenter()
@@ -42,6 +44,14 @@ public class VisionManager implements IController, VisionRunner.Listener<HSVCent
         synchronized (this.visionLock)
         {
             return this.center;
+        }
+    }
+
+    public double getLastMeasuredFps()
+    {
+        synchronized (this.visionLock)
+        {
+            return this.lastMeasuredFps;
         }
     }
 
@@ -55,7 +65,10 @@ public class VisionManager implements IController, VisionRunner.Listener<HSVCent
             centerString = String.format("%f,%f", center.x, center.y);
         }
 
-        DashboardLogger.putString("center", centerString);
+        DashboardLogger.putString("vision.center", centerString);
+
+        double fps = this.getLastMeasuredFps();
+        DashboardLogger.putDouble("vision.fps", fps);
     }
 
     @Override
@@ -75,6 +88,7 @@ public class VisionManager implements IController, VisionRunner.Listener<HSVCent
         synchronized (this.visionLock)
         {
             this.center = pipeline.getCenter();
+            this.lastMeasuredFps = pipeline.getFps();
         }
     }
 }
