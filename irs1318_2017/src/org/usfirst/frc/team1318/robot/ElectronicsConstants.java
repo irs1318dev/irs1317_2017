@@ -30,4 +30,35 @@ public class ElectronicsConstants
 
     public static final int DRIVETRAIN_LEFT_ENCODER_CHANNEL_A = 2;
     public static final int DRIVETRAIN_LEFT_ENCODER_CHANNEL_B = 3;
+
+    //=================================================== Shooter ===================================================================
+
+    public static final int SHOOTER_TALON_CHANNEL = 1;
+    public static final int SHOOTER_KICKER_CHANNEL_A = 2;
+    public static final int SHOOTER_KICKER_CHANNEL_B = 3;
+    public static final int SHOOTER_HOOD_CHANNEL_A = 5;
+    public static final int SHOOTER_HOOD_CHANNEL_B = 2;
+    public static final int SHOOTER_ENCODER_CHANNEL_A = 8;
+    public static final int SHOOTER_ENCODER_CHANNEL_B = 9;
+    public static final int SHOOTER_READY_LIGHT_PORT = 1;
+    public static final int SHOOTER_TARGETING_LIGHT_PORT = 4;
+
+    //=================================================== Intake =================================================================
+
+    public static final int INTAKE_MOTOR_CHANNEL = 3;
+    public static final int INTAKE_LIGHT_CHANNEL = 0;
+    public static final int INTAKE_THROUGH_BEAM_SENSOR_CHANNEL = 0;
+
+    public static final int INTAKE_SOLENOID_CHANNEL_A = 4;
+    public static final int INTAKE_SOLENOID_CHANNEL_B = 3;
+
+    //================================================== Stinger ==================================================
+
+    public static final int STINGER_MOTOR_CHANNEL = 0;
+
+    //================================================== Autonomous ==============================================================
+
+    public static final int AUTONOMOUS_DIP_SWITCH_A = 10;
+    public static final int AUTONOMOUS_DIP_SWITCH_B = 11;
+    public static final int AUTONOMOUS_DIP_SWITCH_C = 12;
 }
