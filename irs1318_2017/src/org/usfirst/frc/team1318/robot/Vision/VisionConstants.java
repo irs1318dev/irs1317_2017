@@ -22,4 +22,8 @@ public class VisionConstants
     // HSV Filtering constants
     public static final Scalar HSV_FILTER_LOW = new Scalar(65, 100, 100);
     public static final Scalar HSV_FILTER_HIGH = new Scalar(90, 255, 255);
+
+    // Acceptable range values in pixels
+    public static final int MAX_VALUE = 50;
+    public static final int MIN_VALUE = -50;
 }
