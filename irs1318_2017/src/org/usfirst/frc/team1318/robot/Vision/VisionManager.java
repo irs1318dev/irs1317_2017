@@ -22,7 +22,8 @@ public class VisionManager implements IController, VisionRunner.Listener<HSVCent
     private final Object visionLock;
     private final VisionThread visionThread;
 
-    private Point center;
+    private Point center1;
+    private Point center2;
     private double lastMeasuredFps;
 
     /**
@@ -35,15 +36,24 @@ public class VisionManager implements IController, VisionRunner.Listener<HSVCent
         this.visionThread = new VisionThread(camera, new HSVCenterPipeline(), this);
         this.visionThread.start();
 
-        this.center = null;
+        this.center1 = null;
+        this.center2 = null;
         this.lastMeasuredFps = 0.0;
     }
 
-    public Point getCenter()
+    public Point getCenter1()
     {
         synchronized (this.visionLock)
         {
-            return this.center;
+            return this.center1;
+        }
+    }
+
+    public Point getCenter2()
+    {
+        synchronized (this.visionLock)
+        {
+            return this.center2;
         }
     }
 
@@ -58,14 +68,23 @@ public class VisionManager implements IController, VisionRunner.Listener<HSVCent
     @Override
     public void update()
     {
-        String centerString = "n/a";
-        Point center = this.getCenter();
-        if (center != null)
+        String center1String = "n/a";
+        Point center1 = this.getCenter1();
+        if (center1 != null)
         {
-            centerString = String.format("%f,%f", center.x, center.y);
+            center1String = String.format("%f,%f", center1.x, center1.y);
         }
 
-        DashboardLogger.putString("vision.center", centerString);
+        DashboardLogger.putString("vision.center1", center1String);
+
+        String center2String = "n/a";
+        Point center2 = this.getCenter2();
+        if (center2 != null)
+        {
+            center2String = String.format("%f,%f", center2.x, center2.y);
+        }
+
+        DashboardLogger.putString("vision.center2", center2String);
 
         double fps = this.getLastMeasuredFps();
         DashboardLogger.putDouble("vision.fps", fps);
@@ -87,7 +106,8 @@ public class VisionManager implements IController, VisionRunner.Listener<HSVCent
     {
         synchronized (this.visionLock)
         {
-            this.center = pipeline.getCenter();
+            this.center1 = pipeline.getCenter1();
+            this.center2 = pipeline.getCenter2();
             this.lastMeasuredFps = pipeline.getFps();
         }
     }
