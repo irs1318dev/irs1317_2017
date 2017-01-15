@@ -1,8 +1,8 @@
 package org.usfirst.frc.team1318.robot.Driver.ControlTasks;
 
 import org.usfirst.frc.team1318.robot.HardwareConstants;
+import org.usfirst.frc.team1318.robot.TuningConstants;
 import org.usfirst.frc.team1318.robot.Driver.IControlTask;
-import org.usfirst.frc.team1318.robot.Driver.Operation;
 import org.usfirst.frc.team1318.robot.Vision.VisionConstants;
 
 /**
@@ -12,7 +12,7 @@ import org.usfirst.frc.team1318.robot.Vision.VisionConstants;
  */
 public class VisionCenteringTask extends MoveDistanceTaskBase implements IControlTask
 {
-    private double center;
+    private double centerX;
     private double centerDegrees;
 
     /**
@@ -23,6 +23,9 @@ public class VisionCenteringTask extends MoveDistanceTaskBase implements IContro
         this(true);
     }
 
+    /**
+    * Initializes a new VisionCenteringTask
+    */
     public VisionCenteringTask(boolean resetPositionOnEnd)
     {
         super(resetPositionOnEnd);
@@ -35,9 +38,9 @@ public class VisionCenteringTask extends MoveDistanceTaskBase implements IContro
     protected void determineFinalEncoderDistance()
     {
         // Convert center in pixels to degrees with 0 degrees being desired place
-        center = this.getComponents().getVisionManager().getCenter1().x;
-        center = center - (VisionConstants.CAMERA_RESOLUTION_X / 2.0);
-        centerDegrees = (center * 25.0) / (VisionConstants.CAMERA_RESOLUTION_X / 2.0);
+        this.centerX = this.getComponents().getVisionManager().getCenter1().x;
+        this.centerX = this.centerX - VisionConstants.CAMERA_CENTER_WIDTH;
+        this.centerDegrees = (this.centerX * VisionConstants.CAMERA_CENTER_VIEW_ANGLE) / (double)VisionConstants.CAMERA_CENTER_WIDTH;
 
         // Set desired encoder distances based on degrees off of center
         double arcLength = Math.PI * HardwareConstants.DRIVETRAIN_WHEEL_SEPARATION_DISTANCE * (this.centerDegrees / 360.0);
@@ -47,24 +50,22 @@ public class VisionCenteringTask extends MoveDistanceTaskBase implements IContro
 
     /**
      * Run an iteration of the current task and apply any control changes
-     * Update encoder distances based on new center of retro-reflective tape
      */
     @Override
     public void update()
     {
+        // Update encoder distances based on new center of retroreflective tape
         this.determineFinalEncoderDistance();
-        this.setDigitalOperationState(Operation.DriveTrainUsePositionalMode, true);
-        this.setAnalogOperationState(Operation.DriveTrainLeftPosition, this.desiredFinalLeftEncoderDistance);
-        this.setAnalogOperationState(Operation.DriveTrainRightPosition, this.desiredFinalRightEncoderDistance);
+
+        super.update();
     }
 
     /**
-    * Checks if center of retro-reflective tap is within acceptable distance of center of camera
+    * Checks if center of retroreflective tape is within acceptable distance of center of camera
     */
     @Override
     public boolean hasCompleted()
     {
-        return center < VisionConstants.MAX_VALUE && center > VisionConstants.MIN_VALUE;
-
+        return super.hasCompleted() && Math.abs(this.centerDegrees) < TuningConstants.MAX_VISION_CENTERING_RANGE_DEGREES;
     }
 }

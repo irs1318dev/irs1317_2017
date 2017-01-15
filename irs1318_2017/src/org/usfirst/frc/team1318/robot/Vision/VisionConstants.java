@@ -18,12 +18,12 @@ public class VisionConstants
     public static final String CAMERA_USERNAME_PASSWORD = "root:1318";
     public static final int CAMERA_RESOLUTION_X = 320;
     public static final int CAMERA_RESOLUTION_Y = 240;
+    public static final double CAMERA_ANGLE_OF_VIEW = 50.0; // note that documentation says 47 degrees, so we'll have to see whether this is accurate enough.
+    public static final int CAMERA_CENTER_WIDTH = VisionConstants.CAMERA_RESOLUTION_X / 2; // distance from center to left/right sides in pixels
+    public static final int CAMERA_CENTER_HEIGHT = VisionConstants.CAMERA_RESOLUTION_Y / 2; // distance from center to top/bottom in pixels
+    public static final double CAMERA_CENTER_VIEW_ANGLE = VisionConstants.CAMERA_ANGLE_OF_VIEW / 2.0;
 
     // HSV Filtering constants
     public static final Scalar HSV_FILTER_LOW = new Scalar(65, 100, 100);
     public static final Scalar HSV_FILTER_HIGH = new Scalar(90, 255, 255);
-
-    // Acceptable range values in pixels
-    public static final int MAX_VALUE = 50;
-    public static final int MIN_VALUE = -50;
 }
