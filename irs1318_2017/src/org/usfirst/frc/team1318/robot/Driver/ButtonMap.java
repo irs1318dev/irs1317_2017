@@ -12,6 +12,7 @@ import org.usfirst.frc.team1318.robot.Driver.ControlTasks.SequentialTask;
 import org.usfirst.frc.team1318.robot.Driver.ControlTasks.ShooterKickerTask;
 import org.usfirst.frc.team1318.robot.Driver.ControlTasks.ShooterSpinDownTask;
 import org.usfirst.frc.team1318.robot.Driver.ControlTasks.ShooterSpinUpTask;
+import org.usfirst.frc.team1318.robot.Driver.ControlTasks.VisionCenteringTask;
 import org.usfirst.frc.team1318.robot.Driver.Descriptions.AnalogOperationDescription;
 import org.usfirst.frc.team1318.robot.Driver.Descriptions.DigitalOperationDescription;
 import org.usfirst.frc.team1318.robot.Driver.Descriptions.MacroOperationDescription;
@@ -133,13 +134,13 @@ public class ButtonMap
             put(
                 Operation.DisablePID,
                 new DigitalOperationDescription(
-                    UserInputDevice.CoDriver,
+                    UserInputDevice.None,
                     UserInputDeviceButton.BUTTON_PAD_BUTTON_11,
                     ButtonType.Click));
             put(
                 Operation.EnablePID,
                 new DigitalOperationDescription(
-                    UserInputDevice.CoDriver,
+                    UserInputDevice.None,
                     UserInputDeviceButton.BUTTON_PAD_BUTTON_12,
                     ButtonType.Click));
         }
@@ -154,9 +155,24 @@ public class ButtonMap
                 MacroOperation.PIDBrake,
                 new MacroOperationDescription(
                     UserInputDevice.Driver,
-                    UserInputDeviceButton.JOYSTICK_STICK_THUMB_BUTTON,
+                    UserInputDeviceButton.NONE,
                     ButtonType.Simple,
                     () -> new PIDBrakeTask(),
+                    new Operation[]
+                    {
+                        Operation.DriveTrainUsePositionalMode,
+                        Operation.DriveTrainLeftPosition,
+                        Operation.DriveTrainRightPosition,
+                    }));
+
+            // Centering macro
+            put(
+                MacroOperation.Center,
+                new MacroOperationDescription(
+                    UserInputDevice.Driver,
+                    UserInputDeviceButton.JOYSTICK_STICK_THUMB_BUTTON,
+                    ButtonType.Simple,
+                    () -> new VisionCenteringTask(),
                     new Operation[]
                     {
                         Operation.DriveTrainUsePositionalMode,

@@ -10,7 +10,7 @@ public class VisionConstants
     public static final boolean DEBUG_PRINT_ANALYZER_DATA = false;
     public static final int DEBUG_FPS_AVERAGING_INTERVAL = 30;
     public static final boolean DEBUG_FRAME_OUTPUT = false;
-    public static final int DEBUG_FRAME_OUTPUT_GAP = 50; // the number of frames to wait between saving debug image output
+    public static final int DEBUG_FRAME_OUTPUT_GAP = 30; // the number of frames to wait between saving debug image output
     public static final String DEBUG_OUTPUT_FOLDER = "/C/vision/";
 
     // Settings for AXIS IP-based Camera
@@ -24,6 +24,6 @@ public class VisionConstants
     public static final double CAMERA_CENTER_VIEW_ANGLE = VisionConstants.CAMERA_ANGLE_OF_VIEW / 2.0;
 
     // HSV Filtering constants
-    public static final Scalar HSV_FILTER_LOW = new Scalar(65, 100, 100);
+    public static final Scalar HSV_FILTER_LOW = new Scalar(85, 65, 65);
     public static final Scalar HSV_FILTER_HIGH = new Scalar(90, 255, 255);
 }

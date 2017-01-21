@@ -49,6 +49,20 @@ public class VisionManager implements IController, VisionRunner.Listener<HSVCent
         }
     }
 
+    public Double getCenter1Angle()
+    {
+        Point center1 = this.getCenter1();
+        if (center1 != null)
+        {
+            // note: positive angle means it is to the right
+            double centerX = center1.x;
+            centerX = centerX - VisionConstants.CAMERA_CENTER_WIDTH;
+            return (centerX * VisionConstants.CAMERA_CENTER_VIEW_ANGLE) / (double)VisionConstants.CAMERA_CENTER_WIDTH;
+        }
+
+        return null;
+    }
+
     public Point getCenter2()
     {
         synchronized (this.visionLock)
@@ -76,6 +90,15 @@ public class VisionManager implements IController, VisionRunner.Listener<HSVCent
         }
 
         DashboardLogger.putString("vision.center1", center1String);
+
+        String center1AngleString = "n/a";
+        Double centerAngle = this.getCenter1Angle();
+        if (centerAngle != null)
+        {
+            center1AngleString = String.format("%f", centerAngle);
+        }
+
+        DashboardLogger.putString("vision.center1Angle", center1AngleString);
 
         String center2String = "n/a";
         Point center2 = this.getCenter2();
