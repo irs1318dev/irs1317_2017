@@ -3,11 +3,14 @@ package org.usfirst.frc.team1318.robot.Driver.ControlTasks;
 import org.usfirst.frc.team1318.robot.TuningConstants;
 import org.usfirst.frc.team1318.robot.Driver.IControlTask;
 import org.usfirst.frc.team1318.robot.Driver.Operation;
+import org.usfirst.frc.team1318.robot.Shooter.ShooterComponent;
 
 public class ShooterSpinUpTask extends TimedTask implements IControlTask
 {
-    private boolean extendHood;
-    private double shooterVelocity;
+    private final boolean extendHood;
+    private final double shooterVelocity;
+
+    private ShooterComponent shooter;
 
     // True is a far shot, false is a close shot.
     public ShooterSpinUpTask(boolean extendHood, double shooterVelocity, double spinDuration)
@@ -21,6 +24,7 @@ public class ShooterSpinUpTask extends TimedTask implements IControlTask
     public void begin()
     {
         super.begin();
+        this.shooter = this.getInjector().getInstance(ShooterComponent.class);
 
         this.setDigitalOperationState(Operation.ShooterSpin, true);
         this.setAnalogOperationState(Operation.ShooterSpeed, this.shooterVelocity);
@@ -36,7 +40,7 @@ public class ShooterSpinUpTask extends TimedTask implements IControlTask
         super.stop();
         this.setDigitalOperationState(Operation.ShooterSpin, false);
         this.setAnalogOperationState(Operation.ShooterSpeed, 0.0);
-        super.getComponents().getShooter().setReadyLight(false);
+        this.shooter.setReadyLight(false);
     }
 
     @Override
@@ -47,14 +51,12 @@ public class ShooterSpinUpTask extends TimedTask implements IControlTask
         this.setDigitalOperationState(Operation.ShooterExtendHood, this.extendHood);
     }
 
-    
     @Override
     public boolean hasCompleted()
     {
-        double speed = super.getComponents().getShooter().getCounterRate() / TuningConstants.SHOOTER_MAX_COUNTER_RATE;
-        return 
-            (speed > this.shooterVelocity - TuningConstants.SHOOTER_DEVIANCE
-                && speed < this.shooterVelocity + TuningConstants.SHOOTER_DEVIANCE)
+        double speed = this.shooter.getCounterRate() / TuningConstants.SHOOTER_MAX_COUNTER_RATE;
+        return (speed > this.shooterVelocity - TuningConstants.SHOOTER_DEVIANCE
+            && speed < this.shooterVelocity + TuningConstants.SHOOTER_DEVIANCE)
             || super.hasCompleted();
     }
 

@@ -20,6 +20,6 @@ public class VisionConstants
     public static final int CAMERA_RESOLUTION_Y = 240;
 
     // HSV Filtering constants
-    public static final Scalar HSV_FILTER_LOW = new Scalar(65, 70, 70);
+    public static final Scalar HSV_FILTER_LOW = new Scalar(85, 70, 70);
     public static final Scalar HSV_FILTER_HIGH = new Scalar(90, 255, 255);
 }

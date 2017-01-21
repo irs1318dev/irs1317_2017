@@ -1,8 +1,10 @@
 package org.usfirst.frc.team1318.robot.DriveTrain;
 
-import org.usfirst.frc.team1318.robot.ElectronicsConstants;
-import org.usfirst.frc.team1318.robot.HardwareConstants;
 import org.usfirst.frc.team1318.robot.Common.DashboardLogger;
+
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import com.google.inject.name.Named;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Victor;
@@ -12,6 +14,7 @@ import edu.wpi.first.wpilibj.Victor;
  * The drivetrain electronics include two talons (left and right), and two encoders (left and right). 
  * 
  */
+@Singleton
 public class DriveTrainComponent
 {
     private final Victor leftTalon;
@@ -23,24 +26,33 @@ public class DriveTrainComponent
     /**
      * Initializes a new DriveTrainComponent
      */
-    public DriveTrainComponent()
+    @Inject
+    public DriveTrainComponent(
+        @Named("DRIVETRAIN_LEFTMOTOR") Victor leftMotor,
+        @Named("DRIVETRAIN_RIGHTMOTOR") Victor rightMotor,
+        @Named("DRIVETRAIN_LEFTENCODER") Encoder leftEncoder,
+        @Named("DRIVETRAIN_RIGHTENCODER") Encoder rightEncoder)
     {
-        this.leftTalon = new Victor(
-            ElectronicsConstants.DRIVETRAIN_LEFT_TALON_CHANNEL);
-
-        this.rightTalon = new Victor(
-            ElectronicsConstants.DRIVETRAIN_RIGHT_TALON_CHANNEL);
-
-        this.leftEncoder = new Encoder(
-            ElectronicsConstants.DRIVETRAIN_LEFT_ENCODER_CHANNEL_A,
-            ElectronicsConstants.DRIVETRAIN_LEFT_ENCODER_CHANNEL_B);
-
-        this.rightEncoder = new Encoder(
-            ElectronicsConstants.DRIVETRAIN_RIGHT_ENCODER_CHANNEL_A,
-            ElectronicsConstants.DRIVETRAIN_RIGHT_ENCODER_CHANNEL_B);
-
-        this.leftEncoder.setDistancePerPulse(HardwareConstants.DRIVETRAIN_LEFT_PULSE_DISTANCE);
-        this.rightEncoder.setDistancePerPulse(HardwareConstants.DRIVETRAIN_RIGHT_PULSE_DISTANCE);
+        this.leftTalon = leftMotor;
+        this.rightTalon = rightMotor;
+        this.leftEncoder = leftEncoder;
+        this.rightEncoder = rightEncoder;
+        //        this.leftTalon = new Victor(
+        //            ElectronicsConstants.DRIVETRAIN_LEFT_TALON_CHANNEL);
+        //
+        //        this.rightTalon = new Victor(
+        //            ElectronicsConstants.DRIVETRAIN_RIGHT_TALON_CHANNEL);
+        //
+        //        this.leftEncoder = new Encoder(
+        //            ElectronicsConstants.DRIVETRAIN_LEFT_ENCODER_CHANNEL_A,
+        //            ElectronicsConstants.DRIVETRAIN_LEFT_ENCODER_CHANNEL_B);
+        //
+        //        this.rightEncoder = new Encoder(
+        //            ElectronicsConstants.DRIVETRAIN_RIGHT_ENCODER_CHANNEL_A,
+        //            ElectronicsConstants.DRIVETRAIN_RIGHT_ENCODER_CHANNEL_B);
+        //
+        //        this.leftEncoder.setDistancePerPulse(HardwareConstants.DRIVETRAIN_LEFT_PULSE_DISTANCE);
+        //        this.rightEncoder.setDistancePerPulse(HardwareConstants.DRIVETRAIN_RIGHT_PULSE_DISTANCE);
     }
 
     /**

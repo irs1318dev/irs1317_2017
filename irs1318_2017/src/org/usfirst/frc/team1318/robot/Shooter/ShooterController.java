@@ -8,7 +8,8 @@ import org.usfirst.frc.team1318.robot.Common.PIDHandler;
 import org.usfirst.frc.team1318.robot.Driver.Driver;
 import org.usfirst.frc.team1318.robot.Driver.Operation;
 import org.usfirst.frc.team1318.robot.General.PowerManager;
-import org.usfirst.frc.team1318.robot.Shooter.ShooterComponent;
+
+import com.google.inject.Inject;
 
 /**
  * Controller for the shooter. Needs to contain velocity PID.
@@ -22,10 +23,9 @@ public class ShooterController implements IController
 
     private Driver driver;
     private PIDHandler PID;
-    
-    //private boolean activateTargetingLight = false;
 
-    public ShooterController(ShooterComponent shooter, PowerManager powerManager) 
+    @Inject
+    public ShooterController(ShooterComponent shooter, PowerManager powerManager)
     {
         this.shooter = shooter;
         this.powerManager = powerManager;
@@ -53,7 +53,9 @@ public class ShooterController implements IController
         if (spin)
         {
             double speedPercentage = this.shooter.getCounterRate() / TuningConstants.SHOOTER_MAX_COUNTER_RATE;
-            shouldLight = velocityGoal != 0.0 && speedPercentage > velocityGoal - TuningConstants.SHOOTER_DEVIANCE && speedPercentage < velocityGoal + TuningConstants.SHOOTER_DEVIANCE;
+            shouldLight = velocityGoal != 0.0
+                && speedPercentage > velocityGoal - TuningConstants.SHOOTER_DEVIANCE && speedPercentage < velocityGoal
+                    + TuningConstants.SHOOTER_DEVIANCE;
 
             // Calculate the power required to reach the velocity goal     
             power = this.PID.calculateVelocity(velocityGoal, currentTicks);
@@ -95,7 +97,7 @@ public class ShooterController implements IController
         this.driver = driver;
     }
 
-    public void createPIDHandler() 
+    public void createPIDHandler()
     {
         this.PID = new PIDHandler(
             TuningConstants.SHOOTER_VELOCITY_PID_KP_DEFAULT,
@@ -103,7 +105,7 @@ public class ShooterController implements IController
             TuningConstants.SHOOTER_VELOCITY_PID_KD_DEFAULT,
             TuningConstants.SHOOTER_VELOCITY_PID_KF_DEFAULT,
             TuningConstants.SHOOTER_VELOCITY_PID_KS_DEFAULT,
-            -TuningConstants.SHOOTER_MAX_POWER_LEVEL, 
+            -TuningConstants.SHOOTER_MAX_POWER_LEVEL,
             TuningConstants.SHOOTER_MAX_POWER_LEVEL);
     }
 }

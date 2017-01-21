@@ -1,6 +1,8 @@
 package org.usfirst.frc.team1318.robot.Compressor;
 
-import org.usfirst.frc.team1318.robot.ElectronicsConstants;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import com.google.inject.name.Named;
 
 import edu.wpi.first.wpilibj.Compressor;
 
@@ -11,6 +13,7 @@ import edu.wpi.first.wpilibj.Compressor;
  * @author Will
  *
  */
+@Singleton
 public class CompressorComponent
 {
     private final Compressor compressor;
@@ -18,9 +21,10 @@ public class CompressorComponent
     /**
      * Initializes a new CompressorComponent
      */
-    public CompressorComponent()
+    @Inject
+    public CompressorComponent(@Named("COMPRESSOR") Compressor compressor)
     {
-        this.compressor = new Compressor(ElectronicsConstants.PCM_B_MODULE);
+        this.compressor = compressor;
     }
 
     /**

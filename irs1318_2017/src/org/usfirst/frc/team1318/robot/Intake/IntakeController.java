@@ -5,12 +5,15 @@ import org.usfirst.frc.team1318.robot.Common.IController;
 import org.usfirst.frc.team1318.robot.Driver.Driver;
 import org.usfirst.frc.team1318.robot.Driver.Operation;
 
+import com.google.inject.Inject;
+
 public class IntakeController implements IController
 {
     private final IntakeComponent intake;
     private Driver driver;
 
-    public IntakeController(IntakeComponent intake) 
+    @Inject
+    public IntakeController(IntakeComponent intake)
     {
         this.intake = intake;
     }
@@ -37,7 +40,7 @@ public class IntakeController implements IController
         {
             this.intake.setIntakeSpeed(TuningConstants.INTAKE_OUT_POWER_LEVEL);
         }
-        else 
+        else
         {
             this.intake.setIntakeSpeed(0.0);
         }

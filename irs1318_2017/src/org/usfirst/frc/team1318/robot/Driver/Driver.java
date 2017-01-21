@@ -8,19 +8,24 @@ import org.usfirst.frc.team1318.robot.Driver.States.AnalogOperationState;
 import org.usfirst.frc.team1318.robot.Driver.States.DigitalOperationState;
 import org.usfirst.frc.team1318.robot.Driver.States.OperationState;
 
+import com.google.inject.Injector;
+
 /**
  * Driver that represents something that operates the robot.  This is either autonomous or teleop/user driver.
  *
  */
 public abstract class Driver
 {
+
+    protected final Injector injector;
     protected final Map<Operation, OperationState> operationStateMap;
 
     /**
      * Initializes a new Driver
      */
-    protected Driver()
+    protected Driver(Injector injector)
     {
+        this.injector = injector;
         this.operationStateMap = new HashMap<Operation, OperationState>(ButtonMap.OperationSchema.size());
         for (Operation operation : ButtonMap.OperationSchema.keySet())
         {

@@ -4,6 +4,10 @@ import org.usfirst.frc.team1318.robot.Common.DashboardLogger;
 import org.usfirst.frc.team1318.robot.Driver.Driver;
 import org.usfirst.frc.team1318.robot.Driver.Autonomous.AutonomousDriver;
 import org.usfirst.frc.team1318.robot.Driver.User.UserDriver;
+import org.usfirst.frc.team1318.robot.General.PositionManager;
+
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 
@@ -34,11 +38,10 @@ public class Robot extends IterativeRobot
     // Driver.  This could either be the UserDriver (joystick) or the AutonomousDriver
     private Driver driver;
 
-    // Components
-    private ComponentManager components;
-
     // Controllers
     private ControllerManager controllers;
+
+    private Injector injector;
 
     /**
      * Robot-wide initialization code should go here.
@@ -48,10 +51,17 @@ public class Robot extends IterativeRobot
     public void robotInit()
     {
         // create mechanism components and controllers
-        this.components = new ComponentManager();
-        this.controllers = new ControllerManager(this.components);
-
+        this.controllers = this.getInjector().getInstance(ControllerManager.class);
         DashboardLogger.putString(Robot.ROBOT_STATE_LOG_KEY, "Init");
+    }
+
+    Injector getInjector()
+    {
+        if (injector == null)
+        {
+            injector = Guice.createInjector(new RobotModule());
+        }
+        return injector;
     }
 
     /**
@@ -80,10 +90,10 @@ public class Robot extends IterativeRobot
     public void autonomousInit()
     {
         // reset the position manager so that we consider ourself at the origin (0,0) and facing the 0 direction.
-        this.components.getPositionManager().reset();
+        this.getInjector().getInstance(PositionManager.class).reset();
 
         // Create an autonomous driver
-        this.driver = new AutonomousDriver(this.components);
+        this.driver = new AutonomousDriver(this.getInjector());
 
         this.generalInit();
 
@@ -98,7 +108,7 @@ public class Robot extends IterativeRobot
     public void teleopInit()
     {
         // create driver for user's joystick
-        this.driver = new UserDriver(this.components);
+        this.driver = new UserDriver(this.getInjector());
 
         this.generalInit();
 

@@ -1,14 +1,18 @@
 package org.usfirst.frc.team1318.robot.Intake;
 
-import org.usfirst.frc.team1318.robot.ElectronicsConstants;
 import org.usfirst.frc.team1318.robot.Common.DashboardLogger;
+
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import com.google.inject.name.Named;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Talon;
 
+@Singleton
 public class IntakeComponent
 {
     private final Talon motor;
@@ -16,14 +20,17 @@ public class IntakeComponent
     private final Solenoid intakeLight;
     private final AnalogInput throughBeamSensor;
 
-    public IntakeComponent() 
+    @Inject
+    public IntakeComponent(
+        @Named("INTAKE_MOTOR") Talon motor,
+        @Named("INTAKE_SOLENOID") DoubleSolenoid intakeSolenoid,
+        @Named("INTAKE_LIGHT") Solenoid intakeLight,
+        @Named("INTAKE_THROUGHBEAM") AnalogInput throughBeamSensor)
     {
-        this.motor = new Talon(ElectronicsConstants.INTAKE_MOTOR_CHANNEL);
-        this.intakeSolenoid = new DoubleSolenoid(
-            ElectronicsConstants.INTAKE_SOLENOID_CHANNEL_A,
-            ElectronicsConstants.INTAKE_SOLENOID_CHANNEL_B);
-        this.intakeLight = new Solenoid(ElectronicsConstants.PCM_B_MODULE, ElectronicsConstants.INTAKE_LIGHT_CHANNEL);
-        this.throughBeamSensor = new AnalogInput(ElectronicsConstants.INTAKE_THROUGH_BEAM_SENSOR_CHANNEL);
+        this.motor = motor;
+        this.intakeSolenoid = intakeSolenoid;
+        this.intakeLight = intakeLight;
+        this.throughBeamSensor = throughBeamSensor;
     }
 
     /**
