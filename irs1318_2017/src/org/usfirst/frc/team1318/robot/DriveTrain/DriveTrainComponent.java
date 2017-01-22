@@ -11,14 +11,14 @@ import edu.wpi.first.wpilibj.Victor;
 
 /**
  * The drivetrain component class describes the electronics of the drivetrain and defines the abstract way to control it.
- * The drivetrain electronics include two talons (left and right), and two encoders (left and right). 
+ * The drivetrain electronics include two motors (left and right), and two encoders (left and right). 
  * 
  */
 @Singleton
 public class DriveTrainComponent
 {
-    private final Victor leftTalon;
-    private final Victor rightTalon;
+    private final Victor leftMotor;
+    private final Victor rightMotor;
 
     private final Encoder leftEncoder;
     private final Encoder rightEncoder;
@@ -33,8 +33,8 @@ public class DriveTrainComponent
         @Named("DRIVETRAIN_LEFTENCODER") Encoder leftEncoder,
         @Named("DRIVETRAIN_RIGHTENCODER") Encoder rightEncoder)
     {
-        this.leftTalon = leftMotor;
-        this.rightTalon = rightMotor;
+        this.leftMotor = leftMotor;
+        this.rightMotor = rightMotor;
         this.leftEncoder = leftEncoder;
         this.rightEncoder = rightEncoder;
     }
@@ -52,8 +52,8 @@ public class DriveTrainComponent
         double outLeftPower = leftPower;
         double outRightPower = -rightPower;// note: right motors are oriented facing "backwards"
 
-        this.leftTalon.set(outLeftPower);
-        this.rightTalon.set(outRightPower);
+        this.leftMotor.set(outLeftPower);
+        this.rightMotor.set(outRightPower);
     }
 
     /**
