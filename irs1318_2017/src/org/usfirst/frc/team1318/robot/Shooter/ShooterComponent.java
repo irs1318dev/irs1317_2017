@@ -21,7 +21,7 @@ public class ShooterComponent
 {
     private final DoubleSolenoid kicker;
     private final DoubleSolenoid hood;
-    private final Talon talon;
+    private final Talon motor;
     private final Encoder encoder;
     private final Solenoid readyLight;
 
@@ -35,14 +35,14 @@ public class ShooterComponent
     {
         this.kicker = kicker;
         this.hood = hood;
-        this.talon = motor;
+        this.motor = motor;
         this.encoder = encoder;
         this.readyLight = readyLight;
     }
 
     public void setMotorSpeed(double speed)
     {
-        this.talon.set(speed);
+        this.motor.set(speed);
     }
 
     public int getCounterTicks()

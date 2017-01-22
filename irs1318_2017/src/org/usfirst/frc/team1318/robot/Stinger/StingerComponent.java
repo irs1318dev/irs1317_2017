@@ -9,21 +9,21 @@ import edu.wpi.first.wpilibj.Talon;
 @Singleton
 public class StingerComponent
 {
-    private final Talon talon;
+    private final Talon motor;
 
     @Inject
     public StingerComponent(@Named("STINGER_MOTOR") Talon motor)
     {
-        this.talon = motor;
+        this.motor = motor;
     }
 
     public void setMotor(double speed)
     {
-        this.talon.set(-speed);
+        this.motor.set(-speed);
     }
 
     public void stop()
     {
-        this.talon.set(0.0);
+        this.motor.set(0.0);
     }
 }
