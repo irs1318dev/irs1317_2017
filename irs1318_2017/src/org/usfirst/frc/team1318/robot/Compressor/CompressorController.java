@@ -3,6 +3,8 @@ package org.usfirst.frc.team1318.robot.Compressor;
 import org.usfirst.frc.team1318.robot.Common.IController;
 import org.usfirst.frc.team1318.robot.Driver.Driver;
 
+import com.google.inject.Inject;
+
 /**
  * Compressor controller.
  * The controller defines the logic that controls a mechanism given inputs (component) and operator-requested actions, and 
@@ -20,6 +22,7 @@ public class CompressorController implements IController
      * Initializes a new CompressorController
      * @param component to control
      */
+    @Inject
     public CompressorController(CompressorComponent component)
     {
         this.component = component;

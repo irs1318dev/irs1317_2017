@@ -8,6 +8,8 @@ import org.usfirst.frc.team1318.robot.Common.PIDHandler;
 import org.usfirst.frc.team1318.robot.Driver.Driver;
 import org.usfirst.frc.team1318.robot.Driver.Operation;
 
+import com.google.inject.Inject;
+
 /**
  * Drivetrain controller.
  * The controller defines the logic that controls a mechanism given inputs (component) and operator-requested actions, and 
@@ -32,10 +34,11 @@ public class DriveTrainController implements IController
      * @param component to control
      * @param usePID indicates whether we should use PID control
      */
-    public DriveTrainController(DriveTrainComponent component, boolean usePID)
+    @Inject
+    public DriveTrainController(DriveTrainComponent component)
     {
         this.component = component;
-        this.usePID = usePID;
+        this.usePID = TuningConstants.DRIVETRAIN_USE_PID_DEFAULT;
         this.usePositionalMode = false;
 
         this.createPIDHandler();

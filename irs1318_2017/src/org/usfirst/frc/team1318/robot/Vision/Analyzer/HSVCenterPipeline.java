@@ -19,7 +19,8 @@ public class HSVCenterPipeline implements VisionPipeline
     private final ImageUndistorter undistorter;
     private final HSVFilter hsvFilter;
 
-    private Point center;
+    private Point center1;
+    private Point center2;
 
     // FPS Measurement
     private long analyzedFrameCount;
@@ -35,7 +36,7 @@ public class HSVCenterPipeline implements VisionPipeline
         this.undistorter = new ImageUndistorter();
         this.hsvFilter = new HSVFilter(VisionConstants.HSV_FILTER_LOW, VisionConstants.HSV_FILTER_HIGH);
 
-        this.center = null;
+        this.center1 = null;
         this.analyzedFrameCount = 0;
         this.lastMeasuredTime = Timer.getFPGATimestamp();
     }
@@ -48,8 +49,7 @@ public class HSVCenterPipeline implements VisionPipeline
     public void process(Mat image)
     {
         this.analyzedFrameCount++;
-        if (VisionConstants.DEBUG
-            && VisionConstants.DEBUG_PRINT_OUTPUT && this.analyzedFrameCount % VisionConstants.DEBUG_FPS_AVERAGING_INTERVAL == 0)
+        if (VisionConstants.DEBUG && VisionConstants.DEBUG_PRINT_OUTPUT && this.analyzedFrameCount % VisionConstants.DEBUG_FPS_AVERAGING_INTERVAL == 0)
         {
             double now = Timer.getFPGATimestamp();
             double elapsedTime = now - this.lastMeasuredTime;
@@ -60,11 +60,9 @@ public class HSVCenterPipeline implements VisionPipeline
 
         // first, undistort the image.
         image = this.undistorter.undistortFrame(image);
-        if (VisionConstants.DEBUG
-            && VisionConstants.DEBUG_FRAME_OUTPUT && this.analyzedFrameCount % VisionConstants.DEBUG_FRAME_OUTPUT_GAP == 0)
+        if (VisionConstants.DEBUG && VisionConstants.DEBUG_FRAME_OUTPUT && this.analyzedFrameCount % VisionConstants.DEBUG_FRAME_OUTPUT_GAP == 0)
         {
-            Imgcodecs.imwrite(String.format("%simage%d-1.undistorted.jpg", VisionConstants.DEBUG_OUTPUT_FOLDER, this.analyzedFrameCount),
-                image);
+            Imgcodecs.imwrite(String.format("%simage%d-1.undistorted.jpg", VisionConstants.DEBUG_OUTPUT_FOLDER, this.analyzedFrameCount), image);
         }
 
         // save the undistorted image for possible output later...
@@ -72,15 +70,15 @@ public class HSVCenterPipeline implements VisionPipeline
 
         // second, filter HSV
         image = this.hsvFilter.filterHSV(image);
-        if (VisionConstants.DEBUG
-            && VisionConstants.DEBUG_FRAME_OUTPUT && this.analyzedFrameCount % VisionConstants.DEBUG_FRAME_OUTPUT_GAP == 0)
+        if (VisionConstants.DEBUG && VisionConstants.DEBUG_FRAME_OUTPUT && this.analyzedFrameCount % VisionConstants.DEBUG_FRAME_OUTPUT_GAP == 0)
         {
-            Imgcodecs.imwrite(String.format("%simage%d-2.hsvfiltered.jpg", VisionConstants.DEBUG_OUTPUT_FOLDER, this.analyzedFrameCount),
-                image);
+            Imgcodecs.imwrite(String.format("%simage%d-2.hsvfiltered.jpg", VisionConstants.DEBUG_OUTPUT_FOLDER, this.analyzedFrameCount), image);
         }
 
         // third, find the largest contour.
-        MatOfPoint largestContour = ContourHelper.findLargestContour(image);
+        MatOfPoint[] largestContours = ContourHelper.findTwoLargestContours(image);
+        MatOfPoint largestContour = largestContours[0];
+        MatOfPoint secondLargestContour = largestContours[1];
         if (largestContour == null)
         {
             if (VisionConstants.DEBUG && VisionConstants.DEBUG_PRINT_OUTPUT && VisionConstants.DEBUG_PRINT_ANALYZER_DATA)
@@ -90,45 +88,70 @@ public class HSVCenterPipeline implements VisionPipeline
         }
 
         // fourth, find the center of mass for the largest contour
-        Point centerOfMass = null;
+        Point centerOfMass1 = null;
+        Point centerOfMass2 = null;
         if (largestContour != null)
         {
-            centerOfMass = ContourHelper.findCenterOfMass(largestContour);
+            centerOfMass1 = ContourHelper.findCenterOfMass(largestContour);
             largestContour.release();
+        }
+
+        if (secondLargestContour != null)
+        {
+            centerOfMass2 = ContourHelper.findCenterOfMass(secondLargestContour);
+            secondLargestContour.release();
         }
 
         if (VisionConstants.DEBUG)
         {
             if (VisionConstants.DEBUG_PRINT_OUTPUT && VisionConstants.DEBUG_PRINT_ANALYZER_DATA)
             {
-                if (centerOfMass == null)
+                if (centerOfMass1 == null)
                 {
                     System.out.println("couldn't find the center of mass!");
                 }
                 else
                 {
-                    System.out.println(String.format("Center of mass: %f, %f", centerOfMass.x, centerOfMass.y));
+                    System.out.println(String.format("Center of mass: %f, %f", centerOfMass1.x, centerOfMass1.y));
+                }
+
+                if (centerOfMass2 == null)
+                {
+                    System.out.println("couldn't find the center of mass!");
+                }
+                else
+                {
+                    System.out.println(String.format("Center of mass: %f, %f", centerOfMass2.x, centerOfMass2.y));
                 }
             }
 
-            if (centerOfMass != null
-                && VisionConstants.DEBUG_FRAME_OUTPUT && this.analyzedFrameCount % VisionConstants.DEBUG_FRAME_OUTPUT_GAP == 0)
+            if (centerOfMass1 != null && VisionConstants.DEBUG_FRAME_OUTPUT && this.analyzedFrameCount % VisionConstants.DEBUG_FRAME_OUTPUT_GAP == 0)
             {
-                Imgproc.circle(undistortedImage, centerOfMass, 2, new Scalar(0, 0, 255), -1);
-                Imgcodecs.imwrite(String.format("%simage%d-3.redrawn.jpg", VisionConstants.DEBUG_OUTPUT_FOLDER, this.analyzedFrameCount),
-                    undistortedImage);
+                Imgproc.circle(undistortedImage, centerOfMass1, 2, new Scalar(0, 0, 255), -1);
+                if (centerOfMass2 != null)
+                {
+                    Imgproc.circle(undistortedImage, centerOfMass2, 2, new Scalar(0, 0, 128), -1);
+                }
+
+                Imgcodecs.imwrite(String.format("%simage%d-3.redrawn.jpg", VisionConstants.DEBUG_OUTPUT_FOLDER, this.analyzedFrameCount), undistortedImage);
             }
         }
 
-        // finally, record that center of mass
-        this.center = centerOfMass;
+        // finally, record the centers of mass
+        this.center1 = centerOfMass1;
+        this.center2 = centerOfMass2;
 
         undistortedImage.release();
     }
 
-    public Point getCenter()
+    public Point getCenter1()
     {
-        return this.center;
+        return this.center1;
+    }
+
+    public Point getCenter2()
+    {
+        return this.center2;
     }
 
     public double getFps()
