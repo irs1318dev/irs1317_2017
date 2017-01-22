@@ -8,6 +8,7 @@ public enum MacroOperation
     SpinClose,
     Shoot,
 
-    // DriveTrain PID Brake operation:
+    // DriveTrain operations:
     PIDBrake,
+    Center,
 }
