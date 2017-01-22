@@ -4,6 +4,10 @@ import org.usfirst.frc.team1318.robot.Common.ComplementaryFilter;
 import org.usfirst.frc.team1318.robot.Common.IController;
 import org.usfirst.frc.team1318.robot.Driver.Driver;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import com.google.inject.name.Named;
+
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 
 /**
@@ -12,6 +16,7 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
  * @author Will
  *
  */
+@Singleton
 public class PowerManager implements IController
 {
     private final PowerDistributionPanel pdp;
@@ -20,9 +25,10 @@ public class PowerManager implements IController
     /**
      * Initializes a new PowerComponent
      */
-    public PowerManager()
+    @Inject
+    public PowerManager(@Named("POWERMANAGER_PDP") PowerDistributionPanel pdp)
     {
-        this.pdp = new PowerDistributionPanel();
+        this.pdp = pdp;
         this.filter = new ComplementaryFilter(0.4, 0.6, this.pdp.getVoltage());
     }
 

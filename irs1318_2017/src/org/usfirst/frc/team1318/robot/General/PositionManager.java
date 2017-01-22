@@ -6,6 +6,9 @@ import org.usfirst.frc.team1318.robot.Common.IController;
 import org.usfirst.frc.team1318.robot.DriveTrain.DriveTrainComponent;
 import org.usfirst.frc.team1318.robot.Driver.Driver;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+
 /**
  * Position manager
  * 
@@ -13,6 +16,7 @@ import org.usfirst.frc.team1318.robot.Driver.Driver;
  * This uses Jim's differential odometry algorithm. In the future we can consider adding other sensors to help correct for error.
  * 
  */
+@Singleton
 public class PositionManager implements IController
 {
     // logging constants
@@ -38,8 +42,12 @@ public class PositionManager implements IController
      * Initializes a new PositionManager
      * @param driveTrainComponent to use to determine position changes
      */
+    @Inject
     public PositionManager(DriveTrainComponent driveTrainComponent)
     {
+        this.driveTrainComponent = driveTrainComponent;
+        //this.navx = new AHRS(SPI.Port.kMXP);
+
         this.x = 0.0;
         this.y = 0.0;
 
@@ -47,9 +55,6 @@ public class PositionManager implements IController
 
         this.prevLeftDistance = 0.0;
         this.prevRightDistance = 0.0;
-
-        this.driveTrainComponent = driveTrainComponent;
-        //this.navx = new AHRS(SPI.Port.kMXP);
     }
 
     /**

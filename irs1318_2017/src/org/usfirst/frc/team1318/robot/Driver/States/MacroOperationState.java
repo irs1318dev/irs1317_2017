@@ -2,7 +2,6 @@ package org.usfirst.frc.team1318.robot.Driver.States;
 
 import java.util.Map;
 
-import org.usfirst.frc.team1318.robot.ComponentManager;
 import org.usfirst.frc.team1318.robot.TuningConstants;
 import org.usfirst.frc.team1318.robot.Driver.IControlTask;
 import org.usfirst.frc.team1318.robot.Driver.Operation;
@@ -12,6 +11,8 @@ import org.usfirst.frc.team1318.robot.Driver.Buttons.IButton;
 import org.usfirst.frc.team1318.robot.Driver.Buttons.SimpleButton;
 import org.usfirst.frc.team1318.robot.Driver.Buttons.ToggleButton;
 import org.usfirst.frc.team1318.robot.Driver.Descriptions.MacroOperationDescription;
+
+import com.google.inject.Injector;
 
 import edu.wpi.first.wpilibj.Joystick;
 
@@ -23,19 +24,19 @@ public class MacroOperationState extends OperationState
 {
     private final IButton button;
     private final Map<Operation, OperationState> operationStateMap;
-    private final ComponentManager components;
+    private final Injector injector;
 
     private IControlTask task;
 
     public MacroOperationState(
         MacroOperationDescription description,
         Map<Operation, OperationState> operationStateMap,
-        ComponentManager components)
+        Injector injector)
     {
         super(description);
 
         this.operationStateMap = operationStateMap;
-        this.components = components;
+        this.injector = injector;
 
         switch (description.getButtonType())
         {
@@ -92,11 +93,10 @@ public class MacroOperationState extends OperationState
      * Checks whether the operation state should change based on the driver and co-driver joysticks and component sensors. 
      * @param driver joystick to update from
      * @param coDriver joystick to update from
-     * @param components to update from
      * @return true if there was any active user input that triggered a state change
      */
     @Override
-    public boolean checkInput(Joystick driver, Joystick coDriver, ComponentManager components)
+    public boolean checkInput(Joystick driver, Joystick coDriver)
     {
         MacroOperationDescription description = (MacroOperationDescription)this.getDescription();
 
@@ -181,7 +181,7 @@ public class MacroOperationState extends OperationState
 
                 // start task
                 this.task = ((MacroOperationDescription)this.getDescription()).constructTask();
-                this.task.initialize(this.operationStateMap, this.components);
+                this.task.initialize(this.operationStateMap, this.injector);
                 this.task.begin();
             }
             else

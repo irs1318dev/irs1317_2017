@@ -32,7 +32,10 @@ public class AutonomousRoutineSelector
 
         switch (routineSelection)
         {
-            default:
+            case 0: // No switches flipped
+                return AutonomousRoutineSelector.GetFillerRoutine();
+
+            default: // CANNOT READ
                 return AutonomousRoutineSelector.GetFillerRoutine();
         }
     }
