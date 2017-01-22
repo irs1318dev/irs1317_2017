@@ -37,22 +37,6 @@ public class DriveTrainComponent
         this.rightTalon = rightMotor;
         this.leftEncoder = leftEncoder;
         this.rightEncoder = rightEncoder;
-        //        this.leftTalon = new Victor(
-        //            ElectronicsConstants.DRIVETRAIN_LEFT_TALON_CHANNEL);
-        //
-        //        this.rightTalon = new Victor(
-        //            ElectronicsConstants.DRIVETRAIN_RIGHT_TALON_CHANNEL);
-        //
-        //        this.leftEncoder = new Encoder(
-        //            ElectronicsConstants.DRIVETRAIN_LEFT_ENCODER_CHANNEL_A,
-        //            ElectronicsConstants.DRIVETRAIN_LEFT_ENCODER_CHANNEL_B);
-        //
-        //        this.rightEncoder = new Encoder(
-        //            ElectronicsConstants.DRIVETRAIN_RIGHT_ENCODER_CHANNEL_A,
-        //            ElectronicsConstants.DRIVETRAIN_RIGHT_ENCODER_CHANNEL_B);
-        //
-        //        this.leftEncoder.setDistancePerPulse(HardwareConstants.DRIVETRAIN_LEFT_PULSE_DISTANCE);
-        //        this.rightEncoder.setDistancePerPulse(HardwareConstants.DRIVETRAIN_RIGHT_PULSE_DISTANCE);
     }
 
     /**

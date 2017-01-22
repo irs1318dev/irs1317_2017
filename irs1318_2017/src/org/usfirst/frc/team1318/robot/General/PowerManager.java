@@ -28,7 +28,7 @@ public class PowerManager implements IController
     @Inject
     public PowerManager(@Named("POWERMANAGER_PDP") PowerDistributionPanel pdp)
     {
-        this.pdp = new PowerDistributionPanel();
+        this.pdp = pdp;
         this.filter = new ComplementaryFilter(0.4, 0.6, this.pdp.getVoltage());
     }
 

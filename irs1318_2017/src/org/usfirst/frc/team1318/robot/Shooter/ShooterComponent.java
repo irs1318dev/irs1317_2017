@@ -38,12 +38,6 @@ public class ShooterComponent
         this.talon = motor;
         this.encoder = encoder;
         this.readyLight = readyLight;
-        //        this.kicker = new DoubleSolenoid(ElectronicsConstants.PCM_B_MODULE, ElectronicsConstants.SHOOTER_KICKER_CHANNEL_A,
-        //            ElectronicsConstants.SHOOTER_KICKER_CHANNEL_B);
-        //        this.hood = new DoubleSolenoid(ElectronicsConstants.SHOOTER_HOOD_CHANNEL_A, ElectronicsConstants.SHOOTER_HOOD_CHANNEL_B);
-        //        this.talon = new Talon(ElectronicsConstants.SHOOTER_TALON_CHANNEL);
-        //        this.encoder = new Encoder(ElectronicsConstants.SHOOTER_ENCODER_CHANNEL_A, ElectronicsConstants.SHOOTER_ENCODER_CHANNEL_B);
-        //        this.readyLight = new Solenoid(ElectronicsConstants.PCM_B_MODULE, ElectronicsConstants.SHOOTER_READY_LIGHT_PORT);
     }
 
     public void setMotorSpeed(double speed)
