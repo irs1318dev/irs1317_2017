@@ -18,6 +18,7 @@ public class ControllerManager implements IController
         this.controllerList = new ArrayList<IController>();
         this.controllerList.add(this.components.getPowerManager());
         this.controllerList.add(this.components.getPositionManager());
+        this.controllerList.add(this.components.getVisionManager());
         this.controllerList.add(new CompressorController(this.components.getCompressor()));
         this.controllerList.add(new DriveTrainController(this.components.getDriveTrain(), TuningConstants.DRIVETRAIN_USE_PID_DEFAULT));
     }

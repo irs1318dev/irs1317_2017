@@ -4,6 +4,7 @@ import org.usfirst.frc.team1318.robot.Compressor.CompressorComponent;
 import org.usfirst.frc.team1318.robot.DriveTrain.DriveTrainComponent;
 import org.usfirst.frc.team1318.robot.General.PositionManager;
 import org.usfirst.frc.team1318.robot.General.PowerManager;
+import org.usfirst.frc.team1318.robot.Vision.VisionManager;
 
 public class ComponentManager
 {
@@ -12,6 +13,7 @@ public class ComponentManager
 
     private PowerManager powerManager;
     private PositionManager positionManager;
+    private VisionManager visionManager;
 
     public ComponentManager()
     {
@@ -20,6 +22,7 @@ public class ComponentManager
 
         this.powerManager = new PowerManager();
         this.positionManager = new PositionManager(this.driveTrainComponent);
+        this.visionManager = new VisionManager();
     }
 
     public CompressorComponent getCompressor()
@@ -40,5 +43,10 @@ public class ComponentManager
     public PositionManager getPositionManager()
     {
         return this.positionManager;
+    }
+
+    public VisionManager getVisionManager()
+    {
+        return this.visionManager;
     }
 }
