@@ -60,6 +60,8 @@ public class TuningConstants
     public static final double DRIVETRAIN_REVERSE_RIGHT_SCALE_FACTOR = 1.15;//moving forwards
     public static final double DRIVETRAIN_REVERSE_LEFT_SCALE_FACTOR = 1.17;//moving backwards
 
+    public static final double DRIVETRAIN_ENCODER_ODOMETRY_ANGLE_CORRECTION = 0.979858464888405; // account for turning weirdness (7 degree offset in the angle)
+
     //================================================== Shooter ==============================================================
 
     public static final boolean SHOOTER_SCALE_BASED_ON_VOLTAGE = false;

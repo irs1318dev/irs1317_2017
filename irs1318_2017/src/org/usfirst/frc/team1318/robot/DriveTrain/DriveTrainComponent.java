@@ -17,6 +17,8 @@ import edu.wpi.first.wpilibj.Victor;
 @Singleton
 public class DriveTrainComponent
 {
+    private final static String LogName = "dt";
+
     private final Victor leftMotor;
     private final Victor rightMotor;
 
@@ -46,8 +48,8 @@ public class DriveTrainComponent
      */
     public void setDriveTrainPower(double leftPower, double rightPower)
     {
-        DashboardLogger.putDouble("leftPower", leftPower);
-        DashboardLogger.putDouble("rightPower", rightPower);
+        DashboardLogger.logNumber(DriveTrainComponent.LogName, "leftPower", leftPower);
+        DashboardLogger.logNumber(DriveTrainComponent.LogName, "rightPower", rightPower);
 
         double outLeftPower = leftPower;
         double outRightPower = -rightPower;// note: right motors are oriented facing "backwards"
@@ -63,7 +65,7 @@ public class DriveTrainComponent
     public double getLeftEncoderVelocity()
     {
         double leftVelocity = -this.leftEncoder.getRate();
-        DashboardLogger.putDouble("leftVelocity", leftVelocity);
+        DashboardLogger.logNumber(DriveTrainComponent.LogName, "leftVelocity", leftVelocity);
         return leftVelocity;
     }
 
@@ -74,7 +76,7 @@ public class DriveTrainComponent
     public double getRightEncoderVelocity()
     {
         double rightVelocity = this.rightEncoder.getRate();
-        DashboardLogger.putDouble("rightVelocity", rightVelocity);
+        DashboardLogger.logNumber(DriveTrainComponent.LogName, "rightVelocity", rightVelocity);
         return rightVelocity;
     }
 
@@ -85,7 +87,7 @@ public class DriveTrainComponent
     public double getLeftEncoderDistance()
     {
         double leftDistance = -this.leftEncoder.getDistance();
-        DashboardLogger.putDouble("leftDistance", leftDistance);
+        DashboardLogger.logNumber(DriveTrainComponent.LogName, "leftDistance", leftDistance);
         return leftDistance;
     }
 
@@ -96,7 +98,7 @@ public class DriveTrainComponent
     public double getRightEncoderDistance()
     {
         double rightDistance = this.rightEncoder.getDistance();
-        DashboardLogger.putDouble("rightDistance", rightDistance);
+        DashboardLogger.logNumber(DriveTrainComponent.LogName, "rightDistance", rightDistance);
         return rightDistance;
     }
 
@@ -107,7 +109,7 @@ public class DriveTrainComponent
     public int getLeftEncoderTicks()
     {
         int leftTicks = -this.leftEncoder.get();
-        DashboardLogger.putDouble("leftTicks", leftTicks);
+        DashboardLogger.logNumber(DriveTrainComponent.LogName, "leftTicks", leftTicks);
         return leftTicks;
     }
 
@@ -118,7 +120,7 @@ public class DriveTrainComponent
     public int getRightEncoderTicks()
     {
         int rightTicks = this.rightEncoder.get();
-        DashboardLogger.putDouble("rightTicks", rightTicks);
+        DashboardLogger.logNumber(DriveTrainComponent.LogName, "rightTicks", rightTicks);
         return rightTicks;
     }
 

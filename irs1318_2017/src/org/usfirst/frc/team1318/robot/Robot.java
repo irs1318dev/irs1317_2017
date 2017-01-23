@@ -33,7 +33,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 public class Robot extends IterativeRobot
 {
     // smartdash logging constants
-    private static final String ROBOT_STATE_LOG_KEY = "r.s";
+    private static final String LogName = "r";
 
     // Driver.  This could either be the UserDriver (joystick) or the AutonomousDriver
     private Driver driver;
@@ -52,7 +52,7 @@ public class Robot extends IterativeRobot
     {
         // create mechanism components and controllers
         this.controllers = this.getInjector().getInstance(ControllerManager.class);
-        DashboardLogger.putString(Robot.ROBOT_STATE_LOG_KEY, "Init");
+        DashboardLogger.logString(Robot.LogName, "state", "Init");
     }
 
     Injector getInjector()
@@ -80,7 +80,7 @@ public class Robot extends IterativeRobot
             this.controllers.stop();
         }
 
-        DashboardLogger.putString(Robot.ROBOT_STATE_LOG_KEY, "Disabled");
+        DashboardLogger.logString(Robot.LogName, "state", "Disabled");
     }
 
     /**
@@ -98,7 +98,7 @@ public class Robot extends IterativeRobot
         this.generalInit();
 
         // log that we are in autonomous mode
-        DashboardLogger.putString(Robot.ROBOT_STATE_LOG_KEY, "Autonomous");
+        DashboardLogger.logString(Robot.LogName, "state", "Autonomous");
     }
 
     /**
@@ -113,7 +113,7 @@ public class Robot extends IterativeRobot
         this.generalInit();
 
         // log that we are in teleop mode
-        DashboardLogger.putString(Robot.ROBOT_STATE_LOG_KEY, "Teleop");
+        DashboardLogger.logString(Robot.LogName, "state", "Teleop");
     }
 
     /**

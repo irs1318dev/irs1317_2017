@@ -19,6 +19,8 @@ import edu.wpi.first.wpilibj.vision.VisionThread;
  */
 public class VisionManager implements IController, VisionRunner.Listener<HSVCenterPipeline>
 {
+    private final static String LogName = "vision";
+
     private final Object visionLock;
     private final VisionThread visionThread;
 
@@ -89,7 +91,7 @@ public class VisionManager implements IController, VisionRunner.Listener<HSVCent
             center1String = String.format("%f,%f", center1.x, center1.y);
         }
 
-        DashboardLogger.putString("vision.center1", center1String);
+        DashboardLogger.logString(VisionManager.LogName, "center1", center1String);
 
         String center1AngleString = "n/a";
         Double centerAngle = this.getCenter1Angle();
@@ -98,7 +100,7 @@ public class VisionManager implements IController, VisionRunner.Listener<HSVCent
             center1AngleString = String.format("%f", centerAngle);
         }
 
-        DashboardLogger.putString("vision.center1Angle", center1AngleString);
+        DashboardLogger.logString(VisionManager.LogName, "center1Angle", center1AngleString);
 
         String center2String = "n/a";
         Point center2 = this.getCenter2();
@@ -107,10 +109,10 @@ public class VisionManager implements IController, VisionRunner.Listener<HSVCent
             center2String = String.format("%f,%f", center2.x, center2.y);
         }
 
-        DashboardLogger.putString("vision.center2", center2String);
+        DashboardLogger.logString(VisionManager.LogName, "center2", center2String);
 
         double fps = this.getLastMeasuredFps();
-        DashboardLogger.putDouble("vision.fps", fps);
+        DashboardLogger.logNumber(VisionManager.LogName, "fps", fps);
     }
 
     @Override
