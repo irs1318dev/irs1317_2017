@@ -15,6 +15,8 @@ import edu.wpi.first.wpilibj.Talon;
 @Singleton
 public class IntakeComponent
 {
+    public static final String LogName = "int";
+
     private final Talon motor;
     private final DoubleSolenoid intakeSolenoid;
     private final Solenoid intakeLight;
@@ -68,7 +70,7 @@ public class IntakeComponent
     public boolean getThroughBeamBroken()
     {
         boolean valueBool = (this.throughBeamSensor.getVoltage() < 2.5);
-        DashboardLogger.putBoolean("Through beam broken", valueBool);
+        DashboardLogger.logBoolean(IntakeComponent.LogName, "through-beam", valueBool);
         return valueBool;
     }
 

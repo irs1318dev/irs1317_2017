@@ -18,6 +18,8 @@ import com.google.inject.Inject;
  */
 public class ShooterController implements IController
 {
+    public static final String LogName = "sh";
+
     private final ShooterComponent shooter;
     private final PowerManager powerManager;
 
@@ -41,12 +43,12 @@ public class ShooterController implements IController
         // The actual velocity of the shooter wheel
         double currentRate = this.shooter.getCounterRate();
         int currentTicks = this.shooter.getCounterTicks();
-        DashboardLogger.putDouble("shooterRate", currentRate);
-        DashboardLogger.putDouble("shooterTicks", currentTicks);
+        DashboardLogger.logNumber(ShooterController.LogName, "rate", currentRate);
+        DashboardLogger.logNumber(ShooterController.LogName, "ticks", currentTicks);
 
         // The velocity set in the analog operation
         double velocityGoal = this.driver.getAnalog(Operation.ShooterSpeed);
-        DashboardLogger.putDouble("shooterVelocityGoal", velocityGoal);
+        DashboardLogger.logNumber(ShooterController.LogName, "velocityGoal", velocityGoal);
 
         double power = 0.0;
         boolean shouldLight = false;
@@ -71,7 +73,7 @@ public class ShooterController implements IController
 
         // Set the motor power with the calculated value
         this.shooter.setMotorSpeed(power);
-        DashboardLogger.putDouble("shooterPower", power);
+        DashboardLogger.logNumber(ShooterController.LogName, "power", power);
 
         // lower the kicker whenever we are rotating in or out, or when we are performing a shot macro
         boolean lowerKicker = this.driver.getDigital(Operation.ShooterLowerKicker)

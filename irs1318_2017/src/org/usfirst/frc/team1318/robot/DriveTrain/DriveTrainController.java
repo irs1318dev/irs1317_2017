@@ -18,6 +18,8 @@ import com.google.inject.Inject;
  */
 public class DriveTrainController implements IController
 {
+    public static final String LogName = "dtc";
+
     private static final double POWERLEVEL_MIN = -1.0;
     private static final double POWERLEVEL_MAX = 1.0;
 
@@ -248,8 +250,8 @@ public class DriveTrainController implements IController
         leftVelocityGoal = leftVelocityGoal * TuningConstants.DRIVETRAIN_MAX_POWER_LEVEL;
         rightVelocityGoal = rightVelocityGoal * TuningConstants.DRIVETRAIN_MAX_POWER_LEVEL;
 
-        DashboardLogger.putDouble("drivetrain.leftVelocityGoal", leftVelocityGoal);
-        DashboardLogger.putDouble("drivetrain.rightVelocityGoal", rightVelocityGoal);
+        DashboardLogger.logNumber(DriveTrainController.LogName, "leftVelocityGoal", leftVelocityGoal);
+        DashboardLogger.logNumber(DriveTrainController.LogName, "rightVelocityGoal", rightVelocityGoal);
 
         // convert velocity goal to power level...
         double leftPower;
@@ -296,8 +298,8 @@ public class DriveTrainController implements IController
         this.component.getLeftEncoderVelocity();
         this.component.getRightEncoderVelocity();
 
-        DashboardLogger.putDouble("drivetrain.leftPositionGoal", leftPosition);
-        DashboardLogger.putDouble("drivetrain.rightPositionGoal", rightPosition);
+        DashboardLogger.logNumber(DriveTrainController.LogName, "leftPositionGoal", leftPosition);
+        DashboardLogger.logNumber(DriveTrainController.LogName, "rightPositionGoal", rightPosition);
 
         double leftPower;
         double rightPower;

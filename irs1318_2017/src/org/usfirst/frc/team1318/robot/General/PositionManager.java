@@ -20,8 +20,7 @@ import com.google.inject.Singleton;
 public class PositionManager implements IController
 {
     // logging constants
-    public static final String X_POSITION_LOG_KEY = "pos.x";
-    public static final String Y_POSITION_LOG_KEY = "pos.y";
+    public static final String LogName = "pos";
 
     // drivetrain component
     private final DriveTrainComponent driveTrainComponent;
@@ -103,12 +102,12 @@ public class PositionManager implements IController
         this.prevRightDistance = rightDistance;
 
         // log the current position and orientation
-        DashboardLogger.putDouble("pos.odom_angle", this.getOdometryAngle());
-        DashboardLogger.putDouble("pos.odom_x", this.getOdometryX());
-        DashboardLogger.putDouble("pos.odom_y", this.getOdometryY());
-        DashboardLogger.putDouble("pos.navx_angle", this.getNavxAngle());
-        DashboardLogger.putDouble("pos.navx_x", this.getNavxX());
-        DashboardLogger.putDouble("pos.navx_y", this.getNavxY());
+        DashboardLogger.logNumber(PositionManager.LogName, "odom_angle", this.getOdometryAngle());
+        DashboardLogger.logNumber(PositionManager.LogName, "odom_x", this.getOdometryX());
+        DashboardLogger.logNumber(PositionManager.LogName, "odom_y", this.getOdometryY());
+        DashboardLogger.logNumber(PositionManager.LogName, "navx_angle", this.getNavxAngle());
+        DashboardLogger.logNumber(PositionManager.LogName, "navx_x", this.getNavxX());
+        DashboardLogger.logNumber(PositionManager.LogName, "navx_y", this.getNavxY());
     }
 
     /**
