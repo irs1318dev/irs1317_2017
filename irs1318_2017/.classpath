@@ -9,9 +9,9 @@
 	<classpathentry kind="var" path="opencv" sourcepath="opencv.sources"/>
 	<classpathentry kind="var" path="cscore" sourcepath="cscore.sources"/>
 	<classpathentry kind="var" path="USERLIBS_DIR/navx_frc.jar"/>
-	<classpathentry kind="var" path="USERLIBS_DIR/mockito-core-2.6.4.jar"/>
 	<classpathentry kind="var" path="USERLIBS_DIR/guice-4.1.0-no_aop.jar" sourcepath="/guiceSource"/>
 	<classpathentry kind="var" path="USERLIBS_DIR/guava-21.0.jar"/>
 	<classpathentry kind="var" path="USERLIBS_DIR/javax.inject-1.jar"/>
+	<classpathentry kind="var" path="USERLIBS_DIR/mockito-all-1.10.19.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
