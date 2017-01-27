@@ -1,10 +1,10 @@
 package org.usfirst.frc.team1318.robot;
 
-import org.usfirst.frc.team1318.robot.Common.DashboardLogger;
-import org.usfirst.frc.team1318.robot.Driver.Driver;
-import org.usfirst.frc.team1318.robot.Driver.Autonomous.AutonomousDriver;
-import org.usfirst.frc.team1318.robot.Driver.User.UserDriver;
-import org.usfirst.frc.team1318.robot.General.PositionManager;
+import org.usfirst.frc.team1318.robot.common.DashboardLogger;
+import org.usfirst.frc.team1318.robot.driver.Driver;
+import org.usfirst.frc.team1318.robot.driver.autonomous.AutonomousDriver;
+import org.usfirst.frc.team1318.robot.driver.user.UserDriver;
+import org.usfirst.frc.team1318.robot.general.PositionManager;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;

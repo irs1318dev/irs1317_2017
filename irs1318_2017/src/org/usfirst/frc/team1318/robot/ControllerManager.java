@@ -2,8 +2,8 @@ package org.usfirst.frc.team1318.robot;
 
 import java.util.List;
 
-import org.usfirst.frc.team1318.robot.Common.IController;
-import org.usfirst.frc.team1318.robot.Driver.Driver;
+import org.usfirst.frc.team1318.robot.common.IController;
+import org.usfirst.frc.team1318.robot.driver.Driver;
 
 public class ControllerManager implements IController
 {

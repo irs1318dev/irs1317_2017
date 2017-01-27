@@ -6,15 +6,15 @@ import java.util.List;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
-import org.usfirst.frc.team1318.robot.Common.IController;
-import org.usfirst.frc.team1318.robot.Compressor.CompressorController;
-import org.usfirst.frc.team1318.robot.DriveTrain.DriveTrainController;
-import org.usfirst.frc.team1318.robot.General.PositionManager;
-import org.usfirst.frc.team1318.robot.General.PowerManager;
-import org.usfirst.frc.team1318.robot.Intake.IntakeController;
-import org.usfirst.frc.team1318.robot.Shooter.ShooterController;
-import org.usfirst.frc.team1318.robot.Stinger.StingerController;
-import org.usfirst.frc.team1318.robot.Vision.VisionManager;
+import org.usfirst.frc.team1318.robot.common.IController;
+import org.usfirst.frc.team1318.robot.compressor.CompressorController;
+import org.usfirst.frc.team1318.robot.drivetrain.DriveTrainController;
+import org.usfirst.frc.team1318.robot.general.PositionManager;
+import org.usfirst.frc.team1318.robot.general.PowerManager;
+import org.usfirst.frc.team1318.robot.intake.IntakeController;
+import org.usfirst.frc.team1318.robot.shooter.ShooterController;
+import org.usfirst.frc.team1318.robot.stinger.StingerController;
+import org.usfirst.frc.team1318.robot.vision.VisionManager;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Injector;
