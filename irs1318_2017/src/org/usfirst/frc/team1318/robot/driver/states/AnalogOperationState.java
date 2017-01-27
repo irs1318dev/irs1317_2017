@@ -57,7 +57,6 @@ public class AnalogOperationState extends OperationState
      * @param coDriver joystick to update from
      * @return true if there was any active user input that triggered a state change
      */
-    @SuppressWarnings("unused")
     @Override
     public boolean checkInput(IJoystick driver, IJoystick coDriver)
     {
