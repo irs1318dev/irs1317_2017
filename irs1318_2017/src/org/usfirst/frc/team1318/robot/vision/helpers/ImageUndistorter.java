@@ -86,6 +86,7 @@ public class ImageUndistorter
      * Build an intrinsic matrix for the Axis M1011 camera at 640x480 resolution.
      * @return an intrinsic matrix
      */
+    @SuppressWarnings("unused")
     private static Mat build640x480Intrinsic()
     {
         Mat intrinsicMatrix = new Mat(3, 3, CvType.CV_32FC1);

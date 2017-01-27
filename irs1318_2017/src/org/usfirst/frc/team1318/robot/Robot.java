@@ -12,7 +12,7 @@ import com.google.inject.Injector;
 import edu.wpi.first.wpilibj.IterativeRobot;
 
 /**
- * Main class for the FRC 2017 [competition name] Competition
+ * Main class for the FRC 2017 Steamworks Competition
  * Robot for IRS1318 - [robot name]
  * 
  * 
@@ -33,7 +33,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 public class Robot extends IterativeRobot
 {
     // smartdash logging constants
-    public static final String LogName = "r";
+    private static final String LogName = "r";
 
     // Driver.  This could either be the UserDriver (joystick) or the AutonomousDriver
     private Driver driver;
@@ -93,7 +93,7 @@ public class Robot extends IterativeRobot
         this.getInjector().getInstance(PositionManager.class).reset();
 
         // Create an autonomous driver
-        this.driver = new AutonomousDriver(this.getInjector());
+        this.driver = this.getInjector().getInstance(AutonomousDriver.class);
 
         this.generalInit();
 
@@ -108,7 +108,7 @@ public class Robot extends IterativeRobot
     public void teleopInit()
     {
         // create driver for user's joystick
-        this.driver = new UserDriver(this.getInjector());
+        this.driver = this.getInjector().getInstance(UserDriver.class);
 
         this.generalInit();
 

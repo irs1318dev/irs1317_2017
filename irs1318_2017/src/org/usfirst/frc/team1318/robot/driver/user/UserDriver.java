@@ -5,17 +5,17 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.usfirst.frc.team1318.robot.ElectronicsConstants;
 import org.usfirst.frc.team1318.robot.common.SetHelper;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.IJoystick;
 import org.usfirst.frc.team1318.robot.driver.ButtonMap;
 import org.usfirst.frc.team1318.robot.driver.Driver;
 import org.usfirst.frc.team1318.robot.driver.MacroOperation;
 import org.usfirst.frc.team1318.robot.driver.Operation;
 import org.usfirst.frc.team1318.robot.driver.states.MacroOperationState;
 
+import com.google.inject.Inject;
 import com.google.inject.Injector;
-
-import edu.wpi.first.wpilibj.Joystick;
+import com.google.inject.name.Named;
 
 /**
  * Driver for teleop mode.  User driver translates current state and joystick state information into
@@ -24,8 +24,8 @@ import edu.wpi.first.wpilibj.Joystick;
  */
 public class UserDriver extends Driver
 {
-    private final Joystick joystickDriver;
-    private final Joystick joystickCoDriver;
+    private final IJoystick joystickDriver;
+    private final IJoystick joystickCoDriver;
 
     private final Map<MacroOperation, MacroOperationState> macroStateMap;
 
@@ -33,12 +33,16 @@ public class UserDriver extends Driver
      * Initializes a new UserDriver
      * @param injector used to retrieve the components to utilize within the robot
      */
-    public UserDriver(Injector injector)
+    @Inject
+    public UserDriver(
+        Injector injector,
+        @Named("USER_DRIVER_JOYSTICK") IJoystick joystickDriver,
+        @Named("USER_CODRIVER_JOYSTICK") IJoystick joystickCoDriver)
     {
         super(injector);
 
-        this.joystickDriver = new Joystick(ElectronicsConstants.JOYSTICK_DRIVER_PORT);
-        this.joystickCoDriver = new Joystick(ElectronicsConstants.JOYSTICK_CO_DRIVER_PORT);
+        this.joystickDriver = joystickDriver;
+        this.joystickCoDriver = joystickCoDriver;
 
         this.macroStateMap = new HashMap<MacroOperation, MacroOperationState>();
 
@@ -131,8 +135,7 @@ public class UserDriver extends Driver
             }
             else if (relevantMacroOperations.size() > 1)
             {
-                Set<MacroOperation> newRelevantMacroOperations = SetHelper.<MacroOperation> RelativeComplement(
-                    previouslyActiveMacroOperations, relevantMacroOperations);
+                Set<MacroOperation> newRelevantMacroOperations = SetHelper.<MacroOperation> RelativeComplement(previouslyActiveMacroOperations, relevantMacroOperations);
                 if (newRelevantMacroOperations.size() > 1)
                 {
                     // disobeys rule #3:

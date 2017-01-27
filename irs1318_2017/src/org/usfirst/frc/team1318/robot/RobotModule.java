@@ -15,9 +15,11 @@ import org.usfirst.frc.team1318.robot.common.wpilibmocks.IAnalogInput;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.ICompressor;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IDoubleSolenoid;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IEncoder;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.IJoystick;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IMotor;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IPowerDistributionPanel;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.ISolenoid;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.JoystickWrapper;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.PowerDistributionPanelWrapper;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.SolenoidWrapper;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.TalonWrapper;
@@ -60,6 +62,22 @@ public class RobotModule extends AbstractModule
 
     @Singleton
     @Provides
+    @Named("USER_DRIVER_JOYSTICK")
+    public IJoystick getDriverJoystick()
+    {
+        return new JoystickWrapper(ElectronicsConstants.JOYSTICK_DRIVER_PORT);
+    }
+
+    @Singleton
+    @Provides
+    @Named("USER_CODRIVER_JOYSTICK")
+    public IJoystick getCoDriverJoystick()
+    {
+        return new JoystickWrapper(ElectronicsConstants.JOYSTICK_CO_DRIVER_PORT);
+    }
+
+    @Singleton
+    @Provides
     @Named("COMPRESSOR")
     public ICompressor getCompressor()
     {
@@ -88,8 +106,8 @@ public class RobotModule extends AbstractModule
     public IDoubleSolenoid getIntakeSolenoid()
     {
         return new DoubleSolenoidWrapper(
-            ElectronicsConstants.INTAKE_SOLENOID_CHANNEL_A,
-            ElectronicsConstants.INTAKE_SOLENOID_CHANNEL_B);
+                ElectronicsConstants.INTAKE_SOLENOID_CHANNEL_A,
+                ElectronicsConstants.INTAKE_SOLENOID_CHANNEL_B);
     }
 
     @Singleton
@@ -130,8 +148,8 @@ public class RobotModule extends AbstractModule
     public IEncoder getDriveTrainLeftEncoder()
     {
         EncoderWrapper encoder = new EncoderWrapper(
-            ElectronicsConstants.DRIVETRAIN_LEFT_ENCODER_CHANNEL_A,
-            ElectronicsConstants.DRIVETRAIN_LEFT_ENCODER_CHANNEL_B);
+                ElectronicsConstants.DRIVETRAIN_LEFT_ENCODER_CHANNEL_A,
+                ElectronicsConstants.DRIVETRAIN_LEFT_ENCODER_CHANNEL_B);
 
         encoder.setDistancePerPulse(HardwareConstants.DRIVETRAIN_LEFT_PULSE_DISTANCE);
 
@@ -144,8 +162,8 @@ public class RobotModule extends AbstractModule
     public IEncoder getDriveTrainRightEncoder()
     {
         EncoderWrapper encoder = new EncoderWrapper(
-            ElectronicsConstants.DRIVETRAIN_RIGHT_ENCODER_CHANNEL_A,
-            ElectronicsConstants.DRIVETRAIN_RIGHT_ENCODER_CHANNEL_B);
+                ElectronicsConstants.DRIVETRAIN_RIGHT_ENCODER_CHANNEL_A,
+                ElectronicsConstants.DRIVETRAIN_RIGHT_ENCODER_CHANNEL_B);
 
         encoder.setDistancePerPulse(HardwareConstants.DRIVETRAIN_RIGHT_PULSE_DISTANCE);
 
@@ -158,9 +176,9 @@ public class RobotModule extends AbstractModule
     public IDoubleSolenoid getShooterKicker()
     {
         return new DoubleSolenoidWrapper(
-            ElectronicsConstants.PCM_B_MODULE,
-            ElectronicsConstants.SHOOTER_KICKER_CHANNEL_A,
-            ElectronicsConstants.SHOOTER_KICKER_CHANNEL_B);
+                ElectronicsConstants.PCM_B_MODULE,
+                ElectronicsConstants.SHOOTER_KICKER_CHANNEL_A,
+                ElectronicsConstants.SHOOTER_KICKER_CHANNEL_B);
     }
 
     @Singleton
@@ -168,7 +186,8 @@ public class RobotModule extends AbstractModule
     @Named("SHOOTER_HOOD")
     public IDoubleSolenoid getShooterHood()
     {
-        return new DoubleSolenoidWrapper(ElectronicsConstants.SHOOTER_HOOD_CHANNEL_A, ElectronicsConstants.SHOOTER_HOOD_CHANNEL_B);
+        return new DoubleSolenoidWrapper(ElectronicsConstants.SHOOTER_HOOD_CHANNEL_A,
+                ElectronicsConstants.SHOOTER_HOOD_CHANNEL_B);
     }
 
     @Singleton
@@ -184,7 +203,8 @@ public class RobotModule extends AbstractModule
     @Named("SHOOTER_ENCODER")
     public IEncoder getShooterEncoder()
     {
-        return new EncoderWrapper(ElectronicsConstants.SHOOTER_ENCODER_CHANNEL_A, ElectronicsConstants.SHOOTER_ENCODER_CHANNEL_B);
+        return new EncoderWrapper(ElectronicsConstants.SHOOTER_ENCODER_CHANNEL_A,
+                ElectronicsConstants.SHOOTER_ENCODER_CHANNEL_B);
     }
 
     @Singleton
