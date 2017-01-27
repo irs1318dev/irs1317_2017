@@ -1,33 +1,32 @@
 package org.usfirst.frc.team1318.robot.intake;
 
 import org.usfirst.frc.team1318.robot.common.DashboardLogger;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.DoubleSolenoidValue;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.IAnalogInput;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.IDoubleSolenoid;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.IMotor;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.ISolenoid;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
-
-import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.Talon;
 
 @Singleton
 public class IntakeComponent
 {
     public static final String LogName = "int";
 
-    private final Talon motor;
-    private final DoubleSolenoid intakeSolenoid;
-    private final Solenoid intakeLight;
-    private final AnalogInput throughBeamSensor;
+    private final IMotor motor;
+    private final IDoubleSolenoid intakeSolenoid;
+    private final ISolenoid intakeLight;
+    private final IAnalogInput throughBeamSensor;
 
     @Inject
     public IntakeComponent(
-        @Named("INTAKE_MOTOR") Talon motor,
-        @Named("INTAKE_SOLENOID") DoubleSolenoid intakeSolenoid,
-        @Named("INTAKE_LIGHT") Solenoid intakeLight,
-        @Named("INTAKE_THROUGHBEAM") AnalogInput throughBeamSensor)
+        @Named("INTAKE_MOTOR") IMotor motor,
+        @Named("INTAKE_SOLENOID") IDoubleSolenoid intakeSolenoid,
+        @Named("INTAKE_LIGHT") ISolenoid intakeLight,
+        @Named("INTAKE_THROUGHBEAM") IAnalogInput throughBeamSensor)
     {
         this.motor = motor;
         this.intakeSolenoid = intakeSolenoid;
@@ -43,18 +42,18 @@ public class IntakeComponent
     {
         if (extend)
         {
-            this.intakeSolenoid.set(Value.kForward);
+            this.intakeSolenoid.set(DoubleSolenoidValue.kForward);
         }
         else
         {
-            this.intakeSolenoid.set(Value.kReverse);
+            this.intakeSolenoid.set(DoubleSolenoidValue.kReverse);
         }
     }
 
     public void stop()
     {
         this.motor.set(0.0);
-        this.intakeSolenoid.set(Value.kOff);
+        this.intakeSolenoid.set(DoubleSolenoidValue.kOff);
         this.intakeLight.set(false);
     }
 

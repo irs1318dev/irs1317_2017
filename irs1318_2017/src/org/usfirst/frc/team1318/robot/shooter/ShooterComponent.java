@@ -1,14 +1,14 @@
 package org.usfirst.frc.team1318.robot.shooter;
 
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.DoubleSolenoidValue;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.IDoubleSolenoid;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.IEncoder;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.IMotor;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.ISolenoid;
+
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
-
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.Talon;
 
 /**
  * Component for the shooter mechanism. Has a talon, and one counter, 
@@ -19,19 +19,19 @@ import edu.wpi.first.wpilibj.Talon;
 @Singleton
 public class ShooterComponent
 {
-    private final DoubleSolenoid kicker;
-    private final DoubleSolenoid hood;
-    private final Talon motor;
-    private final Encoder encoder;
-    private final Solenoid readyLight;
+    private final IDoubleSolenoid kicker;
+    private final IDoubleSolenoid hood;
+    private final IMotor motor;
+    private final IEncoder encoder;
+    private final ISolenoid readyLight;
 
     @Inject
     public ShooterComponent(
-        @Named("SHOOTER_KICKER") DoubleSolenoid kicker,
-        @Named("SHOOTER_HOOD") DoubleSolenoid hood,
-        @Named("SHOOTER_MOTOR") Talon motor,
-        @Named("SHOOTER_ENCODER") Encoder encoder,
-        @Named("SHOOTER_LIGHT") Solenoid readyLight)
+        @Named("SHOOTER_KICKER") IDoubleSolenoid kicker,
+        @Named("SHOOTER_HOOD") IDoubleSolenoid hood,
+        @Named("SHOOTER_MOTOR") IMotor motor,
+        @Named("SHOOTER_ENCODER") IEncoder encoder,
+        @Named("SHOOTER_LIGHT") ISolenoid readyLight)
     {
         this.kicker = kicker;
         this.hood = hood;
@@ -66,11 +66,11 @@ public class ShooterComponent
     {
         if (up)
         {
-            this.kicker.set(Value.kForward);
+            this.kicker.set(DoubleSolenoidValue.kForward);
         }
         else
         {
-            this.kicker.set(Value.kReverse);
+            this.kicker.set(DoubleSolenoidValue.kReverse);
         }
     }
 
@@ -83,11 +83,11 @@ public class ShooterComponent
     {
         if (up)
         {
-            this.hood.set(Value.kForward);
+            this.hood.set(DoubleSolenoidValue.kForward);
         }
         else
         {
-            this.hood.set(Value.kReverse);
+            this.hood.set(DoubleSolenoidValue.kReverse);
         }
     }
 
@@ -98,8 +98,8 @@ public class ShooterComponent
 
     public void stop()
     {
-        this.kicker.set(Value.kOff);
-        this.hood.set(Value.kOff);
+        this.kicker.set(DoubleSolenoidValue.kOff);
+        this.hood.set(DoubleSolenoidValue.kOff);
         this.setMotorSpeed(0.0);
         this.readyLight.set(false);
     }

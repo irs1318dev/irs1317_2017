@@ -7,6 +7,21 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.usfirst.frc.team1318.robot.common.IController;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.AnalogInputWrapper;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.CompressorWrapper;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.DoubleSolenoidWrapper;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.EncoderWrapper;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.IAnalogInput;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.ICompressor;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.IDoubleSolenoid;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.IEncoder;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.IMotor;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.IPowerDistributionPanel;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.ISolenoid;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.PowerDistributionPanelWrapper;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.SolenoidWrapper;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.TalonWrapper;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.VictorWrapper;
 import org.usfirst.frc.team1318.robot.compressor.CompressorController;
 import org.usfirst.frc.team1318.robot.drivetrain.DriveTrainController;
 import org.usfirst.frc.team1318.robot.general.PositionManager;
@@ -19,15 +34,6 @@ import org.usfirst.frc.team1318.robot.vision.VisionManager;
 import com.google.inject.AbstractModule;
 import com.google.inject.Injector;
 import com.google.inject.Provides;
-
-import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
-import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.Talon;
-import edu.wpi.first.wpilibj.Victor;
 
 public class RobotModule extends AbstractModule
 {
@@ -55,33 +61,33 @@ public class RobotModule extends AbstractModule
     @Singleton
     @Provides
     @Named("COMPRESSOR")
-    public Compressor getCompressor()
+    public ICompressor getCompressor()
     {
-        return new Compressor(ElectronicsConstants.PCM_B_MODULE);
+        return new CompressorWrapper(ElectronicsConstants.PCM_B_MODULE);
     }
 
     @Singleton
     @Provides
     @Named("POWERMANAGER_PDP")
-    public PowerDistributionPanel getPowerManagerPdp()
+    public IPowerDistributionPanel getPowerManagerPdp()
     {
-        return new PowerDistributionPanel();
+        return new PowerDistributionPanelWrapper();
     }
 
     @Singleton
     @Provides
     @Named("INTAKE_MOTOR")
-    public Talon getIntakeMotor()
+    public IMotor getIntakeMotor()
     {
-        return new Talon(ElectronicsConstants.INTAKE_MOTOR_CHANNEL);
+        return new TalonWrapper(ElectronicsConstants.INTAKE_MOTOR_CHANNEL);
     }
 
     @Singleton
     @Provides
     @Named("INTAKE_SOLENOID")
-    public DoubleSolenoid getIntakeSolenoid()
+    public IDoubleSolenoid getIntakeSolenoid()
     {
-        return new DoubleSolenoid(
+        return new DoubleSolenoidWrapper(
             ElectronicsConstants.INTAKE_SOLENOID_CHANNEL_A,
             ElectronicsConstants.INTAKE_SOLENOID_CHANNEL_B);
     }
@@ -89,41 +95,41 @@ public class RobotModule extends AbstractModule
     @Singleton
     @Provides
     @Named("INTAKE_LIGHT")
-    public Solenoid getIntakeLight()
+    public ISolenoid getIntakeLight()
     {
-        return new Solenoid(ElectronicsConstants.PCM_B_MODULE, ElectronicsConstants.INTAKE_LIGHT_CHANNEL);
+        return new SolenoidWrapper(ElectronicsConstants.PCM_B_MODULE, ElectronicsConstants.INTAKE_LIGHT_CHANNEL);
     }
 
     @Singleton
     @Provides
     @Named("INTAKE_THROUGHBEAM")
-    public AnalogInput getIntakeThroughBeamSensor()
+    public IAnalogInput getIntakeThroughBeamSensor()
     {
-        return new AnalogInput(ElectronicsConstants.INTAKE_THROUGH_BEAM_SENSOR_CHANNEL);
+        return new AnalogInputWrapper(ElectronicsConstants.INTAKE_THROUGH_BEAM_SENSOR_CHANNEL);
     }
 
     @Singleton
     @Provides
     @Named("DRIVETRAIN_LEFTMOTOR")
-    public Victor getDriveTrainLeftMotor()
+    public IMotor getDriveTrainLeftMotor()
     {
-        return new Victor(ElectronicsConstants.DRIVETRAIN_LEFT_TALON_CHANNEL);
+        return new VictorWrapper(ElectronicsConstants.DRIVETRAIN_LEFT_TALON_CHANNEL);
     }
 
     @Singleton
     @Provides
     @Named("DRIVETRAIN_RIGHTMOTOR")
-    public Victor getDriveTrainRightMotor()
+    public IMotor getDriveTrainRightMotor()
     {
-        return new Victor(ElectronicsConstants.DRIVETRAIN_RIGHT_TALON_CHANNEL);
+        return new VictorWrapper(ElectronicsConstants.DRIVETRAIN_RIGHT_TALON_CHANNEL);
     }
 
     @Singleton
     @Provides
     @Named("DRIVETRAIN_LEFTENCODER")
-    public Encoder getDriveTrainLeftEncoder()
+    public IEncoder getDriveTrainLeftEncoder()
     {
-        Encoder encoder = new Encoder(
+        EncoderWrapper encoder = new EncoderWrapper(
             ElectronicsConstants.DRIVETRAIN_LEFT_ENCODER_CHANNEL_A,
             ElectronicsConstants.DRIVETRAIN_LEFT_ENCODER_CHANNEL_B);
 
@@ -135,9 +141,9 @@ public class RobotModule extends AbstractModule
     @Singleton
     @Provides
     @Named("DRIVETRAIN_RIGHTENCODER")
-    public Encoder getDriveTrainRightEncoder()
+    public IEncoder getDriveTrainRightEncoder()
     {
-        Encoder encoder = new Encoder(
+        EncoderWrapper encoder = new EncoderWrapper(
             ElectronicsConstants.DRIVETRAIN_RIGHT_ENCODER_CHANNEL_A,
             ElectronicsConstants.DRIVETRAIN_RIGHT_ENCODER_CHANNEL_B);
 
@@ -149,9 +155,9 @@ public class RobotModule extends AbstractModule
     @Singleton
     @Provides
     @Named("SHOOTER_KICKER")
-    public DoubleSolenoid getShooterKicker()
+    public IDoubleSolenoid getShooterKicker()
     {
-        return new DoubleSolenoid(
+        return new DoubleSolenoidWrapper(
             ElectronicsConstants.PCM_B_MODULE,
             ElectronicsConstants.SHOOTER_KICKER_CHANNEL_A,
             ElectronicsConstants.SHOOTER_KICKER_CHANNEL_B);
@@ -160,40 +166,40 @@ public class RobotModule extends AbstractModule
     @Singleton
     @Provides
     @Named("SHOOTER_HOOD")
-    public DoubleSolenoid getShooterHood()
+    public IDoubleSolenoid getShooterHood()
     {
-        return new DoubleSolenoid(ElectronicsConstants.SHOOTER_HOOD_CHANNEL_A, ElectronicsConstants.SHOOTER_HOOD_CHANNEL_B);
+        return new DoubleSolenoidWrapper(ElectronicsConstants.SHOOTER_HOOD_CHANNEL_A, ElectronicsConstants.SHOOTER_HOOD_CHANNEL_B);
     }
 
     @Singleton
     @Provides
     @Named("SHOOTER_MOTOR")
-    public Talon getShooterMotor()
+    public IMotor getShooterMotor()
     {
-        return new Talon(ElectronicsConstants.SHOOTER_TALON_CHANNEL);
+        return new TalonWrapper(ElectronicsConstants.SHOOTER_TALON_CHANNEL);
     }
 
     @Singleton
     @Provides
     @Named("SHOOTER_ENCODER")
-    public Encoder getShooterEncoder()
+    public IEncoder getShooterEncoder()
     {
-        return new Encoder(ElectronicsConstants.SHOOTER_ENCODER_CHANNEL_A, ElectronicsConstants.SHOOTER_ENCODER_CHANNEL_B);
+        return new EncoderWrapper(ElectronicsConstants.SHOOTER_ENCODER_CHANNEL_A, ElectronicsConstants.SHOOTER_ENCODER_CHANNEL_B);
     }
 
     @Singleton
     @Provides
     @Named("SHOOTER_LIGHT")
-    public Solenoid getShooterReadyLight()
+    public ISolenoid getShooterReadyLight()
     {
-        return new Solenoid(ElectronicsConstants.PCM_B_MODULE, ElectronicsConstants.SHOOTER_READY_LIGHT_PORT);
+        return new SolenoidWrapper(ElectronicsConstants.PCM_B_MODULE, ElectronicsConstants.SHOOTER_READY_LIGHT_PORT);
     }
 
     @Singleton
     @Provides
     @Named("STINGER_MOTOR")
-    public Talon getStingerMotor()
+    public IMotor getStingerMotor()
     {
-        return new Talon(ElectronicsConstants.STINGER_MOTOR_CHANNEL);
+        return new TalonWrapper(ElectronicsConstants.STINGER_MOTOR_CHANNEL);
     }
 }
