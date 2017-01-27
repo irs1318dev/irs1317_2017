@@ -1,13 +1,12 @@
 package org.usfirst.frc.team1318.robot.drivetrain;
 
 import org.usfirst.frc.team1318.robot.common.DashboardLogger;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.IEncoder;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.IMotor;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
-
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Victor;
 
 /**
  * The drivetrain component class describes the electronics of the drivetrain and defines the abstract way to control it.
@@ -19,21 +18,21 @@ public class DriveTrainComponent
 {
     private final static String LogName = "dt";
 
-    private final Victor leftMotor;
-    private final Victor rightMotor;
+    private final IMotor leftMotor;
+    private final IMotor rightMotor;
 
-    private final Encoder leftEncoder;
-    private final Encoder rightEncoder;
+    private final IEncoder leftEncoder;
+    private final IEncoder rightEncoder;
 
     /**
      * Initializes a new DriveTrainComponent
      */
     @Inject
     public DriveTrainComponent(
-        @Named("DRIVETRAIN_LEFTMOTOR") Victor leftMotor,
-        @Named("DRIVETRAIN_RIGHTMOTOR") Victor rightMotor,
-        @Named("DRIVETRAIN_LEFTENCODER") Encoder leftEncoder,
-        @Named("DRIVETRAIN_RIGHTENCODER") Encoder rightEncoder)
+        @Named("DRIVETRAIN_LEFTMOTOR") IMotor leftMotor,
+        @Named("DRIVETRAIN_RIGHTMOTOR") IMotor rightMotor,
+        @Named("DRIVETRAIN_LEFTENCODER") IEncoder leftEncoder,
+        @Named("DRIVETRAIN_RIGHTENCODER") IEncoder rightEncoder)
     {
         this.leftMotor = leftMotor;
         this.rightMotor = rightMotor;

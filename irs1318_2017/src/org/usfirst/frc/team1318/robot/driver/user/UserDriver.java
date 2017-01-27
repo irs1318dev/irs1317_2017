@@ -131,8 +131,7 @@ public class UserDriver extends Driver
             }
             else if (relevantMacroOperations.size() > 1)
             {
-                Set<MacroOperation> newRelevantMacroOperations = SetHelper.<MacroOperation> RelativeComplement(
-                    previouslyActiveMacroOperations, relevantMacroOperations);
+                Set<MacroOperation> newRelevantMacroOperations = SetHelper.<MacroOperation> RelativeComplement(previouslyActiveMacroOperations, relevantMacroOperations);
                 if (newRelevantMacroOperations.size() > 1)
                 {
                     // disobeys rule #3:
@@ -142,8 +141,7 @@ public class UserDriver extends Driver
                 else
                 {
                     // some disobey rule #2 (remove only those that were previously active, and not the 1 that is newly active...)
-                    macroOperationsToCancel.addAll(SetHelper.<MacroOperation> RelativeComplement(newRelevantMacroOperations,
-                        relevantMacroOperations));
+                    macroOperationsToCancel.addAll(SetHelper.<MacroOperation> RelativeComplement(newRelevantMacroOperations, relevantMacroOperations));
                 }
             }
         }
@@ -156,8 +154,7 @@ public class UserDriver extends Driver
         }
 
         // first, run all of the inactive macros (to clear any old interrupts)...
-        Set<MacroOperation> inactiveMacroOperations = SetHelper.<MacroOperation> RelativeComplement(activeMacroOperations,
-            this.macroStateMap.keySet());
+        Set<MacroOperation> inactiveMacroOperations = SetHelper.<MacroOperation> RelativeComplement(activeMacroOperations, this.macroStateMap.keySet());
         for (MacroOperation macroOperation : inactiveMacroOperations)
         {
             this.macroStateMap.get(macroOperation).run();

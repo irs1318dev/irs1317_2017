@@ -7,6 +7,14 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.usfirst.frc.team1318.robot.common.IController;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.CompressorWrapper;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.EncoderWrapper;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.ICompressor;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.IEncoder;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.IMotor;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.IPowerDistributionPanel;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.PowerDistributionPanelWrapper;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.VictorWrapper;
 import org.usfirst.frc.team1318.robot.compressor.CompressorController;
 import org.usfirst.frc.team1318.robot.drivetrain.DriveTrainController;
 import org.usfirst.frc.team1318.robot.general.PositionManager;
@@ -16,11 +24,6 @@ import org.usfirst.frc.team1318.robot.vision.VisionManager;
 import com.google.inject.AbstractModule;
 import com.google.inject.Injector;
 import com.google.inject.Provides;
-
-import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
-import edu.wpi.first.wpilibj.Victor;
 
 public class RobotModule extends AbstractModule
 {
@@ -45,41 +48,41 @@ public class RobotModule extends AbstractModule
     @Singleton
     @Provides
     @Named("COMPRESSOR")
-    public Compressor getCompressor()
+    public ICompressor getCompressor()
     {
-        return new Compressor(ElectronicsConstants.PCM_B_MODULE);
+        return new CompressorWrapper(ElectronicsConstants.PCM_B_MODULE);
     }
 
     @Singleton
     @Provides
     @Named("POWERMANAGER_PDP")
-    public PowerDistributionPanel getPowerManagerPdp()
+    public IPowerDistributionPanel getPowerManagerPdp()
     {
-        return new PowerDistributionPanel();
+        return new PowerDistributionPanelWrapper();
     }
 
     @Singleton
     @Provides
     @Named("DRIVETRAIN_LEFTMOTOR")
-    public Victor getDriveTrainLeftMotor()
+    public IMotor getDriveTrainLeftMotor()
     {
-        return new Victor(ElectronicsConstants.DRIVETRAIN_LEFT_TALON_CHANNEL);
+        return new VictorWrapper(ElectronicsConstants.DRIVETRAIN_LEFT_TALON_CHANNEL);
     }
 
     @Singleton
     @Provides
     @Named("DRIVETRAIN_RIGHTMOTOR")
-    public Victor getDriveTrainRightMotor()
+    public IMotor getDriveTrainRightMotor()
     {
-        return new Victor(ElectronicsConstants.DRIVETRAIN_RIGHT_TALON_CHANNEL);
+        return new VictorWrapper(ElectronicsConstants.DRIVETRAIN_RIGHT_TALON_CHANNEL);
     }
 
     @Singleton
     @Provides
     @Named("DRIVETRAIN_LEFTENCODER")
-    public Encoder getDriveTrainLeftEncoder()
+    public IEncoder getDriveTrainLeftEncoder()
     {
-        Encoder encoder = new Encoder(
+        EncoderWrapper encoder = new EncoderWrapper(
             ElectronicsConstants.DRIVETRAIN_LEFT_ENCODER_CHANNEL_A,
             ElectronicsConstants.DRIVETRAIN_LEFT_ENCODER_CHANNEL_B);
 
@@ -91,9 +94,9 @@ public class RobotModule extends AbstractModule
     @Singleton
     @Provides
     @Named("DRIVETRAIN_RIGHTENCODER")
-    public Encoder getDriveTrainRightEncoder()
+    public IEncoder getDriveTrainRightEncoder()
     {
-        Encoder encoder = new Encoder(
+        EncoderWrapper encoder = new EncoderWrapper(
             ElectronicsConstants.DRIVETRAIN_RIGHT_ENCODER_CHANNEL_A,
             ElectronicsConstants.DRIVETRAIN_RIGHT_ENCODER_CHANNEL_B);
 
