@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1318.robot.Intake;
+package org.usfirst.frc.team1318.robot.intake;
 
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
