@@ -93,7 +93,7 @@ public class Robot extends IterativeRobot
         this.getInjector().getInstance(PositionManager.class).reset();
 
         // Create an autonomous driver
-        this.driver = new AutonomousDriver(this.getInjector());
+        this.driver = this.getInjector().getInstance(AutonomousDriver.class);
 
         this.generalInit();
 
@@ -108,7 +108,7 @@ public class Robot extends IterativeRobot
     public void teleopInit()
     {
         // create driver for user's joystick
-        this.driver = new UserDriver(this.getInjector());
+        this.driver = this.getInjector().getInstance(UserDriver.class);
 
         this.generalInit();
 

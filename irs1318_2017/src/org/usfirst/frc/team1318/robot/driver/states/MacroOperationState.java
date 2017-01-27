@@ -3,6 +3,7 @@ package org.usfirst.frc.team1318.robot.driver.states;
 import java.util.Map;
 
 import org.usfirst.frc.team1318.robot.TuningConstants;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.IJoystick;
 import org.usfirst.frc.team1318.robot.driver.IControlTask;
 import org.usfirst.frc.team1318.robot.driver.Operation;
 import org.usfirst.frc.team1318.robot.driver.UserInputDeviceButton;
@@ -13,8 +14,6 @@ import org.usfirst.frc.team1318.robot.driver.buttons.ToggleButton;
 import org.usfirst.frc.team1318.robot.driver.descriptions.MacroOperationDescription;
 
 import com.google.inject.Injector;
-
-import edu.wpi.first.wpilibj.Joystick;
 
 /**
  * The state of the current macro operation.
@@ -96,11 +95,11 @@ public class MacroOperationState extends OperationState
      * @return true if there was any active user input that triggered a state change
      */
     @Override
-    public boolean checkInput(Joystick driver, Joystick coDriver)
+    public boolean checkInput(IJoystick driver, IJoystick coDriver)
     {
         MacroOperationDescription description = (MacroOperationDescription)this.getDescription();
 
-        Joystick relevantJoystick;
+        IJoystick relevantJoystick;
         UserInputDeviceButton relevantButton;
         switch (description.getUserInputDevice())
         {

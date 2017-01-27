@@ -16,7 +16,6 @@ import com.google.inject.Injector;
  */
 public abstract class Driver
 {
-
     protected final Injector injector;
     protected final Map<Operation, OperationState> operationStateMap;
 

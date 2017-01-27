@@ -4,6 +4,7 @@ import org.usfirst.frc.team1318.robot.driver.Driver;
 import org.usfirst.frc.team1318.robot.driver.IControlTask;
 import org.usfirst.frc.team1318.robot.driver.states.OperationState;
 
+import com.google.inject.Inject;
 import com.google.inject.Injector;
 
 /**
@@ -25,6 +26,7 @@ public class AutonomousDriver extends Driver
      * Initializes a new AutonomousDriver
      * @param components to utilize for making any decisions
      */
+    @Inject
     public AutonomousDriver(Injector injector)
     {
         super(injector);

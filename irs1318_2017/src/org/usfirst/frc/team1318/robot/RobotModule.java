@@ -11,8 +11,10 @@ import org.usfirst.frc.team1318.robot.common.wpilibmocks.CompressorWrapper;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.EncoderWrapper;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.ICompressor;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IEncoder;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.IJoystick;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IMotor;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IPowerDistributionPanel;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.JoystickWrapper;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.PowerDistributionPanelWrapper;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.VictorWrapper;
 import org.usfirst.frc.team1318.robot.compressor.CompressorController;
@@ -43,6 +45,22 @@ public class RobotModule extends AbstractModule
         controllerList.add(injector.getInstance(CompressorController.class));
         controllerList.add(injector.getInstance(DriveTrainController.class));
         return new ControllerManager(controllerList);
+    }
+
+    @Singleton
+    @Provides
+    @Named("USER_DRIVER_JOYSTICK")
+    public IJoystick getDriverJoystick()
+    {
+        return new JoystickWrapper(ElectronicsConstants.JOYSTICK_DRIVER_PORT);
+    }
+
+    @Singleton
+    @Provides
+    @Named("USER_CODRIVER_JOYSTICK")
+    public IJoystick getCoDriverJoystick()
+    {
+        return new JoystickWrapper(ElectronicsConstants.JOYSTICK_CO_DRIVER_PORT);
     }
 
     @Singleton

@@ -2,10 +2,10 @@ package org.usfirst.frc.team1318.robot.driver.states;
 
 import org.usfirst.frc.team1318.robot.ElectronicsConstants;
 import org.usfirst.frc.team1318.robot.TuningConstants;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.IJoystick;
 import org.usfirst.frc.team1318.robot.driver.buttons.AnalogAxis;
 import org.usfirst.frc.team1318.robot.driver.descriptions.AnalogOperationDescription;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
 
 /**
@@ -59,11 +59,11 @@ public class AnalogOperationState extends OperationState
      */
     @SuppressWarnings("unused")
     @Override
-    public boolean checkInput(Joystick driver, Joystick coDriver)
+    public boolean checkInput(IJoystick driver, IJoystick coDriver)
     {
         AnalogOperationDescription description = (AnalogOperationDescription)this.getDescription();
 
-        Joystick relevantJoystick;
+        IJoystick relevantJoystick;
         AxisType relevantAxis;
         switch (description.getUserInputDevice())
         {
