@@ -11,8 +11,6 @@ import org.usfirst.frc.team1318.robot.vision.VisionManager;
  */
 public class VisionCenteringTask extends MoveDistanceTaskBase implements IControlTask
 {
-    private Double centerDegrees;
-
     /**
     * Initializes a new VisionCenteringTask
     */
@@ -40,7 +38,7 @@ public class VisionCenteringTask extends MoveDistanceTaskBase implements IContro
         if (centerAngle != null)
         {
             // Set desired encoder distances based on degrees off of center
-            double arcLength = Math.PI * HardwareConstants.DRIVETRAIN_WHEEL_SEPARATION_DISTANCE * (this.centerDegrees / 360.0);
+            double arcLength = Math.PI * HardwareConstants.DRIVETRAIN_WHEEL_SEPARATION_DISTANCE * (centerAngle / 360.0);
             this.desiredFinalLeftEncoderDistance = this.startLeftEncoderDistance + arcLength;
             this.desiredFinalRightEncoderDistance = this.startLeftEncoderDistance - arcLength;
         }

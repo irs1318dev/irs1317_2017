@@ -78,7 +78,14 @@ public class HSVCenterPipeline implements VisionPipeline
         }
 
         // save the undistorted image for possible output later...
-        undistortedImage = image.clone();
+        if (this.shouldUndistort)
+        {
+            undistortedImage = image.clone();
+        }
+        else
+        {
+            undistortedImage = image;
+        }
 
         // second, filter HSV
         image = this.hsvFilter.filterHSV(image);

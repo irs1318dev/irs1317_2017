@@ -6,8 +6,10 @@ import org.usfirst.frc.team1318.robot.common.IController;
 import org.usfirst.frc.team1318.robot.driver.Driver;
 import org.usfirst.frc.team1318.robot.vision.analyzer.HSVCenterPipeline;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+
 import edu.wpi.cscore.UsbCamera;
-import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.vision.VisionRunner;
 import edu.wpi.first.wpilibj.vision.VisionThread;
 
@@ -17,6 +19,7 @@ import edu.wpi.first.wpilibj.vision.VisionThread;
  * @author Will
  *
  */
+@Singleton
 public class VisionManager implements IController, VisionRunner.Listener<HSVCenterPipeline>
 {
     private final static String LogName = "vision";
@@ -31,6 +34,7 @@ public class VisionManager implements IController, VisionRunner.Listener<HSVCent
     /**
      * Initializes a new VisionManager
      */
+    @Inject
     public VisionManager()
     {
         this.visionLock = new Object();
@@ -39,8 +43,9 @@ public class VisionManager implements IController, VisionRunner.Listener<HSVCent
         camera.setResolution(VisionConstants.LIFECAM_CAMERA_RESOLUTION_X, VisionConstants.LIFECAM_CAMERA_RESOLUTION_Y);
         camera.setExposureManual(VisionConstants.LIFECAM_CAMERA_EXPOSURE);
         camera.setBrightness(VisionConstants.LIFECAM_CAMERA_BRIGHTNESS);
+        camera.setFPS(30);
 
-        CameraServer.getInstance().addCamera(camera);
+        //CameraServer.getInstance().addCamera(camera);
 
         this.visionThread = new VisionThread(camera, new HSVCenterPipeline(VisionConstants.SHOULD_UNDISTORT), this);
         this.visionThread.start();

@@ -30,8 +30,8 @@ public class VisionConstants
     public static final int LIFECAM_CAMERA_CENTER_WIDTH = VisionConstants.LIFECAM_CAMERA_RESOLUTION_X / 2; // distance from center to left/right sides in pixels
     public static final int LIFECAM_CAMERA_CENTER_HEIGHT = VisionConstants.LIFECAM_CAMERA_RESOLUTION_Y / 2; // distance from center to top/bottom in pixels
     public static final double LIFECAM_CAMERA_CENTER_VIEW_ANGLE = VisionConstants.LIFECAM_CAMERA_ANGLE_OF_VIEW / 2.0;
-    public static final int LIFECAM_CAMERA_EXPOSURE = 10;
-    public static final int LIFECAM_CAMERA_BRIGHTNESS = 50;
+    public static final int LIFECAM_CAMERA_EXPOSURE = 30;
+    public static final int LIFECAM_CAMERA_BRIGHTNESS = 30;
 
     // Undistort constants
     public static final boolean SHOULD_UNDISTORT = false;
