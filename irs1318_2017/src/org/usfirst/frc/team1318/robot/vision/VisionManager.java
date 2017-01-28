@@ -6,7 +6,8 @@ import org.usfirst.frc.team1318.robot.common.IController;
 import org.usfirst.frc.team1318.robot.driver.Driver;
 import org.usfirst.frc.team1318.robot.vision.analyzer.HSVCenterPipeline;
 
-import edu.wpi.cscore.AxisCamera;
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.cscore.VideoSource;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.vision.VisionRunner;
 import edu.wpi.first.wpilibj.vision.VisionThread;
@@ -34,8 +35,14 @@ public class VisionManager implements IController, VisionRunner.Listener<HSVCent
     public VisionManager()
     {
         this.visionLock = new Object();
-        AxisCamera camera = CameraServer.getInstance().addAxisCamera(VisionConstants.CAMERA_IP_ADDRESS);
-        this.visionThread = new VisionThread(camera, new HSVCenterPipeline(), this);
+        VideoSource.enumerateSources();
+
+        UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+        camera.setResolution(VisionConstants.LIFECAM_CAMERA_RESOLUTION_X, VisionConstants.LIFECAM_CAMERA_RESOLUTION_Y);
+        camera.setExposureManual(VisionConstants.LIFECAM_CAMERA_EXPOSURE);
+        camera.setBrightness(VisionConstants.LIFECAM_CAMERA_BRIGHTNESS);
+
+        this.visionThread = new VisionThread(camera, new HSVCenterPipeline(VisionConstants.SHOULD_UNDISTORT), this);
         this.visionThread.start();
 
         this.center1 = null;
@@ -58,8 +65,8 @@ public class VisionManager implements IController, VisionRunner.Listener<HSVCent
         {
             // note: positive angle means it is to the right
             double centerX = center1.x;
-            centerX = centerX - VisionConstants.CAMERA_CENTER_WIDTH;
-            return (centerX * VisionConstants.CAMERA_CENTER_VIEW_ANGLE) / (double)VisionConstants.CAMERA_CENTER_WIDTH;
+            centerX = centerX - VisionConstants.LIFECAM_CAMERA_CENTER_WIDTH;
+            return (centerX * VisionConstants.LIFECAM_CAMERA_CENTER_VIEW_ANGLE) / (double)VisionConstants.LIFECAM_CAMERA_CENTER_WIDTH;
         }
 
         return null;
