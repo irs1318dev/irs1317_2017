@@ -7,7 +7,6 @@ import org.usfirst.frc.team1318.robot.driver.Driver;
 import org.usfirst.frc.team1318.robot.vision.analyzer.HSVCenterPipeline;
 
 import edu.wpi.cscore.UsbCamera;
-import edu.wpi.cscore.VideoSource;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.vision.VisionRunner;
 import edu.wpi.first.wpilibj.vision.VisionThread;
@@ -35,12 +34,13 @@ public class VisionManager implements IController, VisionRunner.Listener<HSVCent
     public VisionManager()
     {
         this.visionLock = new Object();
-        VideoSource.enumerateSources();
 
-        UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+        UsbCamera camera = new UsbCamera("usb0", 0);
         camera.setResolution(VisionConstants.LIFECAM_CAMERA_RESOLUTION_X, VisionConstants.LIFECAM_CAMERA_RESOLUTION_Y);
         camera.setExposureManual(VisionConstants.LIFECAM_CAMERA_EXPOSURE);
         camera.setBrightness(VisionConstants.LIFECAM_CAMERA_BRIGHTNESS);
+
+        CameraServer.getInstance().addCamera(camera);
 
         this.visionThread = new VisionThread(camera, new HSVCenterPipeline(VisionConstants.SHOULD_UNDISTORT), this);
         this.visionThread.start();

@@ -38,7 +38,7 @@ public class HSVCenterPipeline implements VisionPipeline
         this.shouldUndistort = shouldUndistort;
 
         this.undistorter = new ImageUndistorter();
-        this.hsvFilter = new HSVFilter(VisionConstants.HSV_FILTER_LOW, VisionConstants.HSV_FILTER_HIGH);
+        this.hsvFilter = new HSVFilter(VisionConstants.LIFECAM_HSV_FILTER_LOW, VisionConstants.LIFECAM_HSV_FILTER_HIGH);
 
         this.center1 = null;
         this.analyzedFrameCount = 0;
@@ -68,20 +68,17 @@ public class HSVCenterPipeline implements VisionPipeline
         if (this.shouldUndistort)
         {
             image = this.undistorter.undistortFrame(image);
-            if (VisionConstants.DEBUG
-                && VisionConstants.DEBUG_FRAME_OUTPUT && this.analyzedFrameCount % VisionConstants.DEBUG_FRAME_OUTPUT_GAP == 0)
-            {
-                Imgcodecs.imwrite(String.format("%simage%d-1.undistorted.jpg", VisionConstants.DEBUG_OUTPUT_FOLDER, this.analyzedFrameCount),
-                    image);
-            }
+        }
 
-            // save the undistorted image for possible output later...
-            undistortedImage = image.clone();
-        }
-        else
+        if (VisionConstants.DEBUG
+            && VisionConstants.DEBUG_FRAME_OUTPUT && this.analyzedFrameCount % VisionConstants.DEBUG_FRAME_OUTPUT_GAP == 0)
         {
-            undistortedImage = image;
+            Imgcodecs.imwrite(String.format("%simage%d-1.undistorted.jpg", VisionConstants.DEBUG_OUTPUT_FOLDER, this.analyzedFrameCount),
+                image);
         }
+
+        // save the undistorted image for possible output later...
+        undistortedImage = image.clone();
 
         // second, filter HSV
         image = this.hsvFilter.filterHSV(image);

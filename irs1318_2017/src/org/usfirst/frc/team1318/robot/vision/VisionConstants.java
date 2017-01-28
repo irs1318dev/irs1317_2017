@@ -31,14 +31,16 @@ public class VisionConstants
     public static final int LIFECAM_CAMERA_CENTER_HEIGHT = VisionConstants.LIFECAM_CAMERA_RESOLUTION_Y / 2; // distance from center to top/bottom in pixels
     public static final double LIFECAM_CAMERA_CENTER_VIEW_ANGLE = VisionConstants.LIFECAM_CAMERA_ANGLE_OF_VIEW / 2.0;
     public static final int LIFECAM_CAMERA_EXPOSURE = 10;
-    public static final int LIFECAM_CAMERA_BRIGHTNESS = 10;
+    public static final int LIFECAM_CAMERA_BRIGHTNESS = 50;
 
     // Undistort constants
     public static final boolean SHOULD_UNDISTORT = false;
 
     // HSV Filtering constants
-    public static final Scalar HSV_FILTER_LOW = new Scalar(85, 65, 65);
-    public static final Scalar HSV_FILTER_HIGH = new Scalar(90, 255, 255);
+    public static final Scalar AXIS_HSV_FILTER_LOW = new Scalar(85, 65, 65);
+    public static final Scalar AXIS_HSV_FILTER_HIGH = new Scalar(90, 255, 255);
+    public static final Scalar LIFECAM_HSV_FILTER_LOW = new Scalar(75, 100, 100);
+    public static final Scalar LIFECAM_HSV_FILTER_HIGH = new Scalar(85, 255, 255);
 
     // Contour filtering constants
     public static final double CONTOUR_MIN_AREA = 125.0;
