@@ -110,5 +110,5 @@ public class TuningConstants
     public static final double AUTONOMOUS_TIME_FAST = 3.0;
 
     // Acceptable vision centering range values in degrees
-    public static final double MAX_VISION_CENTERING_RANGE_DEGREES = 2.0;
+    public static final double MAX_VISION_CENTERING_RANGE_DEGREES = 1.0;
 }
