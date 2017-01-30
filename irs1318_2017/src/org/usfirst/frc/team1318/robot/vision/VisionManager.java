@@ -43,7 +43,7 @@ public class VisionManager implements IController, VisionRunner.Listener<HSVCent
         camera.setResolution(VisionConstants.LIFECAM_CAMERA_RESOLUTION_X, VisionConstants.LIFECAM_CAMERA_RESOLUTION_Y);
         camera.setExposureManual(VisionConstants.LIFECAM_CAMERA_EXPOSURE);
         camera.setBrightness(VisionConstants.LIFECAM_CAMERA_BRIGHTNESS);
-        camera.setFPS(30);
+        camera.setFPS(VisionConstants.LIFECAM_CAMERA_FPS);
 
         //CameraServer.getInstance().addCamera(camera);
 

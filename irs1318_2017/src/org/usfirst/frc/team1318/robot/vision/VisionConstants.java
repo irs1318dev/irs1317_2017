@@ -26,12 +26,13 @@ public class VisionConstants
     // Settings for Microsoft LifeCam HD-3000 USB-based camera
     public static final int LIFECAM_CAMERA_RESOLUTION_X = 320;
     public static final int LIFECAM_CAMERA_RESOLUTION_Y = 240;
-    public static final double LIFECAM_CAMERA_ANGLE_OF_VIEW = 50.0; // note that documentation says 47 degrees, so we'll have to see whether this is accurate enough.
+    public static final double LIFECAM_CAMERA_ANGLE_OF_VIEW = 45.0; // note that documentation says 68.5 degrees diagonal (at 16:9), so this is an estimate.
     public static final int LIFECAM_CAMERA_CENTER_WIDTH = VisionConstants.LIFECAM_CAMERA_RESOLUTION_X / 2; // distance from center to left/right sides in pixels
     public static final int LIFECAM_CAMERA_CENTER_HEIGHT = VisionConstants.LIFECAM_CAMERA_RESOLUTION_Y / 2; // distance from center to top/bottom in pixels
     public static final double LIFECAM_CAMERA_CENTER_VIEW_ANGLE = VisionConstants.LIFECAM_CAMERA_ANGLE_OF_VIEW / 2.0;
     public static final int LIFECAM_CAMERA_EXPOSURE = 30;
     public static final int LIFECAM_CAMERA_BRIGHTNESS = 30;
+    public static final int LIFECAM_CAMERA_FPS = 25; // Max supported value is 30
 
     // Undistort constants
     public static final boolean SHOULD_UNDISTORT = false;
