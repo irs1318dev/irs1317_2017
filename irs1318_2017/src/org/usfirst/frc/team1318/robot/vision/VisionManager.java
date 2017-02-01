@@ -9,8 +9,7 @@ import org.usfirst.frc.team1318.robot.vision.analyzer.HSVCenterPipeline;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import edu.wpi.cscore.AxisCamera;
-import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.vision.VisionRunner;
 import edu.wpi.first.wpilibj.vision.VisionThread;
 
@@ -40,15 +39,15 @@ public class VisionManager implements IController, VisionRunner.Listener<HSVCent
     {
         this.visionLock = new Object();
 
-        //        UsbCamera camera = new UsbCamera("usb0", 0);
-        //        camera.setResolution(VisionConstants.LIFECAM_CAMERA_RESOLUTION_X, VisionConstants.LIFECAM_CAMERA_RESOLUTION_Y);
-        //        camera.setExposureManual(VisionConstants.LIFECAM_CAMERA_EXPOSURE);
-        //        camera.setBrightness(VisionConstants.LIFECAM_CAMERA_BRIGHTNESS);
-        //        camera.setFPS(VisionConstants.LIFECAM_CAMERA_FPS);
+        UsbCamera camera = new UsbCamera("usb0", 0);
+        camera.setResolution(VisionConstants.LIFECAM_CAMERA_RESOLUTION_X, VisionConstants.LIFECAM_CAMERA_RESOLUTION_Y);
+        camera.setExposureManual(VisionConstants.LIFECAM_CAMERA_EXPOSURE);
+        camera.setBrightness(VisionConstants.LIFECAM_CAMERA_BRIGHTNESS);
+        camera.setFPS(VisionConstants.LIFECAM_CAMERA_FPS);
 
-        //CameraServer.getInstance().addCamera(camera);
+        // CameraServer.getInstance().addCamera(camera);
 
-        AxisCamera camera = CameraServer.getInstance().addAxisCamera(VisionConstants.AXIS_CAMERA_IP_ADDRESS);
+        //        AxisCamera camera = CameraServer.getInstance().addAxisCamera(VisionConstants.AXIS_CAMERA_IP_ADDRESS);
         this.visionThread = new VisionThread(camera, new HSVCenterPipeline(VisionConstants.SHOULD_UNDISTORT), this);
         this.visionThread.start();
 
