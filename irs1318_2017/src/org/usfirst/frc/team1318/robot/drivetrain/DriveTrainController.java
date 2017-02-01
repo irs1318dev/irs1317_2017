@@ -18,7 +18,7 @@ import com.google.inject.Inject;
  */
 public class DriveTrainController implements IController
 {
-    public static final String LogName = "dtc";
+    private final static String LogName = "dtc";
 
     private static final double POWERLEVEL_MIN = -1.0;
     private static final double POWERLEVEL_MAX = 1.0;
@@ -220,10 +220,6 @@ public class DriveTrainController implements IController
             forwardVelocity *= -1.0;
         }
 
-        // adjust for joystick deadzone
-        turnAmount = this.adjustForDeadZone(turnAmount, TuningConstants.DRIVETRAIN_X_DEAD_ZONE);
-        forwardVelocity = this.adjustForDeadZone(forwardVelocity, TuningConstants.DRIVETRAIN_Y_DEAD_ZONE);
-
         // adjust the intensity of the input
         if (simpleDriveModeEnabled)
         {
@@ -333,29 +329,6 @@ public class DriveTrainController implements IController
         this.assertPowerLevelRange(rightPower, "right velocity (goal)");
 
         return new PowerSetting(leftPower, rightPower);
-    }
-
-    /**
-     * Adjust the velocity as a part of dead zone calculation
-     * @param velocity to adjust
-     * @param deadZone to consider
-     * @return adjusted velocity for deadZone
-     */
-    private double adjustForDeadZone(double velocity, double deadZone)
-    {
-        if (velocity < deadZone && velocity > -deadZone)
-        {
-            return 0.0;
-        }
-
-        double sign = 1.0;
-        if (velocity < 0.0)
-        {
-            sign = -1.0;
-        }
-
-        // scale so that we have the area just outside the deadzone be the starting point
-        return (velocity - sign * deadZone) / (1 - deadZone);
     }
 
     /**
