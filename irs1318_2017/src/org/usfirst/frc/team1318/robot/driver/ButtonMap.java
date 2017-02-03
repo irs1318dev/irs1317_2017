@@ -82,6 +82,24 @@ public class ButtonMap
                     UserInputDevice.None,
                     UserInputDeviceButton.BUTTON_PAD_BUTTON_12,
                     ButtonType.Click));
+            put(
+                Operation.ShooterExtendHood,
+                new DigitalOperationDescription(
+                    UserInputDevice.None,
+                    UserInputDeviceButton.NONE,
+                    ButtonType.Click));
+            put(
+                Operation.ShooterFeed,
+                new DigitalOperationDescription(
+                    UserInputDevice.None,
+                    UserInputDeviceButton.NONE,
+                    ButtonType.Simple));
+            put(
+                Operation.ShooterSpeed,
+                new DigitalOperationDescription(
+                    UserInputDevice.None,
+                    UserInputDeviceButton.NONE,
+                    ButtonType.Simple));
         }
     };
 
