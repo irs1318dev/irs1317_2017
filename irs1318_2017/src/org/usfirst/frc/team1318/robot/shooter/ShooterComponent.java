@@ -1,6 +1,14 @@
 package org.usfirst.frc.team1318.robot.shooter;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.DoubleSolenoidValue;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.ICANTalon;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.IDoubleSolenoid;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.IMotor;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.ISolenoid;
+
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import com.google.inject.name.Named;
 
 @Singleton
 public class ShooterComponent
@@ -12,8 +20,8 @@ public class ShooterComponent
 
     @Inject
     public ShooterComponent(
-        @Named("SHOOTER_HOOD") IDoubleSolenoid Hood,
-        @Named("SHOOTER_FEEDER") IMotor Feeder,
+        @Named("SHOOTER_HOOD") IDoubleSolenoid hood,
+        @Named("SHOOTER_FEEDER") IMotor feeder,
         @Named("SHOOTER_LIGHT") ISolenoid readyLight,
         @Named("SHOOTER_SHOOTER") ICANTalon shooter)
     {
@@ -23,32 +31,38 @@ public class ShooterComponent
         this.shooter = shooter;
     }
 
-    public void setShooterSpeed (double power)
+    public void setShooterPower(double power)
     {
-        this.shooter.set(power;)
+        this.shooter.set(power);
     }
 
-    public void setFeederPower (double power)
+    public void setFeederPower(double power)
     {
-        this.feeder.set(power;)
+        this.feeder.set(power);
     }
 
     public void extendOrRetract(boolean extend)
     {
-        this.hood.set(extend;)
+        if (extend)
+        {
+            this.hood.set(DoubleSolenoidValue.kForward);
+        }
+        else
+        {
+            this.hood.set(DoubleSolenoidValue.kReverse);
+        }
     }
 
-    public void setReadyLight (boolean on)
+    public void setReadyLight(boolean on)
     {
-        this.readyLight.set(on;)
+        this.readyLight.set(on);
     }
 
     public void stop()
     {
-        this.hood.set(DoubleSolenoid.Value.kOff);
-        this.feeder.set(IMotor.Value.kOff);
+        this.hood.set(DoubleSolenoidValue.kOff);
+        this.feeder.set(0.0);
         this.readyLight.set(false);
-        this.shooter.set(ICANTalon.Value.kOff);
+        this.shooter.set(0.0);
     }
-
 }
