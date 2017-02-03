@@ -10,6 +10,7 @@ import com.google.inject.Inject;
 public class ShooterController implements IController
 {
     private final ShooterComponent shooter;
+
     private Driver driver;
 
     @Inject
