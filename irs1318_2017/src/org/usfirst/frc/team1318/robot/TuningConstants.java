@@ -78,4 +78,7 @@ public class TuningConstants
     // Acceptable vision centering range values in degrees
     public static final double MAX_VISION_CENTERING_RANGE_DEGREES = 1.0;
     public static final double MAX_VISION_CENTERING_OUTPUT = 0.08;
+
+    //================================================== Shooter ==============================================================
+    public static final double SHOOTER_MAX_FEEDER_POWER = 0.0;
 }
