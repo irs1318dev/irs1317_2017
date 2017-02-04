@@ -85,19 +85,37 @@ public class ButtonMap
 
             // intake
             put(
-                Operation.IntakeExtendArm,
+                Operation.IntakeArmExtend,
                 new DigitalOperationDescription(
                     UserInputDevice.None,
                     UserInputDeviceButton.NONE,
                     ButtonType.Click));
             put(
-                Operation.SetMotorSpeed,
+                Operation.IntakeArmRetract,
+                new DigitalOperationDescription(
+                    UserInputDevice.None,
+                    UserInputDeviceButton.NONE,
+                    ButtonType.Click));
+            put(
+                Operation.IntakeIn,
                 new DigitalOperationDescription(
                     UserInputDevice.None,
                     UserInputDeviceButton.NONE,
                     ButtonType.Simple));
             put(
-                Operation.ExtendGearHolder,
+                Operation.IntakeOut,
+                new DigitalOperationDescription(
+                    UserInputDevice.None,
+                    UserInputDeviceButton.NONE,
+                    ButtonType.Simple));
+            put(
+                Operation.IntakeGearHolderExtend,
+                new DigitalOperationDescription(
+                    UserInputDevice.None,
+                    UserInputDeviceButton.NONE,
+                    ButtonType.Click));
+            put(
+                Operation.IntakeGearHolderRetract,
                 new DigitalOperationDescription(
                     UserInputDevice.None,
                     UserInputDeviceButton.NONE,

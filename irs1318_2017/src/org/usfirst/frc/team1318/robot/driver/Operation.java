@@ -16,8 +16,10 @@ public enum Operation
     DriveTrainSwapFrontOrientation,
     
     // intake
-    IntakeExtendArm,
-    
-    SetMotorSpeed,
-    ExtendGearHolder,
+    IntakeArmExtend,
+    IntakeArmRetract,
+    IntakeIn,
+    IntakeOut,
+    IntakeGearHolderExtend,
+    IntakeGearHolderRetract,
 }

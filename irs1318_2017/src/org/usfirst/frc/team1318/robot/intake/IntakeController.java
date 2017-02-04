@@ -20,9 +20,13 @@ public class IntakeController implements IController
     public void update()
     {
         // spin intake motor at speed if button is clicked
-        if (this.driver.getDigital(Operation.SetMotorSpeed))
+        if (this.driver.getDigital(Operation.IntakeIn))
         {
             this.intakeArm.setMotorSpeed(TuningConstants.INTAKE_MAX_MOTOR_SPEED);
+        }
+        else if (this.driver.getDigital(Operation.IntakeOut))
+        {
+            this.intakeArm.setMotorSpeed(-TuningConstants.INTAKE_MAX_MOTOR_SPEED);
         }
         else
         {
@@ -30,21 +34,21 @@ public class IntakeController implements IController
         }
 
         // extend intake arm if button is clicked
-        if (this.driver.getDigital(Operation.IntakeExtendArm))
+        if (this.driver.getDigital(Operation.IntakeArmExtend))
         {
             this.intakeArm.extend(true);
         }
-        else
+        else if (this.driver.getDigital(Operation.IntakeArmRetract))
         {
             this.intakeArm.extend(false);
         }
 
         // extend gear holder
-        if (this.driver.getDigital(Operation.ExtendGearHolder))
+        if (this.driver.getDigital(Operation.IntakeGearHolderExtend))
         {
             this.intakeArm.extendGearHolder(true);
         }
-        else
+        else if (this.driver.getDigital(Operation.IntakeGearHolderRetract))
         {
             this.intakeArm.extendGearHolder(false);
         }
