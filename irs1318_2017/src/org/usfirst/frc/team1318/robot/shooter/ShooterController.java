@@ -35,6 +35,10 @@ public class ShooterController implements IController
         {
             this.shooter.setFeederPower(0.0);
         }
+
+        double velocityGoal = this.driver.getAnalog(Operation.ShooterSpeed);
+
+        this.shooter.setShooterPower(velocityGoal);
     }
 
     @Override
@@ -47,7 +51,6 @@ public class ShooterController implements IController
     public void setDriver(Driver driver)
     {
         this.driver = driver;
-
     }
 
 }

@@ -96,10 +96,9 @@ public class ButtonMap
                     ButtonType.Simple));
             put(
                 Operation.ShooterSpeed,
-                new DigitalOperationDescription(
+                new AnalogOperationDescription(
                     UserInputDevice.None,
-                    UserInputDeviceButton.NONE,
-                    ButtonType.Simple));
+                    AnalogAxis.None));
         }
     };
 
