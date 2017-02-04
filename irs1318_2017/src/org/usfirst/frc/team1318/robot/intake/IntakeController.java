@@ -30,7 +30,7 @@ public class IntakeController implements IController
         }
 
         // extend intake arm if button is clicked
-        if (this.driver.getDigital(Operation.ExtendArm))
+        if (this.driver.getDigital(Operation.IntakeExtendArm))
         {
             this.intakeArm.extend(true);
         }

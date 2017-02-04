@@ -84,7 +84,7 @@ public class ButtonMap
                     ButtonType.Click));
             // intake
             put(
-                Operation.ExtendArm,
+                Operation.IntakeExtendArm,
                 new DigitalOperationDescription(
                     UserInputDevice.None,
                     UserInputDeviceButton.NONE,
