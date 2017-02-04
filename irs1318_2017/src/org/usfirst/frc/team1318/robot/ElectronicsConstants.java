@@ -33,7 +33,8 @@ public class ElectronicsConstants
 
     public static final int CLIMBER_CLIMBER_CHANNEL = -1;
 
-    //================================================== DriveTrain ==============================================================
+    //================================================== Intake ==============================================================
+
     public static final int INTAKE_MOTOR_CHANNEL = -1;
 
     public static final int INTAKE_EXTENDER_SOLENOID_CHANNEL_A = -1;
