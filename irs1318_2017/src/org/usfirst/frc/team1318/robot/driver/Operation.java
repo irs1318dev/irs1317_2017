@@ -2,6 +2,10 @@ package org.usfirst.frc.team1318.robot.driver;
 
 public enum Operation
 {
+    // Other general operations:
+    EnablePID,
+    DisablePID,
+
     // DriveTrain operations:
     DriveTrainMoveForward,
     DriveTrainTurn,
@@ -10,11 +14,7 @@ public enum Operation
     DriveTrainLeftPosition,
     DriveTrainRightPosition,
     DriveTrainSwapFrontOrientation,
-    
+
     // Climber
     ClimberSpeed,
-
-    // Other general operations:
-    EnablePID,
-    DisablePID,
 }
