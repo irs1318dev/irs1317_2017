@@ -31,7 +31,7 @@ public class ElectronicsConstants
     public static final int DRIVETRAIN_LEFT_ENCODER_CHANNEL_A = 2;
     public static final int DRIVETRAIN_LEFT_ENCODER_CHANNEL_B = 3;
 
-    //================================================== Shooter  ==============================================================
+    //================================================== Shooter ==============================================================
 
     public static final int SHOOTER_HOOD_CHANNEL_A = -1;
     public static final int SHOOTER_HOOD_CHANNEL_B = -1;

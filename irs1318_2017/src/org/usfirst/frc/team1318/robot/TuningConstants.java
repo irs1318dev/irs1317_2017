@@ -81,4 +81,6 @@ public class TuningConstants
 
     //================================================== Shooter ==============================================================
     public static final double SHOOTER_MAX_FEEDER_POWER = 0.0;
+    public static final double SHOOTER_MAX_SHOOTER_POWER = 0.0;
+
 }
