@@ -101,7 +101,7 @@ public class IntakeComponentTest
 
         IntakeComponent intakeComponent = new IntakeComponent(motor, intakeExtender, gearholderSolenoid);
 
-        intakeComponent.motorSpeed(0.0);
+        intakeComponent.setMotorSpeed(0.0);
 
         verify(motor).set(eq(0.0));
         verifyNoMoreInteractions(motor, intakeExtender, gearholderSolenoid);
