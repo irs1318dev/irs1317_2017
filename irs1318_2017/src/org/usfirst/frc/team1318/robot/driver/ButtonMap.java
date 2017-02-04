@@ -21,6 +21,20 @@ public class ButtonMap
     public static Map<Operation, OperationDescription> OperationSchema = new HashMap<Operation, OperationDescription>()
     {
         {
+            // Operations for general stuff
+            put(
+                Operation.DisablePID,
+                new DigitalOperationDescription(
+                    UserInputDevice.None,
+                    UserInputDeviceButton.BUTTON_PAD_BUTTON_11,
+                    ButtonType.Click));
+            put(
+                Operation.EnablePID,
+                new DigitalOperationDescription(
+                    UserInputDevice.None,
+                    UserInputDeviceButton.BUTTON_PAD_BUTTON_12,
+                    ButtonType.Click));
+
             // Operations for the drive train
             put(
                 Operation.DriveTrainMoveForward,
@@ -69,19 +83,7 @@ public class ButtonMap
                     UserInputDeviceButton.NONE,
                     ButtonType.Toggle));
 
-            // Operations for general stuff
-            put(
-                Operation.DisablePID,
-                new DigitalOperationDescription(
-                    UserInputDevice.None,
-                    UserInputDeviceButton.BUTTON_PAD_BUTTON_11,
-                    ButtonType.Click));
-            put(
-                Operation.EnablePID,
-                new DigitalOperationDescription(
-                    UserInputDevice.None,
-                    UserInputDeviceButton.BUTTON_PAD_BUTTON_12,
-                    ButtonType.Click));
+            // Operations for the shooter
             put(
                 Operation.ShooterExtendHood,
                 new DigitalOperationDescription(
