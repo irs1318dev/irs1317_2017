@@ -41,6 +41,11 @@ public class ShooterComponent
         this.feeder.set(power);
     }
 
+    public double getShooterError()
+    {
+        return this.shooter.getError();
+    }
+
     public void extendOrRetract(boolean extend)
     {
         if (extend)

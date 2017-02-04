@@ -1,6 +1,8 @@
 package org.usfirst.frc.team1318.robot.shooter;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -162,6 +164,38 @@ public class ShooterComponentTest
         verify(readyLight).set(eq(false));
         verify(shooter).set(eq(0.0));
         verifyNoMoreInteractions(hood, feeder, shooter, readyLight);
+    }
+
+    @Test
+    public void testGetShooterError_0()
+    {
+        IDoubleSolenoid hood = mock(IDoubleSolenoid.class);
+        IMotor feeder = mock(IMotor.class);
+        ICANTalon shooter = mock(ICANTalon.class);
+        ISolenoid readyLight = mock(ISolenoid.class);
+
+        doReturn(0.0).when(shooter).getError();
+
+        ShooterComponent shooterComponent = new ShooterComponent(hood, feeder, readyLight, shooter);
+        double error = shooterComponent.getShooterError();
+        assertEquals(0.0, error, 0.001);
+
+    }
+
+    @Test
+    public void testGetShooterError_1()
+    {
+        IDoubleSolenoid hood = mock(IDoubleSolenoid.class);
+        IMotor feeder = mock(IMotor.class);
+        ICANTalon shooter = mock(ICANTalon.class);
+        ISolenoid readyLight = mock(ISolenoid.class);
+
+        doReturn(1.0).when(shooter).getError();
+
+        ShooterComponent shooterComponent = new ShooterComponent(hood, feeder, readyLight, shooter);
+        double error = shooterComponent.getShooterError();
+        assertEquals(1.0, error, 0.001);
+
     }
 
 }

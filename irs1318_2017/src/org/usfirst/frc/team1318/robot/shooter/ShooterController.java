@@ -37,6 +37,13 @@ public class ShooterController implements IController
 
         double velocityGoal = this.driver.getAnalog(Operation.ShooterSpeed);
         this.shooter.setShooterPower(velocityGoal);
+
+        if (velocityGoal != 0.0)
+        {
+            double error = this.shooter.getShooterError();
+            double errorPercentage = error / velocityGoal;
+            this.shooter.setReadyLight(Math.abs(errorPercentage) < TuningConstants.SHOOTER_ALLOWABLE_ERROR);
+        }
     }
 
     @Override
