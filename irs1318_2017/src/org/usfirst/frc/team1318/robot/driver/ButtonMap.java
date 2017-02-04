@@ -69,6 +69,14 @@ public class ButtonMap
                     UserInputDeviceButton.NONE,
                     ButtonType.Toggle));
 
+            // Operations for the climber
+            put(
+                Operation.ClimberSpeed,
+                new DigitalOperationDescription(
+                    UserInputDevice.None,
+                    UserInputDeviceButton.NONE,
+                    ButtonType.Click));
+
             // Operations for general stuff
             put(
                 Operation.DisablePID,
@@ -81,12 +89,6 @@ public class ButtonMap
                 new DigitalOperationDescription(
                     UserInputDevice.None,
                     UserInputDeviceButton.BUTTON_PAD_BUTTON_12,
-                    ButtonType.Click));
-            put (
-                Operation.ClimberSpeed,
-                new DigitalOperationDescription (
-                    UserInputDevice.None,
-                    UserInputDeviceButton.NONE,
                     ButtonType.Click));
         }
     };
