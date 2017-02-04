@@ -27,7 +27,7 @@ public class IntakeComponent
         this.gearExtender = gearExtender;
     }
 
-    public void extend(boolean extend)
+    public void extendIntake(boolean extend)
     {
         if (extend)
         {

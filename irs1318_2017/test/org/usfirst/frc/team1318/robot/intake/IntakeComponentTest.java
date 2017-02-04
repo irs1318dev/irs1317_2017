@@ -17,16 +17,16 @@ public class IntakeComponentTest
     @Test
     public void testExtendGearHolder_true()
     {
-        IDoubleSolenoid gearholderSolenoid = mock(IDoubleSolenoid.class);
+        IDoubleSolenoid gearExtender = mock(IDoubleSolenoid.class);
         IMotor motor = mock(IMotor.class);
         IDoubleSolenoid intakeExtender = mock(IDoubleSolenoid.class);
 
-        IntakeComponent intakeComponent = new IntakeComponent(motor, intakeExtender, gearholderSolenoid);
+        IntakeComponent intakeComponent = new IntakeComponent(motor, intakeExtender, gearExtender);
 
         intakeComponent.extendGearHolder(true);
 
-        verify(gearholderSolenoid).set(eq(DoubleSolenoidValue.kForward));
-        verifyNoMoreInteractions(motor, intakeExtender, gearholderSolenoid);
+        verify(gearExtender).set(eq(DoubleSolenoidValue.kForward));
+        verifyNoMoreInteractions(motor, intakeExtender, gearExtender);
 
     }
 
@@ -54,7 +54,7 @@ public class IntakeComponentTest
 
         IntakeComponent intakeComponent = new IntakeComponent(motor, intakeExtender, gearholderSolenoid);
 
-        intakeComponent.extend(false);
+        intakeComponent.extendIntake(false);
 
         verify(intakeExtender).set(eq(DoubleSolenoidValue.kReverse));
         verifyNoMoreInteractions(motor, intakeExtender, gearholderSolenoid);
@@ -69,7 +69,7 @@ public class IntakeComponentTest
 
         IntakeComponent intakeComponent = new IntakeComponent(motor, intakeExtender, gearholderSolenoid);
 
-        intakeComponent.extend(true);
+        intakeComponent.extendIntake(true);
 
         verify(intakeExtender).set(eq(DoubleSolenoidValue.kForward));
         verifyNoMoreInteractions(motor, intakeExtender, gearholderSolenoid);
