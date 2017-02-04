@@ -62,45 +62,13 @@ public class TuningConstants
 
     public static final double DRIVETRAIN_ENCODER_ODOMETRY_ANGLE_CORRECTION = 0.979858464888405; // account for turning weirdness (7 degree offset in the angle)
 
-    //================================================== Shooter ==============================================================
+    //================================================== Climber ==============================================================
 
-    public static final boolean SHOOTER_SCALE_BASED_ON_VOLTAGE = false;
-    public static final double SHOOTER_VELOCITY_TUNING_VOLTAGE = 12.5;
-
-    public static final double SHOOTER_MAX_POWER_LEVEL = 1.0;
-
-    public static final double SHOOTER_VELOCITY_PID_KP_DEFAULT = 0.1;
-    public static final double SHOOTER_VELOCITY_PID_KI_DEFAULT = 0.0;
-    public static final double SHOOTER_VELOCITY_PID_KD_DEFAULT = 0.0;
-    public static final double SHOOTER_VELOCITY_PID_KF_DEFAULT = 1.0;
-    public static final double SHOOTER_VELOCITY_PID_KS_DEFAULT = 40.0;
-
-    public static final double SHOOTER_CLOSE_SHOT_VELOCITY = 0.7;
-    public static final double SHOOTER_MIDDLE_SHOT_VELOCITY = 0.52;
-    public static final double SHOOTER_FAR_SHOT_VELOCITY = 0.7;
-
-    public static final double SHOOTER_LOWER_KICKER_DURATION = 0.5;
-    public static final double SHOOTER_SPIN_UP_DURATION = 1.75;
-    public static final double SHOOTER_FIRE_DURATION = 0.75;
-
-    public static final double SHOOTER_REVERSE_DURATION = 0.5;
-
-    public static final double SHOOTER_DEVIANCE = 0.025;
-    public static final double SHOOTER_MAX_COUNTER_RATE = 2000;
-
-    public static final double SHOOTER_TARGETING_LIGHT_ACTIVATION_THRESHOLD = 0.5;
-
-    //================================================== Intake ==============================================================
-
-    public static final double INTAKE_IN_POWER_LEVEL = 0.9;
-    public static final double INTAKE_OUT_POWER_LEVEL = -0.9;
-
-    //================================================== Stinger ==============================================================
-
-    public static final double STINGER_MAX_VELOCTIY = 0.5;
-    public static final double STINGER_SLOW_BACK_VELOCTIY = -0.275;
+    public static final double CLIMBER_MAX_MOTOR_POWER = 0.0;
 
     //================================================== Autonomous ==============================================================
+
+    public static final double MACRO_CANCEL_DEAD_ZONE = 0.1;
 
     public static final double DRIVETRAIN_POSITIONAL_ACCEPTABLE_DELTA = 1.0;
 
@@ -113,8 +81,5 @@ public class TuningConstants
 
     // Acceptable vision centering range values in degrees
     public static final double MAX_VISION_CENTERING_RANGE_DEGREES = 2.0;
-    
-    //================================================== Climber ==============================================================
-    
-    public static final double CLIMBER_MAX_MOTOR_POWER = 0.0;
+    public static final double MAX_VISION_CENTERING_OUTPUT = 0.08;
 }
