@@ -72,6 +72,12 @@ public class ButtonMap
                     UserInputDevice.None,
                     UserInputDeviceButton.BUTTON_PAD_BUTTON_12,
                     ButtonType.Click));
+            put (
+                Operation.ClimberSpeed,
+                new DigitalOperationDescription (
+                    UserInputDevice.None,
+                    UserInputDeviceButton.NONE,
+                    ButtonType.Click));
         }
     };
 

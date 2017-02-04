@@ -113,4 +113,8 @@ public class TuningConstants
 
     // Acceptable vision centering range values in degrees
     public static final double MAX_VISION_CENTERING_RANGE_DEGREES = 2.0;
+    
+    //================================================== Climber ==============================================================
+    
+    public static final double CLIMBER_MAX_MOTOR_POWER = 0.0;
 }

@@ -10,6 +10,9 @@ public enum Operation
     DriveTrainLeftPosition,
     DriveTrainRightPosition,
     DriveTrainSwapFrontOrientation,
+    
+    // Climber
+    ClimberSpeed,
 
     // Other general operations:
     EnablePID,
