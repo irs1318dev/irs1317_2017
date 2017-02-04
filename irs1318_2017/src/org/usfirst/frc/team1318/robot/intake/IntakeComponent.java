@@ -64,5 +64,6 @@ public class IntakeComponent
     {
         this.motor.set(0.0);
         this.intakeExtender.set(DoubleSolenoidValue.kOff);
+        this.gearExtender.set(DoubleSolenoidValue.kOff);
     }
 }
