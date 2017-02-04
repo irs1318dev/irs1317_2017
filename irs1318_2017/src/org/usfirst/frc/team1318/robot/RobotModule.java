@@ -16,6 +16,7 @@ import org.usfirst.frc.team1318.robot.common.wpilibmocks.IMotor;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IPowerDistributionPanel;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.JoystickWrapper;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.PowerDistributionPanelWrapper;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.TalonWrapper;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.VictorWrapper;
 import org.usfirst.frc.team1318.robot.compressor.CompressorController;
 import org.usfirst.frc.team1318.robot.drivetrain.DriveTrainController;
@@ -128,7 +129,7 @@ public class RobotModule extends AbstractModule
     @Named("CLIMBER_MOTOR")
     public IMotor getCimberClimber()
     {
-        IMotorWrapper climber = new IMotorWrapper(
+        TalonWrapper climber = new TalonWrapper(
             ElectronicsConstants.CLIMBER_MOTOR_CHANNEL);
         return climber;
     }
