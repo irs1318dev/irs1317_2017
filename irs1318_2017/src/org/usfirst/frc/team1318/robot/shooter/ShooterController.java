@@ -22,23 +22,20 @@ public class ShooterController implements IController
     @Override
     public void update()
     {
-        boolean ShooterExtendHood = this.driver.getDigital(Operation.ShooterExtendHood);
-        this.shooter.extendOrRetract(ShooterExtendHood);
+        boolean shooterExtendHood = this.driver.getDigital(Operation.ShooterExtendHood);
+        this.shooter.extendOrRetract(shooterExtendHood);
 
-        boolean ShooterFeed = this.driver.getDigital(Operation.ShooterFeed);
-
-        if (ShooterFeed)
+        boolean shooterFeed = this.driver.getDigital(Operation.ShooterFeed);
+        if (shooterFeed)
         {
             this.shooter.setFeederPower(TuningConstants.SHOOTER_MAX_FEEDER_POWER);
         }
-
         else
         {
             this.shooter.setFeederPower(0.0);
         }
 
         double velocityGoal = this.driver.getAnalog(Operation.ShooterSpeed);
-
         this.shooter.setShooterPower(velocityGoal);
     }
 
@@ -53,5 +50,4 @@ public class ShooterController implements IController
     {
         this.driver = driver;
     }
-
 }
