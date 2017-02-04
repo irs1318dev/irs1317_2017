@@ -62,6 +62,11 @@ public class TuningConstants
 
     public static final double DRIVETRAIN_ENCODER_ODOMETRY_ANGLE_CORRECTION = 0.979858464888405; // account for turning weirdness (7 degree offset in the angle)
 
+    //================================================== TeleOp ==============================================================
+
+    //intake
+    public static final double INTAKE_MAX_MOTOR_SPEED = 0.0;
+
     //================================================== Autonomous ==============================================================
 
     public static final double MACRO_CANCEL_DEAD_ZONE = 0.1;

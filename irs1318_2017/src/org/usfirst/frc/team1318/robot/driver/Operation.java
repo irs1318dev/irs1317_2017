@@ -10,6 +10,10 @@ public enum Operation
     DriveTrainLeftPosition,
     DriveTrainRightPosition,
     DriveTrainSwapFrontOrientation,
+    
+    // intake
+    ExtendArm,
+    SetMotorSpeed,
 
     // Other general operations:
     EnablePID,
