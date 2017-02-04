@@ -16,6 +16,7 @@ import org.usfirst.frc.team1318.robot.common.wpilibmocks.IMotor;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IPowerDistributionPanel;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.JoystickWrapper;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.PowerDistributionPanelWrapper;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.TalonWrapper;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.VictorWrapper;
 import org.usfirst.frc.team1318.robot.compressor.CompressorController;
 import org.usfirst.frc.team1318.robot.drivetrain.DriveTrainController;
@@ -122,14 +123,14 @@ public class RobotModule extends AbstractModule
 
         return encoder;
     }
-    
+
     @Singleton
     @Provides
     @Named("CLIMBER_CLIMBER")
-    public IMotor getCimberClimber() {
-        IMotorWrapper climber = new IMotorWrapper(
+    public IMotor getCimberClimber()
+    {
+        TalonWrapper climber = new TalonWrapper(
             ElectronicsConstants.CLIMBER_CLIMBER_CHANNEL);
         return climber;
-    }
     }
 }
