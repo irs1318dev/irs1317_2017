@@ -111,12 +111,35 @@ public class ButtonMap
     {
         {
             // Brake mode macro
-            put(MacroOperation.PIDBrake, new MacroOperationDescription(UserInputDevice.Driver, UserInputDeviceButton.NONE, ButtonType.Simple, () -> new PIDBrakeTask(), new Operation[] {
-                Operation.DriveTrainUsePositionalMode, Operation.DriveTrainLeftPosition, Operation.DriveTrainRightPosition, }));
+            put(
+                MacroOperation.PIDBrake,
+                new MacroOperationDescription(
+                    UserInputDevice.Driver,
+                    UserInputDeviceButton.NONE,
+                    ButtonType.Simple,
+                    () -> new PIDBrakeTask(),
+                    new Operation[]
+                    {
+                        Operation.DriveTrainUsePositionalMode,
+                        Operation.DriveTrainLeftPosition,
+                        Operation.DriveTrainRightPosition,
+                    }));
 
             // Centering macro
-            put(MacroOperation.Center, new MacroOperationDescription(UserInputDevice.Driver, UserInputDeviceButton.JOYSTICK_STICK_THUMB_BUTTON, ButtonType.Toggle, () -> new VisionCenteringTask(), new Operation[] {
-                Operation.DriveTrainUsePositionalMode, Operation.DriveTrainLeftPosition, Operation.DriveTrainRightPosition, Operation.DriveTrainTurn, }));
+            put(
+                MacroOperation.Center,
+                new MacroOperationDescription(
+                    UserInputDevice.Driver,
+                    UserInputDeviceButton.JOYSTICK_STICK_THUMB_BUTTON,
+                    ButtonType.Toggle,
+                    () -> new VisionCenteringTask(),
+                    new Operation[]
+                    {
+                        Operation.DriveTrainUsePositionalMode,
+                        Operation.DriveTrainLeftPosition,
+                        Operation.DriveTrainRightPosition,
+                        Operation.DriveTrainTurn,
+                    }));
         }
     };
 }
