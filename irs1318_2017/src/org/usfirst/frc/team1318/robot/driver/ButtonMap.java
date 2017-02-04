@@ -98,7 +98,9 @@ public class ButtonMap
                 Operation.ShooterSpeed,
                 new AnalogOperationDescription(
                     UserInputDevice.None,
-                    AnalogAxis.None));
+                    AnalogAxis.None,
+                    false,
+                    0.0));
         }
     };
 
