@@ -21,15 +21,8 @@ public class ClimberController implements IController
     @Override
     public void update()
     {
-        boolean ClimberSpeed = this.driver.getDigital(Operation.ClimberSpeed);
-        if (ClimberSpeed)
-        {
-            this.climber.setMotorSpeed(TuningConstants.CLIMBER_MAX_MOTOR_POWER);
-        }
-        else
-        {
-            this.climber.setMotorSpeed(0.0);
-        }
+        double ClimberSpeed = this.driver.getAnalog(Operation.ClimberSpeed);
+        this.climber.setMotorSpeed(ClimberSpeed * TuningConstants.CLIMBER_MAX_MOTOR_POWER);
     }
 
     @Override

@@ -72,10 +72,11 @@ public class ButtonMap
             // Operations for the climber
             put(
                 Operation.ClimberSpeed,
-                new DigitalOperationDescription(
-                    UserInputDevice.None,
-                    UserInputDeviceButton.NONE,
-                    ButtonType.Click));
+                new AnalogOperationDescription(
+                    UserInputDevice.Driver,
+                    AnalogAxis.Throttle,
+                    true,
+                    0.25));
 
             // Operations for general stuff
             put(
