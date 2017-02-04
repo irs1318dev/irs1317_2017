@@ -8,8 +8,10 @@ import javax.inject.Singleton;
 
 import org.usfirst.frc.team1318.robot.common.IController;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.CompressorWrapper;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.DoubleSolenoidWrapper;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.EncoderWrapper;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.ICompressor;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.IDoubleSolenoid;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IEncoder;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IJoystick;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IMotor;
@@ -132,5 +134,37 @@ public class RobotModule extends AbstractModule
         TalonWrapper climber = new TalonWrapper(
             ElectronicsConstants.CLIMBER_CLIMBER_CHANNEL);
         return climber;
+    }
+
+    @Singleton
+    @Provides
+    @Named("INTIAKE_MOTOR")
+    public IMotor getIntakeMotor()
+    {
+        TalonWrapper intake = new TalonWrapper(
+            ElectronicsConstants.INTAKE_MOTOR_CHANNEL);
+        return intake;
+    }
+
+    @Singleton
+    @Provides
+    @Named("INTIAKE_SOLENOID")
+    public IDoubleSolenoid getIntakeExtender()
+    {
+        DoubleSolenoidWrapper intakeExtender = new DoubleSolenoidWrapper(
+            ElectronicsConstants.INTAKE_EXTENDER_SOLENOID_CHANNEL_A,
+            ElectronicsConstants.INTAKE_EXTENDER_SOLENOID_CHANNEL_B);
+        return intakeExtender;
+    }
+
+    @Singleton
+    @Provides
+    @Named("GEAR_SOLENOID")
+    public IDoubleSolenoid getIntakeGearExtender()
+    {
+        DoubleSolenoidWrapper intakeGearExtender = new DoubleSolenoidWrapper(
+            ElectronicsConstants.INTAKE_GEAR_EXTENDER_SOLENOID_CHANNEL_A,
+            ElectronicsConstants.INTAKE_GEAR_EXTENDER_SOLENOID_CHANNEL_B);
+        return intakeGearExtender;
     }
 }

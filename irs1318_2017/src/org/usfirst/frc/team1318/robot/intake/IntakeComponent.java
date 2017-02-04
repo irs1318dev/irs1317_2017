@@ -19,8 +19,8 @@ public class IntakeComponent
     @Inject
     public IntakeComponent(
         @Named("INTAKE_MOTOR") IMotor motor,
-        @Named("INTAKE_SOLENOID") IDoubleSolenoid intakeExtender),
-        @Named("GEAR_SOLENOID") IDoubleSolenoid gearExtender
+        @Named("INTAKE_SOLENOID") IDoubleSolenoid intakeExtender,
+        @Named("GEAR_SOLENOID") IDoubleSolenoid gearExtender)
     {
         this.motor = motor;
         this.intakeExtender = intakeExtender;
@@ -45,8 +45,9 @@ public class IntakeComponent
     {
         this.motor.set(speed);
     }
-    
-    public void extendGearHolder(boolean extend) {
+
+    public void extendGearHolder(boolean extend)
+    {
         if (extend)
         {
             this.gearExtender.set(DoubleSolenoidValue.kForward); //extend
@@ -56,7 +57,7 @@ public class IntakeComponent
         {
             this.gearExtender.set(DoubleSolenoidValue.kReverse); //retract
         }
-        
+
     }
 
     public void stop()

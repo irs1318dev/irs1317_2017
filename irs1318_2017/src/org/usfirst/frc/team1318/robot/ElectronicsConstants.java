@@ -32,4 +32,14 @@ public class ElectronicsConstants
     public static final int DRIVETRAIN_LEFT_ENCODER_CHANNEL_B = 3;
 
     public static final int CLIMBER_CLIMBER_CHANNEL = -1;
+
+    //================================================== DriveTrain ==============================================================
+    public static final int INTAKE_MOTOR_CHANNEL = -1;
+
+    public static final int INTAKE_EXTENDER_SOLENOID_CHANNEL_A = -1;
+    public static final int INTAKE_EXTENDER_SOLENOID_CHANNEL_B = -1;
+
+    public static final int INTAKE_GEAR_EXTENDER_SOLENOID_CHANNEL_A = -1;
+    public static final int INTAKE_GEAR_EXTENDER_SOLENOID_CHANNEL_B = -1;
+
 }
