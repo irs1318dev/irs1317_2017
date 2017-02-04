@@ -14,6 +14,7 @@ public enum Operation
     // intake
     ExtendArm,
     SetMotorSpeed,
+    ExtendGearHolder,
 
     // Other general operations:
     EnablePID,

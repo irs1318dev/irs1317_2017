@@ -38,6 +38,16 @@ public class IntakeController implements IController
         {
             this.intakeArm.extend(false);
         }
+
+        // extend gear holder
+        if (this.driver.getDigital(Operation.ExtendGearHolder))
+        {
+            this.intakeArm.extendGearHolder(true);
+        }
+        else
+        {
+            this.intakeArm.extendGearHolder(false);
+        }
     }
 
     @Override

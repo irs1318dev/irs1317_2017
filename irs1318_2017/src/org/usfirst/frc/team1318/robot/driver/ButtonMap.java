@@ -95,6 +95,12 @@ public class ButtonMap
                     UserInputDevice.None,
                     UserInputDeviceButton.NONE,
                     ButtonType.Simple));
+            put(
+                Operation.ExtendGearHolder,
+                new DigitalOperationDescription(
+                    UserInputDevice.None,
+                    UserInputDeviceButton.NONE,
+                    ButtonType.Click));
         }
     };
 
