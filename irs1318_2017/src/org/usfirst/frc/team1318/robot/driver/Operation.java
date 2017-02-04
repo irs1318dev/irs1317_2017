@@ -14,7 +14,7 @@ public enum Operation
     DriveTrainLeftPosition,
     DriveTrainRightPosition,
     DriveTrainSwapFrontOrientation,
-    
+
     // Shooter Operations
     ShooterSpeed,
     ShooterFeed,
