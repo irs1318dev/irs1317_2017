@@ -31,6 +31,7 @@ public class ShooterController implements IController
         {
             this.shooter.setFeederPower(TuningConstants.SHOOTER_MAX_FEEDER_POWER);
         }
+
         else
         {
             this.shooter.setFeederPower(0.0);
