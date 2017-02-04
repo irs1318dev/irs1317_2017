@@ -30,4 +30,8 @@ public class ElectronicsConstants
 
     public static final int DRIVETRAIN_LEFT_ENCODER_CHANNEL_A = 2;
     public static final int DRIVETRAIN_LEFT_ENCODER_CHANNEL_B = 3;
+
+    //================================================== Climber ==============================================================
+
+    public static final int CLIMBER_MOTOR_CHANNEL = -1;
 }

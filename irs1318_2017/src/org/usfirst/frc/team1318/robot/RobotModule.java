@@ -122,4 +122,15 @@ public class RobotModule extends AbstractModule
 
         return encoder;
     }
+    
+    @Singleton
+    @Provides
+    @Named("CLIMBER_MOTOR")
+    public IMotor getCimberClimber() {
+        IMotorWrapper climber = new IMotorWrapper(
+            ElectronicsConstants.CLIMBER_CLIMBER_CHANNEL);
+        return climber;
+    }
+    }}
+
 }
