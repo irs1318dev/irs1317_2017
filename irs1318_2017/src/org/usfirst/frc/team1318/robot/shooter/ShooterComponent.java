@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1318.robot.shooter;
 
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.CANTalonControlMode;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.DoubleSolenoidValue;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.ICANTalon;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IDoubleSolenoid;
@@ -33,6 +34,15 @@ public class ShooterComponent
 
     public void setShooterPower(double power)
     {
+        if (power == 0.0)
+        {
+            this.shooter.changeControlMode(CANTalonControlMode.Voltage);
+        }
+        else
+        {
+            this.shooter.changeControlMode(CANTalonControlMode.Speed);
+        }
+
         this.shooter.set(power);
     }
 

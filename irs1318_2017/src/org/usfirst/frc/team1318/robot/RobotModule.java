@@ -7,6 +7,7 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.usfirst.frc.team1318.robot.common.IController;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.CANTalonControlMode;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.CANTalonWrapper;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.CompressorWrapper;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.DoubleSolenoidWrapper;
@@ -138,6 +139,7 @@ public class RobotModule extends AbstractModule
         DoubleSolenoidWrapper hood = new DoubleSolenoidWrapper(
             ElectronicsConstants.SHOOTER_HOOD_CHANNEL_A,
             ElectronicsConstants.SHOOTER_HOOD_CHANNEL_B);
+
         return hood;
     }
 
@@ -148,6 +150,7 @@ public class RobotModule extends AbstractModule
     {
         TalonWrapper feeder = new TalonWrapper(
             ElectronicsConstants.SHOOTER_FEEDER_CHANNEL);
+
         return feeder;
     }
 
@@ -158,6 +161,7 @@ public class RobotModule extends AbstractModule
     {
         SolenoidWrapper readyLight = new SolenoidWrapper(
             ElectronicsConstants.SHOOTER_READYLIGHT_CHANNEL);
+
         return readyLight;
     }
 
@@ -166,9 +170,26 @@ public class RobotModule extends AbstractModule
     @Named("SHOOTER_SHOOTER")
     public ICANTalon getShooterShooter()
     {
-        CANTalonWrapper shooter = new CANTalonWrapper(
-            ElectronicsConstants.SHOOTER_SHOOTER_CHANNEL);
-        return shooter;
-    }
+        CANTalonWrapper master = new CANTalonWrapper(ElectronicsConstants.SHOOTER_MASTER_MOTOR_CHANNEL);
+        master.enableBrakeMode(false);
+        master.reverseSensor(false);
 
+        CANTalonWrapper follower = new CANTalonWrapper(ElectronicsConstants.SHOOTER_FOLLOWER_MOTOR_CHANNEL);
+        follower.enableBrakeMode(false);
+        follower.reverseOutput(true);
+        follower.changeControlMode(CANTalonControlMode.Follower);
+        follower.set(ElectronicsConstants.SHOOTER_MASTER_MOTOR_CHANNEL);
+
+        if (TuningConstants.SHOOTER_USE_PID)
+        {
+            master.changeControlMode(CANTalonControlMode.Speed);
+            master.setPIDF(
+                TuningConstants.SHOOTER_PID_KP,
+                TuningConstants.SHOOTER_PID_KI,
+                TuningConstants.SHOOTER_PID_KD,
+                TuningConstants.SHOOTER_PID_KF);
+        }
+
+        return master;
+    }
 }

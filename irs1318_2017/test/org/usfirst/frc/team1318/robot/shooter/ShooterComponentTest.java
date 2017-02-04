@@ -9,6 +9,7 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 import org.junit.Test;
 import org.usfirst.frc.team1318.robot.TuningConstants;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.CANTalonControlMode;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.DoubleSolenoidValue;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.ICANTalon;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IDoubleSolenoid;
@@ -61,9 +62,10 @@ public class ShooterComponentTest
 
         ShooterComponent shooterComponent = new ShooterComponent(hood, feeder, readyLight, shooter);
 
-        shooterComponent.setShooterPower(TuningConstants.SHOOTER_MAX_SHOOTER_POWER);
+        shooterComponent.setShooterPower(100.0);
 
-        verify(shooter).set(eq(TuningConstants.SHOOTER_MAX_SHOOTER_POWER));
+        verify(shooter).set(eq(100.0));
+        verify(shooter).changeControlMode(CANTalonControlMode.Speed);
         verifyNoMoreInteractions(hood, feeder, shooter, readyLight);
     }
 
@@ -80,6 +82,7 @@ public class ShooterComponentTest
         shooterComponent.setShooterPower(0.0);
 
         verify(shooter).set(eq(0.0));
+        verify(shooter).changeControlMode(CANTalonControlMode.Voltage);
         verifyNoMoreInteractions(hood, feeder, shooter, readyLight);
     }
 

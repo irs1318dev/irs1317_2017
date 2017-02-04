@@ -40,5 +40,6 @@ public class ElectronicsConstants
 
     public static final int SHOOTER_READYLIGHT_CHANNEL = -1;
 
-    public static final int SHOOTER_SHOOTER_CHANNEL = -1;
+    public static final int SHOOTER_MASTER_MOTOR_CHANNEL = -1;
+    public static final int SHOOTER_FOLLOWER_MOTOR_CHANNEL = -1;
 }

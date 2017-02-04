@@ -36,6 +36,11 @@ public class ShooterController implements IController
         }
 
         double velocityGoal = this.driver.getAnalog(Operation.ShooterSpeed);
+        if (TuningConstants.SHOOTER_USE_PID)
+        {
+            velocityGoal *= TuningConstants.SHOOTER_PID_MAX_VELOCITY;
+        }
+
         this.shooter.setShooterPower(velocityGoal);
 
         if (velocityGoal != 0.0)
