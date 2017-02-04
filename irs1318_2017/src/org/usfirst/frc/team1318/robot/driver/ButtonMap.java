@@ -69,20 +69,7 @@ public class ButtonMap
                     UserInputDeviceButton.NONE,
                     ButtonType.Toggle));
 
-            // Operations for general stuff
-            put(
-                Operation.DisablePID,
-                new DigitalOperationDescription(
-                    UserInputDevice.None,
-                    UserInputDeviceButton.BUTTON_PAD_BUTTON_11,
-                    ButtonType.Click));
-            put(
-                Operation.EnablePID,
-                new DigitalOperationDescription(
-                    UserInputDevice.None,
-                    UserInputDeviceButton.BUTTON_PAD_BUTTON_12,
-                    ButtonType.Click));
-            // intake
+            // Operations for the intake
             put(
                 Operation.ExtendArm,
                 new DigitalOperationDescription(
@@ -100,6 +87,20 @@ public class ButtonMap
                 new DigitalOperationDescription(
                     UserInputDevice.None,
                     UserInputDeviceButton.NONE,
+                    ButtonType.Click));
+
+            // Operations for general stuff
+            put(
+                Operation.DisablePID,
+                new DigitalOperationDescription(
+                    UserInputDevice.None,
+                    UserInputDeviceButton.BUTTON_PAD_BUTTON_11,
+                    ButtonType.Click));
+            put(
+                Operation.EnablePID,
+                new DigitalOperationDescription(
+                    UserInputDevice.None,
+                    UserInputDeviceButton.BUTTON_PAD_BUTTON_12,
                     ButtonType.Click));
         }
     };

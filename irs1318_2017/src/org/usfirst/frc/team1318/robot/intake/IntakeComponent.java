@@ -11,7 +11,6 @@ import com.google.inject.name.Named;
 @Singleton
 public class IntakeComponent
 {
-
     private final IMotor motor;
     private final IDoubleSolenoid intakeExtender;
     private final IDoubleSolenoid gearExtender;
@@ -19,8 +18,8 @@ public class IntakeComponent
     @Inject
     public IntakeComponent(
         @Named("INTAKE_MOTOR") IMotor motor,
-        @Named("INTAKE_SOLENOID") IDoubleSolenoid intakeExtender),
-        @Named("GEAR_SOLENOID") IDoubleSolenoid gearExtender
+        @Named("INTAKE_SOLENOID") IDoubleSolenoid intakeExtender,
+        @Named("GEAR_SOLENOID") IDoubleSolenoid gearExtender)
     {
         this.motor = motor;
         this.intakeExtender = intakeExtender;
@@ -38,15 +37,15 @@ public class IntakeComponent
         {
             this.intakeExtender.set(DoubleSolenoidValue.kReverse); //retract
         }
-
     }
 
     public void setMotorSpeed(double speed)
     {
         this.motor.set(speed);
     }
-    
-    public void extendGearHolder(boolean extend) {
+
+    public void extendGearHolder(boolean extend)
+    {
         if (extend)
         {
             this.gearExtender.set(DoubleSolenoidValue.kForward); //extend
@@ -56,7 +55,6 @@ public class IntakeComponent
         {
             this.gearExtender.set(DoubleSolenoidValue.kReverse); //retract
         }
-        
     }
 
     public void stop()
