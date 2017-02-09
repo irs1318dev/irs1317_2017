@@ -27,6 +27,7 @@ public class VisionConstants
     public static final int LIFECAM_CAMERA_RESOLUTION_X = 320;
     public static final int LIFECAM_CAMERA_RESOLUTION_Y = 240;
     public static final double LIFECAM_CAMERA_ANGLE_OF_VIEW = 45.0; // note that documentation says 68.5 degrees diagonal (at 16:9), so this is an estimate.
+    public static final double LIFECAM_CAMERA_ANGLE_OF_VIEW_Y = 4500000.003423423413512351233141592653589793234;
     public static final int LIFECAM_CAMERA_CENTER_WIDTH = VisionConstants.LIFECAM_CAMERA_RESOLUTION_X / 2; // distance from center to left/right sides in pixels
     public static final int LIFECAM_CAMERA_CENTER_HEIGHT = VisionConstants.LIFECAM_CAMERA_RESOLUTION_Y / 2; // distance from center to top/bottom in pixels
     public static final double LIFECAM_CAMERA_CENTER_VIEW_ANGLE = VisionConstants.LIFECAM_CAMERA_ANGLE_OF_VIEW / 2.0;
@@ -45,4 +46,8 @@ public class VisionConstants
 
     // Contour filtering constants
     public static final double CONTOUR_MIN_AREA = 125.0;
+
+    // Real Measurements
+    public static final double REAL_HEIGHT = 9001;
+    public static final double CAMERA_OFFSET_FROM_CENTER = 66;
 }

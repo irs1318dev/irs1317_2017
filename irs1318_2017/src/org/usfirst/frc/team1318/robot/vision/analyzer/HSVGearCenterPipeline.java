@@ -14,7 +14,7 @@ import org.usfirst.frc.team1318.robot.vision.helpers.ImageUndistorter;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.vision.VisionPipeline;
 
-public class HSVCenterPipeline implements VisionPipeline
+public class HSVGearCenterPipeline implements VisionPipeline
 {
     private final boolean shouldUndistort;
 
@@ -29,11 +29,19 @@ public class HSVCenterPipeline implements VisionPipeline
     private double lastMeasuredTime;
     private double lastFpsMeasurement;
 
+    private double thetaXOffsetDesired;
+    private double distanceFromCam;
+    private double distanceFromRobot;
+
+    private double thetaXOffsetMeasured;
+
+    private int xOffsetMeasured;
+
     /**
      * Initializes a new instance of the HSVCenterAnalyzer class.
      * @param shouldUndistort whether to undistort the image or not
      */
-    public HSVCenterPipeline(boolean shouldUndistort)
+    public HSVGearCenterPipeline(boolean shouldUndistort)
     {
         this.shouldUndistort = shouldUndistort;
 
@@ -100,6 +108,7 @@ public class HSVCenterPipeline implements VisionPipeline
         MatOfPoint[] largestContours = ContourHelper.findTwoLargestContours(image, VisionConstants.CONTOUR_MIN_AREA);
         MatOfPoint largestContour = largestContours[0];
         MatOfPoint secondLargestContour = largestContours[1];
+
         if (largestContour == null)
         {
             if (VisionConstants.DEBUG && VisionConstants.DEBUG_PRINT_OUTPUT && VisionConstants.DEBUG_PRINT_ANALYZER_DATA)
@@ -164,6 +173,23 @@ public class HSVCenterPipeline implements VisionPipeline
         this.center1 = centerOfMass1;
         this.center2 = centerOfMass2;
 
+        // GEAR CALCULATIONS
+        // The rightmost point will be the one we operate on
+        Point gearCenter = (center1.x > center2.x) ? center1 : center2;
+        double height = (center1.x > center2.x) ? largestContour.height() : secondLargestContour.height();
+
+        // Find desired data
+        this.xOffsetMeasured = (int)(gearCenter.x - VisionConstants.LIFECAM_CAMERA_RESOLUTION_X / 2);
+
+        double xFOVRadians = VisionConstants.LIFECAM_CAMERA_ANGLE_OF_VIEW * Math.PI / 180.0;
+        double yFOVRadians = VisionConstants.LIFECAM_CAMERA_ANGLE_OF_VIEW_Y * Math.PI / 180.0;
+        this.thetaXOffsetMeasured = this.xOffsetMeasured / (xFOVRadians / 2);
+
+        this.distanceFromCam = (VisionConstants.REAL_HEIGHT / 2) / (Math.tan(yFOVRadians / 2)) *
+            (VisionConstants.LIFECAM_CAMERA_RESOLUTION_Y / height);
+        this.distanceFromRobot = distanceFromCam * Math.cos(thetaXOffsetMeasured);
+
+        this.thetaXOffsetDesired = Math.asin(VisionConstants.CAMERA_OFFSET_FROM_CENTER / distanceFromCam);
         undistortedImage.release();
     }
 
@@ -180,5 +206,30 @@ public class HSVCenterPipeline implements VisionPipeline
     public double getFps()
     {
         return this.lastFpsMeasurement;
+    }
+
+    public double getThetaXOffsetDesired()
+    {
+        return this.thetaXOffsetDesired;
+    }
+
+    public double getThetaXOffsetMeasured()
+    {
+        return this.thetaXOffsetMeasured;
+    }
+
+    public double getDistanceFromCam()
+    {
+        return this.distanceFromCam;
+    }
+
+    public double getDistanceFromRobot()
+    {
+        return this.distanceFromRobot;
+    }
+
+    public int getXOffsetMeasured()
+    {
+        return this.xOffsetMeasured;
     }
 }

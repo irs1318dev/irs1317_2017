@@ -4,7 +4,7 @@ import org.opencv.core.Point;
 import org.usfirst.frc.team1318.robot.common.DashboardLogger;
 import org.usfirst.frc.team1318.robot.common.IController;
 import org.usfirst.frc.team1318.robot.driver.Driver;
-import org.usfirst.frc.team1318.robot.vision.analyzer.HSVCenterPipeline;
+import org.usfirst.frc.team1318.robot.vision.analyzer.HSVGearCenterPipeline;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj.vision.VisionThread;
  *
  */
 @Singleton
-public class VisionManager implements IController, VisionRunner.Listener<HSVCenterPipeline>
+public class VisionManager implements IController, VisionRunner.Listener<HSVGearCenterPipeline>
 {
     private final static String LogName = "vision";
 
@@ -29,6 +29,13 @@ public class VisionManager implements IController, VisionRunner.Listener<HSVCent
 
     private Point center1;
     private Point center2;
+
+    private int xOffsetMeasured;
+    private double thetaXOffsetDesired;
+    private double thetaXOffsetMeasured;
+    private double distanceFromCam;
+    private double distanceFromRobot;
+
     private double lastMeasuredFps;
 
     /**
@@ -48,7 +55,7 @@ public class VisionManager implements IController, VisionRunner.Listener<HSVCent
         // CameraServer.getInstance().addCamera(camera);
 
         //        AxisCamera camera = CameraServer.getInstance().addAxisCamera(VisionConstants.AXIS_CAMERA_IP_ADDRESS);
-        this.visionThread = new VisionThread(camera, new HSVCenterPipeline(VisionConstants.SHOULD_UNDISTORT), this);
+        this.visionThread = new VisionThread(camera, new HSVGearCenterPipeline(VisionConstants.SHOULD_UNDISTORT), this);
         this.visionThread.start();
 
         this.center1 = null;
@@ -140,12 +147,20 @@ public class VisionManager implements IController, VisionRunner.Listener<HSVCent
     }
 
     @Override
-    public void copyPipelineOutputs(HSVCenterPipeline pipeline)
+    public void copyPipelineOutputs(HSVGearCenterPipeline pipeline)
     {
         synchronized (this.visionLock)
         {
             this.center1 = pipeline.getCenter1();
             this.center2 = pipeline.getCenter2();
+
+            this.xOffsetMeasured = pipeline.getXOffsetMeasured();
+
+            this.thetaXOffsetDesired = pipeline.getThetaXOffsetDesired();
+            this.thetaXOffsetMeasured = pipeline.getThetaXOffsetMeasured();
+            this.distanceFromCam = pipeline.getDistanceFromCam();
+            this.distanceFromRobot = pipeline.getDistanceFromRobot();
+
             this.lastMeasuredFps = pipeline.getFps();
         }
     }
