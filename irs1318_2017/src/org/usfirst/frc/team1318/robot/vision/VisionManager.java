@@ -1,8 +1,8 @@
 package org.usfirst.frc.team1318.robot.vision;
 
 import org.opencv.core.Point;
-import org.usfirst.frc.team1318.robot.common.DashboardLogger;
 import org.usfirst.frc.team1318.robot.common.IController;
+import org.usfirst.frc.team1318.robot.common.IDashboardLogger;
 import org.usfirst.frc.team1318.robot.driver.Driver;
 import org.usfirst.frc.team1318.robot.vision.analyzer.HSVGearCenterPipeline;
 
@@ -24,6 +24,8 @@ public class VisionManager implements IController, VisionRunner.Listener<HSVGear
 {
     private final static String LogName = "vision";
 
+    private final IDashboardLogger logger;
+
     private final Object visionLock;
     private final VisionThread visionThread;
 
@@ -42,8 +44,10 @@ public class VisionManager implements IController, VisionRunner.Listener<HSVGear
      * Initializes a new VisionManager
      */
     @Inject
-    public VisionManager()
+    public VisionManager(IDashboardLogger logger)
     {
+        this.logger = logger;
+
         this.visionLock = new Object();
 
         UsbCamera camera = new UsbCamera("usb0", 0);
@@ -111,7 +115,7 @@ public class VisionManager implements IController, VisionRunner.Listener<HSVGear
             center1String = String.format("%f,%f", center1.x, center1.y);
         }
 
-        DashboardLogger.logString(VisionManager.LogName, "center1", center1String);
+        this.logger.logString(VisionManager.LogName, "center1", center1String);
 
         String center1AngleString = "n/a";
         Double centerAngle = this.getCenter1Angle();
@@ -120,7 +124,7 @@ public class VisionManager implements IController, VisionRunner.Listener<HSVGear
             center1AngleString = String.format("%f", centerAngle);
         }
 
-        DashboardLogger.logString(VisionManager.LogName, "center1Angle", center1AngleString);
+        this.logger.logString(VisionManager.LogName, "center1Angle", center1AngleString);
 
         String center2String = "n/a";
         Point center2 = this.getCenter2();
@@ -129,10 +133,10 @@ public class VisionManager implements IController, VisionRunner.Listener<HSVGear
             center2String = String.format("%f,%f", center2.x, center2.y);
         }
 
-        DashboardLogger.logString(VisionManager.LogName, "center2", center2String);
+        this.logger.logString(VisionManager.LogName, "center2", center2String);
 
         double fps = this.getLastMeasuredFps();
-        DashboardLogger.logNumber(VisionManager.LogName, "fps", fps);
+        this.logger.logNumber(VisionManager.LogName, "fps", fps);
     }
 
     @Override
