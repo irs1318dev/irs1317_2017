@@ -29,14 +29,12 @@ public class VisionManager implements IController, VisionRunner.Listener<HSVGear
     private final Object visionLock;
     private final VisionThread visionThread;
 
-    private Point center1;
-    private Point center2;
+    private Point center;
 
-    private int xOffsetMeasured;
-    private double thetaXOffsetDesired;
-    private double thetaXOffsetMeasured;
-    private double distanceFromCam;
-    private double distanceFromRobot;
+    private Double thetaXOffsetDesired;
+    private Double thetaXOffsetMeasured;
+    private Double distanceFromCam;
+    private Double distanceFromRobot;
 
     private double lastMeasuredFps;
 
@@ -62,38 +60,44 @@ public class VisionManager implements IController, VisionRunner.Listener<HSVGear
         this.visionThread = new VisionThread(camera, new HSVGearCenterPipeline(VisionConstants.SHOULD_UNDISTORT), this);
         this.visionThread.start();
 
-        this.center1 = null;
-        this.center2 = null;
+        this.center = null;
+        this.thetaXOffsetDesired = null;
+        this.thetaXOffsetMeasured = null;
+        this.distanceFromCam = null;
+        this.distanceFromRobot = null;
+
         this.lastMeasuredFps = 0.0;
     }
 
-    public Point getCenter1()
+    public Point getCenter()
     {
         synchronized (this.visionLock)
         {
-            return this.center1;
+            return this.center;
         }
     }
 
-    public Double getCenter1Angle()
-    {
-        Point center1 = this.getCenter1();
-        if (center1 != null)
-        {
-            // note: positive angle means it is to the right
-            double centerX = center1.x;
-            centerX = centerX - VisionConstants.AXIS_CAMERA_CENTER_WIDTH;
-            return (centerX * VisionConstants.AXIS_CAMERA_CENTER_VIEW_ANGLE) / (double)VisionConstants.AXIS_CAMERA_CENTER_WIDTH;
-        }
-
-        return null;
-    }
-
-    public Point getCenter2()
+    public Double getMeasuredAngle()
     {
         synchronized (this.visionLock)
         {
-            return this.center2;
+            return this.thetaXOffsetMeasured;
+        }
+    }
+
+    public Double getDesiredAngle()
+    {
+        synchronized (this.visionLock)
+        {
+            return this.thetaXOffsetDesired;
+        }
+    }
+
+    public Double getMeasuredDistance()
+    {
+        synchronized (this.visionLock)
+        {
+            return this.distanceFromRobot;
         }
     }
 
@@ -108,32 +112,14 @@ public class VisionManager implements IController, VisionRunner.Listener<HSVGear
     @Override
     public void update()
     {
-        String center1String = "n/a";
-        Point center1 = this.getCenter1();
-        if (center1 != null)
+        String centerString = "n/a";
+        Point center = this.getCenter();
+        if (center != null)
         {
-            center1String = String.format("%f,%f", center1.x, center1.y);
+            centerString = String.format("%f,%f", center.x, center.y);
         }
 
-        this.logger.logString(VisionManager.LogName, "center1", center1String);
-
-        String center1AngleString = "n/a";
-        Double centerAngle = this.getCenter1Angle();
-        if (centerAngle != null)
-        {
-            center1AngleString = String.format("%f", centerAngle);
-        }
-
-        this.logger.logString(VisionManager.LogName, "center1Angle", center1AngleString);
-
-        String center2String = "n/a";
-        Point center2 = this.getCenter2();
-        if (center2 != null)
-        {
-            center2String = String.format("%f,%f", center2.x, center2.y);
-        }
-
-        this.logger.logString(VisionManager.LogName, "center2", center2String);
+        this.logger.logString(VisionManager.LogName, "center", centerString);
 
         double fps = this.getLastMeasuredFps();
         this.logger.logNumber(VisionManager.LogName, "fps", fps);
@@ -155,10 +141,7 @@ public class VisionManager implements IController, VisionRunner.Listener<HSVGear
     {
         synchronized (this.visionLock)
         {
-            this.center1 = pipeline.getCenter1();
-            this.center2 = pipeline.getCenter2();
-
-            this.xOffsetMeasured = pipeline.getXOffsetMeasured();
+            this.center = pipeline.getCenter();
 
             this.thetaXOffsetDesired = pipeline.getThetaXOffsetDesired();
             this.thetaXOffsetMeasured = pipeline.getThetaXOffsetMeasured();
