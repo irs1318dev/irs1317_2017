@@ -150,7 +150,32 @@ public class ShooterControllerTest
         verifyNoMoreInteractions(shooter);
 
     }
-    
+
+    @Test
+    public void updateTest_getShooterError_true()
+    {
+        ShooterComponent shooter = mock(ShooterComponent.class);
+        ShooterController shooterController = new ShooterController(shooter);
+
+        Driver driver = mock(Driver.class);
+        shooterController.setDriver(driver);
+
+        doReturn(false).when(driver).getDigital(Operation.ShooterExtendHood);
+        doReturn(false).when(driver).getDigital(Operation.ShooterFeed);
+        doReturn(0.5).when(driver).getAnalog(Operation.ShooterSpeed);
+        doReturn(10000000.0).when(shooter).getShooterError();
+
+        shooterController.update();
+
+        verify(shooter).extendOrRetract(eq(false));
+        verify(shooter).setFeederPower(0.0);
+        verify(shooter).setShooterPower(0.5 * TuningConstants.SHOOTER_PID_MAX_VELOCITY);
+        verify(shooter).setReadyLight(false);
+        verify(shooter).getShooterError();
+        verifyNoMoreInteractions(shooter);
+
+    }
+
     @Test
     public void updateTest_Stop()
     {

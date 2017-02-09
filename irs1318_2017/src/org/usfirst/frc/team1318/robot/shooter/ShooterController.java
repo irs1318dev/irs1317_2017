@@ -25,16 +25,6 @@ public class ShooterController implements IController
         boolean shooterExtendHood = this.driver.getDigital(Operation.ShooterExtendHood);
         this.shooter.extendOrRetract(shooterExtendHood);
 
-        boolean shooterFeed = this.driver.getDigital(Operation.ShooterFeed);
-        if (shooterFeed)
-        {
-            this.shooter.setFeederPower(TuningConstants.SHOOTER_MAX_FEEDER_POWER);
-        }
-        else
-        {
-            this.shooter.setFeederPower(0.0);
-        }
-
         double velocityGoal = this.driver.getAnalog(Operation.ShooterSpeed);
         if (TuningConstants.SHOOTER_USE_PID)
         {
@@ -43,11 +33,26 @@ public class ShooterController implements IController
 
         this.shooter.setShooterPower(velocityGoal);
 
+        boolean shooterIsUpToSpeed = false;
         if (velocityGoal != 0.0)
         {
             double error = this.shooter.getShooterError();
             double errorPercentage = error / velocityGoal;
-            this.shooter.setReadyLight(Math.abs(errorPercentage) < TuningConstants.SHOOTER_ALLOWABLE_ERROR);
+
+            shooterIsUpToSpeed = Math.abs(errorPercentage) < TuningConstants.SHOOTER_ALLOWABLE_ERROR;
+
+        }
+
+        this.shooter.setReadyLight(shooterIsUpToSpeed);
+
+        boolean shooterFeed = this.driver.getDigital(Operation.ShooterFeed);
+        if (shooterFeed && shooterIsUpToSpeed)
+        {
+            this.shooter.setFeederPower(TuningConstants.SHOOTER_MAX_FEEDER_POWER);
+        }
+        else
+        {
+            this.shooter.setFeederPower(0.0);
         }
     }
 
