@@ -34,4 +34,6 @@ public class ElectronicsConstants
     //================================================== Climber ==============================================================
 
     public static final int CLIMBER_MOTOR_CHANNEL = -1;
+    public static final int CLIMBER_PDP_CHANNEL_A = -1;
+    public static final int CLIMBER_PDP_CHANNEL_B = -1;
 }
