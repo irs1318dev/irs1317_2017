@@ -175,9 +175,21 @@ public class HSVGearCenterPipeline implements VisionPipeline
 
         // GEAR CALCULATIONS
         // The rightmost point will be the one we operate on
-        Point gearCenter = (center1.x > center2.x) ? center1 : center2;
-        double height = (center1.x > center2.x) ? largestContour.height() : secondLargestContour.height();
+        Point gearCenter;
+        if (center1 == null)
+        {
+            gearCenter = center2;
+        }
+        else if (center2 == null)
+        {
+            gearCenter = center1;
+        }
+        else
+        {
+            gearCenter = (center1.x > center2.x) ? center1 : center2;
+        }
 
+        double height = (center1.x > center2.x) ? Imgproc.boundingRect(largestContour).height : Imgproc.boundingRect(secondLargestContour).height;
         // Find desired data
         this.xOffsetMeasured = (int)(gearCenter.x - VisionConstants.LIFECAM_CAMERA_RESOLUTION_X / 2);
 
