@@ -12,6 +12,7 @@ import com.google.inject.Inject;
 public class ClimberController implements IController
 {
     private final ClimberComponent climber;
+    private final PowerManager powerManager;
     private Driver driver;
     private final PowerManager powerManager;
 
@@ -25,13 +26,13 @@ public class ClimberController implements IController
     @Override
     public void update()
     {
-        double ClimberSpeed = this.driver.getAnalog(Operation.ClimberSpeed);
-        double currentDraw = powerManager.getCurrent(ElectronicsConstants.CLIMBER_PDP_CHANNEL_A) + 
-            powerManager.getCurrent(ElectronicsConstants.CLIMBER_PDP_CHANNEL_B);
+        double climberSpeed = this.driver.getAnalog(Operation.ClimberSpeed);
+        double currentDraw = this.powerManager.getCurrent(ElectronicsConstants.CLIMBER_PDP_CHANNEL_A) + 
+            this.powerManager.getCurrent(ElectronicsConstants.CLIMBER_PDP_CHANNEL_B);
         if (currentDraw > TuningConstants.CLIMBER_MAX_CURRENT_DRAW) {
-            ClimberSpeed = 0.0;
+            climberSpeed = 0.0;
         }
-        this.climber.setMotorSpeed(ClimberSpeed * TuningConstants.CLIMBER_MAX_MOTOR_POWER);
+        this.climber.setMotorSpeed(climberSpeed * TuningConstants.CLIMBER_MAX_MOTOR_POWER);
     }
 
     @Override
