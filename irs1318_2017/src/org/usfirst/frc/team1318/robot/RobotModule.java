@@ -7,6 +7,8 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.usfirst.frc.team1318.robot.common.IController;
+import org.usfirst.frc.team1318.robot.common.IDashboardLogger;
+import org.usfirst.frc.team1318.robot.common.SmartDashboardLogger;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.AnalogInputWrapper;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.CompressorWrapper;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.DoubleSolenoidWrapper;
@@ -42,6 +44,13 @@ public class RobotModule extends AbstractModule
     @Override
     protected void configure()
     {
+    }
+
+    @Singleton
+    @Provides
+    public IDashboardLogger getLogger()
+    {
+        return new SmartDashboardLogger();
     }
 
     @Singleton

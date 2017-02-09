@@ -1,9 +1,9 @@
 package org.usfirst.frc.team1318.robot.shooter;
 
 import org.usfirst.frc.team1318.robot.TuningConstants;
-import org.usfirst.frc.team1318.robot.common.DashboardLogger;
 import org.usfirst.frc.team1318.robot.common.Helpers;
 import org.usfirst.frc.team1318.robot.common.IController;
+import org.usfirst.frc.team1318.robot.common.IDashboardLogger;
 import org.usfirst.frc.team1318.robot.common.PIDHandler;
 import org.usfirst.frc.team1318.robot.driver.Driver;
 import org.usfirst.frc.team1318.robot.driver.Operation;
@@ -13,12 +13,15 @@ import com.google.inject.Inject;
 
 /**
  * Controller for the shooter. Needs to contain velocity PID.
+ * 
  * @author Corbin
  *
  */
 public class ShooterController implements IController
 {
     public static final String LogName = "sh";
+
+    private final IDashboardLogger logger;
 
     private final ShooterComponent shooter;
     private final PowerManager powerManager;
@@ -27,8 +30,13 @@ public class ShooterController implements IController
     private PIDHandler PID;
 
     @Inject
-    public ShooterController(ShooterComponent shooter, PowerManager powerManager)
+    public ShooterController(
+        IDashboardLogger logger,
+        ShooterComponent shooter,
+        PowerManager powerManager)
     {
+        this.logger = logger;
+
         this.shooter = shooter;
         this.powerManager = powerManager;
 
@@ -43,12 +51,12 @@ public class ShooterController implements IController
         // The actual velocity of the shooter wheel
         double currentRate = this.shooter.getCounterRate();
         int currentTicks = this.shooter.getCounterTicks();
-        DashboardLogger.logNumber(ShooterController.LogName, "rate", currentRate);
-        DashboardLogger.logNumber(ShooterController.LogName, "ticks", currentTicks);
+        this.logger.logNumber(ShooterController.LogName, "rate", currentRate);
+        this.logger.logNumber(ShooterController.LogName, "ticks", currentTicks);
 
         // The velocity set in the analog operation
         double velocityGoal = this.driver.getAnalog(Operation.ShooterSpeed);
-        DashboardLogger.logNumber(ShooterController.LogName, "velocityGoal", velocityGoal);
+        this.logger.logNumber(ShooterController.LogName, "velocityGoal", velocityGoal);
 
         double power = 0.0;
         boolean shouldLight = false;
@@ -59,13 +67,14 @@ public class ShooterController implements IController
                 && speedPercentage > velocityGoal - TuningConstants.SHOOTER_DEVIANCE && speedPercentage < velocityGoal
                     + TuningConstants.SHOOTER_DEVIANCE;
 
-            // Calculate the power required to reach the velocity goal     
+            // Calculate the power required to reach the velocity goal
             power = this.PID.calculateVelocity(velocityGoal, currentTicks);
 
             if (TuningConstants.SHOOTER_SCALE_BASED_ON_VOLTAGE)
             {
-                power *= (TuningConstants.SHOOTER_VELOCITY_TUNING_VOLTAGE / this.powerManager.getVoltage());
-                power = Helpers.EnforceRange(power, -TuningConstants.SHOOTER_MAX_POWER_LEVEL, TuningConstants.SHOOTER_MAX_POWER_LEVEL);
+                power *= (TuningConstants.SHOOTER_VELOCITY_TUNING_VOLTAGE / this.powerManager.getBatteryVoltage());
+                power = Helpers.EnforceRange(power, -TuningConstants.SHOOTER_MAX_POWER_LEVEL,
+                    TuningConstants.SHOOTER_MAX_POWER_LEVEL);
             }
         }
 
@@ -73,9 +82,10 @@ public class ShooterController implements IController
 
         // Set the motor power with the calculated value
         this.shooter.setMotorSpeed(power);
-        DashboardLogger.logNumber(ShooterController.LogName, "power", power);
+        this.logger.logNumber(ShooterController.LogName, "power", power);
 
-        // lower the kicker whenever we are rotating in or out, or when we are performing a shot macro
+        // lower the kicker whenever we are rotating in or out, or when we are
+        // performing a shot macro
         boolean lowerKicker = this.driver.getDigital(Operation.ShooterLowerKicker)
             || this.driver.getDigital(Operation.IntakeRotatingIn)
             || this.driver.getDigital(Operation.IntakeRotatingOut);
@@ -102,12 +112,12 @@ public class ShooterController implements IController
     public void createPIDHandler()
     {
         this.PID = new PIDHandler(
-            TuningConstants.SHOOTER_VELOCITY_PID_KP_DEFAULT,
-            TuningConstants.SHOOTER_VELOCITY_PID_KI_DEFAULT,
-            TuningConstants.SHOOTER_VELOCITY_PID_KD_DEFAULT,
-            TuningConstants.SHOOTER_VELOCITY_PID_KF_DEFAULT,
-            TuningConstants.SHOOTER_VELOCITY_PID_KS_DEFAULT,
-            -TuningConstants.SHOOTER_MAX_POWER_LEVEL,
-            TuningConstants.SHOOTER_MAX_POWER_LEVEL);
+                TuningConstants.SHOOTER_VELOCITY_PID_KP_DEFAULT,
+                TuningConstants.SHOOTER_VELOCITY_PID_KI_DEFAULT,
+                TuningConstants.SHOOTER_VELOCITY_PID_KD_DEFAULT,
+                TuningConstants.SHOOTER_VELOCITY_PID_KF_DEFAULT,
+                TuningConstants.SHOOTER_VELOCITY_PID_KS_DEFAULT,
+                -TuningConstants.SHOOTER_MAX_POWER_LEVEL,
+                TuningConstants.SHOOTER_MAX_POWER_LEVEL);
     }
 }

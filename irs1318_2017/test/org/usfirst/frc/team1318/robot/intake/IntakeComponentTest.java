@@ -8,6 +8,7 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.doReturn;
 
 import org.junit.Test;
+import org.usfirst.frc.team1318.robot.common.IDashboardLogger;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.DoubleSolenoidValue;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IAnalogInput;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IDoubleSolenoid;
@@ -23,8 +24,9 @@ public class IntakeComponentTest
         IDoubleSolenoid intakeSolenoid = mock(IDoubleSolenoid.class);
         ISolenoid intakeLight = mock(ISolenoid.class);
         IAnalogInput throughBeamSensor = mock(IAnalogInput.class);
+        IDashboardLogger logger = mock(IDashboardLogger.class);
 
-        IntakeComponent intakeComponent = new IntakeComponent(motor, intakeSolenoid, intakeLight, throughBeamSensor);
+        IntakeComponent intakeComponent = new IntakeComponent(logger, motor, intakeSolenoid, intakeLight, throughBeamSensor);
 
         intakeComponent.extendOrRetract(true);
 
@@ -39,17 +41,18 @@ public class IntakeComponentTest
         IDoubleSolenoid intakeSolenoid = mock(IDoubleSolenoid.class);
         ISolenoid intakeLight = mock(ISolenoid.class);
         IAnalogInput throughBeamSensor = mock(IAnalogInput.class);
-        
+        IDashboardLogger logger = mock(IDashboardLogger.class);
+
         // Mock/fake a return value when get method is called
         doReturn(1.0).when(throughBeamSensor.getVoltage());
 
-        IntakeComponent intakeComponent = new IntakeComponent(motor, intakeSolenoid, intakeLight, throughBeamSensor);
+        IntakeComponent intakeComponent = new IntakeComponent(logger, motor, intakeSolenoid, intakeLight, throughBeamSensor);
 
         intakeComponent.extendOrRetract(false);
-        
+
         // Assert true/false when method that returns true/false is called
         assertTrue(intakeComponent.getThroughBeamBroken());
-        
+
         // Assert double value is equal when get method is called, within acceptable range
         assertEquals(3.0/*expected*/, 3.001/*actual, the mocked return value from a get method*/, 0.001 /*allowed error*/);
 

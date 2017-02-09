@@ -1,8 +1,8 @@
 package org.usfirst.frc.team1318.robot.general;
 
 import org.usfirst.frc.team1318.robot.HardwareConstants;
-import org.usfirst.frc.team1318.robot.common.DashboardLogger;
 import org.usfirst.frc.team1318.robot.common.IController;
+import org.usfirst.frc.team1318.robot.common.IDashboardLogger;
 import org.usfirst.frc.team1318.robot.driver.Driver;
 import org.usfirst.frc.team1318.robot.drivetrain.DriveTrainComponent;
 
@@ -12,8 +12,10 @@ import com.google.inject.Singleton;
 /**
  * Position manager
  * 
- * This class maintains the approximate current location and orientation of the robot relative to its starting point.
- * This uses Jim's differential odometry algorithm. In the future we can consider adding other sensors to help correct for error.
+ * This class maintains the approximate current location and orientation of the
+ * robot relative to its starting point. This uses Jim's differential odometry
+ * algorithm. In the future we can consider adding other sensors to help correct
+ * for error.
  * 
  */
 @Singleton
@@ -22,9 +24,9 @@ public class PositionManager implements IController
     // logging constants
     public static final String LogName = "pos";
 
-    // drivetrain component
+    private final IDashboardLogger logger;
     private final DriveTrainComponent driveTrainComponent;
-    //private final AHRS navx;
+    // private final AHRS navx;
 
     // Position coordinates
     private double x;
@@ -39,13 +41,18 @@ public class PositionManager implements IController
 
     /**
      * Initializes a new PositionManager
-     * @param driveTrainComponent to use to determine position changes
+     * 
+     * @param driveTrainComponent
+     *            to use to determine position changes
      */
     @Inject
-    public PositionManager(DriveTrainComponent driveTrainComponent)
+    public PositionManager(
+        IDashboardLogger logger,
+        DriveTrainComponent driveTrainComponent)
     {
+        this.logger = logger;
         this.driveTrainComponent = driveTrainComponent;
-        //this.navx = new AHRS(SPI.Port.kMXP);
+        // this.navx = new AHRS(SPI.Port.kMXP);
 
         this.x = 0.0;
         this.y = 0.0;
@@ -58,16 +65,19 @@ public class PositionManager implements IController
 
     /**
      * set the driver that the controller should use
-     * @param driver to use
+     * 
+     * @param driver
+     *            to use
      */
     @Override
     public void setDriver(Driver driver)
     {
-        // not needed for this controller 
+        // not needed for this controller
     }
 
     /**
-     * calculate the various outputs to use based on the inputs and apply them to the outputs for the relevant component
+     * calculate the various outputs to use based on the inputs and apply them
+     * to the outputs for the relevant component
      */
     @Override
     public void update()
@@ -89,9 +99,11 @@ public class PositionManager implements IController
         angleR *= 0.979858464888405;
 
         // calculate the average distance traveled
-        double averagePositionChange = ((leftDistance - this.prevLeftDistance) + (rightDistance - this.prevRightDistance)) / 2;
+        double averagePositionChange = ((leftDistance - this.prevLeftDistance)
+            + (rightDistance - this.prevRightDistance)) / 2;
 
-        // calculate the change since last time, and update our relative position
+        // calculate the change since last time, and update our relative
+        // position
         this.x += averagePositionChange * Math.cos(angleR);
         this.y += averagePositionChange * Math.sin(angleR);
 
@@ -102,12 +114,12 @@ public class PositionManager implements IController
         this.prevRightDistance = rightDistance;
 
         // log the current position and orientation
-        DashboardLogger.logNumber(PositionManager.LogName, "odom_angle", this.getOdometryAngle());
-        DashboardLogger.logNumber(PositionManager.LogName, "odom_x", this.getOdometryX());
-        DashboardLogger.logNumber(PositionManager.LogName, "odom_y", this.getOdometryY());
-        DashboardLogger.logNumber(PositionManager.LogName, "navx_angle", this.getNavxAngle());
-        DashboardLogger.logNumber(PositionManager.LogName, "navx_x", this.getNavxX());
-        DashboardLogger.logNumber(PositionManager.LogName, "navx_y", this.getNavxY());
+        this.logger.logNumber(PositionManager.LogName, "odom_angle", this.getOdometryAngle());
+        this.logger.logNumber(PositionManager.LogName, "odom_x", this.getOdometryX());
+        this.logger.logNumber(PositionManager.LogName, "odom_y", this.getOdometryY());
+        this.logger.logNumber(PositionManager.LogName, "navx_angle", this.getNavxAngle());
+        this.logger.logNumber(PositionManager.LogName, "navx_x", this.getNavxX());
+        this.logger.logNumber(PositionManager.LogName, "navx_y", this.getNavxY());
     }
 
     /**
@@ -120,6 +132,7 @@ public class PositionManager implements IController
 
     /**
      * Retrieve the current angle in degrees
+     * 
      * @return the current angle in degrees
      */
     public double getOdometryAngle()
@@ -129,6 +142,7 @@ public class PositionManager implements IController
 
     /**
      * Retrieve the current x position
+     * 
      * @return the current x position
      */
     public double getOdometryX()
@@ -138,6 +152,7 @@ public class PositionManager implements IController
 
     /**
      * Retrieve the current y position
+     * 
      * @return the current y position
      */
     public double getOdometryY()
@@ -147,29 +162,32 @@ public class PositionManager implements IController
 
     /**
      * Retrieve the current angle in degrees
+     * 
      * @return the current angle in degrees
      */
     public double getNavxAngle()
     {
-        return 0.0; //this.navx.getAngle();
+        return 0.0; // this.navx.getAngle();
     }
 
     /**
      * Retrieve the current x position
+     * 
      * @return the current x position
      */
     public double getNavxX()
     {
-        return 0.0; //this.navx.getDisplacementX() * 100.0;
+        return 0.0; // this.navx.getDisplacementX() * 100.0;
     }
 
     /**
      * Retrieve the current y position
+     * 
      * @return the current y position
      */
     public double getNavxY()
     {
-        return 0.0; //this.navx.getDisplacementY() * 100.0;
+        return 0.0; // this.navx.getDisplacementY() * 100.0;
     }
 
     /**

@@ -1,6 +1,6 @@
 package org.usfirst.frc.team1318.robot.intake;
 
-import org.usfirst.frc.team1318.robot.common.DashboardLogger;
+import org.usfirst.frc.team1318.robot.common.IDashboardLogger;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.DoubleSolenoidValue;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IAnalogInput;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IDoubleSolenoid;
@@ -16,6 +16,8 @@ public class IntakeComponent
 {
     public static final String LogName = "int";
 
+    private final IDashboardLogger logger;
+
     private final IMotor motor;
     private final IDoubleSolenoid intakeSolenoid;
     private final ISolenoid intakeLight;
@@ -23,11 +25,14 @@ public class IntakeComponent
 
     @Inject
     public IntakeComponent(
+        IDashboardLogger logger,
         @Named("INTAKE_MOTOR") IMotor motor,
         @Named("INTAKE_SOLENOID") IDoubleSolenoid intakeSolenoid,
         @Named("INTAKE_LIGHT") ISolenoid intakeLight,
         @Named("INTAKE_THROUGHBEAM") IAnalogInput throughBeamSensor)
     {
+        this.logger = logger;
+
         this.motor = motor;
         this.intakeSolenoid = intakeSolenoid;
         this.intakeLight = intakeLight;
@@ -36,7 +41,9 @@ public class IntakeComponent
 
     /**
      * Extend or retract the "base" part of the intake
-     * @param extend - true extends
+     * 
+     * @param extend
+     *            - true extends
      */
     public void extendOrRetract(boolean extend)
     {
@@ -59,7 +66,9 @@ public class IntakeComponent
 
     /**
      * Take a speed and sets the motor to that speed
-     * @param speed - the speed to be set
+     * 
+     * @param speed
+     *            - the speed to be set
      */
     public void setIntakeSpeed(double speed)
     {
@@ -69,7 +78,7 @@ public class IntakeComponent
     public boolean getThroughBeamBroken()
     {
         boolean valueBool = (this.throughBeamSensor.getVoltage() < 2.5);
-        DashboardLogger.logBoolean(IntakeComponent.LogName, "through-beam", valueBool);
+        this.logger.logBoolean(IntakeComponent.LogName, "through-beam", valueBool);
         return valueBool;
     }
 
