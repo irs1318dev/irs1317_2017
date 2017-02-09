@@ -14,7 +14,6 @@ public class ClimberController implements IController
     private final ClimberComponent climber;
     private final PowerManager powerManager;
     private Driver driver;
-    private final PowerManager powerManager;
 
     @Inject
     public ClimberController(ClimberComponent climber, PowerManager powerManager)
@@ -27,9 +26,10 @@ public class ClimberController implements IController
     public void update()
     {
         double climberSpeed = this.driver.getAnalog(Operation.ClimberSpeed);
-        double currentDraw = this.powerManager.getCurrent(ElectronicsConstants.CLIMBER_PDP_CHANNEL_A) + 
+        double currentDraw = this.powerManager.getCurrent(ElectronicsConstants.CLIMBER_PDP_CHANNEL_A) +
             this.powerManager.getCurrent(ElectronicsConstants.CLIMBER_PDP_CHANNEL_B);
-        if (currentDraw > TuningConstants.CLIMBER_MAX_CURRENT_DRAW) {
+        if (currentDraw > TuningConstants.CLIMBER_MAX_CURRENT_DRAW)
+        {
             climberSpeed = 0.0;
         }
         this.climber.setMotorSpeed(climberSpeed * TuningConstants.CLIMBER_MAX_MOTOR_POWER);
