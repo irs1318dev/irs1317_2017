@@ -176,32 +176,42 @@ public class HSVGearCenterPipeline implements VisionPipeline
         // GEAR CALCULATIONS
         // The rightmost point will be the one we operate on
         Point gearCenter;
+        double height;
         if (center1 == null)
         {
             gearCenter = center2;
+            height = Imgproc.boundingRect(secondLargestContour).height;
         }
         else if (center2 == null)
         {
             gearCenter = center1;
+            height = Imgproc.boundingRect(largestContour).height;
         }
         else
         {
             gearCenter = (center1.x > center2.x) ? center1 : center2;
+            height = (center1.x > center2.x) ? Imgproc.boundingRect(largestContour).height : Imgproc.boundingRect(secondLargestContour).height;
         }
+        if (gearCenter != null)
+        {
 
-        double height = (center1.x > center2.x) ? Imgproc.boundingRect(largestContour).height : Imgproc.boundingRect(secondLargestContour).height;
-        // Find desired data
-        this.xOffsetMeasured = (int)(gearCenter.x - VisionConstants.LIFECAM_CAMERA_RESOLUTION_X / 2);
+            // Find desired data
+            this.xOffsetMeasured = (int)(gearCenter.x - VisionConstants.LIFECAM_CAMERA_RESOLUTION_X / 2);
 
-        double xFOVRadians = VisionConstants.LIFECAM_CAMERA_ANGLE_OF_VIEW * Math.PI / 180.0;
-        double yFOVRadians = VisionConstants.LIFECAM_CAMERA_ANGLE_OF_VIEW_Y * Math.PI / 180.0;
-        this.thetaXOffsetMeasured = this.xOffsetMeasured / (xFOVRadians / 2);
+            double xFOVRadians = VisionConstants.LIFECAM_CAMERA_ANGLE_OF_VIEW * Math.PI / 180.0;
+            double yFOVRadians = VisionConstants.LIFECAM_CAMERA_ANGLE_OF_VIEW_Y * Math.PI / 180.0;
+            this.thetaXOffsetMeasured = this.xOffsetMeasured / (xFOVRadians / 2);
 
-        this.distanceFromCam = (VisionConstants.REAL_HEIGHT / 2) / (Math.tan(yFOVRadians / 2)) *
-            (VisionConstants.LIFECAM_CAMERA_RESOLUTION_Y / height);
-        this.distanceFromRobot = distanceFromCam * Math.cos(thetaXOffsetMeasured);
+            this.distanceFromCam = (VisionConstants.REAL_HEIGHT / 2) / (Math.tan(yFOVRadians / 2)) *
+                (VisionConstants.LIFECAM_CAMERA_RESOLUTION_Y / height);
+            this.distanceFromRobot = distanceFromCam * Math.cos(thetaXOffsetMeasured);
 
-        this.thetaXOffsetDesired = Math.asin(VisionConstants.CAMERA_OFFSET_FROM_CENTER / distanceFromCam);
+            this.thetaXOffsetDesired = Math.asin(VisionConstants.CAMERA_OFFSET_FROM_CENTER / distanceFromCam);
+        }
+        else
+        {
+
+        }
         undistortedImage.release();
     }
 
