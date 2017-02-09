@@ -210,6 +210,11 @@ public class HSVGearCenterPipeline implements VisionPipeline
         }
         else
         {
+            this.xOffsetMeasured = 0;
+            this.thetaXOffsetDesired = 0;
+            this.distanceFromCam = 0;
+            this.distanceFromRobot = 0;
+            this.thetaXOffsetDesired = 0;
 
         }
         undistortedImage.release();
