@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1318.robot.shooter;
 
+import org.usfirst.frc.team1318.robot.common.IDashboardLogger;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.CANTalonControlMode;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.DoubleSolenoidValue;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.ICANTalon;
@@ -18,14 +19,19 @@ public class ShooterComponent
     private final IMotor feeder;
     private final ICANTalon shooter;
     private final ISolenoid readyLight;
+    private final IDashboardLogger logger;
+    private static final String LogName = "shooter";
 
     @Inject
     public ShooterComponent(
+        IDashboardLogger logger,
         @Named("SHOOTER_HOOD") IDoubleSolenoid hood,
         @Named("SHOOTER_FEEDER") IMotor feeder,
         @Named("SHOOTER_LIGHT") ISolenoid readyLight,
         @Named("SHOOTER_SHOOTER") ICANTalon shooter)
     {
+        this.logger = logger;
+
         this.hood = hood;
         this.feeder = feeder;
         this.readyLight = readyLight;
@@ -44,6 +50,8 @@ public class ShooterComponent
         }
 
         this.shooter.set(power);
+        this.logger.logNumber(LogName, "power", power);
+
     }
 
     public void setFeederPower(double power)
@@ -53,7 +61,9 @@ public class ShooterComponent
 
     public double getShooterError()
     {
-        return this.shooter.getError();
+        double error = this.shooter.getError();
+        this.logger.logNumber(LogName, "error", error);
+        return error;
     }
 
     public void extendOrRetract(boolean extend)
