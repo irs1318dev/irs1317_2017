@@ -82,4 +82,5 @@ public class TuningConstants
     //================================================== Climber ==============================================================
 
     public static final double CLIMBER_MAX_MOTOR_POWER = 0.0;
+    public static final double CLIMBER_MAX_CURRENT_DRAW = 0.0;
 }
