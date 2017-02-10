@@ -32,7 +32,6 @@ public class ShooterControllerTest
         verify(shooter).setFeederPower(0.0);
         verify(shooter).setShooterPower(0.0);
         verifyNoMoreInteractions(shooter);
-
     }
 
     @Test
@@ -54,7 +53,6 @@ public class ShooterControllerTest
         verify(shooter).setFeederPower(0.0);
         verify(shooter).setShooterPower(0.0);
         verifyNoMoreInteractions(shooter);
-
     }
 
     @Test
@@ -79,7 +77,6 @@ public class ShooterControllerTest
         verify(shooter).setReadyLight(true);
         verify(shooter).getShooterError();
         verifyNoMoreInteractions(shooter);
-
     }
 
     @Test
@@ -102,7 +99,6 @@ public class ShooterControllerTest
         verify(shooter).setFeederPower(0.0);
         verify(shooter).setShooterPower(0.0);
         verifyNoMoreInteractions(shooter);
-
     }
 
     @Test
@@ -125,7 +121,6 @@ public class ShooterControllerTest
         verify(shooter).setFeederPower(TuningConstants.SHOOTER_MAX_FEEDER_POWER);
         verify(shooter).setShooterPower(0.0);
         verifyNoMoreInteractions(shooter);
-
     }
 
     @Test
@@ -148,7 +143,6 @@ public class ShooterControllerTest
         verify(shooter).setFeederPower(0.0);
         verify(shooter).setShooterPower(0.0);
         verifyNoMoreInteractions(shooter);
-
     }
 
     @Test
@@ -173,7 +167,6 @@ public class ShooterControllerTest
         verify(shooter).setReadyLight(false);
         verify(shooter).getShooterError();
         verifyNoMoreInteractions(shooter);
-
     }
 
     @Test
@@ -196,7 +189,5 @@ public class ShooterControllerTest
         verify(shooter).setFeederPower(0.0);
         verify(shooter).setShooterPower(0.0);
         verifyNoMoreInteractions(shooter);
-
     }
-
 }

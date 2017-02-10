@@ -34,7 +34,6 @@ public class ShooterComponentTest
 
         verify(feeder).set(eq(TuningConstants.SHOOTER_MAX_FEEDER_POWER));
         verifyNoMoreInteractions(hood, feeder, shooter, readyLight);
-
     }
 
     @Test
@@ -52,7 +51,6 @@ public class ShooterComponentTest
 
         verify(feeder).set(eq(0.0));
         verifyNoMoreInteractions(hood, feeder, shooter, readyLight);
-
     }
 
     @Test
@@ -193,7 +191,6 @@ public class ShooterComponentTest
         ShooterComponent shooterComponent = new ShooterComponent(logger, hood, feeder, readyLight, shooter);
         double error = shooterComponent.getShooterError();
         assertEquals(0.0, error, 0.001);
-
     }
 
     @Test
@@ -210,7 +207,5 @@ public class ShooterComponentTest
         ShooterComponent shooterComponent = new ShooterComponent(logger, hood, feeder, readyLight, shooter);
         double error = shooterComponent.getShooterError();
         assertEquals(1.0, error, 0.001);
-
     }
-
 }
