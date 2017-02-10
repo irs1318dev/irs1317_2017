@@ -80,12 +80,13 @@ public class VisionCenteringTask extends MoveDistanceTaskBase implements IContro
         {
             this.setDigitalOperationState(Operation.DriveTrainUsePositionalMode, false);
 
-            Double currentAngle = this.visionManager.getCenter1Angle();
-            if (currentAngle != null)
+            Double currentMeasuredAngle = this.visionManager.getMeasuredAngle();
+            Double currentDesiredAngle = this.visionManager.getDesiredAngle();
+            if (currentMeasuredAngle != null && currentDesiredAngle != null)
             {
                 this.setAnalogOperationState(
                     Operation.DriveTrainTurn,
-                    -this.pidHandler.calculatePosition(0.0, currentAngle));
+                    -this.pidHandler.calculatePosition(currentDesiredAngle, currentMeasuredAngle));
             }
         }
     }
@@ -140,14 +141,16 @@ public class VisionCenteringTask extends MoveDistanceTaskBase implements IContro
         }
         else
         {
-            Double centerAngle = this.visionManager.getCenter1Angle();
-            if (centerAngle == null)
+            Double currentMeasuredAngle = this.visionManager.getMeasuredAngle();
+            Double currentDesiredAngle = this.visionManager.getDesiredAngle();
+            if (currentMeasuredAngle == null || currentDesiredAngle == null)
             {
                 return true;
             }
 
+            double centerAngleDifference = Math.abs(currentMeasuredAngle - currentDesiredAngle);
             double output = this.pidHandler.getCurrentOutput();
-            return Math.abs(centerAngle) < TuningConstants.MAX_VISION_CENTERING_RANGE_DEGREES &&
+            return centerAngleDifference < TuningConstants.MAX_VISION_CENTERING_RANGE_DEGREES &&
                 Math.abs(output) < TuningConstants.MAX_VISION_CENTERING_OUTPUT;
         }
     }
@@ -158,12 +161,13 @@ public class VisionCenteringTask extends MoveDistanceTaskBase implements IContro
     @Override
     protected void determineFinalEncoderDistance()
     {
-        // Convert center in pixels to degrees with 0 degrees being desired place
-        Double centerAngle = this.visionManager.getCenter1Angle();
-        if (centerAngle != null)
+        // Convert center in pixels to degrees with a desired place
+        Double currentMeasuredAngle = this.visionManager.getMeasuredAngle();
+        Double currentDesiredAngle = this.visionManager.getDesiredAngle();
+        if (currentMeasuredAngle != null && currentDesiredAngle != null)
         {
             // Set desired encoder distances based on degrees off of center
-            double arcLength = Math.PI * HardwareConstants.DRIVETRAIN_WHEEL_SEPARATION_DISTANCE * (centerAngle / 360.0);
+            double arcLength = Math.PI * HardwareConstants.DRIVETRAIN_WHEEL_SEPARATION_DISTANCE * ((currentMeasuredAngle - currentDesiredAngle) / 360.0);
             this.desiredFinalLeftEncoderDistance = this.startLeftEncoderDistance + arcLength;
             this.desiredFinalRightEncoderDistance = this.startLeftEncoderDistance - arcLength;
         }

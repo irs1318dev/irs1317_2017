@@ -15,6 +15,17 @@ public enum Operation
     DriveTrainRightPosition,
     DriveTrainSwapFrontOrientation,
 
+    // intake
+    IntakeArmExtend,
+    IntakeArmRetract,
+    IntakeIn,
+    IntakeOut,
+    IntakeGearHolderExtend,
+    IntakeGearHolderRetract,
+
+    // Climber
+    ClimberSpeed,
+
     // Shooter Operations
     ShooterSpeed,
     ShooterFeed,
