@@ -4,4 +4,7 @@ public enum MacroOperation
 {
     // DriveTrain operations:
     PIDBrake, Center,
+
+    // Shooter operations:
+    SpinFar, SpinClose, SpinCloseLowGoal
 }
