@@ -50,5 +50,4 @@ public class ClimberComponentTest
         verify(motor).set(eq(0.0));
         verifyNoMoreInteractions(motor);
     }
-
 }
