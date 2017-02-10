@@ -32,6 +32,7 @@ public class ClimberController implements IController
         {
             climberSpeed = 0.0;
         }
+
         this.climber.setMotorSpeed(climberSpeed * TuningConstants.CLIMBER_MAX_MOTOR_POWER);
     }
 
