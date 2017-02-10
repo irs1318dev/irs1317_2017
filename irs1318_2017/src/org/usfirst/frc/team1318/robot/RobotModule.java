@@ -61,6 +61,9 @@ public class RobotModule extends AbstractModule
         controllerList.add(injector.getInstance(VisionManager.class));
         controllerList.add(injector.getInstance(CompressorController.class));
         controllerList.add(injector.getInstance(DriveTrainController.class));
+        //controllerList.add(injector.getInstance(ClimberController.class));
+        //controllerList.add(injector.getInstance(IntakeController.class));
+        //controllerList.add(injector.getInstance(ShooterController.class));
         return new ControllerManager(controllerList);
     }
 
