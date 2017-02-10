@@ -87,7 +87,6 @@ public class RobotModule extends AbstractModule
 
     @Singleton
     @Provides
-    @Named("COMPRESSOR")
     public ICompressor getCompressor()
     {
         return new CompressorWrapper(ElectronicsConstants.PCM_B_MODULE);
@@ -95,7 +94,6 @@ public class RobotModule extends AbstractModule
 
     @Singleton
     @Provides
-    @Named("POWERMANAGER_PDP")
     public IPowerDistributionPanel getPowerManagerPdp()
     {
         return new PowerDistributionPanelWrapper();
