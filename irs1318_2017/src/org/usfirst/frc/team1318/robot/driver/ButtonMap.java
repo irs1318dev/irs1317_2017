@@ -93,8 +93,8 @@ public class ButtonMap
             put(
                 Operation.ShooterFeed,
                 new DigitalOperationDescription(
-                    UserInputDevice.None,
-                    UserInputDeviceButton.NONE,
+                    UserInputDevice.Driver,
+                    UserInputDeviceButton.JOYSTICK_STICK_TRIGGER_BUTTON,
                     ButtonType.Simple));
             put(
                 Operation.ShooterSpeed,

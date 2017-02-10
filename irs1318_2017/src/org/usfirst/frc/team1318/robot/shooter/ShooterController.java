@@ -40,7 +40,6 @@ public class ShooterController implements IController
             double errorPercentage = error / velocityGoal;
 
             shooterIsUpToSpeed = Math.abs(errorPercentage) < TuningConstants.SHOOTER_ALLOWABLE_ERROR;
-
         }
 
         this.shooter.setReadyLight(shooterIsUpToSpeed);

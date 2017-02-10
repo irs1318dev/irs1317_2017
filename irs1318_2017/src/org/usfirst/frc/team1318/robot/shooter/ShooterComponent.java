@@ -15,12 +15,13 @@ import com.google.inject.name.Named;
 @Singleton
 public class ShooterComponent
 {
+    private static final String LogName = "shooter";
+
+    private final IDashboardLogger logger;
     private final IDoubleSolenoid hood;
     private final IMotor feeder;
     private final ICANTalon shooter;
     private final ISolenoid readyLight;
-    private final IDashboardLogger logger;
-    private static final String LogName = "shooter";
 
     @Inject
     public ShooterComponent(
@@ -50,8 +51,7 @@ public class ShooterComponent
         }
 
         this.shooter.set(power);
-        this.logger.logNumber(LogName, "power", power);
-
+        this.logger.logNumber(ShooterComponent.LogName, "power", power);
     }
 
     public void setFeederPower(double power)
@@ -62,7 +62,7 @@ public class ShooterComponent
     public double getShooterError()
     {
         double error = this.shooter.getError();
-        this.logger.logNumber(LogName, "error", error);
+        this.logger.logNumber(ShooterComponent.LogName, "error", error);
         return error;
     }
 
