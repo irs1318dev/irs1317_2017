@@ -7,6 +7,7 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 import org.junit.Test;
 import org.usfirst.frc.team1318.robot.TuningConstants;
+import org.usfirst.frc.team1318.robot.common.IDashboardLogger;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IMotor;
 
 public class ClimberComponentTest
@@ -16,8 +17,9 @@ public class ClimberComponentTest
     public void testSetMotorSpeed_MaxClimberPower()
     {
         IMotor motor = mock(IMotor.class);
+        IDashboardLogger logger = mock(IDashboardLogger.class);
 
-        ClimberComponent climberComponent = new ClimberComponent(motor);
+        ClimberComponent climberComponent = new ClimberComponent(logger, motor);
 
         climberComponent.setMotorSpeed(TuningConstants.CLIMBER_MAX_MOTOR_POWER);
 
@@ -29,8 +31,9 @@ public class ClimberComponentTest
     public void testSetMotorSpeed_Zero()
     {
         IMotor motor = mock(IMotor.class);
+        IDashboardLogger logger = mock(IDashboardLogger.class);
 
-        ClimberComponent climberComponent = new ClimberComponent(motor);
+        ClimberComponent climberComponent = new ClimberComponent(logger, motor);
 
         climberComponent.setMotorSpeed(0.0);
 
@@ -42,8 +45,9 @@ public class ClimberComponentTest
     public void testStop()
     {
         IMotor motor = mock(IMotor.class);
+        IDashboardLogger logger = mock(IDashboardLogger.class);
 
-        ClimberComponent climberComponent = new ClimberComponent(motor);
+        ClimberComponent climberComponent = new ClimberComponent(logger, motor);
 
         climberComponent.stop();
 
