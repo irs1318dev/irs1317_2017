@@ -25,4 +25,9 @@ public enum Operation
 
     // Climber
     ClimberSpeed,
+
+    // Shooter Operations
+    ShooterSpeed,
+    ShooterFeed,
+    ShooterExtendHood,
 }

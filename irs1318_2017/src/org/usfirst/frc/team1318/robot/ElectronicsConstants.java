@@ -46,4 +46,16 @@ public class ElectronicsConstants
 
     public static final int INTAKE_GEAR_EXTENDER_SOLENOID_CHANNEL_A = -1;
     public static final int INTAKE_GEAR_EXTENDER_SOLENOID_CHANNEL_B = -1;
+
+    //================================================== Shooter ==============================================================
+
+    public static final int SHOOTER_HOOD_CHANNEL_A = -1;
+    public static final int SHOOTER_HOOD_CHANNEL_B = -1;
+
+    public static final int SHOOTER_FEEDER_CHANNEL = -1;
+
+    public static final int SHOOTER_READYLIGHT_CHANNEL = -1;
+
+    public static final int SHOOTER_MASTER_MOTOR_CHANNEL = -1;
+    public static final int SHOOTER_FOLLOWER_MOTOR_CHANNEL = -1;
 }

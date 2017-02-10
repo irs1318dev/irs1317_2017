@@ -129,6 +129,27 @@ public class ButtonMap
                     AnalogAxis.Throttle,
                     true,
                     0.25));
+
+            // Operations for the shooter
+            put(
+                Operation.ShooterExtendHood,
+                new DigitalOperationDescription(
+                    UserInputDevice.None,
+                    UserInputDeviceButton.NONE,
+                    ButtonType.Click));
+            put(
+                Operation.ShooterFeed,
+                new DigitalOperationDescription(
+                    UserInputDevice.Driver,
+                    UserInputDeviceButton.JOYSTICK_STICK_TRIGGER_BUTTON,
+                    ButtonType.Simple));
+            put(
+                Operation.ShooterSpeed,
+                new AnalogOperationDescription(
+                    UserInputDevice.None,
+                    AnalogAxis.None,
+                    false,
+                    0.0));
         }
     };
 

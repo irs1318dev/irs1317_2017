@@ -85,4 +85,18 @@ public class TuningConstants
 
     public static final double CLIMBER_MAX_MOTOR_POWER = 0.0;
     public static final double CLIMBER_MAX_CURRENT_DRAW = 0.0;
+
+    //================================================== Shooter ==============================================================
+
+    public static final double SHOOTER_MAX_FEEDER_POWER = 0.0;
+
+    public static final boolean SHOOTER_USE_PID = true;
+
+    public static final double SHOOTER_PID_KP = 0.024;
+    public static final double SHOOTER_PID_KI = 0.0;
+    public static final double SHOOTER_PID_KD = 0.0;
+    public static final double SHOOTER_PID_KF = 0.0095;
+
+    public static final double SHOOTER_PID_MAX_VELOCITY = 108000.0;
+    public static final double SHOOTER_ALLOWABLE_ERROR = 0.02;
 }

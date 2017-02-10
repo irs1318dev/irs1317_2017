@@ -9,17 +9,22 @@ import javax.inject.Singleton;
 import org.usfirst.frc.team1318.robot.common.IController;
 import org.usfirst.frc.team1318.robot.common.IDashboardLogger;
 import org.usfirst.frc.team1318.robot.common.SmartDashboardLogger;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.CANTalonControlMode;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.CANTalonWrapper;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.CompressorWrapper;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.DoubleSolenoidWrapper;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.EncoderWrapper;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.ICANTalon;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.ICompressor;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IDoubleSolenoid;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IEncoder;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IJoystick;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IMotor;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IPowerDistributionPanel;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.ISolenoid;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.JoystickWrapper;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.PowerDistributionPanelWrapper;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.SolenoidWrapper;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.TalonWrapper;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.VictorWrapper;
 import org.usfirst.frc.team1318.robot.compressor.CompressorController;
@@ -173,5 +178,67 @@ public class RobotModule extends AbstractModule
         TalonWrapper climber = new TalonWrapper(
             ElectronicsConstants.CLIMBER_MOTOR_CHANNEL);
         return climber;
+    }
+
+    @Singleton
+    @Provides
+    @Named("SHOOTER_HOOD")
+    public IDoubleSolenoid getShooterHood()
+    {
+        DoubleSolenoidWrapper hood = new DoubleSolenoidWrapper(
+            ElectronicsConstants.SHOOTER_HOOD_CHANNEL_A,
+            ElectronicsConstants.SHOOTER_HOOD_CHANNEL_B);
+
+        return hood;
+    }
+
+    @Singleton
+    @Provides
+    @Named("SHOOTER_FEEDER")
+    public IMotor getShooterFeeder()
+    {
+        TalonWrapper feeder = new TalonWrapper(
+            ElectronicsConstants.SHOOTER_FEEDER_CHANNEL);
+
+        return feeder;
+    }
+
+    @Singleton
+    @Provides
+    @Named("SHOOTER_LIGHT")
+    public ISolenoid getShooterReadyLight()
+    {
+        SolenoidWrapper readyLight = new SolenoidWrapper(
+            ElectronicsConstants.SHOOTER_READYLIGHT_CHANNEL);
+
+        return readyLight;
+    }
+
+    @Singleton
+    @Provides
+    @Named("SHOOTER_SHOOTER")
+    public ICANTalon getShooterShooter()
+    {
+        CANTalonWrapper master = new CANTalonWrapper(ElectronicsConstants.SHOOTER_MASTER_MOTOR_CHANNEL);
+        master.enableBrakeMode(false);
+        master.reverseSensor(false);
+
+        CANTalonWrapper follower = new CANTalonWrapper(ElectronicsConstants.SHOOTER_FOLLOWER_MOTOR_CHANNEL);
+        follower.enableBrakeMode(false);
+        follower.reverseOutput(true);
+        follower.changeControlMode(CANTalonControlMode.Follower);
+        follower.set(ElectronicsConstants.SHOOTER_MASTER_MOTOR_CHANNEL);
+
+        if (TuningConstants.SHOOTER_USE_PID)
+        {
+            master.changeControlMode(CANTalonControlMode.Speed);
+            master.setPIDF(
+                TuningConstants.SHOOTER_PID_KP,
+                TuningConstants.SHOOTER_PID_KI,
+                TuningConstants.SHOOTER_PID_KD,
+                TuningConstants.SHOOTER_PID_KF);
+        }
+
+        return master;
     }
 }
