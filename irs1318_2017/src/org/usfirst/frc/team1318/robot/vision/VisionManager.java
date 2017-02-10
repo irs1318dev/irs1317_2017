@@ -33,7 +33,6 @@ public class VisionManager implements IController, VisionRunner.Listener<HSVGear
 
     private Double thetaXOffsetDesired;
     private Double thetaXOffsetMeasured;
-    private Double distanceFromCam;
     private Double distanceFromRobot;
 
     private double lastMeasuredFps;
@@ -54,16 +53,15 @@ public class VisionManager implements IController, VisionRunner.Listener<HSVGear
         camera.setBrightness(VisionConstants.LIFECAM_CAMERA_BRIGHTNESS);
         camera.setFPS(VisionConstants.LIFECAM_CAMERA_FPS);
 
-        // CameraServer.getInstance().addCamera(camera);
+        //CameraServer.getInstance().addCamera(camera);
 
-        //        AxisCamera camera = CameraServer.getInstance().addAxisCamera(VisionConstants.AXIS_CAMERA_IP_ADDRESS);
+        //AxisCamera camera = CameraServer.getInstance().addAxisCamera(VisionConstants.AXIS_CAMERA_IP_ADDRESS);
         this.visionThread = new VisionThread(camera, new HSVGearCenterPipeline(VisionConstants.SHOULD_UNDISTORT), this);
         this.visionThread.start();
 
         this.center = null;
         this.thetaXOffsetDesired = null;
         this.thetaXOffsetMeasured = null;
-        this.distanceFromCam = null;
         this.distanceFromRobot = null;
 
         this.lastMeasuredFps = 0.0;
@@ -145,7 +143,6 @@ public class VisionManager implements IController, VisionRunner.Listener<HSVGear
 
             this.thetaXOffsetDesired = pipeline.getThetaXOffsetDesired();
             this.thetaXOffsetMeasured = pipeline.getThetaXOffsetMeasured();
-            this.distanceFromCam = pipeline.getDistanceFromCam();
             this.distanceFromRobot = pipeline.getDistanceFromRobot();
 
             this.lastMeasuredFps = pipeline.getFps();
