@@ -185,5 +185,4 @@ public class IntakeControllerTest
         verify(intake).stop();
         verifyNoMoreInteractions(intake);
     }
-
 }

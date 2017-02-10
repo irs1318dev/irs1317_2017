@@ -27,7 +27,6 @@ public class IntakeComponentTest
 
         verify(gearExtender).set(eq(DoubleSolenoidValue.kForward));
         verifyNoMoreInteractions(motor, intakeExtender, gearExtender);
-
     }
 
     @Test
@@ -75,7 +74,6 @@ public class IntakeComponentTest
         verifyNoMoreInteractions(motor, intakeExtender, gearholderSolenoid);
     }
 
-    //none of this is going to work... I don't know what I'm doing
     @Test
     public void testMotorSpeed_MAX_POWER_LEVEL()
     {
@@ -89,11 +87,10 @@ public class IntakeComponentTest
 
         verify(motor).set(eq(TuningConstants.INTAKE_MAX_MOTOR_SPEED));
         verifyNoMoreInteractions(motor, intakeExtender, gearholderSolenoid);
-
     }
 
     @Test
-    public void testMotorSpeed_o()
+    public void testMotorSpeed_0()
     {
         IMotor motor = mock(IMotor.class);
         IDoubleSolenoid gearholderSolenoid = mock(IDoubleSolenoid.class);
@@ -105,7 +102,6 @@ public class IntakeComponentTest
 
         verify(motor).set(eq(0.0));
         verifyNoMoreInteractions(motor, intakeExtender, gearholderSolenoid);
-
     }
 
     @Test
@@ -123,6 +119,5 @@ public class IntakeComponentTest
         verify(gearholderSolenoid).set(eq(DoubleSolenoidValue.kOff));
         verify(intakeExtender).set(eq(DoubleSolenoidValue.kOff));
         verifyNoMoreInteractions(motor, gearholderSolenoid, intakeExtender);
-
     }
 }

@@ -11,7 +11,6 @@ import com.google.inject.name.Named;
 @Singleton
 public class IntakeComponent
 {
-
     private final IMotor motor;
     private final IDoubleSolenoid intakeExtender;
     private final IDoubleSolenoid gearExtender;
@@ -31,14 +30,12 @@ public class IntakeComponent
     {
         if (extend)
         {
-            this.intakeExtender.set(DoubleSolenoidValue.kForward); //extend
+            this.intakeExtender.set(DoubleSolenoidValue.kForward);
         }
-
         else
         {
-            this.intakeExtender.set(DoubleSolenoidValue.kReverse); //retract
+            this.intakeExtender.set(DoubleSolenoidValue.kReverse);
         }
-
     }
 
     public void setMotorSpeed(double speed)
@@ -50,14 +47,12 @@ public class IntakeComponent
     {
         if (extend)
         {
-            this.gearExtender.set(DoubleSolenoidValue.kForward); //extend
+            this.gearExtender.set(DoubleSolenoidValue.kForward);
         }
-
         else
         {
-            this.gearExtender.set(DoubleSolenoidValue.kReverse); //retract
+            this.gearExtender.set(DoubleSolenoidValue.kReverse);
         }
-
     }
 
     public void stop()
