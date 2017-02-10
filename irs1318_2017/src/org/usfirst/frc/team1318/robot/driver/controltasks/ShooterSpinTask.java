@@ -2,14 +2,11 @@ package org.usfirst.frc.team1318.robot.driver.controltasks;
 
 import org.usfirst.frc.team1318.robot.driver.IControlTask;
 import org.usfirst.frc.team1318.robot.driver.Operation;
-import org.usfirst.frc.team1318.robot.shooter.ShooterComponent;
 
 public class ShooterSpinTask extends ControlTaskBase implements IControlTask
 {
     private final boolean extendHood;
     private final double shooterVelocity;
-
-    private ShooterComponent shooter;
 
     public ShooterSpinTask(boolean extendHood, double shooterVelocity)
     {
@@ -20,8 +17,6 @@ public class ShooterSpinTask extends ControlTaskBase implements IControlTask
     @Override
     public void begin()
     {
-        this.shooter = this.getInjector().getInstance(ShooterComponent.class);
-
         this.setDigitalOperationState(Operation.ShooterExtendHood, extendHood);
         this.setAnalogOperationState(Operation.ShooterSpeed, shooterVelocity);
     }
