@@ -14,7 +14,7 @@ public enum Operation
     DriveTrainLeftPosition,
     DriveTrainRightPosition,
     DriveTrainSwapFrontOrientation,
-    
+
     // intake
     IntakeArmExtend,
     IntakeArmRetract,
@@ -22,4 +22,7 @@ public enum Operation
     IntakeOut,
     IntakeGearHolderExtend,
     IntakeGearHolderRetract,
+
+    // Climber
+    ClimberSpeed,
 }

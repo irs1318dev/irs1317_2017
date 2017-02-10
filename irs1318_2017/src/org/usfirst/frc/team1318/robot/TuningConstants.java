@@ -22,7 +22,7 @@ public class TuningConstants
     public static final double AUTONOMOUS_TIME_FAST = 3.0;
 
     // Acceptable vision centering range values in degrees
-    public static final double MAX_VISION_CENTERING_RANGE_DEGREES = 1.0;
+    public static final double MAX_VISION_CENTERING_RANGE_DEGREES = 2.0;
     public static final double MAX_VISION_CENTERING_OUTPUT = 0.08;
 
     //================================================== DriveTrain ==============================================================
@@ -80,4 +80,9 @@ public class TuningConstants
     //================================================== Intake ==============================================================
 
     public static final double INTAKE_MAX_MOTOR_SPEED = 0.0;
+
+    //================================================== Climber ==============================================================
+
+    public static final double CLIMBER_MAX_MOTOR_POWER = 0.0;
+    public static final double CLIMBER_MAX_CURRENT_DRAW = 0.0;
 }

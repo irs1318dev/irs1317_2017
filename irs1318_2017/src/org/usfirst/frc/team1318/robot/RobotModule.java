@@ -135,16 +135,6 @@ public class RobotModule extends AbstractModule
 
     @Singleton
     @Provides
-    @Named("CLIMBER_CLIMBER")
-    public IMotor getCimberClimber()
-    {
-        TalonWrapper climber = new TalonWrapper(
-            ElectronicsConstants.CLIMBER_CLIMBER_CHANNEL);
-        return climber;
-    }
-
-    @Singleton
-    @Provides
     @Named("INTIAKE_MOTOR")
     public IMotor getIntakeMotor()
     {
@@ -173,5 +163,15 @@ public class RobotModule extends AbstractModule
             ElectronicsConstants.INTAKE_GEAR_EXTENDER_SOLENOID_CHANNEL_A,
             ElectronicsConstants.INTAKE_GEAR_EXTENDER_SOLENOID_CHANNEL_B);
         return intakeGearExtender;
+    }
+
+    @Singleton
+    @Provides
+    @Named("CLIMBER_MOTOR")
+    public IMotor getCimberClimber()
+    {
+        TalonWrapper climber = new TalonWrapper(
+            ElectronicsConstants.CLIMBER_MOTOR_CHANNEL);
+        return climber;
     }
 }

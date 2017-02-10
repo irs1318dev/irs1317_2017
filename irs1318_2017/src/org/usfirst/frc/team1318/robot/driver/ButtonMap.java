@@ -83,7 +83,7 @@ public class ButtonMap
                     UserInputDeviceButton.NONE,
                     ButtonType.Toggle));
 
-            // intake
+            // Operations for the intake
             put(
                 Operation.IntakeArmExtend,
                 new DigitalOperationDescription(
@@ -120,6 +120,15 @@ public class ButtonMap
                     UserInputDevice.None,
                     UserInputDeviceButton.NONE,
                     ButtonType.Click));
+
+            // Operations for the climber
+            put(
+                Operation.ClimberSpeed,
+                new AnalogOperationDescription(
+                    UserInputDevice.Driver,
+                    AnalogAxis.Throttle,
+                    true,
+                    0.25));
         }
     };
 
