@@ -31,6 +31,22 @@ public class ElectronicsConstants
     public static final int DRIVETRAIN_LEFT_ENCODER_CHANNEL_A = 2;
     public static final int DRIVETRAIN_LEFT_ENCODER_CHANNEL_B = 3;
 
+    //================================================== Climber ==============================================================
+
+    public static final int CLIMBER_MOTOR_CHANNEL = -1;
+    public static final int CLIMBER_PDP_CHANNEL_A = -1;
+    public static final int CLIMBER_PDP_CHANNEL_B = -1;
+
+    //================================================== Intake ==============================================================
+
+    public static final int INTAKE_MOTOR_CHANNEL = -1;
+
+    public static final int INTAKE_EXTENDER_SOLENOID_CHANNEL_A = -1;
+    public static final int INTAKE_EXTENDER_SOLENOID_CHANNEL_B = -1;
+
+    public static final int INTAKE_GEAR_EXTENDER_SOLENOID_CHANNEL_A = -1;
+    public static final int INTAKE_GEAR_EXTENDER_SOLENOID_CHANNEL_B = -1;
+
     //================================================== Shooter ==============================================================
 
     public static final int SHOOTER_HOOD_CHANNEL_A = -1;

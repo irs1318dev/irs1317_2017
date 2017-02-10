@@ -7,6 +7,8 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.usfirst.frc.team1318.robot.common.IController;
+import org.usfirst.frc.team1318.robot.common.IDashboardLogger;
+import org.usfirst.frc.team1318.robot.common.SmartDashboardLogger;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.CANTalonControlMode;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.CANTalonWrapper;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.CompressorWrapper;
@@ -44,6 +46,13 @@ public class RobotModule extends AbstractModule
 
     @Singleton
     @Provides
+    public IDashboardLogger getLogger()
+    {
+        return new SmartDashboardLogger();
+    }
+
+    @Singleton
+    @Provides
     public ControllerManager getControllerManager(Injector injector)
     {
         List<IController> controllerList = new ArrayList<>();
@@ -52,6 +61,9 @@ public class RobotModule extends AbstractModule
         controllerList.add(injector.getInstance(VisionManager.class));
         controllerList.add(injector.getInstance(CompressorController.class));
         controllerList.add(injector.getInstance(DriveTrainController.class));
+        //controllerList.add(injector.getInstance(ClimberController.class));
+        //controllerList.add(injector.getInstance(IntakeController.class));
+        //controllerList.add(injector.getInstance(ShooterController.class));
         return new ControllerManager(controllerList);
     }
 
@@ -73,7 +85,6 @@ public class RobotModule extends AbstractModule
 
     @Singleton
     @Provides
-    @Named("COMPRESSOR")
     public ICompressor getCompressor()
     {
         return new CompressorWrapper(ElectronicsConstants.PCM_B_MODULE);
@@ -81,7 +92,6 @@ public class RobotModule extends AbstractModule
 
     @Singleton
     @Provides
-    @Named("POWERMANAGER_PDP")
     public IPowerDistributionPanel getPowerManagerPdp()
     {
         return new PowerDistributionPanelWrapper();
@@ -129,6 +139,48 @@ public class RobotModule extends AbstractModule
         encoder.setDistancePerPulse(HardwareConstants.DRIVETRAIN_RIGHT_PULSE_DISTANCE);
 
         return encoder;
+    }
+
+    @Singleton
+    @Provides
+    @Named("INTIAKE_MOTOR")
+    public IMotor getIntakeMotor()
+    {
+        TalonWrapper intake = new TalonWrapper(
+            ElectronicsConstants.INTAKE_MOTOR_CHANNEL);
+        return intake;
+    }
+
+    @Singleton
+    @Provides
+    @Named("INTIAKE_SOLENOID")
+    public IDoubleSolenoid getIntakeExtender()
+    {
+        DoubleSolenoidWrapper intakeExtender = new DoubleSolenoidWrapper(
+            ElectronicsConstants.INTAKE_EXTENDER_SOLENOID_CHANNEL_A,
+            ElectronicsConstants.INTAKE_EXTENDER_SOLENOID_CHANNEL_B);
+        return intakeExtender;
+    }
+
+    @Singleton
+    @Provides
+    @Named("GEAR_SOLENOID")
+    public IDoubleSolenoid getIntakeGearExtender()
+    {
+        DoubleSolenoidWrapper intakeGearExtender = new DoubleSolenoidWrapper(
+            ElectronicsConstants.INTAKE_GEAR_EXTENDER_SOLENOID_CHANNEL_A,
+            ElectronicsConstants.INTAKE_GEAR_EXTENDER_SOLENOID_CHANNEL_B);
+        return intakeGearExtender;
+    }
+
+    @Singleton
+    @Provides
+    @Named("CLIMBER_MOTOR")
+    public IMotor getCimberClimber()
+    {
+        TalonWrapper climber = new TalonWrapper(
+            ElectronicsConstants.CLIMBER_MOTOR_CHANNEL);
+        return climber;
     }
 
     @Singleton
