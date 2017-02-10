@@ -31,6 +31,7 @@ public class ShooterControllerTest
         verify(shooter).extendOrRetract(eq(true));
         verify(shooter).setFeederPower(0.0);
         verify(shooter).setShooterPower(0.0);
+        verify(shooter).setReadyLight(eq(false));
         verifyNoMoreInteractions(shooter);
     }
 
@@ -52,11 +53,12 @@ public class ShooterControllerTest
         verify(shooter).extendOrRetract(eq(false));
         verify(shooter).setFeederPower(0.0);
         verify(shooter).setShooterPower(0.0);
+        verify(shooter).setReadyLight(eq(false));
         verifyNoMoreInteractions(shooter);
     }
 
     @Test
-    public void updateTest_SetShooterSpeed_MAX_SHOOTER_POWER()
+    public void updateTest_SetShooterSpeed_MAX_SHOOTER_POWER_WITH_LOW_ERROR()
     {
         ShooterComponent shooter = mock(ShooterComponent.class);
         ShooterController shooterController = new ShooterController(shooter);
@@ -74,7 +76,31 @@ public class ShooterControllerTest
         verify(shooter).extendOrRetract(eq(true));
         verify(shooter).setFeederPower(0.0);
         verify(shooter).setShooterPower(TuningConstants.SHOOTER_PID_MAX_VELOCITY);
-        verify(shooter).setReadyLight(true);
+        verify(shooter).setReadyLight(eq(true));
+        verify(shooter).getShooterError();
+        verifyNoMoreInteractions(shooter);
+    }
+
+    @Test
+    public void updateTest_SetShooterSpeed_MAX_SHOOTER_POWER_WITH_HIGH_ERROR()
+    {
+        ShooterComponent shooter = mock(ShooterComponent.class);
+        ShooterController shooterController = new ShooterController(shooter);
+
+        Driver driver = mock(Driver.class);
+        shooterController.setDriver(driver);
+
+        doReturn(true).when(driver).getDigital(Operation.ShooterExtendHood);
+        doReturn(false).when(driver).getDigital(Operation.ShooterFeed);
+        doReturn(1.0).when(driver).getAnalog(Operation.ShooterSpeed);
+        doReturn(TuningConstants.SHOOTER_PID_MAX_VELOCITY).when(shooter).getShooterError();
+
+        shooterController.update();
+
+        verify(shooter).extendOrRetract(eq(true));
+        verify(shooter).setFeederPower(0.0);
+        verify(shooter).setShooterPower(TuningConstants.SHOOTER_PID_MAX_VELOCITY);
+        verify(shooter).setReadyLight(eq(false));
         verify(shooter).getShooterError();
         verifyNoMoreInteractions(shooter);
     }
@@ -98,6 +124,7 @@ public class ShooterControllerTest
         verify(shooter).extendOrRetract(eq(true));
         verify(shooter).setFeederPower(0.0);
         verify(shooter).setShooterPower(0.0);
+        verify(shooter).setReadyLight(eq(false));
         verifyNoMoreInteractions(shooter);
     }
 
@@ -120,6 +147,7 @@ public class ShooterControllerTest
         verify(shooter).extendOrRetract(eq(true));
         verify(shooter).setFeederPower(TuningConstants.SHOOTER_MAX_FEEDER_POWER);
         verify(shooter).setShooterPower(0.0);
+        verify(shooter).setReadyLight(eq(false));
         verifyNoMoreInteractions(shooter);
     }
 
@@ -142,6 +170,7 @@ public class ShooterControllerTest
         verify(shooter).extendOrRetract(eq(true));
         verify(shooter).setFeederPower(0.0);
         verify(shooter).setShooterPower(0.0);
+        verify(shooter).setReadyLight(eq(false));
         verifyNoMoreInteractions(shooter);
     }
 
@@ -164,7 +193,7 @@ public class ShooterControllerTest
         verify(shooter).extendOrRetract(eq(false));
         verify(shooter).setFeederPower(0.0);
         verify(shooter).setShooterPower(0.5 * TuningConstants.SHOOTER_PID_MAX_VELOCITY);
-        verify(shooter).setReadyLight(false);
+        verify(shooter).setReadyLight(eq(false));
         verify(shooter).getShooterError();
         verifyNoMoreInteractions(shooter);
     }
@@ -188,6 +217,7 @@ public class ShooterControllerTest
         verify(shooter).extendOrRetract(eq(false));
         verify(shooter).setFeederPower(0.0);
         verify(shooter).setShooterPower(0.0);
+        verify(shooter).setReadyLight(eq(false));
         verifyNoMoreInteractions(shooter);
     }
 }

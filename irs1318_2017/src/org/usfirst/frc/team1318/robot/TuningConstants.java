@@ -12,8 +12,6 @@ public class TuningConstants
 
     //================================================== Autonomous ==============================================================
 
-    public static final double MACRO_CANCEL_DEAD_ZONE = 0.1;
-
     public static final double DRIVETRAIN_POSITIONAL_ACCEPTABLE_DELTA = 1.0;
 
     // Drivetrain autonomous velocity values
@@ -24,7 +22,7 @@ public class TuningConstants
     public static final double AUTONOMOUS_TIME_FAST = 3.0;
 
     // Acceptable vision centering range values in degrees
-    public static final double MAX_VISION_CENTERING_RANGE_DEGREES = 1.0;
+    public static final double MAX_VISION_CENTERING_RANGE_DEGREES = 2.0;
     public static final double MAX_VISION_CENTERING_OUTPUT = 0.08;
 
     //================================================== DriveTrain ==============================================================
@@ -78,6 +76,15 @@ public class TuningConstants
     public static final double DRIVETRAIN_REVERSE_LEFT_SCALE_FACTOR = 1.17;//moving backwards
 
     public static final double DRIVETRAIN_ENCODER_ODOMETRY_ANGLE_CORRECTION = 0.979858464888405; // account for turning weirdness (7 degree offset in the angle)
+
+    //================================================== Intake ==============================================================
+
+    public static final double INTAKE_MAX_MOTOR_SPEED = 0.0;
+
+    //================================================== Climber ==============================================================
+
+    public static final double CLIMBER_MAX_MOTOR_POWER = 0.0;
+    public static final double CLIMBER_MAX_CURRENT_DRAW = 0.0;
 
     //================================================== Shooter ==============================================================
 

@@ -140,6 +140,48 @@ public class RobotModule extends AbstractModule
 
     @Singleton
     @Provides
+    @Named("INTIAKE_MOTOR")
+    public IMotor getIntakeMotor()
+    {
+        TalonWrapper intake = new TalonWrapper(
+            ElectronicsConstants.INTAKE_MOTOR_CHANNEL);
+        return intake;
+    }
+
+    @Singleton
+    @Provides
+    @Named("INTIAKE_SOLENOID")
+    public IDoubleSolenoid getIntakeExtender()
+    {
+        DoubleSolenoidWrapper intakeExtender = new DoubleSolenoidWrapper(
+            ElectronicsConstants.INTAKE_EXTENDER_SOLENOID_CHANNEL_A,
+            ElectronicsConstants.INTAKE_EXTENDER_SOLENOID_CHANNEL_B);
+        return intakeExtender;
+    }
+
+    @Singleton
+    @Provides
+    @Named("GEAR_SOLENOID")
+    public IDoubleSolenoid getIntakeGearExtender()
+    {
+        DoubleSolenoidWrapper intakeGearExtender = new DoubleSolenoidWrapper(
+            ElectronicsConstants.INTAKE_GEAR_EXTENDER_SOLENOID_CHANNEL_A,
+            ElectronicsConstants.INTAKE_GEAR_EXTENDER_SOLENOID_CHANNEL_B);
+        return intakeGearExtender;
+    }
+
+    @Singleton
+    @Provides
+    @Named("CLIMBER_MOTOR")
+    public IMotor getCimberClimber()
+    {
+        TalonWrapper climber = new TalonWrapper(
+            ElectronicsConstants.CLIMBER_MOTOR_CHANNEL);
+        return climber;
+    }
+
+    @Singleton
+    @Provides
     @Named("SHOOTER_HOOD")
     public IDoubleSolenoid getShooterHood()
     {
