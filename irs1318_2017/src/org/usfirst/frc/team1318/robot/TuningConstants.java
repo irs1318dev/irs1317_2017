@@ -89,6 +89,8 @@ public class TuningConstants
     public static final double CLIMBER_MAX_MOTOR_POWER = 0.0;
     public static final double CLIMBER_MAX_CURRENT_DRAW = 0.0;
 
+    public static final double CLIMBER_THROTTLE_DEAD_ZONE = 0.25;
+
     //================================================== Shooter ==============================================================
 
     public static final double SHOOTER_MAX_FEEDER_POWER = 0.0;

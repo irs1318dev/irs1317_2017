@@ -88,38 +88,38 @@ public class ButtonMap
             put(
                 Operation.IntakeArmExtend,
                 new DigitalOperationDescription(
-                    UserInputDevice.None,
-                    UserInputDeviceButton.NONE,
+                    UserInputDevice.Driver,
+                    0,
                     ButtonType.Click));
             put(
                 Operation.IntakeArmRetract,
                 new DigitalOperationDescription(
-                    UserInputDevice.None,
-                    UserInputDeviceButton.NONE,
+                    UserInputDevice.Driver,
+                    180,
                     ButtonType.Click));
             put(
                 Operation.IntakeIn,
                 new DigitalOperationDescription(
-                    UserInputDevice.None,
-                    UserInputDeviceButton.NONE,
+                    UserInputDevice.Driver,
+                    UserInputDeviceButton.JOYSTICK_STICK_TOP_RIGHT_BUTTON,
                     ButtonType.Simple));
             put(
                 Operation.IntakeOut,
                 new DigitalOperationDescription(
-                    UserInputDevice.None,
-                    UserInputDeviceButton.NONE,
+                    UserInputDevice.Driver,
+                    UserInputDeviceButton.JOYSTICK_STICK_BOTTOM_RIGHT_BUTTON,
                     ButtonType.Simple));
             put(
                 Operation.IntakeGearHolderExtend,
                 new DigitalOperationDescription(
-                    UserInputDevice.None,
-                    UserInputDeviceButton.NONE,
+                    UserInputDevice.Driver,
+                    UserInputDeviceButton.JOYSTICK_BASE_MIDDLE_LEFT_BUTTON,
                     ButtonType.Click));
             put(
                 Operation.IntakeGearHolderRetract,
                 new DigitalOperationDescription(
-                    UserInputDevice.None,
-                    UserInputDeviceButton.NONE,
+                    UserInputDevice.Driver,
+                    UserInputDeviceButton.JOYSTICK_BASE_BOTTOM_LEFT_BUTTON,
                     ButtonType.Click));
 
             // Operations for the climber
@@ -129,7 +129,7 @@ public class ButtonMap
                     UserInputDevice.Driver,
                     AnalogAxis.Throttle,
                     true,
-                    0.25));
+                    TuningConstants.CLIMBER_THROTTLE_DEAD_ZONE));
 
             // Operations for the shooter
             put(
@@ -163,7 +163,7 @@ public class ButtonMap
                 MacroOperation.PIDBrake,
                 new MacroOperationDescription(
                     UserInputDevice.Driver,
-                    UserInputDeviceButton.NONE,
+                    UserInputDeviceButton.JOYSTICK_STICK_THUMB_BUTTON,
                     ButtonType.Simple,
                     () -> new PIDBrakeTask(),
                     new Operation[]
@@ -178,7 +178,7 @@ public class ButtonMap
                 MacroOperation.Center,
                 new MacroOperationDescription(
                     UserInputDevice.Driver,
-                    UserInputDeviceButton.JOYSTICK_STICK_THUMB_BUTTON,
+                    UserInputDeviceButton.JOYSTICK_BASE_TOP_LEFT_BUTTON,
                     ButtonType.Toggle,
                     () -> new VisionCenteringTask(),
                     new Operation[]
@@ -192,8 +192,8 @@ public class ButtonMap
             put(
                 MacroOperation.SpinFar,
                 new MacroOperationDescription(
-                    UserInputDevice.None,
-                    UserInputDeviceButton.NONE,
+                    UserInputDevice.Driver,
+                    UserInputDeviceButton.JOYSTICK_BASE_MIDDLE_RIGHT_BUTTON,
                     ButtonType.Toggle,
                     () -> new ShooterSpinTask(true, TuningConstants.SHOOTER_FAR_SHOT_VELOCITY),
                     new Operation[]
@@ -205,8 +205,8 @@ public class ButtonMap
             put(
                 MacroOperation.SpinClose,
                 new MacroOperationDescription(
-                    UserInputDevice.None,
-                    UserInputDeviceButton.NONE,
+                    UserInputDevice.Driver,
+                    UserInputDeviceButton.JOYSTICK_BASE_TOP_RIGHT_BUTTON,
                     ButtonType.Toggle,
                     () -> new ShooterSpinTask(false, TuningConstants.SHOOTER_CLOSE_SHOT_VELOCITY),
                     new Operation[]
@@ -218,8 +218,8 @@ public class ButtonMap
             put(
                 MacroOperation.SpinCloseLowGoal,
                 new MacroOperationDescription(
-                    UserInputDevice.None,
-                    UserInputDeviceButton.NONE,
+                    UserInputDevice.Driver,
+                    UserInputDeviceButton.JOYSTICK_BASE_BOTTOM_RIGHT_BUTTON,
                     ButtonType.Toggle,
                     () -> new ShooterSpinTask(false, TuningConstants.SHOOTER_CLOSE_SHOT_LOW_GOAL_VELOCITY),
                     new Operation[]

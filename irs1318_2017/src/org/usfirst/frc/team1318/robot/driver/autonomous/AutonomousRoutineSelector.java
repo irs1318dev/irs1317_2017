@@ -7,6 +7,7 @@ import org.usfirst.frc.team1318.robot.driver.IControlTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.ConcurrentTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.DriveDistanceTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.DriveRouteTask;
+import org.usfirst.frc.team1318.robot.driver.controltasks.GearExtendTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.SequentialTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.ShooterFeedTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.ShooterSpinTask;
@@ -102,6 +103,7 @@ public class AutonomousRoutineSelector
     private static IControlTask GetFarGearRoutine(boolean isOnRedSide)
     {
         return SequentialTask.Sequence(
+            new GearExtendTask(),
             new DriveDistanceTask(74.375 * 2.54),
             new TurnTask(isOnRedSide ? 60.0 : -60.0),
             new VisionCenteringTask(),
@@ -111,6 +113,7 @@ public class AutonomousRoutineSelector
     private static IControlTask GetShootCloseRoutine(boolean isOnRedSide)
     {
         return SequentialTask.Sequence(
+            new GearExtendTask(),
             ConcurrentTask.AnyTasks(
                 new ShooterSpinTask(false, TuningConstants.SHOOTER_CLOSE_SHOT_VELOCITY),
                 SequentialTask.Sequence(
@@ -127,6 +130,7 @@ public class AutonomousRoutineSelector
     private static IControlTask GetStraightRoutine(boolean isOnRedSide)
     {
         return SequentialTask.Sequence(
+            new GearExtendTask(),
             new DriveDistanceTask(48.0 * 2.54),
             new VisionCenteringTask(),
             new VisionForwardAndCenterTask());
