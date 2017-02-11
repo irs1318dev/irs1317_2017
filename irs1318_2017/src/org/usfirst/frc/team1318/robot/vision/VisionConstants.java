@@ -54,6 +54,6 @@ public class VisionConstants
     public static final double CONTOUR_MIN_AREA = 125.0;
 
     // Real Measurements
-    public static final double REAL_HEIGHT = 9001; // TODO: fill in the actual values
-    public static final double CAMERA_OFFSET_FROM_CENTER = 66; // TODO: fill in the actual values
+    public static final double REAL_GEAR_RETROREFLECTIVE_TAPE_HEIGHT = 5.0 * 2.54; // 5 inches tall
+    public static final double GEAR_CAMERA_OFFSET_FROM_CENTER = 4.0 * 2.54; // 9 inches to the right from center of robot, tape is 4 inches to the right of the center of the robot
 }

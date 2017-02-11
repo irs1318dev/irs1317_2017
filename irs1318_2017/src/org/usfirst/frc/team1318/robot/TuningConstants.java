@@ -75,25 +75,25 @@ public class TuningConstants
     public static final double DRIVETRAIN_POSITIONAL_MAX_POWER_LEVEL = 0.6;
     public static final double DRIVETRAIN_VELOCITY_MAX_POWER_LEVEL = 1.0;
 
-    public static final double DRIVETRAIN_REVERSE_RIGHT_SCALE_FACTOR = 1.15;//moving forwards
-    public static final double DRIVETRAIN_REVERSE_LEFT_SCALE_FACTOR = 1.17;//moving backwards
+    public static final double DRIVETRAIN_REVERSE_RIGHT_SCALE_FACTOR = 1.0;
+    public static final double DRIVETRAIN_REVERSE_LEFT_SCALE_FACTOR = 1.0;
 
-    public static final double DRIVETRAIN_ENCODER_ODOMETRY_ANGLE_CORRECTION = 0.979858464888405; // account for turning weirdness (7 degree offset in the angle)
+    public static final double DRIVETRAIN_ENCODER_ODOMETRY_ANGLE_CORRECTION = 1.0; // account for turning weirdness (any degree offset in the angle)
 
     //================================================== Intake ==============================================================
 
-    public static final double INTAKE_MAX_MOTOR_SPEED = 0.0;
+    public static final double INTAKE_MAX_MOTOR_SPEED = 0.7;
 
     //================================================== Climber ==============================================================
 
-    public static final double CLIMBER_MAX_MOTOR_POWER = 0.0;
-    public static final double CLIMBER_MAX_CURRENT_DRAW = 0.0;
+    public static final double CLIMBER_MAX_MOTOR_POWER = 0.9;
+    public static final double CLIMBER_MAX_CURRENT_DRAW = 70.0;
 
     public static final double CLIMBER_THROTTLE_DEAD_ZONE = 0.25;
 
     //================================================== Shooter ==============================================================
 
-    public static final double SHOOTER_MAX_FEEDER_POWER = 0.0;
+    public static final double SHOOTER_MAX_FEEDER_POWER = 0.3;
 
     public static final boolean SHOOTER_USE_PID = true;
 
@@ -103,9 +103,9 @@ public class TuningConstants
     public static final double SHOOTER_PID_KF = 0.0095;
 
     public static final double SHOOTER_PID_MAX_VELOCITY = 108000.0;
-    public static final double SHOOTER_ALLOWABLE_ERROR = 0.02;
+    public static final double SHOOTER_ALLOWABLE_ERROR = 0.02; // plus or minus 2% error is max allowed
 
-    public static final double SHOOTER_FAR_SHOT_VELOCITY = 0.0;
-    public static final double SHOOTER_CLOSE_SHOT_VELOCITY = 0.0;
-    public static final double SHOOTER_CLOSE_SHOT_LOW_GOAL_VELOCITY = 0.0;
+    public static final double SHOOTER_FAR_SHOT_VELOCITY = 0.7;
+    public static final double SHOOTER_CLOSE_SHOT_VELOCITY = 0.6;
+    public static final double SHOOTER_CLOSE_SHOT_LOW_GOAL_VELOCITY = 0.2;
 }
