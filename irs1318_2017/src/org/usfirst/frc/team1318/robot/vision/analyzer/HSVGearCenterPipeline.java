@@ -206,7 +206,7 @@ public class HSVGearCenterPipeline implements VisionPipeline
         double xOffsetMeasured = gearMarkerCenter.x - VisionConstants.LIFECAM_CAMERA_CENTER_WIDTH;
         this.thetaXOffsetMeasured = xOffsetMeasured / (VisionConstants.LIFECAM_CAMERA_FIELD_OF_VIEW_X_RADIANS / 2.0);
 
-        this.distanceFromCam = ((VisionConstants.REAL_HEIGHT / 2.0) / (Math.tan(VisionConstants.LIFECAM_CAMERA_FIELD_OF_VIEW_Y_RADIANS / 2.0))) * (VisionConstants.LIFECAM_CAMERA_RESOLUTION_Y / gearMarkerHeight);
+        this.distanceFromCam = ((VisionConstants.REAL_HEIGHT) / (Math.tan(VisionConstants.LIFECAM_CAMERA_FIELD_OF_VIEW_Y_RADIANS))) * (VisionConstants.LIFECAM_CAMERA_RESOLUTION_Y / gearMarkerHeight);
         this.distanceFromRobot = this.distanceFromCam * Math.cos(this.thetaXOffsetMeasured);
         this.thetaXOffsetDesired = Math.asin(VisionConstants.CAMERA_OFFSET_FROM_CENTER / this.distanceFromCam);
 

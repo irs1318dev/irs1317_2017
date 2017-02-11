@@ -1,6 +1,5 @@
 package org.usfirst.frc.team1318.robot.driver.controltasks;
 
-import org.usfirst.frc.team1318.robot.HardwareConstants;
 import org.usfirst.frc.team1318.robot.TuningConstants;
 import org.usfirst.frc.team1318.robot.common.PIDHandler;
 import org.usfirst.frc.team1318.robot.driver.IControlTask;
@@ -12,40 +11,17 @@ import org.usfirst.frc.team1318.robot.vision.VisionManager;
  * 
  * @author William
  */
-public class VisionCenteringTask extends MoveDistanceTaskBase implements IControlTask
+public class VisionCenteringTask extends ControlTaskBase implements IControlTask
 {
-    public enum CenteringMode
-    {
-        Single, Continual, PID;
-    }
-
-    private final CenteringMode mode;
-
+    private final PIDHandler turnPidHandler;
     private VisionManager visionManager;
-    private PIDHandler pidHandler;
 
     /**
     * Initializes a new VisionCenteringTask
     */
     public VisionCenteringTask()
     {
-        this(CenteringMode.PID);
-    }
-
-    /**
-    * Initializes a new VisionCenteringTask
-    * @param mode to use for centering
-    */
-    public VisionCenteringTask(CenteringMode mode)
-    {
-        super(true);
-
-        this.mode = mode;
-
-        if (this.mode == CenteringMode.PID)
-        {
-            this.pidHandler = new PIDHandler(0.15, 0.0, 0.0, 0.0, -0.3, 0.3);
-        }
+        this.turnPidHandler = new PIDHandler(0.15, 0.0, 0.0, 0.0, -0.3, 0.3);
     }
 
     /**
@@ -55,7 +31,6 @@ public class VisionCenteringTask extends MoveDistanceTaskBase implements IContro
     public void begin()
     {
         this.visionManager = this.getInjector().getInstance(VisionManager.class);
-        super.begin();
     }
 
     /**
@@ -64,30 +39,15 @@ public class VisionCenteringTask extends MoveDistanceTaskBase implements IContro
     @Override
     public void update()
     {
-        if (this.mode == CenteringMode.Single)
-        {
-            super.update();
-        }
-        else if (this.mode == CenteringMode.Continual)
-        {
-            // for continual calculations, reset the start encoder distance and recalculate the desired final encoder distances
-            this.setStartEncoderDistance();
-            this.determineFinalEncoderDistance();
+        this.setDigitalOperationState(Operation.DriveTrainUsePositionalMode, false);
 
-            super.update();
-        }
-        else
+        Double currentMeasuredAngle = this.visionManager.getMeasuredAngle();
+        Double currentDesiredAngle = this.visionManager.getDesiredAngle();
+        if (currentMeasuredAngle != null && currentDesiredAngle != null)
         {
-            this.setDigitalOperationState(Operation.DriveTrainUsePositionalMode, false);
-
-            Double currentMeasuredAngle = this.visionManager.getMeasuredAngle();
-            Double currentDesiredAngle = this.visionManager.getDesiredAngle();
-            if (currentMeasuredAngle != null && currentDesiredAngle != null)
-            {
-                this.setAnalogOperationState(
-                    Operation.DriveTrainTurn,
-                    -this.pidHandler.calculatePosition(currentDesiredAngle, currentMeasuredAngle));
-            }
+            this.setAnalogOperationState(
+                Operation.DriveTrainTurn,
+                -this.turnPidHandler.calculatePosition(currentDesiredAngle, currentMeasuredAngle));
         }
     }
 
@@ -97,16 +57,8 @@ public class VisionCenteringTask extends MoveDistanceTaskBase implements IContro
     @Override
     public void stop()
     {
-        if (this.mode == CenteringMode.Single ||
-            this.mode == CenteringMode.Continual)
-        {
-            super.stop();
-        }
-        else
-        {
-            this.setDigitalOperationState(Operation.DriveTrainUsePositionalMode, false);
-            this.setAnalogOperationState(Operation.DriveTrainTurn, 0.0);
-        }
+        this.setDigitalOperationState(Operation.DriveTrainUsePositionalMode, false);
+        this.setAnalogOperationState(Operation.DriveTrainTurn, 0.0);
     }
 
     /**
@@ -115,16 +67,8 @@ public class VisionCenteringTask extends MoveDistanceTaskBase implements IContro
     @Override
     public void end()
     {
-        if (this.mode == CenteringMode.Single ||
-            this.mode == CenteringMode.Continual)
-        {
-            super.end();
-        }
-        else
-        {
-            this.setDigitalOperationState(Operation.DriveTrainUsePositionalMode, false);
-            this.setAnalogOperationState(Operation.DriveTrainTurn, 0.0);
-        }
+        this.setDigitalOperationState(Operation.DriveTrainUsePositionalMode, false);
+        this.setAnalogOperationState(Operation.DriveTrainTurn, 0.0);
     }
 
     /**
@@ -134,47 +78,22 @@ public class VisionCenteringTask extends MoveDistanceTaskBase implements IContro
     @Override
     public boolean hasCompleted()
     {
-        if (this.mode == CenteringMode.Single ||
-            this.mode == CenteringMode.Continual)
-        {
-            return super.hasCompleted();
-        }
-        else
-        {
-            Double currentMeasuredAngle = this.visionManager.getMeasuredAngle();
-            Double currentDesiredAngle = this.visionManager.getDesiredAngle();
-            if (currentMeasuredAngle == null || currentDesiredAngle == null)
-            {
-                return true;
-            }
-
-            double centerAngleDifference = Math.abs(currentMeasuredAngle - currentDesiredAngle);
-            double output = this.pidHandler.getCurrentOutput();
-            return centerAngleDifference < TuningConstants.MAX_VISION_CENTERING_RANGE_DEGREES &&
-                Math.abs(output) < TuningConstants.MAX_VISION_CENTERING_OUTPUT;
-        }
-    }
-
-    /**
-     * Determine the final encoder distance based off center in pixels
-     */
-    @Override
-    protected void determineFinalEncoderDistance()
-    {
-        // Convert center in pixels to degrees with a desired place
         Double currentMeasuredAngle = this.visionManager.getMeasuredAngle();
         Double currentDesiredAngle = this.visionManager.getDesiredAngle();
-        if (currentMeasuredAngle != null && currentDesiredAngle != null)
+        if (currentMeasuredAngle == null || currentDesiredAngle == null)
         {
-            // Set desired encoder distances based on degrees off of center
-            double arcLength = Math.PI * HardwareConstants.DRIVETRAIN_WHEEL_SEPARATION_DISTANCE * ((currentMeasuredAngle - currentDesiredAngle) / 360.0);
-            this.desiredFinalLeftEncoderDistance = this.startLeftEncoderDistance + arcLength;
-            this.desiredFinalRightEncoderDistance = this.startLeftEncoderDistance - arcLength;
+            return false;
         }
-        else
-        {
-            this.desiredFinalLeftEncoderDistance = this.startLeftEncoderDistance;
-            this.desiredFinalRightEncoderDistance = this.startLeftEncoderDistance;
-        }
+
+        double centerAngleDifference = Math.abs(currentMeasuredAngle - currentDesiredAngle);
+        double output = this.turnPidHandler.getCurrentOutput();
+        return centerAngleDifference < TuningConstants.MAX_VISION_CENTERING_RANGE_DEGREES &&
+            Math.abs(output) < TuningConstants.MAX_VISION_CENTERING_OUTPUT;
+    }
+
+    @Override
+    public boolean shouldCancel()
+    {
+        return this.visionManager.getCenter() == null;
     }
 }
