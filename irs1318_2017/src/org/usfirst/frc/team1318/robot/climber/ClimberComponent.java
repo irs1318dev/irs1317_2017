@@ -12,7 +12,7 @@ public class ClimberComponent
 {
     private IMotor motor;
     private final IDashboardLogger logger;
-    private final String key = "climber";
+    private final String LogName = "climber";
 
     @Inject
     public ClimberComponent(IDashboardLogger logger, @Named("CLIMBER_MOTOR") IMotor motor)
@@ -24,7 +24,7 @@ public class ClimberComponent
     public void setMotorSpeed(double speed)
     {
         this.motor.set(speed);
-        this.logger.logNumber(key, "climberSpeed", speed);
+        this.logger.logNumber(LogName, "Speed", speed);
     }
 
     public void stop()
