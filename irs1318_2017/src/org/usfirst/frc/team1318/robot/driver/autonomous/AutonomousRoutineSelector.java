@@ -120,8 +120,28 @@ public class AutonomousRoutineSelector
                     new WaitTask(1.0),
                     new ShooterFeedTask(3.0))),
             new DriveRouteTask(
-                percentage -> percentage * 20.0,
-                percentage -> percentage * 20.0,
+                percentage ->
+                {
+                    if (isOnRedSide)
+                    {
+                        return percentage * 40.0;
+                    }
+                    else
+                    {
+                        return percentage * 20.0;
+                    }
+                },
+                percentage ->
+                {
+                    if (isOnRedSide)
+                    {
+                        return percentage * 20.0;
+                    }
+                    else
+                    {
+                        return percentage * 40.0;
+                    }
+                },
                 4.0),
             new VisionCenteringTask(),
             new VisionForwardAndCenterTask());
