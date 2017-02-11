@@ -178,6 +178,7 @@ public class HSVGearCenterPipeline implements VisionPipeline
         this.secondLargestCenter = secondLargestCenterOfMass;
 
         // GEAR CALCULATIONS
+
         if (this.largestCenter == null && this.secondLargestCenter == null)
         {
             this.thetaXOffsetDesired = null;
