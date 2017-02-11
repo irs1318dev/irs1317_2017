@@ -25,6 +25,9 @@ public class TuningConstants
     public static final double MAX_VISION_CENTERING_RANGE_DEGREES = 2.0;
     public static final double MAX_VISION_CENTERING_OUTPUT = 0.08;
 
+    // Acceptable vision distance from tape
+    public static final double MAX_VISION_ACCEPTABLE_FORWARD_DISTANCE = 2.0;
+
     //================================================== DriveTrain ==============================================================
 
     // Drivetrain PID keys/default values:

@@ -14,7 +14,7 @@ import org.usfirst.frc.team1318.robot.vision.VisionManager;
 public class VisionCenteringTask extends ControlTaskBase implements IControlTask
 {
     private final PIDHandler turnPidHandler;
-    private VisionManager visionManager;
+    protected VisionManager visionManager;
 
     /**
     * Initializes a new VisionCenteringTask
