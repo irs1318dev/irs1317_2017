@@ -20,6 +20,11 @@ public class ElectronicsConstants
     public static final int JOYSTICK_DRIVER_PORT = 0;
     public static final int JOYSTICK_CO_DRIVER_PORT = 1;
 
+    //================================================== Auto ==============================================================
+    public static final int AUTO_SIDE_OF_FIELD_CHANNEL = -1;
+    public static final int AUTO_DIP_SWITCH_A_CHANNEL = -1;
+    public static final int AUTO_DIP_SWITCH_B_CHANNEL = -1;
+
     //================================================== DriveTrain ==============================================================
 
     public static final int DRIVETRAIN_LEFT_TALON_CHANNEL = 5;

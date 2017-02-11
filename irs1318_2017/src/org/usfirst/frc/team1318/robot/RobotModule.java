@@ -12,10 +12,12 @@ import org.usfirst.frc.team1318.robot.common.SmartDashboardLogger;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.CANTalonControlMode;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.CANTalonWrapper;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.CompressorWrapper;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.DigitalInputWrapper;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.DoubleSolenoidWrapper;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.EncoderWrapper;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.ICANTalon;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.ICompressor;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.IDigitalInput;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IDoubleSolenoid;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IEncoder;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IJoystick;
@@ -243,5 +245,29 @@ public class RobotModule extends AbstractModule
         }
 
         return master;
+    }
+
+    @Singleton
+    @Provides
+    @Named("AUTO_SIDE_OF_FIELD")
+    public IDigitalInput getAutoSideOfField()
+    {
+        return new DigitalInputWrapper(ElectronicsConstants.AUTO_SIDE_OF_FIELD_CHANNEL);
+    }
+
+    @Singleton
+    @Provides
+    @Named("AUTO_DIP_SWITCH_A")
+    public IDigitalInput getAutoDipSwitchA()
+    {
+        return new DigitalInputWrapper(ElectronicsConstants.AUTO_DIP_SWITCH_A_CHANNEL);
+    }
+
+    @Singleton
+    @Provides
+    @Named("AUTO_DIP_SWITCH_B")
+    public IDigitalInput getAutoDipSwitchB()
+    {
+        return new DigitalInputWrapper(ElectronicsConstants.AUTO_DIP_SWITCH_B_CHANNEL);
     }
 }

@@ -17,6 +17,7 @@ import org.usfirst.frc.team1318.robot.driver.controltasks.WaitTask;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.google.inject.name.Named;
 
 @Singleton
 public class AutonomousRoutineSelector
@@ -34,9 +35,9 @@ public class AutonomousRoutineSelector
     @Inject
     public AutonomousRoutineSelector(
         IDashboardLogger logger,
-        IDigitalInput sideOfField,
-        IDigitalInput dipSwitchA,
-        IDigitalInput dipSwitchB)
+        @Named("AUTO_SIDE_OF_FIELD") IDigitalInput sideOfField,
+        @Named("AUTO_DIP_SWITCH_A") IDigitalInput dipSwitchA,
+        @Named("AUTO_DIP_SWITCH_B") IDigitalInput dipSwitchB)
     {
         // initialize robot parts that are used to select autonomous routine (e.g. dipswitches) here...
         this.logger = logger;
