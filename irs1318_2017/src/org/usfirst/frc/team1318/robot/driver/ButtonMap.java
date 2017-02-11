@@ -187,6 +187,7 @@ public class ButtonMap
                         Operation.DriveTrainLeftPosition,
                         Operation.DriveTrainRightPosition,
                         Operation.DriveTrainTurn,
+                        Operation.DriveTrainMoveForward,
                     }));
 
             put(

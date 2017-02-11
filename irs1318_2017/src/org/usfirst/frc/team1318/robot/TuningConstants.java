@@ -22,11 +22,10 @@ public class TuningConstants
     public static final double AUTONOMOUS_TIME_FAST = 3.0;
 
     // Acceptable vision centering range values in degrees
-    public static final double MAX_VISION_CENTERING_RANGE_DEGREES = 2.0;
-    public static final double MAX_VISION_CENTERING_OUTPUT = 0.08;
+    public static final double MAX_VISION_CENTERING_RANGE_DEGREES = 0.5;
 
     // Acceptable vision distance from tape
-    public static final double MAX_VISION_ACCEPTABLE_FORWARD_DISTANCE = 2.0;
+    public static final double MAX_VISION_ACCEPTABLE_FORWARD_DISTANCE = 18.0;
 
     //================================================== DriveTrain ==============================================================
 
