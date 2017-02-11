@@ -104,7 +104,7 @@ public class AutonomousRoutineSelector
     {
         return SequentialTask.Sequence(
             new GearExtendTask(),
-            new DriveDistanceTask(74.375 * 2.54),
+            new DriveDistanceTask(74.375),
             new TurnTask(isOnRedSide ? 60.0 : -60.0),
             new VisionCenteringTask(),
             new VisionForwardAndCenterTask());
@@ -151,7 +151,7 @@ public class AutonomousRoutineSelector
     {
         return SequentialTask.Sequence(
             new GearExtendTask(),
-            new DriveDistanceTask(48.0 * 2.54),
+            new DriveDistanceTask(48.0),
             new VisionCenteringTask(),
             new VisionForwardAndCenterTask());
     }
