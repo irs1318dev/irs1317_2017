@@ -6,7 +6,7 @@ import org.usfirst.frc.team1318.robot.driver.Operation;
 public class ShooterFeedTask extends TimedTask implements IControlTask
 {
 
-    protected ShooterFeedTask(double duration)
+    public ShooterFeedTask(double duration)
     {
         super(duration);
     }

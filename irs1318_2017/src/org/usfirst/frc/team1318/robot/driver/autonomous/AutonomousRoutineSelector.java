@@ -1,7 +1,18 @@
 package org.usfirst.frc.team1318.robot.driver.autonomous;
 
+import org.usfirst.frc.team1318.robot.TuningConstants;
 import org.usfirst.frc.team1318.robot.common.IDashboardLogger;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.IDigitalInput;
 import org.usfirst.frc.team1318.robot.driver.IControlTask;
+import org.usfirst.frc.team1318.robot.driver.controltasks.ConcurrentTask;
+import org.usfirst.frc.team1318.robot.driver.controltasks.DriveDistanceTask;
+import org.usfirst.frc.team1318.robot.driver.controltasks.DriveRouteTask;
+import org.usfirst.frc.team1318.robot.driver.controltasks.SequentialTask;
+import org.usfirst.frc.team1318.robot.driver.controltasks.ShooterFeedTask;
+import org.usfirst.frc.team1318.robot.driver.controltasks.ShooterSpinTask;
+import org.usfirst.frc.team1318.robot.driver.controltasks.TurnTask;
+import org.usfirst.frc.team1318.robot.driver.controltasks.VisionCenteringTask;
+import org.usfirst.frc.team1318.robot.driver.controltasks.VisionForwardAndCenterTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.WaitTask;
 
 import com.google.inject.Inject;
@@ -13,14 +24,25 @@ public class AutonomousRoutineSelector
     private static final String LogName = "auto";
     private final IDashboardLogger logger;
 
+    private final IDigitalInput sideOfField;
+    private final IDigitalInput dipSwitchA;
+    private final IDigitalInput dipSwitchB;
+
     /**
      * Initializes a new AutonomousDriver
      */
     @Inject
-    public AutonomousRoutineSelector(IDashboardLogger logger)
+    public AutonomousRoutineSelector(
+        IDashboardLogger logger,
+        IDigitalInput sideOfField,
+        IDigitalInput dipSwitchA,
+        IDigitalInput dipSwitchB)
     {
         // initialize robot parts that are used to select autonomous routine (e.g. dipswitches) here...
         this.logger = logger;
+        this.sideOfField = sideOfField;
+        this.dipSwitchA = dipSwitchA;
+        this.dipSwitchB = dipSwitchB;
     }
 
     /**
@@ -32,6 +54,17 @@ public class AutonomousRoutineSelector
         int routineSelection = 0;
 
         // add next base2 number (1, 2, 4, 8, 16, etc.) here based on number of dipswitches and which is on...
+        if (this.dipSwitchA.get())
+        {
+            routineSelection += 1;
+        }
+
+        if (this.dipSwitchB.get())
+        {
+            routineSelection += 2;
+        }
+
+        boolean isOnRedSide = this.sideOfField.get();
 
         // print routine selection to the smartdash
         this.logger.logInteger(AutonomousRoutineSelector.LogName, "routine", routineSelection);
@@ -40,6 +73,15 @@ public class AutonomousRoutineSelector
         {
             case 0: // No switches flipped
                 return AutonomousRoutineSelector.GetFillerRoutine();
+
+            case 1: // Just A flipped
+                return AutonomousRoutineSelector.GetShootCloseRoutine(isOnRedSide);
+
+            case 2: // Just B flipped
+                return AutonomousRoutineSelector.GetFarGearRoutine(isOnRedSide);
+
+            case 3: // A and B flipped
+                return AutonomousRoutineSelector.GetStraightRoutine(isOnRedSide);
 
             default: // CANNOT READ
                 return AutonomousRoutineSelector.GetFillerRoutine();
@@ -54,6 +96,39 @@ public class AutonomousRoutineSelector
     private static IControlTask GetFillerRoutine()
     {
         return new WaitTask(0);
+    }
+
+    private static IControlTask GetFarGearRoutine(boolean isOnRedSide)
+    {
+        return SequentialTask.Sequence(
+            new DriveDistanceTask(74.375 * 2.54),
+            new TurnTask(isOnRedSide ? 60.0 : -60.0),
+            new VisionCenteringTask(),
+            new VisionForwardAndCenterTask());
+    }
+
+    private static IControlTask GetShootCloseRoutine(boolean isOnRedSide)
+    {
+        return SequentialTask.Sequence(
+            ConcurrentTask.AnyTasks(
+                new ShooterSpinTask(false, TuningConstants.SHOOTER_CLOSE_SHOT_VELOCITY),
+                SequentialTask.Sequence(
+                    new WaitTask(1.0),
+                    new ShooterFeedTask(3.0))),
+            new DriveRouteTask(
+                percentage -> percentage * 20.0,
+                percentage -> percentage * 20.0,
+                4.0),
+            new VisionCenteringTask(),
+            new VisionForwardAndCenterTask());
+    }
+
+    private static IControlTask GetStraightRoutine(boolean isOnRedSide)
+    {
+        return SequentialTask.Sequence(
+            new DriveDistanceTask(48.0 * 2.54),
+            new VisionCenteringTask(),
+            new VisionForwardAndCenterTask());
     }
 }
 
