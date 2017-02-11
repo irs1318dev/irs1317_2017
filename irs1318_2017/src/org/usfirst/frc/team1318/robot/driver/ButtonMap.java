@@ -8,6 +8,7 @@ import org.usfirst.frc.team1318.robot.TuningConstants;
 import org.usfirst.frc.team1318.robot.driver.buttons.AnalogAxis;
 import org.usfirst.frc.team1318.robot.driver.buttons.ButtonType;
 import org.usfirst.frc.team1318.robot.driver.controltasks.PIDBrakeTask;
+import org.usfirst.frc.team1318.robot.driver.controltasks.ShooterSpinTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.VisionCenteringTask;
 import org.usfirst.frc.team1318.robot.driver.descriptions.AnalogOperationDescription;
 import org.usfirst.frc.team1318.robot.driver.descriptions.DigitalOperationDescription;
@@ -186,6 +187,45 @@ public class ButtonMap
                         Operation.DriveTrainLeftPosition,
                         Operation.DriveTrainRightPosition,
                         Operation.DriveTrainTurn,
+                    }));
+
+            put(
+                MacroOperation.SpinFar,
+                new MacroOperationDescription(
+                    UserInputDevice.None,
+                    UserInputDeviceButton.NONE,
+                    ButtonType.Toggle,
+                    () -> new ShooterSpinTask(true, TuningConstants.SHOOTER_FAR_SHOT_VELOCITY),
+                    new Operation[]
+                    {
+                        Operation.ShooterSpeed,
+                        Operation.ShooterExtendHood
+                    }));
+
+            put(
+                MacroOperation.SpinClose,
+                new MacroOperationDescription(
+                    UserInputDevice.None,
+                    UserInputDeviceButton.NONE,
+                    ButtonType.Toggle,
+                    () -> new ShooterSpinTask(false, TuningConstants.SHOOTER_CLOSE_SHOT_VELOCITY),
+                    new Operation[]
+                    {
+                        Operation.ShooterSpeed,
+                        Operation.ShooterExtendHood
+                    }));
+
+            put(
+                MacroOperation.SpinCloseLowGoal,
+                new MacroOperationDescription(
+                    UserInputDevice.None,
+                    UserInputDeviceButton.NONE,
+                    ButtonType.Toggle,
+                    () -> new ShooterSpinTask(false, TuningConstants.SHOOTER_CLOSE_SHOT_LOW_GOAL_VELOCITY),
+                    new Operation[]
+                    {
+                        Operation.ShooterSpeed,
+                        Operation.ShooterExtendHood
                     }));
         }
     };
