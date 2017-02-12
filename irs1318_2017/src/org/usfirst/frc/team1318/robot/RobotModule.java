@@ -30,6 +30,8 @@ import org.usfirst.frc.team1318.robot.common.wpilibmocks.SolenoidWrapper;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.TalonWrapper;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.VictorWrapper;
 import org.usfirst.frc.team1318.robot.compressor.CompressorController;
+import org.usfirst.frc.team1318.robot.driver.ButtonMap;
+import org.usfirst.frc.team1318.robot.driver.IButtonMap;
 import org.usfirst.frc.team1318.robot.drivetrain.DriveTrainController;
 import org.usfirst.frc.team1318.robot.general.PositionManager;
 import org.usfirst.frc.team1318.robot.general.PowerManager;
@@ -51,6 +53,13 @@ public class RobotModule extends AbstractModule
     public IDashboardLogger getLogger()
     {
         return new SmartDashboardLogger();
+    }
+
+    @Singleton
+    @Provides
+    public IButtonMap getButtonMap()
+    {
+        return new ButtonMap();
     }
 
     @Singleton
