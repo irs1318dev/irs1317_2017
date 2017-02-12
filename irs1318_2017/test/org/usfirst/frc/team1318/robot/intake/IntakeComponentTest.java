@@ -13,7 +13,6 @@ import org.usfirst.frc.team1318.robot.common.wpilibmocks.IMotor;
 
 public class IntakeComponentTest
 {
-    //I don't really know what I'm doing so this might all be totally garbage
     @Test
     public void testExtendGearHolder_true()
     {

@@ -87,8 +87,8 @@ public class ClimberControllerTest
         Driver driver = mock(Driver.class);
 
         doReturn(-1.0).when(driver).getAnalog(Operation.ClimberSpeed);
-        doReturn(1.0).when(powerManager).getCurrent(ElectronicsConstants.CLIMBER_PDP_CHANNEL_A);
-        doReturn(1.0).when(powerManager).getCurrent(ElectronicsConstants.CLIMBER_PDP_CHANNEL_B);
+        doReturn(TuningConstants.CLIMBER_MAX_CURRENT_DRAW / 2.0 + 1.0).when(powerManager).getCurrent(ElectronicsConstants.CLIMBER_PDP_CHANNEL_A);
+        doReturn(TuningConstants.CLIMBER_MAX_CURRENT_DRAW / 2.0 + 1.0).when(powerManager).getCurrent(ElectronicsConstants.CLIMBER_PDP_CHANNEL_B);
 
         ClimberController controller = new ClimberController(dashboardLogger, climber, powerManager);
         controller.setDriver(driver);

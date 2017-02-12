@@ -67,7 +67,7 @@ public class ShooterComponentTest
         shooterComponent.setShooterPower(100.0);
 
         verify(shooter).set(eq(100.0));
-        verify(shooter).changeControlMode(CANTalonControlMode.Speed);
+        verify(shooter).changeControlMode(eq(CANTalonControlMode.Speed));
         verifyNoMoreInteractions(hood, feeder, shooter, readyLight);
     }
 
@@ -85,7 +85,7 @@ public class ShooterComponentTest
         shooterComponent.setShooterPower(0.0);
 
         verify(shooter).set(eq(0.0));
-        verify(shooter).changeControlMode(CANTalonControlMode.Voltage);
+        verify(shooter).changeControlMode(eq(CANTalonControlMode.Voltage));
         verifyNoMoreInteractions(hood, feeder, shooter, readyLight);
     }
 

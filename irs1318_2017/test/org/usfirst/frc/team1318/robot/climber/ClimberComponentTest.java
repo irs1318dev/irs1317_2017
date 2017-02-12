@@ -12,7 +12,6 @@ import org.usfirst.frc.team1318.robot.common.wpilibmocks.IMotor;
 
 public class ClimberComponentTest
 {
-
     @Test
     public void testSetMotorSpeed_MaxClimberPower()
     {
