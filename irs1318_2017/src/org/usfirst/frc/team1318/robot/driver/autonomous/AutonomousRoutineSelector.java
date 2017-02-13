@@ -107,7 +107,8 @@ public class AutonomousRoutineSelector
             new DriveDistanceTask(74.375),
             new TurnTask(isOnRedSide ? 60.0 : -60.0),
             new VisionCenteringTask(),
-            new VisionForwardAndCenterTask());
+            new VisionForwardAndCenterTask(),
+            new DriveDistanceTask(18.0));
     }
 
     private static IControlTask GetShootCloseRoutine(boolean isOnRedSide)
@@ -144,7 +145,8 @@ public class AutonomousRoutineSelector
                 },
                 4.0),
             new VisionCenteringTask(),
-            new VisionForwardAndCenterTask());
+            new VisionForwardAndCenterTask(),
+            new DriveDistanceTask(18.0));
     }
 
     private static IControlTask GetStraightRoutine(boolean isOnRedSide)
@@ -153,7 +155,8 @@ public class AutonomousRoutineSelector
             new GearExtendTask(),
             new DriveDistanceTask(48.0),
             new VisionCenteringTask(),
-            new VisionForwardAndCenterTask());
+            new VisionForwardAndCenterTask(),
+            new DriveDistanceTask(18.0));
     }
 }
 
