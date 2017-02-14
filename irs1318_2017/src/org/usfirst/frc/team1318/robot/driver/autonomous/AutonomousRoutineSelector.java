@@ -5,13 +5,13 @@ import org.usfirst.frc.team1318.robot.common.IDashboardLogger;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IDigitalInput;
 import org.usfirst.frc.team1318.robot.driver.IControlTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.ConcurrentTask;
-import org.usfirst.frc.team1318.robot.driver.controltasks.DriveDistanceTask;
+import org.usfirst.frc.team1318.robot.driver.controltasks.DriveDistanceTimedTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.DriveRouteTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.GearExtendTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.SequentialTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.ShooterFeedTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.ShooterSpinTask;
-import org.usfirst.frc.team1318.robot.driver.controltasks.TurnTask;
+import org.usfirst.frc.team1318.robot.driver.controltasks.TurnTimedTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.VisionCenteringTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.VisionForwardAndCenterTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.WaitTask;
@@ -104,11 +104,11 @@ public class AutonomousRoutineSelector
     {
         return SequentialTask.Sequence(
             new GearExtendTask(),
-            new DriveDistanceTask(74.375),
-            new TurnTask(isOnRedSide ? 60.0 : -60.0),
+            new DriveDistanceTimedTask(74.375, 6.0),
+            new TurnTimedTask(isOnRedSide ? 60.0 : -60.0, 2.0),
             new VisionCenteringTask(),
             new VisionForwardAndCenterTask(),
-            new DriveDistanceTask(18.0));
+            new DriveDistanceTimedTask(18.0, 2.0));
     }
 
     private static IControlTask GetShootCloseRoutine(boolean isOnRedSide)
@@ -146,17 +146,17 @@ public class AutonomousRoutineSelector
                 4.0),
             new VisionCenteringTask(),
             new VisionForwardAndCenterTask(),
-            new DriveDistanceTask(18.0));
+            new DriveDistanceTimedTask(18.0, 2.0));
     }
 
     private static IControlTask GetStraightRoutine(boolean isOnRedSide)
     {
         return SequentialTask.Sequence(
             new GearExtendTask(),
-            new DriveDistanceTask(48.0),
+            new DriveDistanceTimedTask(48.0, 2.0),
             new VisionCenteringTask(),
             new VisionForwardAndCenterTask(),
-            new DriveDistanceTask(18.0));
+            new DriveDistanceTimedTask(18.0, 2.0));
     }
 }
 
