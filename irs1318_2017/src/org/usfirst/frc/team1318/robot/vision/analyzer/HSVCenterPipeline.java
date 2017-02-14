@@ -3,7 +3,6 @@ package org.usfirst.frc.team1318.robot.vision.analyzer;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.Point;
-import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
@@ -149,19 +148,15 @@ public class HSVCenterPipeline implements VisionPipeline
         // fourth, find the center of mass for the largest two contours
         Point largestCenterOfMass = null;
         Point secondLargestCenterOfMass = null;
-        Rect largestBoundingRect = null;
-        Rect secondLargestBoundingRect = null;
         if (largestContour != null)
         {
             largestCenterOfMass = ContourHelper.findCenterOfMass(largestContour);
-            largestBoundingRect = Imgproc.boundingRect(largestContour);
             largestContour.release();
         }
 
         if (secondLargestContour != null)
         {
             secondLargestCenterOfMass = ContourHelper.findCenterOfMass(secondLargestContour);
-            secondLargestBoundingRect = Imgproc.boundingRect(secondLargestContour);
             secondLargestContour.release();
         }
 
