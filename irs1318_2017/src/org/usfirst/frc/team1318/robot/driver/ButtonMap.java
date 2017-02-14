@@ -7,9 +7,13 @@ import org.usfirst.frc.team1318.robot.ElectronicsConstants;
 import org.usfirst.frc.team1318.robot.TuningConstants;
 import org.usfirst.frc.team1318.robot.driver.buttons.AnalogAxis;
 import org.usfirst.frc.team1318.robot.driver.buttons.ButtonType;
+import org.usfirst.frc.team1318.robot.driver.controltasks.DriveDistanceTimedTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.PIDBrakeTask;
+import org.usfirst.frc.team1318.robot.driver.controltasks.SequentialTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.ShooterSpinTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.VisionCenteringTask;
+import org.usfirst.frc.team1318.robot.driver.controltasks.VisionForwardAndCenterTask;
+import org.usfirst.frc.team1318.robot.driver.controltasks.WaitTask;
 import org.usfirst.frc.team1318.robot.driver.descriptions.AnalogOperationDescription;
 import org.usfirst.frc.team1318.robot.driver.descriptions.DigitalOperationDescription;
 import org.usfirst.frc.team1318.robot.driver.descriptions.MacroOperationDescription;
@@ -175,12 +179,44 @@ public class ButtonMap implements IButtonMap
 
             // Centering macro
             put(
-                MacroOperation.Center,
+                MacroOperation.ShooterCenter,
                 new MacroOperationDescription(
                     UserInputDevice.Driver,
-                    UserInputDeviceButton.JOYSTICK_BASE_TOP_LEFT_BUTTON,
+                    UserInputDeviceButton.JOYSTICK_BASE_BOTTOM_LEFT_BUTTON,
+                    ButtonType.Toggle,
+                    () -> new WaitTask(0.0),
+                    new Operation[]
+                    {
+                        Operation.DriveTrainUsePositionalMode,
+                        Operation.DriveTrainLeftPosition,
+                        Operation.DriveTrainRightPosition,
+                        Operation.DriveTrainTurn,
+                        Operation.DriveTrainMoveForward,
+                    }));
+            put(
+                MacroOperation.GearCenter,
+                new MacroOperationDescription(
+                    UserInputDevice.Driver,
+                    UserInputDeviceButton.JOYSTICK_STICK_BOTTOM_LEFT_BUTTON,
                     ButtonType.Toggle,
                     () -> new VisionCenteringTask(),
+                    new Operation[]
+                    {
+                        Operation.DriveTrainUsePositionalMode,
+                        Operation.DriveTrainLeftPosition,
+                        Operation.DriveTrainRightPosition,
+                        Operation.DriveTrainTurn,
+                        Operation.DriveTrainMoveForward,
+                    }));
+            put(
+                MacroOperation.GearCenterAndAdvance,
+                new MacroOperationDescription(
+                    UserInputDevice.Driver,
+                    UserInputDeviceButton.JOYSTICK_STICK_TOP_LEFT_BUTTON,
+                    ButtonType.Toggle,
+                    () -> SequentialTask.Sequence(
+                        new VisionForwardAndCenterTask(),
+                        new DriveDistanceTimedTask(TuningConstants.MAX_VISION_ACCEPTABLE_FORWARD_DISTANCE, 1.5)),
                     new Operation[]
                     {
                         Operation.DriveTrainUsePositionalMode,
