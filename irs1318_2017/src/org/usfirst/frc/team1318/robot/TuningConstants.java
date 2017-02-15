@@ -89,10 +89,10 @@ public class TuningConstants
 
     public static final boolean SHOOTER_USE_PID = true;
 
-    public static final double SHOOTER_PID_KP = 0.024;
+    public static final double SHOOTER_PID_KP = 0.072;
     public static final double SHOOTER_PID_KI = 0.0;
     public static final double SHOOTER_PID_KD = 0.0;
-    public static final double SHOOTER_PID_KF = 0.0095;
+    public static final double SHOOTER_PID_KF = 0.0285;
 
     public static final double SHOOTER_PID_MAX_VELOCITY = 36000.0;
     public static final double SHOOTER_ALLOWABLE_ERROR = 0.02; // plus or minus 2% error is max allowed
