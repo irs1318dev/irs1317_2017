@@ -13,19 +13,32 @@ import org.usfirst.frc.team1318.robot.driver.controltasks.SequentialTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.ShooterKickerTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.ShooterSpinDownTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.ShooterSpinUpTask;
-import org.usfirst.frc.team1318.robot.driver.controltasks.VisionCenteringTask;
 import org.usfirst.frc.team1318.robot.driver.descriptions.AnalogOperationDescription;
 import org.usfirst.frc.team1318.robot.driver.descriptions.DigitalOperationDescription;
 import org.usfirst.frc.team1318.robot.driver.descriptions.MacroOperationDescription;
 import org.usfirst.frc.team1318.robot.driver.descriptions.OperationDescription;
 import org.usfirst.frc.team1318.robot.driver.descriptions.UserInputDevice;
 
-public class ButtonMap
+public class ButtonMap implements IButtonMap
 {
     @SuppressWarnings("serial")
     public static Map<Operation, OperationDescription> OperationSchema = new HashMap<Operation, OperationDescription>()
     {
         {
+            // Operations for general stuff
+            put(
+                Operation.DisablePID,
+                new DigitalOperationDescription(
+                    UserInputDevice.None,
+                    UserInputDeviceButton.BUTTON_PAD_BUTTON_11,
+                    ButtonType.Click));
+            put(
+                Operation.EnablePID,
+                new DigitalOperationDescription(
+                    UserInputDevice.None,
+                    UserInputDeviceButton.BUTTON_PAD_BUTTON_12,
+                    ButtonType.Click));
+
             // Operations for the drive train
             put(
                 Operation.DriveTrainMoveForward,
@@ -140,20 +153,6 @@ public class ButtonMap
                     UserInputDevice.Driver,
                     UserInputDeviceButton.JOYSTICK_BASE_TOP_LEFT_BUTTON,
                     ButtonType.Simple));
-
-            // Operations for general stuff
-            put(
-                Operation.DisablePID,
-                new DigitalOperationDescription(
-                    UserInputDevice.None,
-                    UserInputDeviceButton.BUTTON_PAD_BUTTON_11,
-                    ButtonType.Click));
-            put(
-                Operation.EnablePID,
-                new DigitalOperationDescription(
-                    UserInputDevice.None,
-                    UserInputDeviceButton.BUTTON_PAD_BUTTON_12,
-                    ButtonType.Click));
         }
     };
 
@@ -166,24 +165,9 @@ public class ButtonMap
                 MacroOperation.PIDBrake,
                 new MacroOperationDescription(
                     UserInputDevice.Driver,
-                    UserInputDeviceButton.NONE,
-                    ButtonType.Simple,
-                    () -> new PIDBrakeTask(),
-                    new Operation[]
-                    {
-                        Operation.DriveTrainUsePositionalMode,
-                        Operation.DriveTrainLeftPosition,
-                        Operation.DriveTrainRightPosition,
-                    }));
-
-            // Centering macro
-            put(
-                MacroOperation.Center,
-                new MacroOperationDescription(
-                    UserInputDevice.Driver,
                     UserInputDeviceButton.JOYSTICK_STICK_THUMB_BUTTON,
                     ButtonType.Simple,
-                    () -> new VisionCenteringTask(),
+                    () -> new PIDBrakeTask(),
                     new Operation[]
                     {
                         Operation.DriveTrainUsePositionalMode,
@@ -274,7 +258,18 @@ public class ButtonMap
                         Operation.IntakeExtend,
                         Operation.IntakeRetract,
                     }));
-
         }
     };
+
+    @Override
+    public Map<Operation, OperationDescription> getOperationSchema()
+    {
+        return ButtonMap.OperationSchema;
+    }
+
+    @Override
+    public Map<MacroOperation, MacroOperationDescription> getMacroOperationSchema()
+    {
+        return ButtonMap.MacroSchema;
+    }
 }

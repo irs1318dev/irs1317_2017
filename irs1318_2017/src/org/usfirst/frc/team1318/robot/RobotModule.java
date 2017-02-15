@@ -11,10 +11,12 @@ import org.usfirst.frc.team1318.robot.common.IDashboardLogger;
 import org.usfirst.frc.team1318.robot.common.SmartDashboardLogger;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.AnalogInputWrapper;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.CompressorWrapper;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.DigitalInputWrapper;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.DoubleSolenoidWrapper;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.EncoderWrapper;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IAnalogInput;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.ICompressor;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.IDigitalInput;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IDoubleSolenoid;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IEncoder;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IJoystick;
@@ -33,7 +35,6 @@ import org.usfirst.frc.team1318.robot.general.PowerManager;
 import org.usfirst.frc.team1318.robot.intake.IntakeController;
 import org.usfirst.frc.team1318.robot.shooter.ShooterController;
 import org.usfirst.frc.team1318.robot.stinger.StingerController;
-import org.usfirst.frc.team1318.robot.vision.VisionManager;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Injector;
@@ -60,13 +61,37 @@ public class RobotModule extends AbstractModule
         List<IController> controllerList = new ArrayList<>();
         controllerList.add(injector.getInstance(PowerManager.class));
         controllerList.add(injector.getInstance(PositionManager.class));
-        controllerList.add(injector.getInstance(VisionManager.class));
+        // controllerList.add(injector.getInstance(VisionManager.class));
         controllerList.add(injector.getInstance(CompressorController.class));
         controllerList.add(injector.getInstance(DriveTrainController.class));
         controllerList.add(injector.getInstance(IntakeController.class));
         controllerList.add(injector.getInstance(ShooterController.class));
         controllerList.add(injector.getInstance(StingerController.class));
         return new ControllerManager(controllerList);
+    }
+
+    @Singleton
+    @Provides
+    @Named("AUTO_DIP_SWITCH_A")
+    public IDigitalInput getAutoDipSwitchA()
+    {
+        return new DigitalInputWrapper(ElectronicsConstants.AUTONOMOUS_DIP_SWITCH_A);
+    }
+
+    @Singleton
+    @Provides
+    @Named("AUTO_DIP_SWITCH_B")
+    public IDigitalInput getAutoDipSwitchB()
+    {
+        return new DigitalInputWrapper(ElectronicsConstants.AUTONOMOUS_DIP_SWITCH_B);
+    }
+
+    @Singleton
+    @Provides
+    @Named("AUTO_DIP_SWITCH_C")
+    public IDigitalInput getAutoDipSwitchC()
+    {
+        return new DigitalInputWrapper(ElectronicsConstants.AUTONOMOUS_DIP_SWITCH_C);
     }
 
     @Singleton

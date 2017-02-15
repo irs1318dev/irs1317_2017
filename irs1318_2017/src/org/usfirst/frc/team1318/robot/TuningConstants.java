@@ -112,4 +112,6 @@ public class TuningConstants
     // Acceptable vision centering range values in degrees
     public static final double MAX_VISION_CENTERING_RANGE_DEGREES = 1.0;
     public static final double MAX_VISION_CENTERING_OUTPUT = 0.08;
+
+    public static final double MAX_VISION_ACCEPTABLE_FORWARD_DISTANCE = 18.0;
 }

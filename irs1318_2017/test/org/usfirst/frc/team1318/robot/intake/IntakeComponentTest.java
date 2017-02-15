@@ -1,13 +1,12 @@
 package org.usfirst.frc.team1318.robot.intake;
 
-import static org.junit.Assert.*;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.doReturn;
 
 import org.junit.Test;
+import org.usfirst.frc.team1318.robot.TuningConstants;
 import org.usfirst.frc.team1318.robot.common.IDashboardLogger;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.DoubleSolenoidValue;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IAnalogInput;
@@ -18,45 +17,89 @@ import org.usfirst.frc.team1318.robot.common.wpilibmocks.ISolenoid;
 public class IntakeComponentTest
 {
     @Test
-    public void testExtendOrRetract_true()
+    public void testExtend_false()
     {
-        IMotor motor = mock(IMotor.class);
-        IDoubleSolenoid intakeSolenoid = mock(IDoubleSolenoid.class);
-        ISolenoid intakeLight = mock(ISolenoid.class);
-        IAnalogInput throughBeamSensor = mock(IAnalogInput.class);
         IDashboardLogger logger = mock(IDashboardLogger.class);
-
-        IntakeComponent intakeComponent = new IntakeComponent(logger, motor, intakeSolenoid, intakeLight, throughBeamSensor);
-
-        intakeComponent.extendOrRetract(true);
-
-        verify(intakeSolenoid).set(eq(DoubleSolenoidValue.kForward));
-        verifyNoMoreInteractions(motor, intakeSolenoid, intakeLight, throughBeamSensor);
-    }
-
-    @Test
-    public void testExtendOrRetract_false()
-    {
         IMotor motor = mock(IMotor.class);
-        IDoubleSolenoid intakeSolenoid = mock(IDoubleSolenoid.class);
-        ISolenoid intakeLight = mock(ISolenoid.class);
+        IDoubleSolenoid intakeExtender = mock(IDoubleSolenoid.class);
+        ISolenoid light = mock(ISolenoid.class);
         IAnalogInput throughBeamSensor = mock(IAnalogInput.class);
-        IDashboardLogger logger = mock(IDashboardLogger.class);
 
-        // Mock/fake a return value when get method is called
-        doReturn(1.0).when(throughBeamSensor.getVoltage());
-
-        IntakeComponent intakeComponent = new IntakeComponent(logger, motor, intakeSolenoid, intakeLight, throughBeamSensor);
+        IntakeComponent intakeComponent = new IntakeComponent(logger, motor, intakeExtender, light, throughBeamSensor);
 
         intakeComponent.extendOrRetract(false);
 
-        // Assert true/false when method that returns true/false is called
-        assertTrue(intakeComponent.getThroughBeamBroken());
+        verify(intakeExtender).set(eq(DoubleSolenoidValue.kReverse));
+        verifyNoMoreInteractions(motor, intakeExtender, light);
+    }
 
-        // Assert double value is equal when get method is called, within acceptable range
-        assertEquals(3.0/*expected*/, 3.001/*actual, the mocked return value from a get method*/, 0.001 /*allowed error*/);
+    @Test
+    public void testExtend_true()
+    {
+        IDashboardLogger logger = mock(IDashboardLogger.class);
+        IMotor motor = mock(IMotor.class);
+        IDoubleSolenoid intakeExtender = mock(IDoubleSolenoid.class);
+        ISolenoid light = mock(ISolenoid.class);
+        IAnalogInput throughBeamSensor = mock(IAnalogInput.class);
 
-        verify(intakeSolenoid).set(eq(DoubleSolenoidValue.kReverse));
-        verifyNoMoreInteractions(motor, intakeSolenoid, intakeLight, throughBeamSensor);
+        IntakeComponent intakeComponent = new IntakeComponent(logger, motor, intakeExtender, light, throughBeamSensor);
+
+        intakeComponent.extendOrRetract(true);
+
+        verify(intakeExtender).set(eq(DoubleSolenoidValue.kForward));
+        verifyNoMoreInteractions(motor, intakeExtender, light);
+    }
+
+    @Test
+    public void testMotorSpeed_MAX_POWER_LEVEL()
+    {
+        IDashboardLogger logger = mock(IDashboardLogger.class);
+        IMotor motor = mock(IMotor.class);
+        IDoubleSolenoid intakeExtender = mock(IDoubleSolenoid.class);
+        ISolenoid light = mock(ISolenoid.class);
+        IAnalogInput throughBeamSensor = mock(IAnalogInput.class);
+
+        IntakeComponent intakeComponent = new IntakeComponent(logger, motor, intakeExtender, light, throughBeamSensor);
+
+        intakeComponent.setIntakeSpeed(TuningConstants.INTAKE_IN_POWER_LEVEL);
+
+        verify(motor).set(eq(TuningConstants.INTAKE_IN_POWER_LEVEL));
+        verifyNoMoreInteractions(motor, intakeExtender, light);
+    }
+
+    @Test
+    public void testMotorSpeed_0()
+    {
+        IDashboardLogger logger = mock(IDashboardLogger.class);
+        IMotor motor = mock(IMotor.class);
+        IDoubleSolenoid intakeExtender = mock(IDoubleSolenoid.class);
+        ISolenoid light = mock(ISolenoid.class);
+        IAnalogInput throughBeamSensor = mock(IAnalogInput.class);
+
+        IntakeComponent intakeComponent = new IntakeComponent(logger, motor, intakeExtender, light, throughBeamSensor);
+
+        intakeComponent.setIntakeSpeed(0.0);
+
+        verify(motor).set(eq(0.0));
+        verifyNoMoreInteractions(motor, intakeExtender, light);
+    }
+
+    @Test
+    public void testStop()
+    {
+        IDashboardLogger logger = mock(IDashboardLogger.class);
+        IMotor motor = mock(IMotor.class);
+        IDoubleSolenoid intakeExtender = mock(IDoubleSolenoid.class);
+        ISolenoid light = mock(ISolenoid.class);
+        IAnalogInput throughBeamSensor = mock(IAnalogInput.class);
+
+        IntakeComponent intakeComponent = new IntakeComponent(logger, motor, intakeExtender, light, throughBeamSensor);
+
+        intakeComponent.stop();
+
+        verify(motor).set(eq(0.0));
+        verify(intakeExtender).set(eq(DoubleSolenoidValue.kOff));
+        verify(light).set(eq(false));
+        verifyNoMoreInteractions(motor, intakeExtender, light);
     }
 }

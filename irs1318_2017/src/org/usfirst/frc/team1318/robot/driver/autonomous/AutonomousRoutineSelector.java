@@ -1,12 +1,12 @@
 package org.usfirst.frc.team1318.robot.driver.autonomous;
 
-import org.usfirst.frc.team1318.robot.ElectronicsConstants;
 import org.usfirst.frc.team1318.robot.TuningConstants;
 import org.usfirst.frc.team1318.robot.common.IDashboardLogger;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.IDigitalInput;
 import org.usfirst.frc.team1318.robot.driver.IControlTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.ConcurrentTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.DriveRouteTask;
-import org.usfirst.frc.team1318.robot.driver.controltasks.DriveTimedTask;
+import org.usfirst.frc.team1318.robot.driver.controltasks.DriveVelocityTimedTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.IntakeExtendTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.PIDBrakeTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.SequentialTask;
@@ -14,13 +14,12 @@ import org.usfirst.frc.team1318.robot.driver.controltasks.ShooterKickerTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.ShooterSpinDownTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.ShooterSpinUpTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.StingerTask;
-import org.usfirst.frc.team1318.robot.driver.controltasks.TurnTask;
+import org.usfirst.frc.team1318.robot.driver.controltasks.TurnOneShotTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.WaitTask;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import edu.wpi.first.wpilibj.DigitalInput;
+import com.google.inject.name.Named;
 
 @Singleton
 public class AutonomousRoutineSelector
@@ -31,21 +30,25 @@ public class AutonomousRoutineSelector
     private final IDashboardLogger logger;
 
     // DipSwitches for selecting autonomous mode
-    private final DigitalInput dipSwitchA;
-    private final DigitalInput dipSwitchB;
-    private final DigitalInput dipSwitchC;
+    private final IDigitalInput dipSwitchA;
+    private final IDigitalInput dipSwitchB;
+    private final IDigitalInput dipSwitchC;
 
     /**
      * Initializes a new AutonomousDriver
      */
     @Inject
-    public AutonomousRoutineSelector(IDashboardLogger logger)
+    public AutonomousRoutineSelector(
+        IDashboardLogger logger,
+        @Named("AUTO_DIP_SWITCH_A") IDigitalInput dipSwitchA,
+        @Named("AUTO_DIP_SWITCH_B") IDigitalInput dipSwitchB,
+        @Named("AUTO_DIP_SWITCH_C") IDigitalInput dipSwitchC)
     {
         this.logger = logger;
 
-        this.dipSwitchA = new DigitalInput(ElectronicsConstants.AUTONOMOUS_DIP_SWITCH_A);
-        this.dipSwitchB = new DigitalInput(ElectronicsConstants.AUTONOMOUS_DIP_SWITCH_B);
-        this.dipSwitchC = new DigitalInput(ElectronicsConstants.AUTONOMOUS_DIP_SWITCH_C);
+        this.dipSwitchA = dipSwitchA;
+        this.dipSwitchB = dipSwitchB;
+        this.dipSwitchC = dipSwitchC;
     }
 
     /**
@@ -142,7 +145,7 @@ public class AutonomousRoutineSelector
             new WaitTask(8.0),
             ConcurrentTask.AllTasks(
                 new IntakeExtendTask(0.5, true),
-                new DriveTimedTask(time, xVelocity, yVelocity)));
+                new DriveVelocityTimedTask(time, xVelocity, yVelocity)));
     }
 
     private static IControlTask GetChevalDeFriseBreachRouteRoutine()
@@ -194,7 +197,7 @@ public class AutonomousRoutineSelector
                         7.25)), // 7.0
             ConcurrentTask.AllTasks(
                 SequentialTask.Sequence(
-                    new TurnTask(75.0, false), // 68.0
+                    new TurnOneShotTask(75.0, false), // 68.0
                     new WaitTask(0.5)),
                 new IntakeExtendTask(TuningConstants.SHOOTER_LOWER_KICKER_DURATION, false)),
             new DriveRouteTask(
