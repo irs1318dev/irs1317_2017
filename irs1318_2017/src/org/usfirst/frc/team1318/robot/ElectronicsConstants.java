@@ -21,30 +21,31 @@ public class ElectronicsConstants
     public static final int JOYSTICK_CO_DRIVER_PORT = 1;
 
     //================================================== Auto ==============================================================
-    public static final int AUTO_SIDE_OF_FIELD_CHANNEL = -1;
-    public static final int AUTO_DIP_SWITCH_A_CHANNEL = -1;
-    public static final int AUTO_DIP_SWITCH_B_CHANNEL = -1;
+
+    public static final int AUTO_SIDE_OF_FIELD_CHANNEL = 4;
+    public static final int AUTO_DIP_SWITCH_A_CHANNEL = 5;
+    public static final int AUTO_DIP_SWITCH_B_CHANNEL = 6;
 
     //================================================== DriveTrain ==============================================================
 
-    public static final int DRIVETRAIN_LEFT_TALON_CHANNEL = 5;
-    public static final int DRIVETRAIN_RIGHT_TALON_CHANNEL = 4;
+    public static final int DRIVETRAIN_LEFT_TALON_CHANNEL = 0;
+    public static final int DRIVETRAIN_RIGHT_TALON_CHANNEL = 1;
 
-    public static final int DRIVETRAIN_RIGHT_ENCODER_CHANNEL_A = 0;
-    public static final int DRIVETRAIN_RIGHT_ENCODER_CHANNEL_B = 1;
+    public static final int DRIVETRAIN_RIGHT_ENCODER_CHANNEL_A = 2;
+    public static final int DRIVETRAIN_RIGHT_ENCODER_CHANNEL_B = 3;
 
-    public static final int DRIVETRAIN_LEFT_ENCODER_CHANNEL_A = 2;
-    public static final int DRIVETRAIN_LEFT_ENCODER_CHANNEL_B = 3;
+    public static final int DRIVETRAIN_LEFT_ENCODER_CHANNEL_A = 0;
+    public static final int DRIVETRAIN_LEFT_ENCODER_CHANNEL_B = 1;
 
     //================================================== Climber ==============================================================
 
-    public static final int CLIMBER_MOTOR_CHANNEL = -1;
-    public static final int CLIMBER_PDP_CHANNEL_A = -1;
-    public static final int CLIMBER_PDP_CHANNEL_B = -1;
+    public static final int CLIMBER_MOTOR_CHANNEL = 4;
+    public static final int CLIMBER_PDP_CHANNEL_A = 5;
+    public static final int CLIMBER_PDP_CHANNEL_B = 10;
 
     //================================================== Intake ==============================================================
 
-    public static final int INTAKE_MOTOR_CHANNEL = -1;
+    public static final int INTAKE_MOTOR_CHANNEL = 3;
 
     public static final int INTAKE_EXTENDER_SOLENOID_CHANNEL_A = -1;
     public static final int INTAKE_EXTENDER_SOLENOID_CHANNEL_B = -1;
@@ -57,7 +58,7 @@ public class ElectronicsConstants
     public static final int SHOOTER_HOOD_CHANNEL_A = -1;
     public static final int SHOOTER_HOOD_CHANNEL_B = -1;
 
-    public static final int SHOOTER_FEEDER_CHANNEL = -1;
+    public static final int SHOOTER_FEEDER_CHANNEL = 2;
 
     public static final int SHOOTER_READYLIGHT_CHANNEL = -1;
 

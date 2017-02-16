@@ -6,6 +6,7 @@ import java.util.List;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
+import org.usfirst.frc.team1318.robot.climber.ClimberController;
 import org.usfirst.frc.team1318.robot.common.IController;
 import org.usfirst.frc.team1318.robot.common.IDashboardLogger;
 import org.usfirst.frc.team1318.robot.common.SmartDashboardLogger;
@@ -72,7 +73,7 @@ public class RobotModule extends AbstractModule
         controllerList.add(injector.getInstance(VisionManager.class));
         controllerList.add(injector.getInstance(CompressorController.class));
         controllerList.add(injector.getInstance(DriveTrainController.class));
-        //controllerList.add(injector.getInstance(ClimberController.class));
+        controllerList.add(injector.getInstance(ClimberController.class));
         //controllerList.add(injector.getInstance(IntakeController.class));
         //controllerList.add(injector.getInstance(ShooterController.class));
         return new ControllerManager(controllerList);
