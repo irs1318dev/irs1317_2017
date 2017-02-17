@@ -5,12 +5,15 @@ import org.usfirst.frc.team1318.robot.common.IController;
 import org.usfirst.frc.team1318.robot.driver.Driver;
 import org.usfirst.frc.team1318.robot.driver.Operation;
 
+import com.google.inject.Inject;
+
 public class IntakeController implements IController
 {
     private final IntakeComponent intake;
 
     private Driver driver;
 
+    @Inject
     public IntakeController(IntakeComponent intakeArm)
     {
         this.intake = intakeArm;

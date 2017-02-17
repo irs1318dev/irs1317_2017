@@ -56,6 +56,7 @@ public class ShooterComponent
 
     public void setFeederPower(double power)
     {
+        this.logger.logNumber(ShooterComponent.LogName, "feederPower", power);
         this.feeder.set(power);
     }
 
@@ -68,6 +69,7 @@ public class ShooterComponent
 
     public void extendOrRetract(boolean extend)
     {
+        this.logger.logString(ShooterComponent.LogName, "hood", extend ? "extend" : "retract");
         if (extend)
         {
             this.hood.set(DoubleSolenoidValue.kForward);
