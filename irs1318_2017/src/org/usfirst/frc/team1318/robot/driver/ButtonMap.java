@@ -105,13 +105,13 @@ public class ButtonMap implements IButtonMap
                 Operation.IntakeIn,
                 new DigitalOperationDescription(
                     UserInputDevice.Driver,
-                    UserInputDeviceButton.JOYSTICK_STICK_TOP_RIGHT_BUTTON,
+                    UserInputDeviceButton.JOYSTICK_STICK_BOTTOM_LEFT_BUTTON,
                     ButtonType.Simple));
             put(
                 Operation.IntakeOut,
                 new DigitalOperationDescription(
                     UserInputDevice.Driver,
-                    UserInputDeviceButton.JOYSTICK_STICK_BOTTOM_RIGHT_BUTTON,
+                    UserInputDeviceButton.JOYSTICK_STICK_TOP_LEFT_BUTTON,
                     ButtonType.Simple));
             put(
                 Operation.IntakeGearHolderExtend,
@@ -182,7 +182,7 @@ public class ButtonMap implements IButtonMap
                 MacroOperation.ShooterCenter,
                 new MacroOperationDescription(
                     UserInputDevice.Driver,
-                    UserInputDeviceButton.JOYSTICK_BASE_BOTTOM_LEFT_BUTTON,
+                    UserInputDeviceButton.JOYSTICK_BASE_TOP_LEFT_BUTTON,
                     ButtonType.Toggle,
                     () -> new WaitTask(0.0),
                     new Operation[]
@@ -197,7 +197,7 @@ public class ButtonMap implements IButtonMap
                 MacroOperation.GearCenter,
                 new MacroOperationDescription(
                     UserInputDevice.Driver,
-                    UserInputDeviceButton.JOYSTICK_STICK_BOTTOM_LEFT_BUTTON,
+                    UserInputDeviceButton.JOYSTICK_STICK_BOTTOM_RIGHT_BUTTON,
                     ButtonType.Toggle,
                     () -> new VisionCenteringTask(),
                     new Operation[]
@@ -212,7 +212,7 @@ public class ButtonMap implements IButtonMap
                 MacroOperation.GearCenterAndAdvance,
                 new MacroOperationDescription(
                     UserInputDevice.Driver,
-                    UserInputDeviceButton.JOYSTICK_STICK_TOP_LEFT_BUTTON,
+                    UserInputDeviceButton.JOYSTICK_STICK_TOP_RIGHT_BUTTON,
                     ButtonType.Toggle,
                     () -> SequentialTask.Sequence(
                         new VisionForwardAndCenterTask(),
