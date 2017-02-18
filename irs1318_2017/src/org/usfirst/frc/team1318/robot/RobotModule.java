@@ -1,18 +1,14 @@
 package org.usfirst.frc.team1318.robot;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.usfirst.frc.team1318.robot.climber.ClimberController;
-import org.usfirst.frc.team1318.robot.common.CSVLogger;
 import org.usfirst.frc.team1318.robot.common.IController;
 import org.usfirst.frc.team1318.robot.common.IDashboardLogger;
-import org.usfirst.frc.team1318.robot.common.MultiLogger;
 import org.usfirst.frc.team1318.robot.common.SmartDashboardLogger;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.CANTalonControlMode;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.CANTalonWrapper;
@@ -59,16 +55,16 @@ public class RobotModule extends AbstractModule
     public IDashboardLogger getLogger()
     {
         IDashboardLogger logger = new SmartDashboardLogger();
-        try
-        {
-            String fileName = String.format("/home/lvuser/%1$d.csv", Calendar.getInstance().getTime().getTime());
-            IDashboardLogger csvLogger = new CSVLogger(fileName, new String[] { "shooter.speed", "shooter.power" });
-            logger = new MultiLogger(logger, csvLogger);
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
+        //        try
+        //        {
+        //            String fileName = String.format("/home/lvuser/%1$d.csv", Calendar.getInstance().getTime().getTime());
+        //            IDashboardLogger csvLogger = new CSVLogger(fileName, new String[] { "r.time", "shooter.speed", "shooter.power" });
+        //            logger = new MultiLogger(logger, csvLogger);
+        //        }
+        //        catch (IOException e)
+        //        {
+        //            e.printStackTrace();
+        //        }
 
         return logger;
     }
@@ -252,11 +248,11 @@ public class RobotModule extends AbstractModule
     public ICANTalon getShooterShooter()
     {
         CANTalonWrapper master = new CANTalonWrapper(ElectronicsConstants.SHOOTER_MASTER_MOTOR_CHANNEL);
-        master.enableBrakeMode(false);
+        master.enableBrakeMode(true);
         master.reverseSensor(false);
 
         CANTalonWrapper follower = new CANTalonWrapper(ElectronicsConstants.SHOOTER_FOLLOWER_MOTOR_CHANNEL);
-        follower.enableBrakeMode(false);
+        follower.enableBrakeMode(true);
         follower.reverseOutput(true);
         follower.changeControlMode(CANTalonControlMode.Follower);
         follower.set(ElectronicsConstants.SHOOTER_MASTER_MOTOR_CHANNEL);

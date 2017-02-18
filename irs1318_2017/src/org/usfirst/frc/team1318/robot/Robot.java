@@ -9,6 +9,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Timer;
 
 /**
  * Main class for the FRC 2017 Steamworks Competition
@@ -42,6 +43,8 @@ public class Robot extends IterativeRobot
     private IDashboardLogger logger;
     private Injector injector;
 
+    private Timer timer;
+
     /**
      * Robot-wide initialization code should go here.
      * This default Robot-wide initialization code will be called when 
@@ -53,6 +56,10 @@ public class Robot extends IterativeRobot
         this.controllers = this.getInjector().getInstance(ControllerManager.class);
         this.logger = this.getInjector().getInstance(IDashboardLogger.class);
         this.logger.logString(Robot.LogName, "state", "Init");
+
+        this.timer = new Timer();
+        this.timer.start();
+        this.logger.logNumber(Robot.LogName, "time", this.timer.get());
     }
 
     /**
@@ -149,6 +156,7 @@ public class Robot extends IterativeRobot
         // run each controller
         this.controllers.update();
 
+        this.logger.logNumber(Robot.LogName, "time", this.timer.get());
         this.logger.flush();
     }
 

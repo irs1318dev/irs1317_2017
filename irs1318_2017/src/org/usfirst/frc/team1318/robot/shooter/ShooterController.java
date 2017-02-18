@@ -33,12 +33,12 @@ public class ShooterController implements IController
 
         this.shooter.setShooterPower(velocityGoal);
 
+        double error = this.shooter.getShooterError();
+        double errorPercentage = error / velocityGoal;
+
         boolean shooterIsUpToSpeed = true;
         if (velocityGoal != 0.0)
         {
-            double error = this.shooter.getShooterError();
-            double errorPercentage = error / velocityGoal;
-
             shooterIsUpToSpeed = Math.abs(errorPercentage) < TuningConstants.SHOOTER_ALLOWABLE_ERROR;
         }
 
