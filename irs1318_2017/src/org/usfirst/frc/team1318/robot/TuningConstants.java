@@ -85,19 +85,19 @@ public class TuningConstants
 
     //================================================== Shooter ==============================================================
 
-    public static final double SHOOTER_MAX_FEEDER_POWER = 0.3;
+    public static final double SHOOTER_MAX_FEEDER_POWER = 0.8;
 
     public static final boolean SHOOTER_USE_PID = true;
 
-    public static final double SHOOTER_PID_KP = 0.072;
+    public static final double SHOOTER_PID_KP = 0.08;
     public static final double SHOOTER_PID_KI = 0.0;
     public static final double SHOOTER_PID_KD = 0.0;
-    public static final double SHOOTER_PID_KF = 0.0285;
+    public static final double SHOOTER_PID_KF = 0.03;
 
-    public static final double SHOOTER_PID_MAX_VELOCITY = 36000.0;
+    public static final double SHOOTER_PID_MAX_VELOCITY = 34000.0;
     public static final double SHOOTER_ALLOWABLE_ERROR = 0.02; // plus or minus 2% error is max allowed
 
-    public static final double SHOOTER_FAR_SHOT_VELOCITY = 0.7;
+    public static final double SHOOTER_FAR_SHOT_VELOCITY = 1.0;//0.7;
     public static final double SHOOTER_CLOSE_SHOT_VELOCITY = 0.6;
     public static final double SHOOTER_CLOSE_SHOT_LOW_GOAL_VELOCITY = 0.2;
 }

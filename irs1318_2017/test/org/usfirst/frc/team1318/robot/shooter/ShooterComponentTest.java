@@ -32,7 +32,7 @@ public class ShooterComponentTest
 
         shooterComponent.setFeederPower(TuningConstants.SHOOTER_MAX_FEEDER_POWER);
 
-        verify(feeder).set(eq(TuningConstants.SHOOTER_MAX_FEEDER_POWER));
+        verify(feeder).set(eq(-TuningConstants.SHOOTER_MAX_FEEDER_POWER)); // motor mounted backwards
         verifyNoMoreInteractions(hood, feeder, shooter, readyLight);
     }
 

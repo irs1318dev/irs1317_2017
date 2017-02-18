@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1318.robot.shooter;
 
+import org.usfirst.frc.team1318.robot.TuningConstants;
 import org.usfirst.frc.team1318.robot.common.IDashboardLogger;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.CANTalonControlMode;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.DoubleSolenoidValue;
@@ -41,13 +42,16 @@ public class ShooterComponent
 
     public void setShooterPower(double power)
     {
-        if (power == 0.0)
+        if (TuningConstants.SHOOTER_USE_PID)
         {
-            this.shooter.changeControlMode(CANTalonControlMode.Voltage);
-        }
-        else
-        {
-            this.shooter.changeControlMode(CANTalonControlMode.Speed);
+            if (power == 0.0)
+            {
+                this.shooter.changeControlMode(CANTalonControlMode.Voltage);
+            }
+            else
+            {
+                this.shooter.changeControlMode(CANTalonControlMode.Speed);
+            }
         }
 
         this.shooter.set(power);
@@ -57,7 +61,7 @@ public class ShooterComponent
     public void setFeederPower(double power)
     {
         this.logger.logNumber(ShooterComponent.LogName, "feederPower", power);
-        this.feeder.set(power);
+        this.feeder.set(-power); // motor installed backwards
     }
 
     public double getShooterError()

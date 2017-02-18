@@ -33,7 +33,7 @@ public class ShooterController implements IController
 
         this.shooter.setShooterPower(velocityGoal);
 
-        boolean shooterIsUpToSpeed = false;
+        boolean shooterIsUpToSpeed = true;
         if (velocityGoal != 0.0)
         {
             double error = this.shooter.getShooterError();
@@ -41,6 +41,12 @@ public class ShooterController implements IController
 
             shooterIsUpToSpeed = Math.abs(errorPercentage) < TuningConstants.SHOOTER_ALLOWABLE_ERROR;
         }
+
+        // If we don't want the shooter to shoot, the hood is retracted
+        /*else
+        {
+            this.shooter.extendOrRetract(false);
+        }*/
 
         this.shooter.setReadyLight(shooterIsUpToSpeed);
 
