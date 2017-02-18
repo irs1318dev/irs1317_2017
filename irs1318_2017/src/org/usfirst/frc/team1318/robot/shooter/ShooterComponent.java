@@ -64,6 +64,13 @@ public class ShooterComponent
         this.feeder.set(-power); // motor installed backwards
     }
 
+    public double getShooterSpeed()
+    {
+        double speed = this.shooter.getSpeed();
+        this.logger.logNumber(ShooterComponent.LogName, "speed", speed);
+        return speed;
+    }
+
     public double getShooterError()
     {
         double error = this.shooter.getError();

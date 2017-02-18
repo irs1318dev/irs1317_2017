@@ -42,12 +42,7 @@ public class ShooterController implements IController
             shooterIsUpToSpeed = Math.abs(errorPercentage) < TuningConstants.SHOOTER_ALLOWABLE_ERROR;
         }
 
-        // If we don't want the shooter to shoot, the hood is retracted
-        /*else
-        {
-            this.shooter.extendOrRetract(false);
-        }*/
-
+        this.shooter.getShooterSpeed();
         this.shooter.setReadyLight(shooterIsUpToSpeed);
 
         boolean shooterFeed = this.driver.getDigital(Operation.ShooterFeed);

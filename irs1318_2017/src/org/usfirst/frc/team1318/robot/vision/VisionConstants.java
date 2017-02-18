@@ -12,7 +12,7 @@ public class VisionConstants
     public static final boolean DEBUG_SAVE_FRAMES = false;
     public static final boolean DEBUG_OUTPUT_FRAMES = false;
     public static final int DEBUG_FRAME_OUTPUT_GAP = 25; // the number of frames to wait between saving debug image output
-    public static final String DEBUG_OUTPUT_FOLDER = "/C/vision/";
+    public static final String DEBUG_OUTPUT_FOLDER = "/home/lvuser/";
 
     // Conversion constants...
     public static final double ANGLE_TO_RADIANS = (Math.PI / 180.0f);

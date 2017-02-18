@@ -17,15 +17,15 @@ public class ShooterSpinTask extends ControlTaskBase implements IControlTask
     @Override
     public void begin()
     {
-        this.setDigitalOperationState(Operation.ShooterExtendHood, extendHood);
-        this.setAnalogOperationState(Operation.ShooterSpeed, shooterVelocity);
+        this.setDigitalOperationState(Operation.ShooterExtendHood, this.extendHood);
+        this.setAnalogOperationState(Operation.ShooterSpeed, this.shooterVelocity);
     }
 
     @Override
     public void update()
     {
-        this.setAnalogOperationState(Operation.ShooterSpeed, shooterVelocity);
-        this.setDigitalOperationState(Operation.ShooterExtendHood, extendHood);
+        this.setAnalogOperationState(Operation.ShooterSpeed, this.shooterVelocity);
+        this.setDigitalOperationState(Operation.ShooterExtendHood, this.extendHood);
     }
 
     @Override
@@ -51,5 +51,4 @@ public class ShooterSpinTask extends ControlTaskBase implements IControlTask
     {
         return false;
     }
-
 }
