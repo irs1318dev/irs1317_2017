@@ -6,6 +6,7 @@ import org.usfirst.frc.team1318.robot.common.wpilibmocks.CANTalonControlMode;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.DoubleSolenoidValue;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.ICANTalon;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IDoubleSolenoid;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.IEncoder;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IMotor;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.ISolenoid;
 
@@ -21,8 +22,9 @@ public class ShooterComponent
     private final IDashboardLogger logger;
     private final IDoubleSolenoid hood;
     private final IMotor feeder;
-    private final ICANTalon shooter;
     private final ISolenoid readyLight;
+    private final ICANTalon shooter;
+    private final IEncoder encoder;
 
     @Inject
     public ShooterComponent(
@@ -30,7 +32,8 @@ public class ShooterComponent
         @Named("SHOOTER_HOOD") IDoubleSolenoid hood,
         @Named("SHOOTER_FEEDER") IMotor feeder,
         @Named("SHOOTER_LIGHT") ISolenoid readyLight,
-        @Named("SHOOTER_SHOOTER") ICANTalon shooter)
+        @Named("SHOOTER_SHOOTER") ICANTalon shooter,
+        @Named("SHOOTER_ENCODER") IEncoder encoder)
     {
         this.logger = logger;
 
@@ -38,11 +41,12 @@ public class ShooterComponent
         this.feeder = feeder;
         this.readyLight = readyLight;
         this.shooter = shooter;
+        this.encoder = encoder;
     }
 
     public void setShooterPower(double power)
     {
-        if (TuningConstants.SHOOTER_USE_PID)
+        if (TuningConstants.SHOOTER_USE_CAN_PID)
         {
             if (power == 0.0)
             {
@@ -64,18 +68,18 @@ public class ShooterComponent
         this.feeder.set(-power); // motor installed backwards
     }
 
-    public double getShooterSpeed()
+    public int getShooterTicks()
     {
-        double speed = this.shooter.getSpeed();
-        this.logger.logNumber(ShooterComponent.LogName, "speed", speed);
-        return speed;
+        int ticks = this.encoder.get(); // this.shooter.getTicks();
+        this.logger.logNumber(ShooterComponent.LogName, "ticks", ticks);
+        return ticks;
     }
 
-    public double getShooterError()
+    public double getShooterSpeed()
     {
-        double error = this.shooter.getError();
-        this.logger.logNumber(ShooterComponent.LogName, "error", error);
-        return error;
+        double speed = this.encoder.getRate(); // this.shooter.getSpeed();
+        this.logger.logNumber(ShooterComponent.LogName, "speed", speed);
+        return speed;
     }
 
     public void extendOrRetract(boolean extend)

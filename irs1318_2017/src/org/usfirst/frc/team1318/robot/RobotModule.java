@@ -1,14 +1,18 @@
 package org.usfirst.frc.team1318.robot;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.usfirst.frc.team1318.robot.climber.ClimberController;
+import org.usfirst.frc.team1318.robot.common.CSVLogger;
 import org.usfirst.frc.team1318.robot.common.IController;
 import org.usfirst.frc.team1318.robot.common.IDashboardLogger;
+import org.usfirst.frc.team1318.robot.common.MultiLogger;
 import org.usfirst.frc.team1318.robot.common.SmartDashboardLogger;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.CANTalonControlMode;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.CANTalonWrapper;
@@ -55,16 +59,16 @@ public class RobotModule extends AbstractModule
     public IDashboardLogger getLogger()
     {
         IDashboardLogger logger = new SmartDashboardLogger();
-        //        try
-        //        {
-        //            String fileName = String.format("/home/lvuser/%1$d.csv", Calendar.getInstance().getTime().getTime());
-        //            IDashboardLogger csvLogger = new CSVLogger(fileName, new String[] { "r.time", "shooter.speed", "shooter.power" });
-        //            logger = new MultiLogger(logger, csvLogger);
-        //        }
-        //        catch (IOException e)
-        //        {
-        //            e.printStackTrace();
-        //        }
+        try
+        {
+            String fileName = String.format("/home/lvuser/%1$d.csv", Calendar.getInstance().getTime().getTime());
+            IDashboardLogger csvLogger = new CSVLogger(fileName, new String[] { "r.time", "shooter.speed", "shooter.shooterSpeedGoal" });
+            logger = new MultiLogger(logger, csvLogger);
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
 
         return logger;
     }
@@ -257,17 +261,29 @@ public class RobotModule extends AbstractModule
         follower.changeControlMode(CANTalonControlMode.Follower);
         follower.set(ElectronicsConstants.SHOOTER_MASTER_MOTOR_CHANNEL);
 
-        if (TuningConstants.SHOOTER_USE_PID)
+        if (TuningConstants.SHOOTER_USE_CAN_PID)
         {
             master.changeControlMode(CANTalonControlMode.Speed);
             master.setPIDF(
-                TuningConstants.SHOOTER_PID_KP,
-                TuningConstants.SHOOTER_PID_KI,
-                TuningConstants.SHOOTER_PID_KD,
-                TuningConstants.SHOOTER_PID_KF);
+                TuningConstants.SHOOTER_CAN_PID_KP,
+                TuningConstants.SHOOTER_CAN_PID_KI,
+                TuningConstants.SHOOTER_CAN_PID_KD,
+                TuningConstants.SHOOTER_CAN_PID_KF);
         }
 
         return master;
+    }
+
+    @Singleton
+    @Provides
+    @Named("SHOOTER_ENCODER")
+    public IEncoder getShooterEncoder()
+    {
+        EncoderWrapper encoder = new EncoderWrapper(
+            ElectronicsConstants.SHOOTER_ENCODER_CHANNEL_A,
+            ElectronicsConstants.SHOOTER_ENCODER_CHANNEL_B);
+
+        return encoder;
     }
 
     @Singleton

@@ -2,6 +2,8 @@ package org.usfirst.frc.team1318.robot.shooter;
 
 import org.usfirst.frc.team1318.robot.TuningConstants;
 import org.usfirst.frc.team1318.robot.common.IController;
+import org.usfirst.frc.team1318.robot.common.IDashboardLogger;
+import org.usfirst.frc.team1318.robot.common.PIDHandler;
 import org.usfirst.frc.team1318.robot.driver.Driver;
 import org.usfirst.frc.team1318.robot.driver.Operation;
 
@@ -9,14 +11,36 @@ import com.google.inject.Inject;
 
 public class ShooterController implements IController
 {
+    private static final String LogName = "shooter";
+
     private final ShooterComponent shooter;
+    private final IDashboardLogger logger;
+    private final PIDHandler pidHandler;
 
     private Driver driver;
 
     @Inject
-    public ShooterController(ShooterComponent shooter)
+    public ShooterController(
+        IDashboardLogger logger,
+        ShooterComponent shooter)
     {
+        this.logger = logger;
         this.shooter = shooter;
+        if (TuningConstants.SHOOTER_USE_ROBORIO_PID)
+        {
+            this.pidHandler = new PIDHandler(
+                TuningConstants.SHOOTER_ROBORIO_PID_KP,
+                TuningConstants.SHOOTER_ROBORIO_PID_KI,
+                TuningConstants.SHOOTER_ROBORIO_PID_KD,
+                TuningConstants.SHOOTER_ROBORIO_PID_KF,
+                TuningConstants.SHOOTER_ROBORIO_PID_KS,
+                TuningConstants.SHOOTER_MIN_POWER,
+                TuningConstants.SHOOTER_MAX_POWER);
+        }
+        else
+        {
+            this.pidHandler = null;
+        }
     }
 
     @Override
@@ -25,24 +49,37 @@ public class ShooterController implements IController
         boolean shooterExtendHood = this.driver.getDigital(Operation.ShooterExtendHood);
         this.shooter.extendOrRetract(shooterExtendHood);
 
-        double velocityGoal = this.driver.getAnalog(Operation.ShooterSpeed);
-        if (TuningConstants.SHOOTER_USE_PID)
+        double shooterSpeedPercentage = this.driver.getAnalog(Operation.ShooterSpeed);
+        double shooterSpeedGoal = shooterSpeedPercentage * TuningConstants.SHOOTER_PID_MAX_VELOCITY;
+
+        int shooterTicks = this.shooter.getShooterTicks();
+
+        double shooterPower;
+        if (TuningConstants.SHOOTER_USE_CAN_PID)
         {
-            velocityGoal *= TuningConstants.SHOOTER_PID_MAX_VELOCITY;
+            shooterPower = shooterSpeedGoal;
+        }
+        else if (TuningConstants.SHOOTER_USE_ROBORIO_PID && shooterSpeedPercentage != 0.0)
+        {
+            shooterPower = this.pidHandler.calculateVelocity(shooterSpeedPercentage, shooterTicks);
+        }
+        else
+        {
+            shooterPower = shooterSpeedPercentage;
         }
 
-        this.shooter.setShooterPower(velocityGoal);
+        this.shooter.setShooterPower(shooterPower);
+        this.logger.logNumber(ShooterController.LogName, "shooterSpeedGoal", shooterSpeedGoal);
 
-        double error = this.shooter.getShooterError();
-        double errorPercentage = error / velocityGoal;
+        double error = this.shooter.getShooterSpeed() - shooterSpeedGoal;
+        double errorPercentage = error / shooterSpeedGoal;
 
-        boolean shooterIsUpToSpeed = true;
-        if (velocityGoal != 0.0)
+        boolean shooterIsUpToSpeed = true; // false;
+        if (shooterSpeedPercentage != 0.0)
         {
             shooterIsUpToSpeed = Math.abs(errorPercentage) < TuningConstants.SHOOTER_ALLOWABLE_ERROR;
         }
 
-        this.shooter.getShooterSpeed();
         this.shooter.setReadyLight(shooterIsUpToSpeed);
 
         boolean shooterFeed = this.driver.getDigital(Operation.ShooterFeed);

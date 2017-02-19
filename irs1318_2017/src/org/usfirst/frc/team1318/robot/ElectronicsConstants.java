@@ -22,9 +22,9 @@ public class ElectronicsConstants
 
     //================================================== Auto ==============================================================
 
-    public static final int AUTO_SIDE_OF_FIELD_CHANNEL = 4;
-    public static final int AUTO_DIP_SWITCH_A_CHANNEL = 5;
-    public static final int AUTO_DIP_SWITCH_B_CHANNEL = 6;
+    public static final int AUTO_SIDE_OF_FIELD_CHANNEL = 6;
+    public static final int AUTO_DIP_SWITCH_A_CHANNEL = 7;
+    public static final int AUTO_DIP_SWITCH_B_CHANNEL = 8;
 
     //================================================== DriveTrain ==============================================================
 
@@ -64,4 +64,7 @@ public class ElectronicsConstants
 
     public static final int SHOOTER_MASTER_MOTOR_CHANNEL = 1;
     public static final int SHOOTER_FOLLOWER_MOTOR_CHANNEL = 2;
+
+    public static final int SHOOTER_ENCODER_CHANNEL_A = 4;
+    public static final int SHOOTER_ENCODER_CHANNEL_B = 5;
 }
