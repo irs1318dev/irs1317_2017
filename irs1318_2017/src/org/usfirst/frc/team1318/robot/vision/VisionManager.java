@@ -113,14 +113,8 @@ public class VisionManager implements IController, VisionRunner.Listener<ICentro
     @Override
     public void update()
     {
-        String centerString = "n/a";
         Point center = this.getCenter();
-        if (center != null)
-        {
-            centerString = String.format("%f,%f", center.x, center.y);
-        }
-
-        this.logger.logString(VisionManager.LogName, "center", centerString);
+        this.logger.logPoint(VisionManager.LogName, "center", center);
 
         Double fps = this.getLastMeasuredFps();
         this.logger.logNumber(VisionManager.LogName, "fps", fps);
