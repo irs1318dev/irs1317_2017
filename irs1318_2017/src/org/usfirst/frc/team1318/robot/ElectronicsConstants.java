@@ -55,15 +55,16 @@ public class ElectronicsConstants
 
     //================================================== Shooter ==============================================================
 
-    public static final int SHOOTER_HOOD_CHANNEL_A = 6; //0 old value
-    public static final int SHOOTER_HOOD_CHANNEL_B = 7; //1 old value
+    public static final int SHOOTER_HOOD_CHANNEL_A = 6;
+    public static final int SHOOTER_HOOD_CHANNEL_B = 7;
 
     public static final int SHOOTER_FEEDER_CHANNEL = 2;
 
-    public static final int SHOOTER_READYLIGHT_CHANNEL = 1; //6 old value
+    public static final int SHOOTER_READYLIGHT_CHANNEL = 1;
 
-    public static final int SHOOTER_MASTER_MOTOR_CHANNEL = 1;
-    public static final int SHOOTER_FOLLOWER_MOTOR_CHANNEL = 2;
+    public static final int SHOOTER_MOTOR_CHANNEL = 5;
+    //    public static final int SHOOTER_MASTER_MOTOR_CHANNEL = 1;
+    //    public static final int SHOOTER_FOLLOWER_MOTOR_CHANNEL = 2;
 
     public static final int SHOOTER_ENCODER_CHANNEL_A = 4;
     public static final int SHOOTER_ENCODER_CHANNEL_B = 5;

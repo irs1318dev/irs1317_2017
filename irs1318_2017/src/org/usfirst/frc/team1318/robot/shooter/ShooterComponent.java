@@ -1,10 +1,7 @@
 package org.usfirst.frc.team1318.robot.shooter;
 
-import org.usfirst.frc.team1318.robot.TuningConstants;
 import org.usfirst.frc.team1318.robot.common.IDashboardLogger;
-import org.usfirst.frc.team1318.robot.common.wpilibmocks.CANTalonControlMode;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.DoubleSolenoidValue;
-import org.usfirst.frc.team1318.robot.common.wpilibmocks.ICANTalon;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IDoubleSolenoid;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IEncoder;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IMotor;
@@ -23,7 +20,7 @@ public class ShooterComponent
     private final IDoubleSolenoid hood;
     private final IMotor feeder;
     private final ISolenoid readyLight;
-    private final ICANTalon shooter;
+    private final IMotor shooter;
     private final IEncoder encoder;
 
     @Inject
@@ -32,7 +29,7 @@ public class ShooterComponent
         @Named("SHOOTER_HOOD") IDoubleSolenoid hood,
         @Named("SHOOTER_FEEDER") IMotor feeder,
         @Named("SHOOTER_LIGHT") ISolenoid readyLight,
-        @Named("SHOOTER_SHOOTER") ICANTalon shooter,
+        @Named("SHOOTER_SHOOTER") IMotor shooter,
         @Named("SHOOTER_ENCODER") IEncoder encoder)
     {
         this.logger = logger;
@@ -46,17 +43,17 @@ public class ShooterComponent
 
     public void setShooterPower(double power)
     {
-        if (TuningConstants.SHOOTER_USE_CAN_PID)
-        {
-            if (power == 0.0)
-            {
-                this.shooter.changeControlMode(CANTalonControlMode.Voltage);
-            }
-            else
-            {
-                this.shooter.changeControlMode(CANTalonControlMode.Speed);
-            }
-        }
+        //        if (TuningConstants.SHOOTER_USE_CAN_PID)
+        //        {
+        //            if (power == 0.0)
+        //            {
+        //                this.shooter.changeControlMode(CANTalonControlMode.Voltage);
+        //            }
+        //            else
+        //            {
+        //                this.shooter.changeControlMode(CANTalonControlMode.Speed);
+        //            }
+        //        }
 
         this.shooter.set(power);
         this.logger.logNumber(ShooterComponent.LogName, "power", power);

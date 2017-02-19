@@ -10,13 +10,10 @@ import org.usfirst.frc.team1318.robot.climber.ClimberController;
 import org.usfirst.frc.team1318.robot.common.IController;
 import org.usfirst.frc.team1318.robot.common.IDashboardLogger;
 import org.usfirst.frc.team1318.robot.common.SmartDashboardLogger;
-import org.usfirst.frc.team1318.robot.common.wpilibmocks.CANTalonControlMode;
-import org.usfirst.frc.team1318.robot.common.wpilibmocks.CANTalonWrapper;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.CompressorWrapper;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.DigitalInputWrapper;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.DoubleSolenoidWrapper;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.EncoderWrapper;
-import org.usfirst.frc.team1318.robot.common.wpilibmocks.ICANTalon;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.ICompressor;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IDigitalInput;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IDoubleSolenoid;
@@ -245,30 +242,40 @@ public class RobotModule extends AbstractModule
     @Singleton
     @Provides
     @Named("SHOOTER_SHOOTER")
-    public ICANTalon getShooterShooter()
+    public IMotor getShooterShooter()
     {
-        CANTalonWrapper master = new CANTalonWrapper(ElectronicsConstants.SHOOTER_MASTER_MOTOR_CHANNEL);
-        master.enableBrakeMode(true);
-        master.reverseSensor(false);
+        TalonWrapper talon = new TalonWrapper(ElectronicsConstants.SHOOTER_MOTOR_CHANNEL);
 
-        CANTalonWrapper follower = new CANTalonWrapper(ElectronicsConstants.SHOOTER_FOLLOWER_MOTOR_CHANNEL);
-        follower.enableBrakeMode(true);
-        follower.reverseOutput(true);
-        follower.changeControlMode(CANTalonControlMode.Follower);
-        follower.set(ElectronicsConstants.SHOOTER_MASTER_MOTOR_CHANNEL);
-
-        if (TuningConstants.SHOOTER_USE_CAN_PID)
-        {
-            master.changeControlMode(CANTalonControlMode.Speed);
-            master.setPIDF(
-                TuningConstants.SHOOTER_CAN_PID_KP,
-                TuningConstants.SHOOTER_CAN_PID_KI,
-                TuningConstants.SHOOTER_CAN_PID_KD,
-                TuningConstants.SHOOTER_CAN_PID_KF);
-        }
-
-        return master;
+        return talon;
     }
+
+    //    @Singleton
+    //    @Provides
+    //    @Named("SHOOTER_SHOOTER")
+    //    public ICANTalon getShooterShooter()
+    //    {
+    //        CANTalonWrapper master = new CANTalonWrapper(ElectronicsConstants.SHOOTER_MASTER_MOTOR_CHANNEL);
+    //        master.enableBrakeMode(true);
+    //        master.reverseSensor(false);
+    //
+    //        CANTalonWrapper follower = new CANTalonWrapper(ElectronicsConstants.SHOOTER_FOLLOWER_MOTOR_CHANNEL);
+    //        follower.enableBrakeMode(true);
+    //        follower.reverseOutput(true);
+    //        follower.changeControlMode(CANTalonControlMode.Follower);
+    //        follower.set(ElectronicsConstants.SHOOTER_MASTER_MOTOR_CHANNEL);
+    //
+    //        if (TuningConstants.SHOOTER_USE_CAN_PID)
+    //        {
+    //            master.changeControlMode(CANTalonControlMode.Speed);
+    //            master.setPIDF(
+    //                TuningConstants.SHOOTER_CAN_PID_KP,
+    //                TuningConstants.SHOOTER_CAN_PID_KI,
+    //                TuningConstants.SHOOTER_CAN_PID_KD,
+    //                TuningConstants.SHOOTER_CAN_PID_KF);
+    //        }
+    //
+    //        return master;
+    //    }
 
     @Singleton
     @Provides

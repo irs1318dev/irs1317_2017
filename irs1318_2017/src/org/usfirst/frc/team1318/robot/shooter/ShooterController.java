@@ -69,11 +69,13 @@ public class ShooterController implements IController
         }
 
         this.shooter.setShooterPower(shooterPower);
-        this.logger.logNumber(ShooterController.LogName, "shooterSpeedGoal", shooterSpeedGoal);
 
         double error = this.shooter.getShooterSpeed() - shooterSpeedGoal;
         double errorPercentage = error / shooterSpeedGoal;
 
+        this.logger.logNumber(ShooterController.LogName, "shooterSpeedGoal", shooterSpeedGoal);
+        this.logger.logNumber(ShooterController.LogName, "shooterError", error);
+        this.logger.logNumber(ShooterController.LogName, "shooterErrorPercentage", errorPercentage);
         boolean shooterIsUpToSpeed = true; // false;
         if (shooterSpeedPercentage != 0.0)
         {
