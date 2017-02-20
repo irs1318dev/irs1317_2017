@@ -10,8 +10,14 @@ public class VisionForwardAndCenterTask extends VisionCenteringTask implements I
 {
     private PIDHandler forwardPIDHandler;
 
-    public VisionForwardAndCenterTask()
+    /**
+    * Initializes a new VisionForwardAndCenterTask
+    * @param visionMode whether to use Gear (true) or Shooter (false) vision mode
+    */
+    public VisionForwardAndCenterTask(boolean visionMode)
     {
+        super(visionMode);
+
         this.forwardPIDHandler = null;
     }
 

@@ -14,16 +14,19 @@ import org.usfirst.frc.team1318.robot.vision.VisionManager;
  */
 public class VisionCenteringTask extends ControlTaskBase implements IControlTask
 {
+    private final boolean visionMode;
     private PIDHandler turnPidHandler;
-
-    protected VisionManager visionManager;
     private Double centeredTime;
+    protected VisionManager visionManager;
 
     /**
     * Initializes a new VisionCenteringTask
+    * @param visionMode whether to use Gear (true) or Shooter (false) vision mode
     */
-    public VisionCenteringTask()
+    public VisionCenteringTask(boolean visionMode)
     {
+        this.visionMode = visionMode;
+
         this.turnPidHandler = null;
         this.centeredTime = null;
     }
@@ -36,6 +39,21 @@ public class VisionCenteringTask extends ControlTaskBase implements IControlTask
     {
         this.visionManager = this.getInjector().getInstance(VisionManager.class);
         this.turnPidHandler = new PIDHandler(0.065, 0.0, 0.0, 0.0, 1.0, -0.3, 0.3, this.getInjector().getInstance(ITimer.class));
+
+        if (this.visionMode)
+        {
+            this.setDigitalOperationState(Operation.EnableGearVision, true);
+            this.setDigitalOperationState(Operation.DisableGearVision, false);
+            this.setDigitalOperationState(Operation.EnableShooterVision, false);
+            this.setDigitalOperationState(Operation.DisableShooterVision, true);
+        }
+        else
+        {
+            this.setDigitalOperationState(Operation.EnableGearVision, false);
+            this.setDigitalOperationState(Operation.DisableGearVision, true);
+            this.setDigitalOperationState(Operation.EnableShooterVision, true);
+            this.setDigitalOperationState(Operation.DisableShooterVision, false);
+        }
     }
 
     /**
@@ -64,6 +82,11 @@ public class VisionCenteringTask extends ControlTaskBase implements IControlTask
     {
         this.setDigitalOperationState(Operation.DriveTrainUsePositionalMode, false);
         this.setAnalogOperationState(Operation.DriveTrainTurn, 0.0);
+
+        this.setDigitalOperationState(Operation.EnableGearVision, false);
+        this.setDigitalOperationState(Operation.DisableGearVision, true);
+        this.setDigitalOperationState(Operation.EnableShooterVision, false);
+        this.setDigitalOperationState(Operation.DisableShooterVision, true);
     }
 
     /**
@@ -74,6 +97,11 @@ public class VisionCenteringTask extends ControlTaskBase implements IControlTask
     {
         this.setDigitalOperationState(Operation.DriveTrainUsePositionalMode, false);
         this.setAnalogOperationState(Operation.DriveTrainTurn, 0.0);
+
+        this.setDigitalOperationState(Operation.EnableGearVision, false);
+        this.setDigitalOperationState(Operation.DisableGearVision, true);
+        this.setDigitalOperationState(Operation.EnableShooterVision, false);
+        this.setDigitalOperationState(Operation.DisableShooterVision, true);
     }
 
     /**

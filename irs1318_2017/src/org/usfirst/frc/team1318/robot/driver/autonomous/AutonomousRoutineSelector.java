@@ -106,8 +106,8 @@ public class AutonomousRoutineSelector
             new GearExtendTask(),
             new DriveDistanceTimedTask(74.375, 6.0),
             new TurnTimedTask(isOnRedSide ? 60.0 : -60.0, 2.0),
-            new VisionCenteringTask(),
-            new VisionForwardAndCenterTask(),
+            new VisionCenteringTask(true),
+            new VisionForwardAndCenterTask(true),
             new DriveDistanceTimedTask(18.0, 2.0));
     }
 
@@ -144,8 +144,8 @@ public class AutonomousRoutineSelector
                     }
                 },
                 4.0),
-            new VisionCenteringTask(),
-            new VisionForwardAndCenterTask(),
+            new VisionCenteringTask(true),
+            new VisionForwardAndCenterTask(true),
             new DriveDistanceTimedTask(18.0, 2.0));
     }
 
@@ -154,8 +154,8 @@ public class AutonomousRoutineSelector
         return SequentialTask.Sequence(
             new GearExtendTask(),
             new DriveDistanceTimedTask(48.0, 2.0),
-            new VisionCenteringTask(),
-            new VisionForwardAndCenterTask(),
+            new VisionCenteringTask(true),
+            new VisionForwardAndCenterTask(true),
             new DriveDistanceTimedTask(18.0, 2.0));
     }
 }

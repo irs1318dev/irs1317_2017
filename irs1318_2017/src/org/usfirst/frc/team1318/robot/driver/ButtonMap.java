@@ -40,6 +40,20 @@ public class ButtonMap implements IButtonMap
                     UserInputDeviceButton.BUTTON_PAD_BUTTON_12,
                     ButtonType.Click));
 
+            // Operations for vision
+            put(
+                Operation.DisableGearVision,
+                new DigitalOperationDescription(
+                    UserInputDevice.None,
+                    UserInputDeviceButton.BUTTON_PAD_BUTTON_11,
+                    ButtonType.Click));
+            put(
+                Operation.EnableGearVision,
+                new DigitalOperationDescription(
+                    UserInputDevice.None,
+                    UserInputDeviceButton.BUTTON_PAD_BUTTON_12,
+                    ButtonType.Click));
+
             // Operations for the drive train
             put(
                 Operation.DriveTrainMoveForward,
@@ -184,7 +198,7 @@ public class ButtonMap implements IButtonMap
                     UserInputDevice.Driver,
                     UserInputDeviceButton.JOYSTICK_BASE_TOP_LEFT_BUTTON,
                     ButtonType.Toggle,
-                    () -> new WaitTask(0.0),
+                    () -> new WaitTask(0.0), // new VisionCenteringTask(false),
                     new Operation[]
                     {
                         Operation.DriveTrainUsePositionalMode,
@@ -199,7 +213,7 @@ public class ButtonMap implements IButtonMap
                     UserInputDevice.Driver,
                     UserInputDeviceButton.JOYSTICK_STICK_BOTTOM_RIGHT_BUTTON,
                     ButtonType.Toggle,
-                    () -> new VisionCenteringTask(),
+                    () -> new VisionCenteringTask(true),
                     new Operation[]
                     {
                         Operation.DriveTrainUsePositionalMode,
@@ -215,7 +229,7 @@ public class ButtonMap implements IButtonMap
                     UserInputDeviceButton.JOYSTICK_STICK_TOP_RIGHT_BUTTON,
                     ButtonType.Toggle,
                     () -> SequentialTask.Sequence(
-                        new VisionForwardAndCenterTask(),
+                        new VisionForwardAndCenterTask(true),
                         new DriveDistanceTimedTask(TuningConstants.MAX_VISION_ACCEPTABLE_FORWARD_DISTANCE, 1.5)),
                     new Operation[]
                     {

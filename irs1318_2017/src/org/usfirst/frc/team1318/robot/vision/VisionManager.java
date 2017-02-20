@@ -6,6 +6,7 @@ import org.usfirst.frc.team1318.robot.common.IDashboardLogger;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.ISolenoid;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.ITimer;
 import org.usfirst.frc.team1318.robot.driver.Driver;
+import org.usfirst.frc.team1318.robot.driver.Operation;
 import org.usfirst.frc.team1318.robot.vision.pipelines.HSVGearCenterPipeline;
 import org.usfirst.frc.team1318.robot.vision.pipelines.ICentroidVisionPipeline;
 
@@ -36,6 +37,8 @@ public class VisionManager implements IController, VisionRunner.Listener<ICentro
     private final VisionThread gearVisionThread;
     private final HSVGearCenterPipeline gearVisionPipeline;
 
+    private Driver driver;
+
     private Point center;
 
     private Double desiredAngleX;
@@ -57,6 +60,8 @@ public class VisionManager implements IController, VisionRunner.Listener<ICentro
         this.timer = timer;
         this.gearLight = gearLight;
 
+        this.driver = null;
+
         this.visionLock = new Object();
 
         UsbCamera gearCamera = new UsbCamera("usb0", 0);
@@ -65,9 +70,6 @@ public class VisionManager implements IController, VisionRunner.Listener<ICentro
         gearCamera.setBrightness(VisionConstants.LIFECAM_CAMERA_BRIGHTNESS);
         gearCamera.setFPS(VisionConstants.LIFECAM_CAMERA_FPS);
 
-        //CameraServer.getInstance().addCamera(camera);
-
-        //AxisCamera camera = CameraServer.getInstance().addAxisCamera(VisionConstants.AXIS_CAMERA_IP_ADDRESS);
         this.gearVisionPipeline = new HSVGearCenterPipeline(this.timer, VisionConstants.SHOULD_UNDISTORT);
         this.gearVisionThread = new VisionThread(gearCamera, this.gearVisionPipeline, this);
 
@@ -122,8 +124,16 @@ public class VisionManager implements IController, VisionRunner.Listener<ICentro
     @Override
     public void update()
     {
-        this.gearLight.set(true);
-        this.gearVisionPipeline.setActivation(true);
+        if (this.driver.getDigital(Operation.EnableGearVision))
+        {
+            this.gearLight.set(true);
+            this.gearVisionPipeline.setActivation(true);
+        }
+        else
+        {
+            this.gearLight.set(false);
+            this.gearVisionPipeline.setActivation(false);
+        }
 
         Point center = this.getCenter();
         this.logger.logPoint(VisionManager.LogName, "center", center);
@@ -151,6 +161,7 @@ public class VisionManager implements IController, VisionRunner.Listener<ICentro
     @Override
     public void setDriver(Driver driver)
     {
+        this.driver = driver;
         if (!this.gearVisionThread.isAlive())
         {
             this.gearVisionThread.start();
