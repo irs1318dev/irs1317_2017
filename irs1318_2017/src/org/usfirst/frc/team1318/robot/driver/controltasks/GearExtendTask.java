@@ -3,15 +3,18 @@ package org.usfirst.frc.team1318.robot.driver.controltasks;
 import org.usfirst.frc.team1318.robot.driver.IControlTask;
 import org.usfirst.frc.team1318.robot.driver.Operation;
 
-public class GearExtendTask extends ControlTaskBase implements IControlTask
+public class GearExtendTask extends TimedTask implements IControlTask
 {
-    public GearExtendTask()
+    public GearExtendTask(double duration)
     {
+        super(duration);
     }
 
     @Override
     public void begin()
     {
+        super.begin();
+
         this.setDigitalOperationState(Operation.IntakeGearHolderExtend, true);
     }
 
@@ -24,24 +27,28 @@ public class GearExtendTask extends ControlTaskBase implements IControlTask
     @Override
     public void stop()
     {
-        this.setDigitalOperationState(Operation.IntakeGearHolderExtend, true);
+        super.stop();
+
+        this.setDigitalOperationState(Operation.IntakeGearHolderExtend, false);
     }
 
     @Override
     public void end()
     {
-        this.setDigitalOperationState(Operation.IntakeGearHolderExtend, true);
+        super.end();
+
+        this.setDigitalOperationState(Operation.IntakeGearHolderExtend, false);
     }
 
     @Override
     public boolean hasCompleted()
     {
-        return true;
+        return super.hasCompleted();
     }
 
     @Override
     public boolean shouldCancel()
     {
-        return false;
+        return super.shouldCancel();
     }
 }

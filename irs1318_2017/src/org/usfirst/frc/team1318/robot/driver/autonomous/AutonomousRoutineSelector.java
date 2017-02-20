@@ -8,6 +8,7 @@ import org.usfirst.frc.team1318.robot.driver.controltasks.ConcurrentTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.DriveDistanceTimedTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.DriveRouteTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.GearExtendTask;
+import org.usfirst.frc.team1318.robot.driver.controltasks.IntakeExtendTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.SequentialTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.ShooterFeedTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.ShooterSpinTask;
@@ -102,61 +103,73 @@ public class AutonomousRoutineSelector
 
     private static IControlTask GetFarGearRoutine(boolean isOnRedSide)
     {
-        return SequentialTask.Sequence(
-            new GearExtendTask(),
-            new DriveDistanceTimedTask(74.375, 6.0),
-            new TurnTimedTask(isOnRedSide ? 60.0 : -60.0, 2.0),
-            new VisionCenteringTask(true),
-            new VisionForwardAndCenterTask(true),
-            new DriveDistanceTimedTask(18.0, 2.0));
+        return ConcurrentTask.AllTasks(
+            SequentialTask.Sequence(
+                new GearExtendTask(0.5),
+                new IntakeExtendTask(true, 1.0),
+                new IntakeExtendTask(false, 0.5)),
+            SequentialTask.Sequence(
+                new DriveDistanceTimedTask(74.375, 6.0),
+                new TurnTimedTask(isOnRedSide ? 60.0 : -60.0, 2.0),
+                new VisionCenteringTask(true),
+                new VisionForwardAndCenterTask(true),
+                new DriveDistanceTimedTask(18.0, 2.0)));
     }
 
     private static IControlTask GetShootCloseRoutine(boolean isOnRedSide)
     {
-        return SequentialTask.Sequence(
-            new GearExtendTask(),
-            ConcurrentTask.AnyTasks(
-                new ShooterSpinTask(false, TuningConstants.SHOOTER_CLOSE_SHOT_VELOCITY),
-                SequentialTask.Sequence(
-                    new WaitTask(1.0),
-                    new ShooterFeedTask(3.0))),
-            new DriveRouteTask(
-                percentage ->
-                {
-                    if (isOnRedSide)
+        return ConcurrentTask.AllTasks(
+            SequentialTask.Sequence(
+                new GearExtendTask(0.5),
+                new IntakeExtendTask(true, 1.0),
+                new IntakeExtendTask(false, 0.5)),
+            SequentialTask.Sequence(
+                ConcurrentTask.AnyTasks(
+                    new ShooterSpinTask(false, TuningConstants.SHOOTER_CLOSE_SHOT_VELOCITY),
+                    SequentialTask.Sequence(
+                        new WaitTask(1.0),
+                        new ShooterFeedTask(3.0))),
+                new DriveRouteTask(
+                    percentage ->
                     {
-                        return percentage * 40.0;
-                    }
-                    else
+                        if (isOnRedSide)
+                        {
+                            return percentage * 40.0;
+                        }
+                        else
+                        {
+                            return percentage * 20.0;
+                        }
+                    },
+                    percentage ->
                     {
-                        return percentage * 20.0;
-                    }
-                },
-                percentage ->
-                {
-                    if (isOnRedSide)
-                    {
-                        return percentage * 20.0;
-                    }
-                    else
-                    {
-                        return percentage * 40.0;
-                    }
-                },
-                4.0),
-            new VisionCenteringTask(true),
-            new VisionForwardAndCenterTask(true),
-            new DriveDistanceTimedTask(18.0, 2.0));
+                        if (isOnRedSide)
+                        {
+                            return percentage * 20.0;
+                        }
+                        else
+                        {
+                            return percentage * 40.0;
+                        }
+                    },
+                    4.0),
+                new VisionCenteringTask(true),
+                new VisionForwardAndCenterTask(true),
+                new DriveDistanceTimedTask(18.0, 2.0)));
     }
 
     private static IControlTask GetStraightRoutine(boolean isOnRedSide)
     {
-        return SequentialTask.Sequence(
-            new GearExtendTask(),
-            new DriveDistanceTimedTask(48.0, 2.0),
-            new VisionCenteringTask(true),
-            new VisionForwardAndCenterTask(true),
-            new DriveDistanceTimedTask(18.0, 2.0));
+        return ConcurrentTask.AllTasks(
+            SequentialTask.Sequence(
+                new GearExtendTask(0.5),
+                new IntakeExtendTask(true, 1.0),
+                new IntakeExtendTask(false, 0.5)),
+            SequentialTask.Sequence(
+                new DriveDistanceTimedTask(48.0, 2.0),
+                new VisionCenteringTask(true),
+                new VisionForwardAndCenterTask(true),
+                new DriveDistanceTimedTask(18.0, 2.0)));
     }
 }
 
