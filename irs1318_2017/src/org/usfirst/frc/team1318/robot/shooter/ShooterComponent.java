@@ -11,6 +11,8 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 
+import edu.wpi.first.wpilibj.Timer;
+
 @Singleton
 public class ShooterComponent
 {
@@ -22,6 +24,12 @@ public class ShooterComponent
     private final ISolenoid readyLight;
     private final IMotor shooter;
     private final IEncoder encoder;
+
+    private final Timer timer;
+
+    private double prevTime;
+    private int prevTicks;
+    private double prevVelocity;
 
     @Inject
     public ShooterComponent(
@@ -39,6 +47,13 @@ public class ShooterComponent
         this.readyLight = readyLight;
         this.shooter = shooter;
         this.encoder = encoder;
+
+        this.timer = new Timer();
+        this.timer.start();
+
+        this.prevTime = this.timer.get();
+        this.prevTicks = 0;
+        this.prevVelocity = 0.0;
     }
 
     public void setShooterPower(double power)
@@ -74,7 +89,22 @@ public class ShooterComponent
 
     public double getShooterSpeed()
     {
-        double speed = this.encoder.getRate(); // this.shooter.getSpeed();
+        int currTicks = this.encoder.get();
+        double currTime = this.timer.get();
+        double dt = currTime - this.prevTime;
+        if (dt >= 0.01)
+        {
+            this.prevTime = currTime;
+
+            // calculate change in ticks since our last measurement
+            double deltaX = currTicks - this.prevTicks;
+            double timeRatio = 0.02 / dt;
+
+            this.prevTicks = currTicks;
+            this.prevVelocity = deltaX * timeRatio;
+        }
+
+        double speed = this.prevVelocity; // = this.encoder.getRate(); // this.shooter.getSpeed();
         this.logger.logNumber(ShooterComponent.LogName, "speed", speed);
         return speed;
     }

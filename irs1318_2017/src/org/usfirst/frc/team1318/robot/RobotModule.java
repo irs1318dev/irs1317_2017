@@ -121,6 +121,17 @@ public class RobotModule extends AbstractModule
 
     @Singleton
     @Provides
+    @Named("VISION_GEAR_LIGHT")
+    public ISolenoid getVisionGearLight()
+    {
+        SolenoidWrapper gearLight = new SolenoidWrapper(
+            ElectronicsConstants.VISION_GEAR_LIGHT_CHANNEL);
+
+        return gearLight;
+    }
+
+    @Singleton
+    @Provides
     @Named("DRIVETRAIN_LEFTMOTOR")
     public IMotor getDriveTrainLeftMotor()
     {

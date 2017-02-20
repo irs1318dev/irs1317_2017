@@ -50,7 +50,7 @@ public class ShooterController implements IController
         this.shooter.extendOrRetract(shooterExtendHood);
 
         double shooterSpeedPercentage = this.driver.getAnalog(Operation.ShooterSpeed);
-        double shooterSpeedGoal = shooterSpeedPercentage * TuningConstants.SHOOTER_PID_MAX_VELOCITY;
+        double shooterSpeedGoal = shooterSpeedPercentage * TuningConstants.SHOOTER_ROBORIO_PID_KS;
 
         int shooterTicks = this.shooter.getShooterTicks();
 
@@ -70,7 +70,7 @@ public class ShooterController implements IController
 
         this.shooter.setShooterPower(shooterPower);
 
-        double error = this.shooter.getShooterSpeed() - shooterSpeedGoal;
+        double error = shooterSpeedGoal - this.shooter.getShooterSpeed();
         double errorPercentage = error / shooterSpeedGoal;
 
         this.logger.logNumber(ShooterController.LogName, "shooterSpeedGoal", shooterSpeedGoal);

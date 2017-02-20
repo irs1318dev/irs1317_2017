@@ -26,6 +26,10 @@ public class ElectronicsConstants
     public static final int AUTO_DIP_SWITCH_A_CHANNEL = 7;
     public static final int AUTO_DIP_SWITCH_B_CHANNEL = 8;
 
+    //================================================== Vision ==============================================================
+
+    public static final int VISION_GEAR_LIGHT_CHANNEL = 1;
+
     //================================================== DriveTrain ==============================================================
 
     public static final int DRIVETRAIN_LEFT_TALON_CHANNEL = 0;
@@ -60,7 +64,7 @@ public class ElectronicsConstants
 
     public static final int SHOOTER_FEEDER_CHANNEL = 2;
 
-    public static final int SHOOTER_READYLIGHT_CHANNEL = 1;
+    public static final int SHOOTER_READYLIGHT_CHANNEL = 0;
 
     public static final int SHOOTER_MOTOR_CHANNEL = 5;
     //    public static final int SHOOTER_MASTER_MOTOR_CHANNEL = 1;
