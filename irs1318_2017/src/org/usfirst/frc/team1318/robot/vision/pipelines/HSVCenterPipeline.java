@@ -238,6 +238,11 @@ public class HSVCenterPipeline implements ICentroidVisionPipeline
         this.isActive = isActive;
     }
 
+    public boolean isActive()
+    {
+        return this.isActive;
+    }
+
     public Point getCenter()
     {
         return this.largestCenter;

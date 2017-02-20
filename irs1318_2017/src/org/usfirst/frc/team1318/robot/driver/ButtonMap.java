@@ -45,13 +45,25 @@ public class ButtonMap implements IButtonMap
                 Operation.DisableGearVision,
                 new DigitalOperationDescription(
                     UserInputDevice.None,
-                    UserInputDeviceButton.BUTTON_PAD_BUTTON_11,
+                    UserInputDeviceButton.BUTTON_PAD_BUTTON_1,
                     ButtonType.Click));
             put(
                 Operation.EnableGearVision,
                 new DigitalOperationDescription(
                     UserInputDevice.None,
-                    UserInputDeviceButton.BUTTON_PAD_BUTTON_12,
+                    UserInputDeviceButton.BUTTON_PAD_BUTTON_2,
+                    ButtonType.Click));
+            put(
+                Operation.DisableShooterVision,
+                new DigitalOperationDescription(
+                    UserInputDevice.None,
+                    UserInputDeviceButton.BUTTON_PAD_BUTTON_3,
+                    ButtonType.Click));
+            put(
+                Operation.EnableShooterVision,
+                new DigitalOperationDescription(
+                    UserInputDevice.None,
+                    UserInputDeviceButton.BUTTON_PAD_BUTTON_4,
                     ButtonType.Click));
 
             // Operations for the drive train

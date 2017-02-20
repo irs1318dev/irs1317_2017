@@ -129,7 +129,7 @@ public class VisionManager implements IController, VisionRunner.Listener<ICentro
             this.gearLight.set(true);
             this.gearVisionPipeline.setActivation(true);
         }
-        else
+        else if (this.driver.getDigital(Operation.DisableGearVision))
         {
             this.gearLight.set(false);
             this.gearVisionPipeline.setActivation(false);
@@ -173,13 +173,16 @@ public class VisionManager implements IController, VisionRunner.Listener<ICentro
     {
         synchronized (this.visionLock)
         {
-            this.center = pipeline.getCenter();
+            if (pipeline.isActive())
+            {
+                this.center = pipeline.getCenter();
 
-            this.desiredAngleX = pipeline.getDesiredAngleX();
-            this.measuredAngleX = pipeline.getMeasuredAngleX();
-            this.distanceFromRobot = pipeline.getRobotDistance();
+                this.desiredAngleX = pipeline.getDesiredAngleX();
+                this.measuredAngleX = pipeline.getMeasuredAngleX();
+                this.distanceFromRobot = pipeline.getRobotDistance();
 
-            this.lastMeasuredFps = pipeline.getFps();
+                this.lastMeasuredFps = pipeline.getFps();
+            }
         }
     }
 }
