@@ -4,7 +4,6 @@ import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
-import org.opencv.core.Scalar;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.ITimer;
@@ -25,7 +24,6 @@ public class HSVGearCenterPipeline implements ICentroidVisionPipeline
 
     private final CvSource frameInput;
     private final CvSource hsvOutput;
-    private final CvSource finalOutput;
 
     // measured values
     private Point largestCenter;
@@ -75,15 +73,13 @@ public class HSVGearCenterPipeline implements ICentroidVisionPipeline
 
         if (VisionConstants.DEBUG && VisionConstants.DEBUG_OUTPUT_FRAMES)
         {
-            this.frameInput = CameraServer.getInstance().putVideo("input", VisionConstants.LIFECAM_CAMERA_RESOLUTION_X, VisionConstants.LIFECAM_CAMERA_RESOLUTION_Y);
-            this.hsvOutput = CameraServer.getInstance().putVideo("hsv", VisionConstants.LIFECAM_CAMERA_RESOLUTION_X, VisionConstants.LIFECAM_CAMERA_RESOLUTION_Y);
-            this.finalOutput = CameraServer.getInstance().putVideo("final", VisionConstants.LIFECAM_CAMERA_RESOLUTION_X, VisionConstants.LIFECAM_CAMERA_RESOLUTION_Y);
+            this.frameInput = CameraServer.getInstance().putVideo("g.input", VisionConstants.LIFECAM_CAMERA_RESOLUTION_X, VisionConstants.LIFECAM_CAMERA_RESOLUTION_Y);
+            this.hsvOutput = CameraServer.getInstance().putVideo("g.hsv", VisionConstants.LIFECAM_CAMERA_RESOLUTION_X, VisionConstants.LIFECAM_CAMERA_RESOLUTION_Y);
         }
         else
         {
             this.frameInput = null;
             this.hsvOutput = null;
-            this.finalOutput = null;
         }
     }
 
@@ -208,26 +204,6 @@ public class HSVGearCenterPipeline implements ICentroidVisionPipeline
                     System.out.println(String.format("Center of mass: %f, %f", secondLargestCenterOfMass.x, secondLargestCenterOfMass.y));
                 }
             }
-
-            if (largestCenterOfMass != null &&
-                ((this.analyzedFrameCount % VisionConstants.DEBUG_FRAME_OUTPUT_GAP == 0 && VisionConstants.DEBUG_SAVE_FRAMES) || VisionConstants.DEBUG_OUTPUT_FRAMES))
-            {
-                Imgproc.circle(undistortedImage, largestCenterOfMass, 2, new Scalar(0, 0, 255), -1);
-                if (secondLargestCenterOfMass != null)
-                {
-                    Imgproc.circle(undistortedImage, secondLargestCenterOfMass, 2, new Scalar(0, 0, 128), -1);
-                }
-
-                if (this.analyzedFrameCount % VisionConstants.DEBUG_FRAME_OUTPUT_GAP == 0 && VisionConstants.DEBUG_SAVE_FRAMES)
-                {
-                    Imgcodecs.imwrite(String.format("%simage%d-3.redrawn.jpg", VisionConstants.DEBUG_OUTPUT_FOLDER, this.analyzedFrameCount), undistortedImage);
-                }
-
-                if (VisionConstants.DEBUG_OUTPUT_FRAMES)
-                {
-                    this.finalOutput.putFrame(image);
-                }
-            }
         }
 
         // finally, record the centers of mass
@@ -248,9 +224,10 @@ public class HSVGearCenterPipeline implements ICentroidVisionPipeline
             return;
         }
 
+        // we want to get the leftmost centroid, representing the left piece of the retroreflective tape.
         Point gearMarkerCenter;
         Rect boundingRect;
-        if (this.largestCenter != null && this.secondLargestCenter != null && this.largestCenter.x < this.secondLargestCenter.x)
+        if (this.largestCenter != null && this.secondLargestCenter != null && this.largestCenter.x > this.secondLargestCenter.x)
         {
             gearMarkerCenter = this.secondLargestCenter;
             boundingRect = secondLargestBoundingRect;

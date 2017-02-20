@@ -42,28 +42,16 @@ public class ButtonMap implements IButtonMap
 
             // Operations for vision
             put(
-                Operation.DisableGearVision,
-                new DigitalOperationDescription(
-                    UserInputDevice.None,
-                    UserInputDeviceButton.BUTTON_PAD_BUTTON_1,
-                    ButtonType.Click));
-            put(
                 Operation.EnableGearVision,
                 new DigitalOperationDescription(
                     UserInputDevice.None,
                     UserInputDeviceButton.BUTTON_PAD_BUTTON_2,
                     ButtonType.Click));
             put(
-                Operation.DisableShooterVision,
-                new DigitalOperationDescription(
-                    UserInputDevice.None,
-                    UserInputDeviceButton.BUTTON_PAD_BUTTON_3,
-                    ButtonType.Click));
-            put(
                 Operation.EnableShooterVision,
                 new DigitalOperationDescription(
                     UserInputDevice.None,
-                    UserInputDeviceButton.BUTTON_PAD_BUTTON_4,
+                    UserInputDeviceButton.BUTTON_PAD_BUTTON_3,
                     ButtonType.Click));
 
             // Operations for the drive train
@@ -213,9 +201,7 @@ public class ButtonMap implements IButtonMap
                     () -> new WaitTask(0.0), // new VisionCenteringTask(false),
                     new Operation[]
                     {
-                        Operation.DisableGearVision,
                         Operation.EnableGearVision,
-                        Operation.DisableShooterVision,
                         Operation.EnableShooterVision,
                         Operation.DriveTrainUsePositionalMode,
                         Operation.DriveTrainLeftPosition,
@@ -232,9 +218,7 @@ public class ButtonMap implements IButtonMap
                     () -> new VisionCenteringTask(true),
                     new Operation[]
                     {
-                        Operation.DisableGearVision,
                         Operation.EnableGearVision,
-                        Operation.DisableShooterVision,
                         Operation.EnableShooterVision,
                         Operation.DriveTrainUsePositionalMode,
                         Operation.DriveTrainLeftPosition,
@@ -253,9 +237,7 @@ public class ButtonMap implements IButtonMap
                         new DriveDistanceTimedTask(TuningConstants.MAX_VISION_ACCEPTABLE_FORWARD_DISTANCE, 1.5)),
                     new Operation[]
                     {
-                        Operation.DisableGearVision,
                         Operation.EnableGearVision,
-                        Operation.DisableShooterVision,
                         Operation.EnableShooterVision,
                         Operation.DriveTrainUsePositionalMode,
                         Operation.DriveTrainLeftPosition,

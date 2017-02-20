@@ -8,9 +8,7 @@ public enum Operation
 
     // Vision operations:
     EnableGearVision,
-    DisableGearVision,
     EnableShooterVision,
-    DisableShooterVision,
 
     // DriveTrain operations:
     DriveTrainMoveForward,

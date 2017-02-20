@@ -14,10 +14,14 @@ import org.usfirst.frc.team1318.robot.vision.VisionManager;
  */
 public class VisionCenteringTask extends ControlTaskBase implements IControlTask
 {
+    private static final int NO_CENTER_THRESHOLD = 10;
+
     private final boolean visionMode;
     private PIDHandler turnPidHandler;
     private Double centeredTime;
     protected VisionManager visionManager;
+
+    private int noCenterCount;
 
     /**
     * Initializes a new VisionCenteringTask
@@ -29,6 +33,8 @@ public class VisionCenteringTask extends ControlTaskBase implements IControlTask
 
         this.turnPidHandler = null;
         this.centeredTime = null;
+
+        this.noCenterCount = 0;
     }
 
     /**
@@ -43,16 +49,12 @@ public class VisionCenteringTask extends ControlTaskBase implements IControlTask
         if (this.visionMode)
         {
             this.setDigitalOperationState(Operation.EnableGearVision, true);
-            this.setDigitalOperationState(Operation.DisableGearVision, false);
             this.setDigitalOperationState(Operation.EnableShooterVision, false);
-            this.setDigitalOperationState(Operation.DisableShooterVision, true);
         }
         else
         {
             this.setDigitalOperationState(Operation.EnableGearVision, false);
-            this.setDigitalOperationState(Operation.DisableGearVision, true);
             this.setDigitalOperationState(Operation.EnableShooterVision, true);
-            this.setDigitalOperationState(Operation.DisableShooterVision, false);
         }
     }
 
@@ -84,9 +86,7 @@ public class VisionCenteringTask extends ControlTaskBase implements IControlTask
         this.setAnalogOperationState(Operation.DriveTrainTurn, 0.0);
 
         this.setDigitalOperationState(Operation.EnableGearVision, false);
-        this.setDigitalOperationState(Operation.DisableGearVision, true);
         this.setDigitalOperationState(Operation.EnableShooterVision, false);
-        this.setDigitalOperationState(Operation.DisableShooterVision, true);
     }
 
     /**
@@ -99,9 +99,7 @@ public class VisionCenteringTask extends ControlTaskBase implements IControlTask
         this.setAnalogOperationState(Operation.DriveTrainTurn, 0.0);
 
         this.setDigitalOperationState(Operation.EnableGearVision, false);
-        this.setDigitalOperationState(Operation.DisableGearVision, true);
         this.setDigitalOperationState(Operation.EnableShooterVision, false);
-        this.setDigitalOperationState(Operation.DisableShooterVision, true);
     }
 
     /**
@@ -119,7 +117,6 @@ public class VisionCenteringTask extends ControlTaskBase implements IControlTask
         }
 
         double centerAngleDifference = Math.abs(currentMeasuredAngle - currentDesiredAngle);
-
         if (centerAngleDifference > TuningConstants.MAX_VISION_CENTERING_RANGE_DEGREES)
         {
             return false;
@@ -144,6 +141,15 @@ public class VisionCenteringTask extends ControlTaskBase implements IControlTask
     @Override
     public boolean shouldCancel()
     {
-        return this.visionManager.getCenter() == null;
+        if (this.visionManager.getCenter() == null)
+        {
+            this.noCenterCount++;
+        }
+        else
+        {
+            this.noCenterCount = 0;
+        }
+
+        return this.noCenterCount >= VisionCenteringTask.NO_CENTER_THRESHOLD;
     }
 }
