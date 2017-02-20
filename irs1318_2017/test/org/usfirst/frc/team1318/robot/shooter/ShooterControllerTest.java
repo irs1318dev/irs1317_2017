@@ -9,6 +9,7 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import org.junit.Test;
 import org.usfirst.frc.team1318.robot.TuningConstants;
 import org.usfirst.frc.team1318.robot.common.IDashboardLogger;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.ITimer;
 import org.usfirst.frc.team1318.robot.driver.Driver;
 import org.usfirst.frc.team1318.robot.driver.Operation;
 
@@ -18,8 +19,9 @@ public class ShooterControllerTest
     public void updateTest_ExtendHood()
     {
         IDashboardLogger logger = mock(IDashboardLogger.class);
+        ITimer timer = mock(ITimer.class);
         ShooterComponent shooter = mock(ShooterComponent.class);
-        ShooterController shooterController = new ShooterController(logger, shooter);
+        ShooterController shooterController = new ShooterController(logger, timer, shooter);
 
         Driver driver = mock(Driver.class);
         shooterController.setDriver(driver);
@@ -41,8 +43,9 @@ public class ShooterControllerTest
     public void updateTest_RetractHood()
     {
         IDashboardLogger logger = mock(IDashboardLogger.class);
+        ITimer timer = mock(ITimer.class);
         ShooterComponent shooter = mock(ShooterComponent.class);
-        ShooterController shooterController = new ShooterController(logger, shooter);
+        ShooterController shooterController = new ShooterController(logger, timer, shooter);
 
         Driver driver = mock(Driver.class);
         shooterController.setDriver(driver);
@@ -64,8 +67,9 @@ public class ShooterControllerTest
     public void updateTest_SetShooterSpeed_MAX_SHOOTER_POWER_WITH_LOW_ERROR()
     {
         IDashboardLogger logger = mock(IDashboardLogger.class);
+        ITimer timer = mock(ITimer.class);
         ShooterComponent shooter = mock(ShooterComponent.class);
-        ShooterController shooterController = new ShooterController(logger, shooter);
+        ShooterController shooterController = new ShooterController(logger, timer, shooter);
 
         Driver driver = mock(Driver.class);
         shooterController.setDriver(driver);
@@ -87,8 +91,9 @@ public class ShooterControllerTest
     public void updateTest_SetShooterSpeed_MAX_SHOOTER_POWER_WITH_HIGH_ERROR()
     {
         IDashboardLogger logger = mock(IDashboardLogger.class);
+        ITimer timer = mock(ITimer.class);
         ShooterComponent shooter = mock(ShooterComponent.class);
-        ShooterController shooterController = new ShooterController(logger, shooter);
+        ShooterController shooterController = new ShooterController(logger, timer, shooter);
 
         Driver driver = mock(Driver.class);
         shooterController.setDriver(driver);
@@ -110,8 +115,9 @@ public class ShooterControllerTest
     public void updateTest_SetShooterSpeed_0()
     {
         IDashboardLogger logger = mock(IDashboardLogger.class);
+        ITimer timer = mock(ITimer.class);
         ShooterComponent shooter = mock(ShooterComponent.class);
-        ShooterController shooterController = new ShooterController(logger, shooter);
+        ShooterController shooterController = new ShooterController(logger, timer, shooter);
 
         Driver driver = mock(Driver.class);
         shooterController.setDriver(driver);
@@ -133,8 +139,9 @@ public class ShooterControllerTest
     public void updateTest_SetShooterFeed_MAX_FEEDER_POWER()
     {
         IDashboardLogger logger = mock(IDashboardLogger.class);
+        ITimer timer = mock(ITimer.class);
         ShooterComponent shooter = mock(ShooterComponent.class);
-        ShooterController shooterController = new ShooterController(logger, shooter);
+        ShooterController shooterController = new ShooterController(logger, timer, shooter);
 
         Driver driver = mock(Driver.class);
         shooterController.setDriver(driver);
@@ -156,8 +163,9 @@ public class ShooterControllerTest
     public void updateTest_SetShooterFeed_0()
     {
         IDashboardLogger logger = mock(IDashboardLogger.class);
+        ITimer timer = mock(ITimer.class);
         ShooterComponent shooter = mock(ShooterComponent.class);
-        ShooterController shooterController = new ShooterController(logger, shooter);
+        ShooterController shooterController = new ShooterController(logger, timer, shooter);
 
         Driver driver = mock(Driver.class);
         shooterController.setDriver(driver);
@@ -179,8 +187,9 @@ public class ShooterControllerTest
     public void updateTest_getShooterError_true()
     {
         IDashboardLogger logger = mock(IDashboardLogger.class);
+        ITimer timer = mock(ITimer.class);
         ShooterComponent shooter = mock(ShooterComponent.class);
-        ShooterController shooterController = new ShooterController(logger, shooter);
+        ShooterController shooterController = new ShooterController(logger, timer, shooter);
 
         Driver driver = mock(Driver.class);
         shooterController.setDriver(driver);
@@ -202,8 +211,9 @@ public class ShooterControllerTest
     public void updateTest_Stop()
     {
         IDashboardLogger logger = mock(IDashboardLogger.class);
+        ITimer timer = mock(ITimer.class);
         ShooterComponent shooter = mock(ShooterComponent.class);
-        ShooterController shooterController = new ShooterController(logger, shooter);
+        ShooterController shooterController = new ShooterController(logger, timer, shooter);
 
         Driver driver = mock(Driver.class);
         shooterController.setDriver(driver);

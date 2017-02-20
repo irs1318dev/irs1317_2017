@@ -4,6 +4,7 @@ import org.opencv.core.Point;
 import org.usfirst.frc.team1318.robot.common.IController;
 import org.usfirst.frc.team1318.robot.common.IDashboardLogger;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.ISolenoid;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.ITimer;
 import org.usfirst.frc.team1318.robot.driver.Driver;
 import org.usfirst.frc.team1318.robot.vision.pipelines.HSVGearCenterPipeline;
 import org.usfirst.frc.team1318.robot.vision.pipelines.ICentroidVisionPipeline;
@@ -28,6 +29,7 @@ public class VisionManager implements IController, VisionRunner.Listener<ICentro
     private final static String LogName = "vision";
 
     private final IDashboardLogger logger;
+    private final ITimer timer;
     private final ISolenoid gearLight;
 
     private final Object visionLock;
@@ -48,9 +50,11 @@ public class VisionManager implements IController, VisionRunner.Listener<ICentro
     @Inject
     public VisionManager(
         IDashboardLogger logger,
+        ITimer timer,
         @Named("VISION_GEAR_LIGHT") ISolenoid gearLight)
     {
         this.logger = logger;
+        this.timer = timer;
         this.gearLight = gearLight;
 
         this.visionLock = new Object();
@@ -64,7 +68,7 @@ public class VisionManager implements IController, VisionRunner.Listener<ICentro
         //CameraServer.getInstance().addCamera(camera);
 
         //AxisCamera camera = CameraServer.getInstance().addAxisCamera(VisionConstants.AXIS_CAMERA_IP_ADDRESS);
-        this.gearVisionPipeline = new HSVGearCenterPipeline(VisionConstants.SHOULD_UNDISTORT);
+        this.gearVisionPipeline = new HSVGearCenterPipeline(this.timer, VisionConstants.SHOULD_UNDISTORT);
         this.gearVisionThread = new VisionThread(gearCamera, this.gearVisionPipeline, this);
 
         this.center = null;

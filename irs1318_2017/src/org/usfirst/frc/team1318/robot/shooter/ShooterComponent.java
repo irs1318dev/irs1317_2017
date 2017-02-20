@@ -6,12 +6,11 @@ import org.usfirst.frc.team1318.robot.common.wpilibmocks.IDoubleSolenoid;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IEncoder;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IMotor;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.ISolenoid;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.ITimer;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
-
-import edu.wpi.first.wpilibj.Timer;
 
 @Singleton
 public class ShooterComponent
@@ -25,7 +24,7 @@ public class ShooterComponent
     private final IMotor shooter;
     private final IEncoder encoder;
 
-    private final Timer timer;
+    private final ITimer timer;
 
     private double prevTime;
     private int prevTicks;
@@ -34,6 +33,7 @@ public class ShooterComponent
     @Inject
     public ShooterComponent(
         IDashboardLogger logger,
+        ITimer timer,
         @Named("SHOOTER_HOOD") IDoubleSolenoid hood,
         @Named("SHOOTER_FEEDER") IMotor feeder,
         @Named("SHOOTER_LIGHT") ISolenoid readyLight,
@@ -48,8 +48,7 @@ public class ShooterComponent
         this.shooter = shooter;
         this.encoder = encoder;
 
-        this.timer = new Timer();
-        this.timer.start();
+        this.timer = timer;
 
         this.prevTime = this.timer.get();
         this.prevTicks = 0;

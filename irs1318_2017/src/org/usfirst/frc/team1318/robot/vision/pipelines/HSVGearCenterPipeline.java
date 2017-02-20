@@ -7,6 +7,7 @@ import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.ITimer;
 import org.usfirst.frc.team1318.robot.vision.VisionConstants;
 import org.usfirst.frc.team1318.robot.vision.helpers.ContourHelper;
 import org.usfirst.frc.team1318.robot.vision.helpers.HSVFilter;
@@ -14,14 +15,13 @@ import org.usfirst.frc.team1318.robot.vision.helpers.ImageUndistorter;
 
 import edu.wpi.cscore.CvSource;
 import edu.wpi.first.wpilibj.CameraServer;
-import edu.wpi.first.wpilibj.Timer;
 
 public class HSVGearCenterPipeline implements ICentroidVisionPipeline
 {
+    private final ITimer timer;
     private final boolean shouldUndistort;
     private final ImageUndistorter undistorter;
     private final HSVFilter hsvFilter;
-    private final Timer timer;
 
     private final CvSource frameInput;
     private final CvSource hsvOutput;
@@ -49,7 +49,9 @@ public class HSVGearCenterPipeline implements ICentroidVisionPipeline
      * Initializes a new instance of the HSVGearCenterPipeline class.
      * @param shouldUndistort whether to undistort the image or not
      */
-    public HSVGearCenterPipeline(boolean shouldUndistort)
+    public HSVGearCenterPipeline(
+        ITimer timer,
+        boolean shouldUndistort)
     {
         this.shouldUndistort = shouldUndistort;
 
@@ -66,8 +68,7 @@ public class HSVGearCenterPipeline implements ICentroidVisionPipeline
         this.distanceFromRobot = null;
 
         this.analyzedFrameCount = 0;
-        this.timer = new Timer();
-        this.timer.start();
+        this.timer = timer;
         this.lastMeasuredTime = this.timer.get();
 
         this.isActive = true;
@@ -105,7 +106,6 @@ public class HSVGearCenterPipeline implements ICentroidVisionPipeline
             double elapsedTime = now - this.lastMeasuredTime;
 
             this.lastFpsMeasurement = ((double)VisionConstants.DEBUG_FPS_AVERAGING_INTERVAL) / elapsedTime;
-            this.timer.reset();
             this.lastMeasuredTime = this.timer.get();
         }
 

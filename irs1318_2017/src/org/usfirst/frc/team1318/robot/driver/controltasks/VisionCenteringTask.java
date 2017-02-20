@@ -2,11 +2,10 @@ package org.usfirst.frc.team1318.robot.driver.controltasks;
 
 import org.usfirst.frc.team1318.robot.TuningConstants;
 import org.usfirst.frc.team1318.robot.common.PIDHandler;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.ITimer;
 import org.usfirst.frc.team1318.robot.driver.IControlTask;
 import org.usfirst.frc.team1318.robot.driver.Operation;
 import org.usfirst.frc.team1318.robot.vision.VisionManager;
-
-import edu.wpi.first.wpilibj.Timer;
 
 /**
  * Task that turns the robot a certain amount clockwise or counterclockwise in-place based on vision center
@@ -15,18 +14,18 @@ import edu.wpi.first.wpilibj.Timer;
  */
 public class VisionCenteringTask extends ControlTaskBase implements IControlTask
 {
-    private final PIDHandler turnPidHandler;
+    private PIDHandler turnPidHandler;
 
     protected VisionManager visionManager;
-    private Timer centeredTimer;
+    private Double centeredTime;
 
     /**
     * Initializes a new VisionCenteringTask
     */
     public VisionCenteringTask()
     {
-        this.turnPidHandler = new PIDHandler(0.065, 0.0, 0.0, 0.0, 1.0, -0.3, 0.3);
-        this.centeredTimer = null;
+        this.turnPidHandler = null;
+        this.centeredTime = null;
     }
 
     /**
@@ -36,6 +35,7 @@ public class VisionCenteringTask extends ControlTaskBase implements IControlTask
     public void begin()
     {
         this.visionManager = this.getInjector().getInstance(VisionManager.class);
+        this.turnPidHandler = new PIDHandler(0.065, 0.0, 0.0, 0.0, 1.0, -0.3, 0.3, this.getInjector().getInstance(ITimer.class));
     }
 
     /**
@@ -97,19 +97,18 @@ public class VisionCenteringTask extends ControlTaskBase implements IControlTask
             return false;
         }
 
-        if (this.centeredTimer == null)
+        ITimer timer = this.getInjector().getInstance(ITimer.class);
+        if (this.centeredTime == null)
         {
-            this.centeredTimer = new Timer();
-            this.centeredTimer.start();
+            this.centeredTime = timer.get();
             return false;
         }
-        else if (this.centeredTimer.get() < 1.0)
+        else if (timer.get() - this.centeredTime < 1.0)
         {
             return false;
         }
         else
         {
-            this.centeredTimer.stop();
             return true;
         }
     }
