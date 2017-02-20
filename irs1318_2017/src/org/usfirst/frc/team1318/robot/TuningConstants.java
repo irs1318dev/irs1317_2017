@@ -105,9 +105,9 @@ public class TuningConstants
     public static final double SHOOTER_MAX_POWER = 1.0;
 
     public static final double SHOOTER_PID_MAX_VELOCITY = 95000.0; // 40000.0;
-    public static final double SHOOTER_ALLOWABLE_ERROR = 0.02; // plus or minus 2% error is max allowed
+    public static final double SHOOTER_ALLOWABLE_ERROR = 0.035; // plus or minus 3.5% error is max allowed
 
-    public static final double SHOOTER_FAR_SHOT_VELOCITY = 1.0;//0.7;
+    public static final double SHOOTER_FAR_SHOT_VELOCITY = 0.7;
     public static final double SHOOTER_CLOSE_SHOT_VELOCITY = 0.6;
     public static final double SHOOTER_CLOSE_SHOT_LOW_GOAL_VELOCITY = 0.2;
 }

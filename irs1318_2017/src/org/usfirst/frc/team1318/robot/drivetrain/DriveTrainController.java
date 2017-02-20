@@ -157,6 +157,7 @@ public class DriveTrainController implements IController
                     TuningConstants.DRIVETRAIN_POSITION_PID_LEFT_KI_DEFAULT,
                     TuningConstants.DRIVETRAIN_POSITION_PID_LEFT_KD_DEFAULT,
                     TuningConstants.DRIVETRAIN_POSITION_PID_LEFT_KF_DEFAULT,
+                    1.0,
                     -TuningConstants.DRIVETRAIN_POSITIONAL_MAX_POWER_LEVEL,
                     TuningConstants.DRIVETRAIN_POSITIONAL_MAX_POWER_LEVEL);
 
@@ -165,6 +166,7 @@ public class DriveTrainController implements IController
                     TuningConstants.DRIVETRAIN_POSITION_PID_RIGHT_KI_DEFAULT,
                     TuningConstants.DRIVETRAIN_POSITION_PID_RIGHT_KD_DEFAULT,
                     TuningConstants.DRIVETRAIN_POSITION_PID_RIGHT_KF_DEFAULT,
+                    1.0,
                     -TuningConstants.DRIVETRAIN_POSITIONAL_MAX_POWER_LEVEL,
                     TuningConstants.DRIVETRAIN_POSITIONAL_MAX_POWER_LEVEL);
             }
@@ -177,7 +179,9 @@ public class DriveTrainController implements IController
                     TuningConstants.DRIVETRAIN_VELOCITY_PID_LEFT_KF_DEFAULT,
                     TuningConstants.DRIVETRAIN_VELOCITY_PID_LEFT_KS_DEFAULT,
                     -TuningConstants.DRIVETRAIN_VELOCITY_MAX_POWER_LEVEL,
-                    TuningConstants.DRIVETRAIN_VELOCITY_MAX_POWER_LEVEL);
+                    TuningConstants.DRIVETRAIN_VELOCITY_MAX_POWER_LEVEL,
+                    "leftDT",
+                    this.logger);
 
                 this.rightPID = new PIDHandler(
                     TuningConstants.DRIVETRAIN_VELOCITY_PID_RIGHT_KP_DEFAULT,
@@ -186,7 +190,9 @@ public class DriveTrainController implements IController
                     TuningConstants.DRIVETRAIN_VELOCITY_PID_RIGHT_KF_DEFAULT,
                     TuningConstants.DRIVETRAIN_VELOCITY_PID_RIGHT_KS_DEFAULT,
                     -TuningConstants.DRIVETRAIN_VELOCITY_MAX_POWER_LEVEL,
-                    TuningConstants.DRIVETRAIN_VELOCITY_MAX_POWER_LEVEL);
+                    TuningConstants.DRIVETRAIN_VELOCITY_MAX_POWER_LEVEL,
+                    "rightDT",
+                    this.logger);
                 ;
             }
         }

@@ -25,7 +25,7 @@ public class VisionCenteringTask extends ControlTaskBase implements IControlTask
     */
     public VisionCenteringTask()
     {
-        this.turnPidHandler = new PIDHandler(0.065, 0.0, 0.0, 0.0, -0.3, 0.3);
+        this.turnPidHandler = new PIDHandler(0.065, 0.0, 0.0, 0.0, 1.0, -0.3, 0.3);
         this.centeredTimer = null;
     }
 

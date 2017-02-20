@@ -47,21 +47,8 @@ public class PIDHandler
 
     // other vars
     private final Timer timer;
-
-    /**
-     * This constructor initializes the object and sets constants to affect gain
-     * 
-     * @param kp scalar for proportional component
-     * @param ki scalar for integral component
-     * @param kd scalar for derivative component
-     * @param kf scalar for feed-forward control
-     * @param minOutput indicates the minimum output value acceptable, or null
-     * @param maxOutput indicates the maximum output value acceptable, or null
-     */
-    public PIDHandler(double kp, double ki, double kd, double kf, Double minOutput, Double maxOutput)
-    {
-        this(kp, ki, kd, kf, 1.0, 0.0, 1.0, minOutput, maxOutput);
-    }
+    private final IDashboardLogger logger;
+    private final String logName;
 
     /**
      * This constructor initializes the object and sets constants to affect gain.
@@ -75,9 +62,16 @@ public class PIDHandler
      * @param minOutput indicates the minimum output value acceptable, or null
      * @param maxOutput indicates the maximum output value acceptable, or null
      */
-    public PIDHandler(double kp, double ki, double kd, double kf, double ks, Double minOutput, Double maxOutput)
+    public PIDHandler(
+        double kp,
+        double ki,
+        double kd,
+        double kf,
+        double ks,
+        Double minOutput,
+        Double maxOutput)
     {
-        this(kp, ki, kd, kf, ks, 0.0, 1.0, minOutput, maxOutput);
+        this(kp, ki, kd, kf, ks, 0.0, 1.0, 0.0, 1.0, minOutput, maxOutput, null, null);
     }
 
     /**
@@ -88,33 +82,24 @@ public class PIDHandler
      * @param ki scalar for integral component
      * @param kd scalar for derivative component
      * @param kf scalar for feed-forward control
-     * @param kO scalar for complementary filter multiplier
-     * @param kN scalar for complementary filter multiplier
-     * @param minOutput indicates the minimum output value acceptable, or null
-     * @param maxOutput indicates the maximum output value acceptable, or null
-     */
-    public PIDHandler(double kp, double ki, double kd, double kf, double kO, double kN, Double minOutput, Double maxOutput)
-    {
-        this(kp, ki, kd, kf, 1.0, kO, kN, minOutput, maxOutput);
-    }
-
-    /**
-     * This constructor initializes the object and sets constants to affect gain.
-     * This utilizes a complementary filter to slow ramp-up/ramp-down.
-     * 
-     * @param kp scalar for proportional component
-     * @param ki scalar for integral component
-     * @param kd scalar for derivative component
-     * @param kf scalar for feed-forward control
      * @param ks scalar for adjusting scale difference between measured value and setpoint value
-     * @param kO scalar for complementary filter multiplier
-     * @param kN scalar for complementary filter multiplier
      * @param minOutput indicates the minimum output value acceptable, or null
      * @param maxOutput indicates the maximum output value acceptable, or null
+     * @param logName to use for logging
+     * @param logger to use for logging
      */
-    public PIDHandler(double kp, double ki, double kd, double kf, double ks, double kO, double kN, Double minOutput, Double maxOutput)
+    public PIDHandler(
+        double kp,
+        double ki,
+        double kd,
+        double kf,
+        double ks,
+        Double minOutput,
+        Double maxOutput,
+        String logName,
+        IDashboardLogger logger)
     {
-        this(kp, ki, kd, kf, ks, kO, kN, 0.0, 1.0, minOutput, maxOutput);
+        this(kp, ki, kd, kf, ks, 0.0, 1.0, 0.0, 1.0, minOutput, maxOutput, logName, logger);
     }
 
     /**
@@ -132,10 +117,23 @@ public class PIDHandler
      * @param kEN scalar for error complementary filter multiplier
      * @param minOutput indicates the minimum output value acceptable, or null
      * @param maxOutput indicates the maximum output value acceptable, or null
+     * @param logName to use for logging
+     * @param logger to use for logging
      */
     public PIDHandler(
-        double kp, double ki, double kd, double kf, double ks, double kO, double kN, double kEO, double kEN, Double minOutput,
-        Double maxOutput)
+        double kp,
+        double ki,
+        double kd,
+        double kf,
+        double ks,
+        double kO,
+        double kN,
+        double kEO,
+        double kEN,
+        Double minOutput,
+        Double maxOutput,
+        String logName,
+        IDashboardLogger logger)
     {
         this.ki = ki;
         this.kd = kd;
@@ -152,6 +150,9 @@ public class PIDHandler
         this.timer = new Timer();
         this.timer.start();
         this.prevTime = this.timer.get();
+
+        this.logger = logger;
+        this.logName = logName;
     }
 
     /**
@@ -253,6 +254,11 @@ public class PIDHandler
             // calculate change in ticks since our last measurement
             double deltaX = this.measuredValue - this.prevMeasuredValue;
             double timeRatio = 0.02 / this.dt;
+
+            if (this.logger != null && this.logName != null)
+            {
+                this.logger.logNumber(this.logName, "scale factor", timeRatio * deltaX);
+            }
 
             this.errorFilter.update(this.ks * this.setpoint - deltaX * timeRatio);
             this.error = this.errorFilter.getValue();

@@ -11,7 +11,7 @@ public class VisionForwardAndCenterTask extends VisionCenteringTask implements I
 
     public VisionForwardAndCenterTask()
     {
-        this.forwardPIDHandler = new PIDHandler(0.005, 0.0, 0.0, 0.0, -0.3, 0.3);
+        this.forwardPIDHandler = new PIDHandler(0.005, 0.0, 0.0, 0.0, 1.0, -0.3, 0.3);
     }
 
     @Override
