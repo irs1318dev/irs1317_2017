@@ -38,6 +38,7 @@ public class VisionManager implements IController, VisionRunner.Listener<ICentro
     private final HSVGearCenterPipeline gearVisionPipeline;
 
     private Driver driver;
+    private boolean threadsStarted;
 
     private Point center;
 
@@ -61,6 +62,7 @@ public class VisionManager implements IController, VisionRunner.Listener<ICentro
         this.gearLight = gearLight;
 
         this.driver = null;
+        this.threadsStarted = false;
 
         this.visionLock = new Object();
 
@@ -162,9 +164,10 @@ public class VisionManager implements IController, VisionRunner.Listener<ICentro
     public void setDriver(Driver driver)
     {
         this.driver = driver;
-        if (!this.gearVisionThread.isAlive())
+        if (!this.threadsStarted)
         {
             this.gearVisionThread.start();
+            this.threadsStarted = true;
         }
     }
 

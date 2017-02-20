@@ -37,7 +37,7 @@ public class HSVCenterPipeline implements ICentroidVisionPipeline
     private double lastFpsMeasurement;
 
     // active status
-    private boolean isActive;
+    private volatile boolean isActive;
 
     /**
      * Initializes a new instance of the HSVCenterPipeline class.
