@@ -16,7 +16,6 @@ import org.usfirst.frc.team1318.robot.driver.controltasks.SequentialTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.ShooterSpinTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.VisionCenteringTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.VisionForwardAndCenterTask;
-import org.usfirst.frc.team1318.robot.driver.controltasks.WaitTask;
 import org.usfirst.frc.team1318.robot.driver.descriptions.AnalogOperationDescription;
 import org.usfirst.frc.team1318.robot.driver.descriptions.DigitalOperationDescription;
 import org.usfirst.frc.team1318.robot.driver.descriptions.MacroOperationDescription;
@@ -201,7 +200,7 @@ public class ButtonMap implements IButtonMap
                     UserInputDevice.Driver,
                     UserInputDeviceButton.JOYSTICK_BASE_TOP_LEFT_BUTTON,
                     ButtonType.Toggle,
-                    () -> new WaitTask(0.0), // new VisionCenteringTask(false),
+                    () -> new VisionCenteringTask(false),
                     new Operation[]
                     {
                         Operation.EnableGearVision,

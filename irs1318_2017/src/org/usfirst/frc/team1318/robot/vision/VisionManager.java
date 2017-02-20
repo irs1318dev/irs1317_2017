@@ -8,6 +8,7 @@ import org.usfirst.frc.team1318.robot.common.wpilibmocks.ITimer;
 import org.usfirst.frc.team1318.robot.driver.Driver;
 import org.usfirst.frc.team1318.robot.driver.Operation;
 import org.usfirst.frc.team1318.robot.vision.pipelines.HSVGearCenterPipeline;
+import org.usfirst.frc.team1318.robot.vision.pipelines.HSVShooterCenterPipeline;
 import org.usfirst.frc.team1318.robot.vision.pipelines.ICentroidVisionPipeline;
 
 import com.google.inject.Inject;
@@ -31,9 +32,14 @@ public class VisionManager implements IController, VisionRunner.Listener<ICentro
 
     private final IDashboardLogger logger;
     private final ITimer timer;
+    private final ISolenoid shooterLight;
     private final ISolenoid gearLight;
 
     private final Object visionLock;
+
+    private final VisionThread shooterVisionThread;
+    private final HSVShooterCenterPipeline shooterVisionPipeline;
+
     private final VisionThread gearVisionThread;
     private final HSVGearCenterPipeline gearVisionPipeline;
 
@@ -54,15 +60,27 @@ public class VisionManager implements IController, VisionRunner.Listener<ICentro
     public VisionManager(
         IDashboardLogger logger,
         ITimer timer,
+        @Named("VISION_SHOOTER_LIGHT") ISolenoid shooterLight,
         @Named("VISION_GEAR_LIGHT") ISolenoid gearLight)
     {
         this.logger = logger;
         this.timer = timer;
+        this.shooterLight = shooterLight;
         this.gearLight = gearLight;
 
         this.driver = null;
 
         this.visionLock = new Object();
+
+        UsbCamera shooterCamera = new UsbCamera("usb1", 1);
+        shooterCamera.setResolution(VisionConstants.LIFECAM_CAMERA_RESOLUTION_X, VisionConstants.LIFECAM_CAMERA_RESOLUTION_Y);
+        shooterCamera.setExposureManual(VisionConstants.LIFECAM_CAMERA_EXPOSURE);
+        shooterCamera.setBrightness(VisionConstants.LIFECAM_CAMERA_BRIGHTNESS);
+        shooterCamera.setFPS(VisionConstants.LIFECAM_CAMERA_FPS);
+
+        this.shooterVisionPipeline = new HSVShooterCenterPipeline(this.timer, VisionConstants.SHOULD_UNDISTORT);
+        this.shooterVisionThread = new VisionThread(shooterCamera, this.shooterVisionPipeline, this);
+        this.shooterVisionThread.start();
 
         UsbCamera gearCamera = new UsbCamera("usb0", 0);
         gearCamera.setResolution(VisionConstants.LIFECAM_CAMERA_RESOLUTION_X, VisionConstants.LIFECAM_CAMERA_RESOLUTION_Y);
@@ -125,16 +143,29 @@ public class VisionManager implements IController, VisionRunner.Listener<ICentro
     @Override
     public void update()
     {
-        if (this.driver.getDigital(Operation.EnableGearVision))
+        boolean shooterActive;
+        boolean gearActive;
+        if (this.driver.getDigital(Operation.EnableShooterVision))
         {
-            this.gearLight.set(true);
-            this.gearVisionPipeline.setActivation(true);
+            shooterActive = true;
+            gearActive = false;
+        }
+        else if (this.driver.getDigital(Operation.EnableGearVision))
+        {
+            shooterActive = false;
+            gearActive = true;
         }
         else
         {
-            this.gearLight.set(false);
-            this.gearVisionPipeline.setActivation(false);
+            shooterActive = false;
+            gearActive = false;
         }
+
+        this.shooterLight.set(shooterActive);
+        this.shooterVisionPipeline.setActivation(shooterActive);
+
+        this.gearLight.set(gearActive);
+        this.gearVisionPipeline.setActivation(gearActive);
 
         Point center = this.getCenter();
         this.logger.logPoint(VisionManager.LogName, "center", center);
@@ -155,6 +186,9 @@ public class VisionManager implements IController, VisionRunner.Listener<ICentro
     @Override
     public void stop()
     {
+        this.shooterLight.set(false);
+        this.shooterVisionPipeline.setActivation(false);
+
         this.gearLight.set(false);
         this.gearVisionPipeline.setActivation(false);
     }

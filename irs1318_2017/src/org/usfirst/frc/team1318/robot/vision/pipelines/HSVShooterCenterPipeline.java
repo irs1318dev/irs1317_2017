@@ -15,7 +15,7 @@ import org.usfirst.frc.team1318.robot.vision.helpers.ImageUndistorter;
 import edu.wpi.cscore.CvSource;
 import edu.wpi.first.wpilibj.CameraServer;
 
-public class HSVGearCenterPipeline implements ICentroidVisionPipeline
+public class HSVShooterCenterPipeline implements ICentroidVisionPipeline
 {
     private final ITimer timer;
     private final boolean shouldUndistort;
@@ -26,14 +26,9 @@ public class HSVGearCenterPipeline implements ICentroidVisionPipeline
     private final CvSource hsvOutput;
 
     // measured values
-    private Point largestCenter;
-    private Point secondLargestCenter;
-
+    private Point center;
     private Double measuredAngleX;
-
-    private Double desiredAngleX;
-    private Double distanceFromCam;
-    private Double distanceFromRobot;
+    private Double distance;
 
     // FPS Measurement
     private long analyzedFrameCount;
@@ -44,10 +39,11 @@ public class HSVGearCenterPipeline implements ICentroidVisionPipeline
     private volatile boolean isActive;
 
     /**
-     * Initializes a new instance of the HSVGearCenterPipeline class.
+     * Initializes a new instance of the HSVShooterCenterPipeline class.
+     * @param timer to use for any timing purposes
      * @param shouldUndistort whether to undistort the image or not
      */
-    public HSVGearCenterPipeline(
+    public HSVShooterCenterPipeline(
         ITimer timer,
         boolean shouldUndistort)
     {
@@ -56,14 +52,9 @@ public class HSVGearCenterPipeline implements ICentroidVisionPipeline
         this.undistorter = new ImageUndistorter();
         this.hsvFilter = new HSVFilter(VisionConstants.LIFECAM_HSV_FILTER_LOW, VisionConstants.LIFECAM_HSV_FILTER_HIGH);
 
-        this.largestCenter = null;
-        this.secondLargestCenter = null;
-
+        this.center = null;
         this.measuredAngleX = null;
-
-        this.desiredAngleX = null;
-        this.distanceFromCam = null;
-        this.distanceFromRobot = null;
+        this.distance = null;
 
         this.analyzedFrameCount = 0;
         this.timer = timer;
@@ -73,8 +64,8 @@ public class HSVGearCenterPipeline implements ICentroidVisionPipeline
 
         if (VisionConstants.DEBUG && VisionConstants.DEBUG_OUTPUT_FRAMES)
         {
-            this.frameInput = CameraServer.getInstance().putVideo("g.input", VisionConstants.LIFECAM_CAMERA_RESOLUTION_X, VisionConstants.LIFECAM_CAMERA_RESOLUTION_Y);
-            this.hsvOutput = CameraServer.getInstance().putVideo("g.hsv", VisionConstants.LIFECAM_CAMERA_RESOLUTION_X, VisionConstants.LIFECAM_CAMERA_RESOLUTION_Y);
+            this.frameInput = CameraServer.getInstance().putVideo("s.input", VisionConstants.LIFECAM_CAMERA_RESOLUTION_X, VisionConstants.LIFECAM_CAMERA_RESOLUTION_Y);
+            this.hsvOutput = CameraServer.getInstance().putVideo("s.hsv", VisionConstants.LIFECAM_CAMERA_RESOLUTION_X, VisionConstants.LIFECAM_CAMERA_RESOLUTION_Y);
         }
         else
         {
@@ -166,19 +157,19 @@ public class HSVGearCenterPipeline implements ICentroidVisionPipeline
         // fourth, find the center of mass for the largest two contours
         Point largestCenterOfMass = null;
         Point secondLargestCenterOfMass = null;
-        Rect largestBoundingRect = null;
-        Rect secondLargestBoundingRect = null;
+        Rect largestBoundingRectangle = null;
+        Rect secondLargestBoundingRectangle = null;
         if (largestContour != null)
         {
             largestCenterOfMass = ContourHelper.findCenterOfMass(largestContour);
-            largestBoundingRect = Imgproc.boundingRect(largestContour);
+            largestBoundingRectangle = Imgproc.boundingRect(largestContour);
             largestContour.release();
         }
 
         if (secondLargestContour != null)
         {
             secondLargestCenterOfMass = ContourHelper.findCenterOfMass(secondLargestContour);
-            secondLargestBoundingRect = Imgproc.boundingRect(secondLargestContour);
+            secondLargestBoundingRectangle = Imgproc.boundingRect(secondLargestContour);
             secondLargestContour.release();
         }
 
@@ -206,53 +197,39 @@ public class HSVGearCenterPipeline implements ICentroidVisionPipeline
             }
         }
 
-        // finally, record the centers of mass
-        this.largestCenter = largestCenterOfMass;
-        this.secondLargestCenter = secondLargestCenterOfMass;
-
         undistortedImage.release();
 
-        // GEAR CALCULATIONS
-        if (this.largestCenter == null && this.secondLargestCenter == null)
+        Point upperCenterOfMass;
+        Rect upperBoundingRectangle;
+        if (largestCenterOfMass != null && secondLargestCenterOfMass != null && secondLargestCenterOfMass.y < largestCenterOfMass.y)
         {
-            this.desiredAngleX = null;
-            this.distanceFromCam = null;
-            this.distanceFromRobot = null;
-
-            this.measuredAngleX = null;
-
-            return;
-        }
-
-        // we want to get the leftmost centroid, representing the left piece of the retroreflective tape.
-        Point gearMarkerCenter;
-        Rect boundingRect;
-        if (this.largestCenter != null && this.secondLargestCenter != null && this.largestCenter.x > this.secondLargestCenter.x)
-        {
-            gearMarkerCenter = this.secondLargestCenter;
-            boundingRect = secondLargestBoundingRect;
+            upperCenterOfMass = secondLargestCenterOfMass;
+            upperBoundingRectangle = secondLargestBoundingRectangle;
         }
         else
         {
-            gearMarkerCenter = this.largestCenter;
-            boundingRect = largestBoundingRect;
+            upperCenterOfMass = largestCenterOfMass;
+            upperBoundingRectangle = largestBoundingRectangle;
         }
 
-        int gearMarkerHeight = boundingRect.height;
-        if (gearMarkerHeight == 0)
+        if (upperCenterOfMass == null)
         {
+            this.center = null;
+            this.measuredAngleX = null;
+            this.distance = null;
             return;
         }
 
-        // Find desired data
-        double xOffsetMeasured = gearMarkerCenter.x - VisionConstants.LIFECAM_CAMERA_CENTER_WIDTH;
-        this.measuredAngleX = Math.atan(xOffsetMeasured / VisionConstants.LIFECAM_CAMERA_FOCAL_LENGTH_X) * VisionConstants.RADIANS_TO_ANGLE;
-        // this.thetaXOffsetMeasured = xOffsetMeasured * VisionConstants.LIFECAM_CAMERA_FIELD_OF_VIEW_X / (double)VisionConstants.LIFECAM_CAMERA_RESOLUTION_X;
+        this.center = upperCenterOfMass;
 
-        this.distanceFromCam = ((VisionConstants.GEAR_RETROREFLECTIVE_TAPE_HEIGHT) / (Math.tan(VisionConstants.LIFECAM_CAMERA_FIELD_OF_VIEW_Y_RADIANS)))
-            * ((double)VisionConstants.LIFECAM_CAMERA_RESOLUTION_Y / (double)gearMarkerHeight);
-        this.distanceFromRobot = this.distanceFromCam * Math.cos(this.measuredAngleX * VisionConstants.ANGLE_TO_RADIANS);
-        this.desiredAngleX = Math.asin(VisionConstants.GEAR_CAMERA_OFFSET_FROM_CENTER / this.distanceFromCam) * VisionConstants.RADIANS_TO_ANGLE;
+        double xOffsetMeasured = upperCenterOfMass.x - VisionConstants.LIFECAM_CAMERA_CENTER_WIDTH;
+        this.measuredAngleX = Math.atan(xOffsetMeasured / VisionConstants.LIFECAM_CAMERA_FOCAL_LENGTH_X) * VisionConstants.RADIANS_TO_ANGLE;
+
+        double yOffsetMeasured = upperCenterOfMass.y - VisionConstants.LIFECAM_CAMERA_CENTER_HEIGHT;
+        double measuredAngleY = Math.atan(yOffsetMeasured / VisionConstants.LIFECAM_CAMERA_FOCAL_LENGTH_Y) * VisionConstants.RADIANS_TO_ANGLE;
+
+        double angleY = measuredAngleY + VisionConstants.SHOOTER_CAMERA_MOUNTING_ANGLE;
+        this.distance = VisionConstants.SHOOTER_CAMERA_TO_RETROREFLECTIVE_TAPE_HEIGHT / Math.tan(angleY * VisionConstants.ANGLE_TO_RADIANS);
     }
 
     public void setActivation(boolean isActive)
@@ -267,12 +244,12 @@ public class HSVGearCenterPipeline implements ICentroidVisionPipeline
 
     public Point getCenter()
     {
-        return this.largestCenter;
+        return this.center;
     }
 
     public Double getDesiredAngleX()
     {
-        return this.desiredAngleX;
+        return 0.0;
     }
 
     public Double getMeasuredAngleX()
@@ -280,14 +257,9 @@ public class HSVGearCenterPipeline implements ICentroidVisionPipeline
         return this.measuredAngleX;
     }
 
-    public Double getCameraDistance()
-    {
-        return this.distanceFromCam;
-    }
-
     public Double getRobotDistance()
     {
-        return this.distanceFromRobot;
+        return this.distance;
     }
 
     public double getFps()

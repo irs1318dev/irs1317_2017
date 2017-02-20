@@ -59,6 +59,11 @@ public class VisionConstants
     public static final double CONTOUR_MIN_AREA = 25.0;
 
     // Real Measurements
-    public static final double REAL_GEAR_RETROREFLECTIVE_TAPE_HEIGHT = 5.0; // 5 inches tall
+    public static final double GEAR_RETROREFLECTIVE_TAPE_HEIGHT = 5.0; // 5 inches tall
     public static final double GEAR_CAMERA_OFFSET_FROM_CENTER = 5.0; // 10 inches to the left from center of the robot, tape center is 5 inches to the left of the center of the robot
+
+    public static final double SHOOTER_LARGER_RETROREFLECTIVE_TAPE_HEIGHT_CENTROID_FROM_GROUND = 86; // 7 feet, 2 inches from floor to center of upper retroreflective tape on boiler
+    public static final double SHOOTER_CAMERA_MOUNTING_HEIGHT = 16.25; // 16.25 inches from ground
+    public static final double SHOOTER_CAMERA_TO_RETROREFLECTIVE_TAPE_HEIGHT = VisionConstants.SHOOTER_LARGER_RETROREFLECTIVE_TAPE_HEIGHT_CENTROID_FROM_GROUND - VisionConstants.SHOOTER_CAMERA_MOUNTING_HEIGHT;
+    public static final double SHOOTER_CAMERA_MOUNTING_ANGLE = 45.0; // 45 degrees
 }
