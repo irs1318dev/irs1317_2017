@@ -140,6 +140,7 @@ public class DriveTrainController implements IController
     public void stop()
     {
         this.component.setDriveTrainPower(0.0, 0.0);
+        this.component.reset();
         if (this.leftPID != null)
         {
             this.leftPID.reset();

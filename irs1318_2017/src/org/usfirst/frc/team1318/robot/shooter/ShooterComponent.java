@@ -133,6 +133,7 @@ public class ShooterComponent
         //this.readyLight.set(false);
         this.shooter.set(0.0);
 
+        this.encoder.reset();
         this.prevTicks = 0;
         this.prevTime = 0.0;
         this.prevVelocity = 0.0;
