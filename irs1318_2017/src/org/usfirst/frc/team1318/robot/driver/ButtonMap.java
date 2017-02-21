@@ -251,6 +251,10 @@ public class ButtonMap implements IButtonMap
                         Operation.DriveTrainRightPosition,
                         Operation.DriveTrainTurn,
                         Operation.DriveTrainMoveForward,
+                        Operation.IntakeIn,
+                        Operation.IntakeOut,
+                        Operation.IntakeArmExtend,
+                        Operation.IntakeArmRetract,
                     }));
 
             put(

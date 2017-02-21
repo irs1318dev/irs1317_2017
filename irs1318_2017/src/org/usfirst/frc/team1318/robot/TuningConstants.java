@@ -74,7 +74,7 @@ public class TuningConstants
 
     //================================================== Intake ==============================================================
 
-    public static final double INTAKE_MAX_MOTOR_SPEED = 0.7;
+    public static final double INTAKE_MAX_MOTOR_SPEED = 0.9;
 
     //================================================== Climber ==============================================================
 
@@ -85,7 +85,7 @@ public class TuningConstants
 
     //================================================== Shooter ==============================================================
 
-    public static final double SHOOTER_MAX_FEEDER_POWER = 0.4;
+    public static final double SHOOTER_MAX_FEEDER_POWER = 0.3;
 
     public static final boolean SHOOTER_USE_CAN_PID = false;
     public static final boolean SHOOTER_USE_ROBORIO_PID = true;
