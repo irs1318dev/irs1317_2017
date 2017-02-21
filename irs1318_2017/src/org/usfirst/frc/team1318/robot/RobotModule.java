@@ -142,6 +142,17 @@ public class RobotModule extends AbstractModule
 
     @Singleton
     @Provides
+    @Named("VISION_SHOOTER_LIGHT")
+    public ISolenoid getVisionShooterLight()
+    {
+        SolenoidWrapper shooterLight = new SolenoidWrapper(
+            ElectronicsConstants.VISION_SHOOTER_LIGHT_CHANNEL);
+
+        return shooterLight;
+    }
+
+    @Singleton
+    @Provides
     @Named("DRIVETRAIN_LEFTMOTOR")
     public IMotor getDriveTrainLeftMotor()
     {
@@ -255,6 +266,7 @@ public class RobotModule extends AbstractModule
     public ISolenoid getShooterReadyLight()
     {
         SolenoidWrapper readyLight = new SolenoidWrapper(
+            ElectronicsConstants.PCM_B_MODULE,
             ElectronicsConstants.SHOOTER_READYLIGHT_CHANNEL);
 
         return readyLight;

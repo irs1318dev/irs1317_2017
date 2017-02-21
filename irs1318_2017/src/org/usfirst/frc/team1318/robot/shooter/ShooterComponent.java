@@ -36,7 +36,7 @@ public class ShooterComponent
         ITimer timer,
         @Named("SHOOTER_HOOD") IDoubleSolenoid hood,
         @Named("SHOOTER_FEEDER") IMotor feeder,
-        @Named("SHOOTER_LIGHT") ISolenoid readyLight,
+        //@Named("SHOOTER_LIGHT") ISolenoid readyLight,
         @Named("SHOOTER_SHOOTER") IMotor shooter,
         @Named("SHOOTER_ENCODER") IEncoder encoder)
     {
@@ -44,7 +44,7 @@ public class ShooterComponent
 
         this.hood = hood;
         this.feeder = feeder;
-        this.readyLight = readyLight;
+        this.readyLight = null; //readyLight;
         this.shooter = shooter;
         this.encoder = encoder;
 
@@ -123,14 +123,14 @@ public class ShooterComponent
 
     public void setReadyLight(boolean on)
     {
-        this.readyLight.set(on);
+        //this.readyLight.set(on);
     }
 
     public void stop()
     {
         this.hood.set(DoubleSolenoidValue.kOff);
         this.feeder.set(0.0);
-        this.readyLight.set(false);
+        //this.readyLight.set(false);
         this.shooter.set(0.0);
     }
 }

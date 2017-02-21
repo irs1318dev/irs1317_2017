@@ -28,6 +28,7 @@ public class ElectronicsConstants
 
     //================================================== Vision ==============================================================
 
+    public static final int VISION_SHOOTER_LIGHT_CHANNEL = 0;
     public static final int VISION_GEAR_LIGHT_CHANNEL = 1;
 
     //================================================== DriveTrain ==============================================================
