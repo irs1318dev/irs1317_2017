@@ -85,7 +85,7 @@ public class TuningConstants
 
     //================================================== Shooter ==============================================================
 
-    public static final double SHOOTER_MAX_FEEDER_POWER = 0.8;
+    public static final double SHOOTER_MAX_FEEDER_POWER = 0.4;
 
     public static final boolean SHOOTER_USE_CAN_PID = false;
     public static final boolean SHOOTER_USE_ROBORIO_PID = true;
