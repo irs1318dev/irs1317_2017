@@ -78,7 +78,6 @@ public class Robot extends IterativeRobot
         }
 
         this.timer.stop();
-        this.timer.reset();
         this.logger.logString(Robot.LogName, "state", "Disabled");
     }
 

@@ -104,6 +104,11 @@ public class ShooterController implements IController
     public void stop()
     {
         this.shooter.stop();
+
+        if (this.pidHandler != null)
+        {
+            this.pidHandler.reset();
+        }
     }
 
     @Override

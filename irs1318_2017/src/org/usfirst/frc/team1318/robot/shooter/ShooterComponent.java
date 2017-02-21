@@ -132,5 +132,9 @@ public class ShooterComponent
         this.feeder.set(0.0);
         //this.readyLight.set(false);
         this.shooter.set(0.0);
+
+        this.prevTicks = 0;
+        this.prevTime = 0.0;
+        this.prevVelocity = 0.0;
     }
 }

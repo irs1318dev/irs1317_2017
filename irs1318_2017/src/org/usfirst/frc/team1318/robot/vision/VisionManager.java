@@ -190,6 +190,14 @@ public class VisionManager implements IController, VisionRunner.Listener<ICentro
 
         this.gearLight.set(false);
         this.gearVisionPipeline.setActivation(false);
+
+        this.center = null;
+
+        this.desiredAngleX = null;
+        this.measuredAngleX = null;
+        this.distanceFromRobot = null;
+
+        this.lastMeasuredFps = 0.0;
     }
 
     @Override
