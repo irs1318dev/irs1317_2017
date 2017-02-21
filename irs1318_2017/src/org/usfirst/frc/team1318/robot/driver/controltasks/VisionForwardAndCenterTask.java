@@ -2,16 +2,33 @@ package org.usfirst.frc.team1318.robot.driver.controltasks;
 
 import org.usfirst.frc.team1318.robot.TuningConstants;
 import org.usfirst.frc.team1318.robot.common.PIDHandler;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.ITimer;
 import org.usfirst.frc.team1318.robot.driver.IControlTask;
 import org.usfirst.frc.team1318.robot.driver.Operation;
 
 public class VisionForwardAndCenterTask extends VisionCenteringTask implements IControlTask
 {
-    private final PIDHandler forwardPIDHandler;
+    private PIDHandler forwardPIDHandler;
 
-    public VisionForwardAndCenterTask()
+    /**
+    * Initializes a new VisionForwardAndCenterTask
+    * @param visionMode whether to use Gear (true) or Shooter (false) vision mode
+    */
+    public VisionForwardAndCenterTask(boolean visionMode)
     {
-        this.forwardPIDHandler = new PIDHandler(0.005, 0.0, 0.0, 0.0, -0.3, 0.3);
+        super(visionMode);
+
+        this.forwardPIDHandler = null;
+    }
+
+    /**
+     * Begin the current task
+     */
+    @Override
+    public void begin()
+    {
+        super.begin();
+        this.forwardPIDHandler = new PIDHandler(0.005, 0.0, 0.0, 0.0, 1.0, -0.3, 0.3, this.getInjector().getInstance(ITimer.class));
     }
 
     @Override

@@ -4,6 +4,7 @@ import org.usfirst.frc.team1318.robot.TuningConstants;
 import org.usfirst.frc.team1318.robot.common.IController;
 import org.usfirst.frc.team1318.robot.common.IDashboardLogger;
 import org.usfirst.frc.team1318.robot.common.PIDHandler;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.ITimer;
 import org.usfirst.frc.team1318.robot.driver.Driver;
 import org.usfirst.frc.team1318.robot.driver.Operation;
 
@@ -15,6 +16,7 @@ public class ShooterController implements IController
 
     private final ShooterComponent shooter;
     private final IDashboardLogger logger;
+    private final ITimer timer;
     private final PIDHandler pidHandler;
 
     private Driver driver;
@@ -22,9 +24,11 @@ public class ShooterController implements IController
     @Inject
     public ShooterController(
         IDashboardLogger logger,
+        ITimer timer,
         ShooterComponent shooter)
     {
         this.logger = logger;
+        this.timer = timer;
         this.shooter = shooter;
         if (TuningConstants.SHOOTER_USE_ROBORIO_PID)
         {
@@ -35,7 +39,8 @@ public class ShooterController implements IController
                 TuningConstants.SHOOTER_ROBORIO_PID_KF,
                 TuningConstants.SHOOTER_ROBORIO_PID_KS,
                 TuningConstants.SHOOTER_MIN_POWER,
-                TuningConstants.SHOOTER_MAX_POWER);
+                TuningConstants.SHOOTER_MAX_POWER,
+                this.timer);
         }
         else
         {
@@ -50,7 +55,7 @@ public class ShooterController implements IController
         this.shooter.extendOrRetract(shooterExtendHood);
 
         double shooterSpeedPercentage = this.driver.getAnalog(Operation.ShooterSpeed);
-        double shooterSpeedGoal = shooterSpeedPercentage * TuningConstants.SHOOTER_PID_MAX_VELOCITY;
+        double shooterSpeedGoal = shooterSpeedPercentage * TuningConstants.SHOOTER_ROBORIO_PID_KS;
 
         int shooterTicks = this.shooter.getShooterTicks();
 
@@ -69,11 +74,13 @@ public class ShooterController implements IController
         }
 
         this.shooter.setShooterPower(shooterPower);
-        this.logger.logNumber(ShooterController.LogName, "shooterSpeedGoal", shooterSpeedGoal);
 
-        double error = this.shooter.getShooterSpeed() - shooterSpeedGoal;
+        double error = shooterSpeedGoal - this.shooter.getShooterSpeed();
         double errorPercentage = error / shooterSpeedGoal;
 
+        this.logger.logNumber(ShooterController.LogName, "shooterSpeedGoal", shooterSpeedGoal);
+        this.logger.logNumber(ShooterController.LogName, "shooterError", error);
+        this.logger.logNumber(ShooterController.LogName, "shooterErrorPercentage", errorPercentage);
         boolean shooterIsUpToSpeed = true; // false;
         if (shooterSpeedPercentage != 0.0)
         {

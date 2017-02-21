@@ -7,13 +7,15 @@ import org.usfirst.frc.team1318.robot.ElectronicsConstants;
 import org.usfirst.frc.team1318.robot.TuningConstants;
 import org.usfirst.frc.team1318.robot.driver.buttons.AnalogAxis;
 import org.usfirst.frc.team1318.robot.driver.buttons.ButtonType;
+import org.usfirst.frc.team1318.robot.driver.controltasks.ConcurrentTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.DriveDistanceTimedTask;
+import org.usfirst.frc.team1318.robot.driver.controltasks.IntakeExtendTask;
+import org.usfirst.frc.team1318.robot.driver.controltasks.IntakeSpinTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.PIDBrakeTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.SequentialTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.ShooterSpinTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.VisionCenteringTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.VisionForwardAndCenterTask;
-import org.usfirst.frc.team1318.robot.driver.controltasks.WaitTask;
 import org.usfirst.frc.team1318.robot.driver.descriptions.AnalogOperationDescription;
 import org.usfirst.frc.team1318.robot.driver.descriptions.DigitalOperationDescription;
 import org.usfirst.frc.team1318.robot.driver.descriptions.MacroOperationDescription;
@@ -39,6 +41,20 @@ public class ButtonMap implements IButtonMap
                     UserInputDevice.None,
                     UserInputDeviceButton.BUTTON_PAD_BUTTON_12,
                     ButtonType.Click));
+
+            // Operations for vision
+            put(
+                Operation.EnableGearVision,
+                new DigitalOperationDescription(
+                    UserInputDevice.None,
+                    UserInputDeviceButton.BUTTON_PAD_BUTTON_2,
+                    ButtonType.Toggle));
+            put(
+                Operation.EnableShooterVision,
+                new DigitalOperationDescription(
+                    UserInputDevice.None,
+                    UserInputDeviceButton.BUTTON_PAD_BUTTON_3,
+                    ButtonType.Toggle));
 
             // Operations for the drive train
             put(
@@ -184,9 +200,11 @@ public class ButtonMap implements IButtonMap
                     UserInputDevice.Driver,
                     UserInputDeviceButton.JOYSTICK_BASE_TOP_LEFT_BUTTON,
                     ButtonType.Toggle,
-                    () -> new WaitTask(0.0),
+                    () -> new VisionCenteringTask(false),
                     new Operation[]
                     {
+                        Operation.EnableGearVision,
+                        Operation.EnableShooterVision,
                         Operation.DriveTrainUsePositionalMode,
                         Operation.DriveTrainLeftPosition,
                         Operation.DriveTrainRightPosition,
@@ -199,9 +217,11 @@ public class ButtonMap implements IButtonMap
                     UserInputDevice.Driver,
                     UserInputDeviceButton.JOYSTICK_STICK_BOTTOM_RIGHT_BUTTON,
                     ButtonType.Toggle,
-                    () -> new VisionCenteringTask(),
+                    () -> new VisionCenteringTask(true),
                     new Operation[]
                     {
+                        Operation.EnableGearVision,
+                        Operation.EnableShooterVision,
                         Operation.DriveTrainUsePositionalMode,
                         Operation.DriveTrainLeftPosition,
                         Operation.DriveTrainRightPosition,
@@ -215,10 +235,17 @@ public class ButtonMap implements IButtonMap
                     UserInputDeviceButton.JOYSTICK_STICK_TOP_RIGHT_BUTTON,
                     ButtonType.Toggle,
                     () -> SequentialTask.Sequence(
-                        new VisionForwardAndCenterTask(),
-                        new DriveDistanceTimedTask(TuningConstants.MAX_VISION_ACCEPTABLE_FORWARD_DISTANCE, 1.5)),
+                        ConcurrentTask.AnyTasks(
+                            new VisionForwardAndCenterTask(true),
+                            new IntakeSpinTask(true, 15.0)),
+                        ConcurrentTask.AllTasks(
+                            new IntakeSpinTask(true, 1.5),
+                            new IntakeExtendTask(false, 1.5),
+                            new DriveDistanceTimedTask(TuningConstants.MAX_VISION_ACCEPTABLE_FORWARD_DISTANCE, 1.5))),
                     new Operation[]
                     {
+                        Operation.EnableGearVision,
+                        Operation.EnableShooterVision,
                         Operation.DriveTrainUsePositionalMode,
                         Operation.DriveTrainLeftPosition,
                         Operation.DriveTrainRightPosition,

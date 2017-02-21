@@ -3,12 +3,16 @@ package org.usfirst.frc.team1318.robot.vision;
 import org.opencv.core.Point;
 import org.usfirst.frc.team1318.robot.common.IController;
 import org.usfirst.frc.team1318.robot.common.IDashboardLogger;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.ISolenoid;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.ITimer;
 import org.usfirst.frc.team1318.robot.driver.Driver;
+import org.usfirst.frc.team1318.robot.driver.Operation;
 import org.usfirst.frc.team1318.robot.vision.pipelines.HSVGearCenterPipeline;
 import org.usfirst.frc.team1318.robot.vision.pipelines.ICentroidVisionPipeline;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.google.inject.name.Named;
 
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.vision.VisionRunner;
@@ -26,10 +30,19 @@ public class VisionManager implements IController, VisionRunner.Listener<ICentro
     private final static String LogName = "vision";
 
     private final IDashboardLogger logger;
+    private final ITimer timer;
+    private final ISolenoid shooterLight;
+    private final ISolenoid gearLight;
 
     private final Object visionLock;
+
+    //    private final VisionThread shooterVisionThread;
+    //    private final HSVShooterCenterPipeline shooterVisionPipeline;
+
     private final VisionThread gearVisionThread;
     private final HSVGearCenterPipeline gearVisionPipeline;
+
+    private Driver driver;
 
     private Point center;
 
@@ -43,11 +56,30 @@ public class VisionManager implements IController, VisionRunner.Listener<ICentro
      * Initializes a new VisionManager
      */
     @Inject
-    public VisionManager(IDashboardLogger logger)
+    public VisionManager(
+        IDashboardLogger logger,
+        ITimer timer,
+        @Named("VISION_SHOOTER_LIGHT") ISolenoid shooterLight,
+        @Named("VISION_GEAR_LIGHT") ISolenoid gearLight)
     {
         this.logger = logger;
+        this.timer = timer;
+        this.shooterLight = shooterLight;
+        this.gearLight = gearLight;
+
+        this.driver = null;
 
         this.visionLock = new Object();
+
+        //        UsbCamera shooterCamera = new UsbCamera("usb1", 1);
+        //        shooterCamera.setResolution(VisionConstants.LIFECAM_CAMERA_RESOLUTION_X, VisionConstants.LIFECAM_CAMERA_RESOLUTION_Y);
+        //        shooterCamera.setExposureManual(VisionConstants.LIFECAM_CAMERA_EXPOSURE);
+        //        shooterCamera.setBrightness(VisionConstants.LIFECAM_CAMERA_BRIGHTNESS);
+        //        shooterCamera.setFPS(VisionConstants.LIFECAM_CAMERA_FPS);
+        //
+        //        this.shooterVisionPipeline = new HSVShooterCenterPipeline(this.timer, VisionConstants.SHOULD_UNDISTORT);
+        //        this.shooterVisionThread = new VisionThread(shooterCamera, this.shooterVisionPipeline, this);
+        //        this.shooterVisionThread.start();
 
         UsbCamera gearCamera = new UsbCamera("usb0", 0);
         gearCamera.setResolution(VisionConstants.LIFECAM_CAMERA_RESOLUTION_X, VisionConstants.LIFECAM_CAMERA_RESOLUTION_Y);
@@ -55,10 +87,7 @@ public class VisionManager implements IController, VisionRunner.Listener<ICentro
         gearCamera.setBrightness(VisionConstants.LIFECAM_CAMERA_BRIGHTNESS);
         gearCamera.setFPS(VisionConstants.LIFECAM_CAMERA_FPS);
 
-        //CameraServer.getInstance().addCamera(camera);
-
-        //AxisCamera camera = CameraServer.getInstance().addAxisCamera(VisionConstants.AXIS_CAMERA_IP_ADDRESS);
-        this.gearVisionPipeline = new HSVGearCenterPipeline(VisionConstants.SHOULD_UNDISTORT);
+        this.gearVisionPipeline = new HSVGearCenterPipeline(this.timer, VisionConstants.SHOULD_UNDISTORT);
         this.gearVisionThread = new VisionThread(gearCamera, this.gearVisionPipeline, this);
         this.gearVisionThread.start();
 
@@ -113,14 +142,32 @@ public class VisionManager implements IController, VisionRunner.Listener<ICentro
     @Override
     public void update()
     {
-        String centerString = "n/a";
-        Point center = this.getCenter();
-        if (center != null)
+        boolean shooterActive;
+        boolean gearActive;
+        if (this.driver.getDigital(Operation.EnableShooterVision))
         {
-            centerString = String.format("%f,%f", center.x, center.y);
+            shooterActive = true;
+            gearActive = false;
+        }
+        else if (this.driver.getDigital(Operation.EnableGearVision))
+        {
+            shooterActive = false;
+            gearActive = true;
+        }
+        else
+        {
+            shooterActive = false;
+            gearActive = false;
         }
 
-        this.logger.logString(VisionManager.LogName, "center", centerString);
+        this.shooterLight.set(shooterActive);
+        //        this.shooterVisionPipeline.setActivation(shooterActive);
+
+        this.gearLight.set(gearActive);
+        this.gearVisionPipeline.setActivation(gearActive);
+
+        Point center = this.getCenter();
+        this.logger.logPoint(VisionManager.LogName, "center", center);
 
         Double fps = this.getLastMeasuredFps();
         this.logger.logNumber(VisionManager.LogName, "fps", fps);
@@ -138,12 +185,17 @@ public class VisionManager implements IController, VisionRunner.Listener<ICentro
     @Override
     public void stop()
     {
+        this.shooterLight.set(false);
+        //        this.shooterVisionPipeline.setActivation(false);
+
+        this.gearLight.set(false);
+        this.gearVisionPipeline.setActivation(false);
     }
 
     @Override
     public void setDriver(Driver driver)
     {
-        // no-op
+        this.driver = driver;
     }
 
     @Override
@@ -151,13 +203,16 @@ public class VisionManager implements IController, VisionRunner.Listener<ICentro
     {
         synchronized (this.visionLock)
         {
-            this.center = pipeline.getCenter();
+            if (pipeline.isActive())
+            {
+                this.center = pipeline.getCenter();
 
-            this.desiredAngleX = pipeline.getDesiredAngleX();
-            this.measuredAngleX = pipeline.getMeasuredAngleX();
-            this.distanceFromRobot = pipeline.getRobotDistance();
+                this.desiredAngleX = pipeline.getDesiredAngleX();
+                this.measuredAngleX = pipeline.getMeasuredAngleX();
+                this.distanceFromRobot = pipeline.getRobotDistance();
 
-            this.lastMeasuredFps = pipeline.getFps();
+                this.lastMeasuredFps = pipeline.getFps();
+            }
         }
     }
 }

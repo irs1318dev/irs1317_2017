@@ -6,6 +6,10 @@ public enum Operation
     EnablePID,
     DisablePID,
 
+    // Vision operations:
+    EnableGearVision,
+    EnableShooterVision,
+
     // DriveTrain operations:
     DriveTrainMoveForward,
     DriveTrainTurn,

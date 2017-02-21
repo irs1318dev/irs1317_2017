@@ -30,14 +30,14 @@ public class TuningConstants
     public static final double DRIVETRAIN_VELOCITY_PID_RIGHT_KI_DEFAULT = 0.0;
     public static final double DRIVETRAIN_VELOCITY_PID_RIGHT_KD_DEFAULT = 0.0;
     public static final double DRIVETRAIN_VELOCITY_PID_RIGHT_KF_DEFAULT = 0.4;
-    public static final double DRIVETRAIN_VELOCITY_PID_RIGHT_KS_DEFAULT = 165.0;
+    public static final double DRIVETRAIN_VELOCITY_PID_RIGHT_KS_DEFAULT = 100.0;
 
     // Velocity PID (left)
     public static final double DRIVETRAIN_VELOCITY_PID_LEFT_KP_DEFAULT = 0.02; //0.0275;
     public static final double DRIVETRAIN_VELOCITY_PID_LEFT_KI_DEFAULT = 0.0;
     public static final double DRIVETRAIN_VELOCITY_PID_LEFT_KD_DEFAULT = 0.0;
     public static final double DRIVETRAIN_VELOCITY_PID_LEFT_KF_DEFAULT = 0.4;
-    public static final double DRIVETRAIN_VELOCITY_PID_LEFT_KS_DEFAULT = 165.0;
+    public static final double DRIVETRAIN_VELOCITY_PID_LEFT_KS_DEFAULT = 100.0;
 
     // Position PID (right)
     public static final double DRIVETRAIN_POSITION_PID_RIGHT_KP_DEFAULT = 0.3;
@@ -85,29 +85,29 @@ public class TuningConstants
 
     //================================================== Shooter ==============================================================
 
-    public static final double SHOOTER_MAX_FEEDER_POWER = 0.8;
+    public static final double SHOOTER_MAX_FEEDER_POWER = 0.4;
 
     public static final boolean SHOOTER_USE_CAN_PID = false;
-    public static final boolean SHOOTER_USE_ROBORIO_PID = false;
+    public static final boolean SHOOTER_USE_ROBORIO_PID = true;
 
     public static final double SHOOTER_CAN_PID_KP = 0.024;
     public static final double SHOOTER_CAN_PID_KI = 0.0;
     public static final double SHOOTER_CAN_PID_KD = 0.0;
     public static final double SHOOTER_CAN_PID_KF = 0.025;
 
-    public static final double SHOOTER_ROBORIO_PID_KP = 0.000011;
+    public static final double SHOOTER_ROBORIO_PID_KP = 0.002;
     public static final double SHOOTER_ROBORIO_PID_KI = 0.0;
     public static final double SHOOTER_ROBORIO_PID_KD = 0.0;
-    public static final double SHOOTER_ROBORIO_PID_KF = 0.0; // 1.0;
-    public static final double SHOOTER_ROBORIO_PID_KS = TuningConstants.SHOOTER_PID_MAX_VELOCITY;
+    public static final double SHOOTER_ROBORIO_PID_KF = 0.8;
+    public static final double SHOOTER_ROBORIO_PID_KS = 2000.0;
 
     public static final double SHOOTER_MIN_POWER = -1.0;
     public static final double SHOOTER_MAX_POWER = 1.0;
 
     public static final double SHOOTER_PID_MAX_VELOCITY = 95000.0; // 40000.0;
-    public static final double SHOOTER_ALLOWABLE_ERROR = 0.02; // plus or minus 2% error is max allowed
+    public static final double SHOOTER_ALLOWABLE_ERROR = 0.035; // plus or minus 3.5% error is max allowed
 
-    public static final double SHOOTER_FAR_SHOT_VELOCITY = 1.0;//0.7;
+    public static final double SHOOTER_FAR_SHOT_VELOCITY = 0.7;
     public static final double SHOOTER_CLOSE_SHOT_VELOCITY = 0.6;
     public static final double SHOOTER_CLOSE_SHOT_LOW_GOAL_VELOCITY = 0.2;
 }

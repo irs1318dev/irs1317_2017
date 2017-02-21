@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1318.robot;
 
 import org.usfirst.frc.team1318.robot.common.IDashboardLogger;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.ITimer;
 import org.usfirst.frc.team1318.robot.driver.Driver;
 import org.usfirst.frc.team1318.robot.driver.autonomous.AutonomousDriver;
 import org.usfirst.frc.team1318.robot.driver.user.UserDriver;
@@ -9,7 +10,6 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Timer;
 
 /**
  * Main class for the FRC 2017 Steamworks Competition
@@ -43,7 +43,7 @@ public class Robot extends IterativeRobot
     private IDashboardLogger logger;
     private Injector injector;
 
-    private Timer timer;
+    private ITimer timer;
 
     /**
      * Robot-wide initialization code should go here.
@@ -57,8 +57,7 @@ public class Robot extends IterativeRobot
         this.logger = this.getInjector().getInstance(IDashboardLogger.class);
         this.logger.logString(Robot.LogName, "state", "Init");
 
-        this.timer = new Timer();
-        this.timer.start();
+        this.timer = this.getInjector().getInstance(ITimer.class);
         this.logger.logNumber(Robot.LogName, "time", this.timer.get());
     }
 
@@ -78,6 +77,8 @@ public class Robot extends IterativeRobot
             this.controllers.stop();
         }
 
+        this.timer.stop();
+        this.timer.reset();
         this.logger.logString(Robot.LogName, "state", "Disabled");
     }
 
@@ -118,6 +119,8 @@ public class Robot extends IterativeRobot
     {
         // apply the driver to the controllers
         this.controllers.setDriver(this.driver);
+
+        this.timer.start();
     }
 
     /**

@@ -5,14 +5,14 @@ import org.opencv.core.Scalar;
 public class VisionConstants
 {
     // Debug output settings:
-    public static final boolean DEBUG = false;
+    public static final boolean DEBUG = true;
     public static final boolean DEBUG_PRINT_OUTPUT = false;
     public static final boolean DEBUG_PRINT_ANALYZER_DATA = false;
     public static final int DEBUG_FPS_AVERAGING_INTERVAL = 25;
+    public static final boolean DEBUG_OUTPUT_FRAMES = true;
     public static final boolean DEBUG_SAVE_FRAMES = false;
-    public static final boolean DEBUG_OUTPUT_FRAMES = false;
-    public static final int DEBUG_FRAME_OUTPUT_GAP = 25; // the number of frames to wait between saving debug image output
-    public static final String DEBUG_OUTPUT_FOLDER = "/home/lvuser/";
+    public static final int DEBUG_FRAME_OUTPUT_GAP = 50; // the number of frames to wait between saving debug image output
+    public static final String DEBUG_OUTPUT_FOLDER = "/home/lvuser/vision/";
 
     // Conversion constants...
     public static final double ANGLE_TO_RADIANS = (Math.PI / 180.0f);
@@ -42,8 +42,8 @@ public class VisionConstants
     public static final double LIFECAM_CAMERA_CENTER_VIEW_ANGLE = VisionConstants.LIFECAM_CAMERA_FIELD_OF_VIEW_X / 2.0;
     public static final double LIFECAM_CAMERA_FOCAL_LENGTH_X = 356.016; // focal_length = res_* / (2.0 * tan (FOV_* / 2.0)
     public static final double LIFECAM_CAMERA_FOCAL_LENGTH_Y = 366.058; // focal_length = res_* / (2.0 * tan (FOV_* / 2.0)
-    public static final int LIFECAM_CAMERA_EXPOSURE = 30;
-    public static final int LIFECAM_CAMERA_BRIGHTNESS = 30;
+    public static final int LIFECAM_CAMERA_EXPOSURE = 1;
+    public static final int LIFECAM_CAMERA_BRIGHTNESS = 1;
     public static final int LIFECAM_CAMERA_FPS = 25; // Max supported value is 30
 
     // Undistort constants
@@ -52,13 +52,18 @@ public class VisionConstants
     // HSV Filtering constants
     public static final Scalar AXIS_HSV_FILTER_LOW = new Scalar(85, 65, 65);
     public static final Scalar AXIS_HSV_FILTER_HIGH = new Scalar(90, 255, 255);
-    public static final Scalar LIFECAM_HSV_FILTER_LOW = new Scalar(60, 100, 100);
-    public static final Scalar LIFECAM_HSV_FILTER_HIGH = new Scalar(90, 255, 255);
+    public static final Scalar LIFECAM_HSV_FILTER_LOW = new Scalar(52, 150, 100);
+    public static final Scalar LIFECAM_HSV_FILTER_HIGH = new Scalar(80, 255, 255);
 
     // Contour filtering constants
     public static final double CONTOUR_MIN_AREA = 25.0;
 
     // Real Measurements
-    public static final double REAL_GEAR_RETROREFLECTIVE_TAPE_HEIGHT = 5.0; // 5 inches tall
-    public static final double GEAR_CAMERA_OFFSET_FROM_CENTER = -4.0; // 9 inches to the right from center of robot, tape is 5 inches to the right of the center of the robot
+    public static final double GEAR_RETROREFLECTIVE_TAPE_HEIGHT = 5.0; // 5 inches tall
+    public static final double GEAR_CAMERA_OFFSET_FROM_CENTER = 5.0; // 10 inches to the left from center of the robot, tape center is 5 inches to the left of the center of the robot
+
+    public static final double SHOOTER_LARGER_RETROREFLECTIVE_TAPE_HEIGHT_CENTROID_FROM_GROUND = 86; // 7 feet, 2 inches from floor to center of upper retroreflective tape on boiler
+    public static final double SHOOTER_CAMERA_MOUNTING_HEIGHT = 16.25; // 16.25 inches from ground
+    public static final double SHOOTER_CAMERA_TO_RETROREFLECTIVE_TAPE_HEIGHT = VisionConstants.SHOOTER_LARGER_RETROREFLECTIVE_TAPE_HEIGHT_CENTROID_FROM_GROUND - VisionConstants.SHOOTER_CAMERA_MOUNTING_HEIGHT;
+    public static final double SHOOTER_CAMERA_MOUNTING_ANGLE = 45.0; // 45 degrees
 }
