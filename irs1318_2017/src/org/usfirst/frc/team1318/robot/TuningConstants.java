@@ -26,14 +26,14 @@ public class TuningConstants
     public static final boolean DRIVETRAIN_USE_PID = true;
 
     // Velocity PID (right)
-    public static final double DRIVETRAIN_VELOCITY_PID_RIGHT_KP_DEFAULT = 0.02; // 0.0275;
+    public static final double DRIVETRAIN_VELOCITY_PID_RIGHT_KP_DEFAULT = 0.02;
     public static final double DRIVETRAIN_VELOCITY_PID_RIGHT_KI_DEFAULT = 0.0;
     public static final double DRIVETRAIN_VELOCITY_PID_RIGHT_KD_DEFAULT = 0.0;
     public static final double DRIVETRAIN_VELOCITY_PID_RIGHT_KF_DEFAULT = 0.4;
     public static final double DRIVETRAIN_VELOCITY_PID_RIGHT_KS_DEFAULT = 100.0;
 
     // Velocity PID (left)
-    public static final double DRIVETRAIN_VELOCITY_PID_LEFT_KP_DEFAULT = 0.02; //0.0275;
+    public static final double DRIVETRAIN_VELOCITY_PID_LEFT_KP_DEFAULT = 0.02;
     public static final double DRIVETRAIN_VELOCITY_PID_LEFT_KI_DEFAULT = 0.0;
     public static final double DRIVETRAIN_VELOCITY_PID_LEFT_KD_DEFAULT = 0.0;
     public static final double DRIVETRAIN_VELOCITY_PID_LEFT_KF_DEFAULT = 0.4;
@@ -85,7 +85,7 @@ public class TuningConstants
 
     //================================================== Shooter ==============================================================
 
-    public static final double SHOOTER_MAX_FEEDER_POWER = 0.4;
+    public static final double SHOOTER_MAX_FEEDER_POWER = 0.5;
 
     public static final boolean SHOOTER_USE_CAN_PID = false;
     public static final boolean SHOOTER_USE_ROBORIO_PID = true;

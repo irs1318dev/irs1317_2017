@@ -45,8 +45,8 @@ public class ElectronicsConstants
     //================================================== Climber ==============================================================
 
     public static final int CLIMBER_MOTOR_CHANNEL = 4;
-    public static final int CLIMBER_PDP_CHANNEL_A = 5;
-    public static final int CLIMBER_PDP_CHANNEL_B = 10;
+    public static final int CLIMBER_PDP_CHANNEL_A = 4;
+    public static final int CLIMBER_PDP_CHANNEL_B = 11;
 
     //================================================== Intake ==============================================================
 
