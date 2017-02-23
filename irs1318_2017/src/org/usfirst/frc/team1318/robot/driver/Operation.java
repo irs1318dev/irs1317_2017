@@ -2,15 +2,13 @@ package org.usfirst.frc.team1318.robot.driver;
 
 public enum Operation
 {
-    // Other general operations:
-    EnablePID,
-    DisablePID,
-
     // Vision operations:
     EnableGearVision,
     EnableShooterVision,
 
     // DriveTrain operations:
+    DriveTrainEnablePID,
+    DriveTrainDisablePID,
     DriveTrainMoveForward,
     DriveTrainTurn,
     DriveTrainSimpleMode,
@@ -31,6 +29,10 @@ public enum Operation
     ClimberSpeed,
 
     // Shooter Operations
+    ShooterEnablePID,
+    ShooterDisablePID,
+    ShooterEnableFeederWait,
+    ShooterDisableFeederWait,
     ShooterSpeed,
     ShooterFeed,
     ShooterExtendHood,

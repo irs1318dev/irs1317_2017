@@ -81,12 +81,12 @@ public class DriveTrainController implements IController
     @Override
     public void update()
     {
-        if (this.driver.getDigital(Operation.EnablePID))
+        if (this.driver.getDigital(Operation.DriveTrainEnablePID))
         {
             this.usePID = true;
             this.createPIDHandler();
         }
-        else if (this.driver.getDigital(Operation.DisablePID))
+        else if (this.driver.getDigital(Operation.DriveTrainDisablePID))
         {
             this.usePID = false;
             this.createPIDHandler();
@@ -167,20 +167,20 @@ public class DriveTrainController implements IController
             if (this.usePositionalMode)
             {
                 this.leftPID = new PIDHandler(
-                    TuningConstants.DRIVETRAIN_POSITION_PID_LEFT_KP_DEFAULT,
-                    TuningConstants.DRIVETRAIN_POSITION_PID_LEFT_KI_DEFAULT,
-                    TuningConstants.DRIVETRAIN_POSITION_PID_LEFT_KD_DEFAULT,
-                    TuningConstants.DRIVETRAIN_POSITION_PID_LEFT_KF_DEFAULT,
+                    TuningConstants.DRIVETRAIN_POSITION_PID_LEFT_KP,
+                    TuningConstants.DRIVETRAIN_POSITION_PID_LEFT_KI,
+                    TuningConstants.DRIVETRAIN_POSITION_PID_LEFT_KD,
+                    TuningConstants.DRIVETRAIN_POSITION_PID_LEFT_KF,
                     1.0,
                     -TuningConstants.DRIVETRAIN_POSITIONAL_MAX_POWER_LEVEL,
                     TuningConstants.DRIVETRAIN_POSITIONAL_MAX_POWER_LEVEL,
                     this.timer);
 
                 this.rightPID = new PIDHandler(
-                    TuningConstants.DRIVETRAIN_POSITION_PID_RIGHT_KP_DEFAULT,
-                    TuningConstants.DRIVETRAIN_POSITION_PID_RIGHT_KI_DEFAULT,
-                    TuningConstants.DRIVETRAIN_POSITION_PID_RIGHT_KD_DEFAULT,
-                    TuningConstants.DRIVETRAIN_POSITION_PID_RIGHT_KF_DEFAULT,
+                    TuningConstants.DRIVETRAIN_POSITION_PID_RIGHT_KP,
+                    TuningConstants.DRIVETRAIN_POSITION_PID_RIGHT_KI,
+                    TuningConstants.DRIVETRAIN_POSITION_PID_RIGHT_KD,
+                    TuningConstants.DRIVETRAIN_POSITION_PID_RIGHT_KF,
                     1.0,
                     -TuningConstants.DRIVETRAIN_POSITIONAL_MAX_POWER_LEVEL,
                     TuningConstants.DRIVETRAIN_POSITIONAL_MAX_POWER_LEVEL,
@@ -189,11 +189,11 @@ public class DriveTrainController implements IController
             else
             {
                 this.leftPID = new PIDHandler(
-                    TuningConstants.DRIVETRAIN_VELOCITY_PID_LEFT_KP_DEFAULT,
-                    TuningConstants.DRIVETRAIN_VELOCITY_PID_LEFT_KI_DEFAULT,
-                    TuningConstants.DRIVETRAIN_VELOCITY_PID_LEFT_KD_DEFAULT,
-                    TuningConstants.DRIVETRAIN_VELOCITY_PID_LEFT_KF_DEFAULT,
-                    TuningConstants.DRIVETRAIN_VELOCITY_PID_LEFT_KS_DEFAULT,
+                    TuningConstants.DRIVETRAIN_VELOCITY_PID_LEFT_KP,
+                    TuningConstants.DRIVETRAIN_VELOCITY_PID_LEFT_KI,
+                    TuningConstants.DRIVETRAIN_VELOCITY_PID_LEFT_KD,
+                    TuningConstants.DRIVETRAIN_VELOCITY_PID_LEFT_KF,
+                    TuningConstants.DRIVETRAIN_VELOCITY_PID_LEFT_KS,
                     -TuningConstants.DRIVETRAIN_VELOCITY_MAX_POWER_LEVEL,
                     TuningConstants.DRIVETRAIN_VELOCITY_MAX_POWER_LEVEL,
                     "leftDT",
@@ -201,11 +201,11 @@ public class DriveTrainController implements IController
                     this.timer);
 
                 this.rightPID = new PIDHandler(
-                    TuningConstants.DRIVETRAIN_VELOCITY_PID_RIGHT_KP_DEFAULT,
-                    TuningConstants.DRIVETRAIN_VELOCITY_PID_RIGHT_KI_DEFAULT,
-                    TuningConstants.DRIVETRAIN_VELOCITY_PID_RIGHT_KD_DEFAULT,
-                    TuningConstants.DRIVETRAIN_VELOCITY_PID_RIGHT_KF_DEFAULT,
-                    TuningConstants.DRIVETRAIN_VELOCITY_PID_RIGHT_KS_DEFAULT,
+                    TuningConstants.DRIVETRAIN_VELOCITY_PID_RIGHT_KP,
+                    TuningConstants.DRIVETRAIN_VELOCITY_PID_RIGHT_KI,
+                    TuningConstants.DRIVETRAIN_VELOCITY_PID_RIGHT_KD,
+                    TuningConstants.DRIVETRAIN_VELOCITY_PID_RIGHT_KF,
+                    TuningConstants.DRIVETRAIN_VELOCITY_PID_RIGHT_KS,
                     -TuningConstants.DRIVETRAIN_VELOCITY_MAX_POWER_LEVEL,
                     TuningConstants.DRIVETRAIN_VELOCITY_MAX_POWER_LEVEL,
                     "rightDT",

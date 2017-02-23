@@ -17,8 +17,10 @@ public class ShooterController implements IController
     private final ShooterComponent shooter;
     private final IDashboardLogger logger;
     private final ITimer timer;
-    private final PIDHandler pidHandler;
 
+    private boolean feederWait;
+    private boolean usePID;
+    private PIDHandler pidHandler;
     private Driver driver;
 
     @Inject
@@ -30,27 +32,36 @@ public class ShooterController implements IController
         this.logger = logger;
         this.timer = timer;
         this.shooter = shooter;
-        if (TuningConstants.SHOOTER_USE_ROBORIO_PID)
-        {
-            this.pidHandler = new PIDHandler(
-                TuningConstants.SHOOTER_ROBORIO_PID_KP,
-                TuningConstants.SHOOTER_ROBORIO_PID_KI,
-                TuningConstants.SHOOTER_ROBORIO_PID_KD,
-                TuningConstants.SHOOTER_ROBORIO_PID_KF,
-                TuningConstants.SHOOTER_ROBORIO_PID_KS,
-                TuningConstants.SHOOTER_MIN_POWER,
-                TuningConstants.SHOOTER_MAX_POWER,
-                this.timer);
-        }
-        else
-        {
-            this.pidHandler = null;
-        }
+        this.feederWait = TuningConstants.SHOOTER_USE_ROBORIO_PID;
+        this.usePID = TuningConstants.SHOOTER_USE_ROBORIO_PID;
+
+        this.createPIDHandler();
     }
 
     @Override
     public void update()
     {
+        if (this.driver.getDigital(Operation.ShooterEnablePID))
+        {
+            this.usePID = true;
+            this.createPIDHandler();
+        }
+        else if (this.driver.getDigital(Operation.ShooterDisablePID))
+        {
+            this.feederWait = false;
+            this.usePID = false;
+            this.createPIDHandler();
+        }
+
+        if (this.driver.getDigital(Operation.ShooterEnableFeederWait))
+        {
+            this.feederWait = true;
+        }
+        else if (this.driver.getDigital(Operation.ShooterDisableFeederWait))
+        {
+            this.feederWait = false;
+        }
+
         boolean shooterExtendHood = this.driver.getDigital(Operation.ShooterExtendHood);
         this.shooter.extendOrRetract(shooterExtendHood);
 
@@ -60,14 +71,14 @@ public class ShooterController implements IController
         int shooterTicks = this.shooter.getShooterTicks();
 
         double shooterPower;
-        if (TuningConstants.SHOOTER_USE_CAN_PID)
-        {
-            shooterPower = shooterSpeedGoal;
-        }
-        else if (TuningConstants.SHOOTER_USE_ROBORIO_PID && shooterSpeedPercentage != 0.0)
+        if (TuningConstants.SHOOTER_USE_ROBORIO_PID && shooterSpeedPercentage != 0.0)
         {
             shooterPower = this.pidHandler.calculateVelocity(shooterSpeedPercentage, shooterTicks);
         }
+        //        else if (TuningConstants.SHOOTER_USE_CAN_PID)
+        //        {
+        //            shooterPower = shooterSpeedGoal;
+        //        }
         else
         {
             shooterPower = shooterSpeedPercentage;
@@ -90,7 +101,7 @@ public class ShooterController implements IController
         this.shooter.setReadyLight(shooterIsUpToSpeed);
 
         boolean shooterFeed = this.driver.getDigital(Operation.ShooterFeed);
-        if (shooterFeed && shooterIsUpToSpeed)
+        if (shooterFeed && (!this.feederWait || shooterIsUpToSpeed))
         {
             this.shooter.setFeederPower(TuningConstants.SHOOTER_MAX_FEEDER_POWER);
         }
@@ -115,5 +126,25 @@ public class ShooterController implements IController
     public void setDriver(Driver driver)
     {
         this.driver = driver;
+    }
+
+    private void createPIDHandler()
+    {
+        if (this.usePID)
+        {
+            this.pidHandler = new PIDHandler(
+                TuningConstants.SHOOTER_ROBORIO_PID_KP,
+                TuningConstants.SHOOTER_ROBORIO_PID_KI,
+                TuningConstants.SHOOTER_ROBORIO_PID_KD,
+                TuningConstants.SHOOTER_ROBORIO_PID_KF,
+                TuningConstants.SHOOTER_ROBORIO_PID_KS,
+                TuningConstants.SHOOTER_MIN_POWER,
+                TuningConstants.SHOOTER_MAX_POWER,
+                this.timer);
+        }
+        else
+        {
+            this.pidHandler = null;
+        }
     }
 }

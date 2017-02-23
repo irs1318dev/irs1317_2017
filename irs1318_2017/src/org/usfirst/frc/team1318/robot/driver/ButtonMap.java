@@ -28,35 +28,33 @@ public class ButtonMap implements IButtonMap
     public static Map<Operation, OperationDescription> OperationSchema = new HashMap<Operation, OperationDescription>()
     {
         {
-            // Operations for general stuff
-            put(
-                Operation.DisablePID,
-                new DigitalOperationDescription(
-                    UserInputDevice.None,
-                    UserInputDeviceButton.BUTTON_PAD_BUTTON_11,
-                    ButtonType.Click));
-            put(
-                Operation.EnablePID,
-                new DigitalOperationDescription(
-                    UserInputDevice.None,
-                    UserInputDeviceButton.BUTTON_PAD_BUTTON_12,
-                    ButtonType.Click));
-
             // Operations for vision
             put(
                 Operation.EnableGearVision,
                 new DigitalOperationDescription(
-                    UserInputDevice.None,
+                    UserInputDevice.CoDriver,
                     UserInputDeviceButton.BUTTON_PAD_BUTTON_2,
                     ButtonType.Toggle));
             put(
                 Operation.EnableShooterVision,
                 new DigitalOperationDescription(
-                    UserInputDevice.None,
+                    UserInputDevice.CoDriver,
                     UserInputDeviceButton.BUTTON_PAD_BUTTON_3,
                     ButtonType.Toggle));
 
             // Operations for the drive train
+            put(
+                Operation.DriveTrainDisablePID,
+                new DigitalOperationDescription(
+                    UserInputDevice.CoDriver,
+                    UserInputDeviceButton.BUTTON_PAD_BUTTON_11,
+                    ButtonType.Click));
+            put(
+                Operation.DriveTrainEnablePID,
+                new DigitalOperationDescription(
+                    UserInputDevice.CoDriver,
+                    UserInputDeviceButton.BUTTON_PAD_BUTTON_12,
+                    ButtonType.Click));
             put(
                 Operation.DriveTrainMoveForward,
                 new AnalogOperationDescription(
@@ -153,11 +151,35 @@ public class ButtonMap implements IButtonMap
 
             // Operations for the shooter
             put(
+                Operation.ShooterDisablePID,
+                new DigitalOperationDescription(
+                    UserInputDevice.CoDriver,
+                    UserInputDeviceButton.BUTTON_PAD_BUTTON_6,
+                    ButtonType.Click));
+            put(
+                Operation.ShooterEnablePID,
+                new DigitalOperationDescription(
+                    UserInputDevice.CoDriver,
+                    UserInputDeviceButton.BUTTON_PAD_BUTTON_7,
+                    ButtonType.Click));
+            put(
+                Operation.ShooterDisableFeederWait,
+                new DigitalOperationDescription(
+                    UserInputDevice.CoDriver,
+                    UserInputDeviceButton.BUTTON_PAD_BUTTON_8,
+                    ButtonType.Click));
+            put(
+                Operation.ShooterEnableFeederWait,
+                new DigitalOperationDescription(
+                    UserInputDevice.CoDriver,
+                    UserInputDeviceButton.BUTTON_PAD_BUTTON_9,
+                    ButtonType.Click));
+            put(
                 Operation.ShooterExtendHood,
                 new DigitalOperationDescription(
                     UserInputDevice.None,
                     UserInputDeviceButton.NONE,
-                    ButtonType.Click));
+                    ButtonType.Simple));
             put(
                 Operation.ShooterFeed,
                 new DigitalOperationDescription(
