@@ -14,7 +14,7 @@ import org.usfirst.frc.team1318.robot.driver.controltasks.ShooterFeedTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.ShooterSpinTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.TurnTimedTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.VisionCenteringTask;
-import org.usfirst.frc.team1318.robot.driver.controltasks.VisionForwardAndCenterTask;
+import org.usfirst.frc.team1318.robot.driver.controltasks.VisionAdvanceAndCenterTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.WaitTask;
 
 import com.google.inject.Inject;
@@ -112,7 +112,7 @@ public class AutonomousRoutineSelector
                 new DriveDistanceTimedTask(74.375, 6.0),
                 new TurnTimedTask(isOnRedSide ? 60.0 : -60.0, 2.0),
                 new VisionCenteringTask(true),
-                new VisionForwardAndCenterTask(true),
+                new VisionAdvanceAndCenterTask(true),
                 new DriveDistanceTimedTask(18.0, 2.0)));
     }
 
@@ -154,7 +154,7 @@ public class AutonomousRoutineSelector
                     },
                     4.0),
                 new VisionCenteringTask(true),
-                new VisionForwardAndCenterTask(true),
+                new VisionAdvanceAndCenterTask(true),
                 new DriveDistanceTimedTask(18.0, 2.0)));
     }
 
@@ -168,7 +168,7 @@ public class AutonomousRoutineSelector
             SequentialTask.Sequence(
                 new DriveDistanceTimedTask(48.0, 2.0),
                 new VisionCenteringTask(true),
-                new VisionForwardAndCenterTask(true),
+                new VisionAdvanceAndCenterTask(true),
                 new DriveDistanceTimedTask(18.0, 2.0)));
     }
 }

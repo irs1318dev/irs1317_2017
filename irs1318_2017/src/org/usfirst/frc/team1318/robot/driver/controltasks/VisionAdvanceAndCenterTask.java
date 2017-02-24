@@ -6,7 +6,7 @@ import org.usfirst.frc.team1318.robot.common.wpilibmocks.ITimer;
 import org.usfirst.frc.team1318.robot.driver.IControlTask;
 import org.usfirst.frc.team1318.robot.driver.Operation;
 
-public class VisionForwardAndCenterTask extends VisionCenteringTask implements IControlTask
+public class VisionAdvanceAndCenterTask extends VisionCenteringTask implements IControlTask
 {
     private PIDHandler forwardPIDHandler;
 
@@ -14,7 +14,7 @@ public class VisionForwardAndCenterTask extends VisionCenteringTask implements I
     * Initializes a new VisionForwardAndCenterTask
     * @param visionMode whether to use Gear (true) or Shooter (false) vision mode
     */
-    public VisionForwardAndCenterTask(boolean visionMode)
+    public VisionAdvanceAndCenterTask(boolean visionMode)
     {
         super(visionMode);
 
@@ -28,7 +28,16 @@ public class VisionForwardAndCenterTask extends VisionCenteringTask implements I
     public void begin()
     {
         super.begin();
-        this.forwardPIDHandler = new PIDHandler(0.005, 0.0, 0.0, 0.0, 1.0, -0.3, 0.3, this.getInjector().getInstance(ITimer.class));
+        this.forwardPIDHandler = new PIDHandler(
+            TuningConstants.VISION_ADVANCING_PID_KP,
+            TuningConstants.VISION_ADVANCING_PID_KI,
+            TuningConstants.VISION_ADVANCING_PID_KD,
+            TuningConstants.VISION_ADVANCING_PID_KF,
+            TuningConstants.VISION_ADVANCING_PID_KS,
+            TuningConstants.VISION_ADVANCING_PID_MIN,
+            TuningConstants.VISION_ADVANCING_PID_MAX,
+            this.getInjector().getInstance(ITimer.class));
+
     }
 
     @Override
