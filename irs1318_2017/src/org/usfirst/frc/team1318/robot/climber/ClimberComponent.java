@@ -10,12 +10,15 @@ import com.google.inject.name.Named;
 @Singleton
 public class ClimberComponent
 {
-    private IMotor motor;
+    private static final String LogName = "climber";
+
     private final IDashboardLogger logger;
-    private final String LogName = "climber";
+    private final IMotor motor;
 
     @Inject
-    public ClimberComponent(IDashboardLogger logger, @Named("CLIMBER_MOTOR") IMotor motor)
+    public ClimberComponent(
+        IDashboardLogger logger,
+        @Named("CLIMBER_MOTOR") IMotor motor)
     {
         this.logger = logger;
         this.motor = motor;

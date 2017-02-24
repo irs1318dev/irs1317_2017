@@ -67,6 +67,9 @@ public class Robot extends IterativeRobot
      */
     public void disabledInit()
     {
+        this.timer.stop();
+        this.timer.reset();
+
         if (this.driver != null)
         {
             this.driver.stop();
@@ -77,7 +80,6 @@ public class Robot extends IterativeRobot
             this.controllers.stop();
         }
 
-        this.timer.stop();
         this.logger.logString(Robot.LogName, "state", "Disabled");
     }
 

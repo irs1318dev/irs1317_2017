@@ -12,10 +12,12 @@ import com.google.inject.Inject;
 
 public class ClimberController implements IController
 {
-    private final String LogName = "climber";
+    private static final String LogName = "climber";
+
     private final IDashboardLogger logger;
     private final ClimberComponent climber;
     private final PowerManager powerManager;
+
     private Driver driver;
 
     @Inject
@@ -30,9 +32,10 @@ public class ClimberController implements IController
     public void update()
     {
         double climberSpeed = this.driver.getAnalog(Operation.ClimberSpeed);
-        double currentDraw = this.powerManager.getCurrent(ElectronicsConstants.CLIMBER_PDP_CHANNEL_A) +
+        double currentDraw =
+            this.powerManager.getCurrent(ElectronicsConstants.CLIMBER_PDP_CHANNEL_A) +
             this.powerManager.getCurrent(ElectronicsConstants.CLIMBER_PDP_CHANNEL_B);
-        this.logger.logNumber(LogName, "current", currentDraw);
+        this.logger.logNumber(ClimberController.LogName, "current", currentDraw);
         if (currentDraw > TuningConstants.CLIMBER_MAX_CURRENT_DRAW)
         {
             climberSpeed = 0.0;
@@ -57,5 +60,4 @@ public class ClimberController implements IController
     {
         this.driver = driver;
     }
-
 }
