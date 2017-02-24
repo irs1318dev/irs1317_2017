@@ -74,7 +74,7 @@ public class ClimberControllerTest
 
         controller.update();
 
-        verify(climber).setMotorSpeed(-TuningConstants.CLIMBER_MAX_MOTOR_POWER);
+        verify(climber).setMotorSpeed(0.0);
         verifyNoMoreInteractions(climber);
     }
 
