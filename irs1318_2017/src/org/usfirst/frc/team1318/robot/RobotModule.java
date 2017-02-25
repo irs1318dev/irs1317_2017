@@ -21,10 +21,13 @@ import org.usfirst.frc.team1318.robot.common.wpilibmocks.IEncoder;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IJoystick;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IMotor;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IPowerDistributionPanel;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.IRelay;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.ISolenoid;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.ITimer;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.JoystickWrapper;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.PowerDistributionPanelWrapper;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.RelayDirection;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.RelayWrapper;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.SolenoidWrapper;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.TalonWrapper;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.TimerWrapper;
@@ -262,14 +265,26 @@ public class RobotModule extends AbstractModule
 
     @Singleton
     @Provides
-    @Named("SHOOTER_LIGHT")
+    @Named("SHOOTER_READY_LIGHT")
     public ISolenoid getShooterReadyLight()
     {
         SolenoidWrapper readyLight = new SolenoidWrapper(
             ElectronicsConstants.PCM_B_MODULE,
-            ElectronicsConstants.SHOOTER_READYLIGHT_CHANNEL);
+            ElectronicsConstants.SHOOTER_READY_LIGHT_CHANNEL);
 
         return readyLight;
+    }
+
+    @Singleton
+    @Provides
+    @Named("SHOOTER_TARGETING_LIGHT")
+    public IRelay getShooterTargetingLight()
+    {
+        RelayWrapper targetingLight = new RelayWrapper(
+            ElectronicsConstants.SHOOTER_TARGETING_LIGHT_CHANNEL,
+            RelayDirection.kForward);
+
+        return targetingLight;
     }
 
     @Singleton

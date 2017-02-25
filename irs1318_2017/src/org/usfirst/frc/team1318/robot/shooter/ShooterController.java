@@ -100,6 +100,9 @@ public class ShooterController implements IController
 
         this.shooter.setReadyLight(shooterIsUpToSpeed);
 
+        boolean targetingLightOn = this.driver.getDigital(Operation.ShooterTargetingLight);
+        this.shooter.setTargetingLight(targetingLightOn);
+
         boolean shooterFeed = this.driver.getDigital(Operation.ShooterFeed);
         if (shooterFeed && (!this.feederWait || shooterIsUpToSpeed))
         {

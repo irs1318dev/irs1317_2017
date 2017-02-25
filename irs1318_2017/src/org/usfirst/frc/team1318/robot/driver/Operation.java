@@ -36,4 +36,5 @@ public enum Operation
     ShooterSpeed,
     ShooterFeed,
     ShooterExtendHood,
+    ShooterTargetingLight
 }

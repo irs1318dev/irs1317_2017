@@ -190,6 +190,12 @@ public class ButtonMap implements IButtonMap
                     AnalogAxis.None,
                     false,
                     0.0));
+            put(
+                Operation.ShooterTargetingLight,
+                new DigitalOperationDescription(
+                    UserInputDevice.Driver,
+                    UserInputDeviceButton.JOYSTICK_BASE_TOP_LEFT_BUTTON,
+                    ButtonType.Simple));
         }
     };
 

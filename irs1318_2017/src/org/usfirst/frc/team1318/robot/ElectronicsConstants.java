@@ -65,7 +65,8 @@ public class ElectronicsConstants
 
     public static final int SHOOTER_FEEDER_CHANNEL = 2;
 
-    public static final int SHOOTER_READYLIGHT_CHANNEL = 0;
+    public static final int SHOOTER_READY_LIGHT_CHANNEL = 0;
+    public static final int SHOOTER_TARGETING_LIGHT_CHANNEL = 0;
 
     public static final int SHOOTER_MOTOR_CHANNEL = 5;
     //    public static final int SHOOTER_MASTER_MOTOR_CHANNEL = 1;

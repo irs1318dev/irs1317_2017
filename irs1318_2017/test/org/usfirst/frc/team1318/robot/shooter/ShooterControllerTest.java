@@ -29,6 +29,7 @@ public class ShooterControllerTest
         doReturn(true).when(driver).getDigital(Operation.ShooterDisablePID);
         doReturn(true).when(driver).getDigital(Operation.ShooterExtendHood);
         doReturn(false).when(driver).getDigital(Operation.ShooterFeed);
+        doReturn(false).when(driver).getDigital(Operation.ShooterTargetingLight);
         doReturn(0.0).when(driver).getAnalog(Operation.ShooterSpeed);
         doReturn(0).when(shooter).getShooterTicks();
         doReturn(0.0).when(shooter).getShooterSpeed();
@@ -41,6 +42,7 @@ public class ShooterControllerTest
         verify(shooter).getShooterTicks();
         verify(shooter).getShooterSpeed();
         verify(shooter).setReadyLight(eq(false));
+        verify(shooter).setTargetingLight(eq(false));
         verifyNoMoreInteractions(shooter);
     }
 
@@ -58,6 +60,7 @@ public class ShooterControllerTest
         doReturn(true).when(driver).getDigital(Operation.ShooterDisablePID);
         doReturn(false).when(driver).getDigital(Operation.ShooterExtendHood);
         doReturn(false).when(driver).getDigital(Operation.ShooterFeed);
+        doReturn(false).when(driver).getDigital(Operation.ShooterTargetingLight);
         doReturn(0.0).when(driver).getAnalog(Operation.ShooterSpeed);
         doReturn(0).when(shooter).getShooterTicks();
         doReturn(0.0).when(shooter).getShooterSpeed();
@@ -70,6 +73,38 @@ public class ShooterControllerTest
         verify(shooter).getShooterTicks();
         verify(shooter).getShooterSpeed();
         verify(shooter).setReadyLight(eq(false));
+        verify(shooter).setTargetingLight(eq(false));
+        verifyNoMoreInteractions(shooter);
+    }
+
+    @Test
+    public void updateTest_TargetingLight()
+    {
+        IDashboardLogger logger = mock(IDashboardLogger.class);
+        ITimer timer = mock(ITimer.class);
+        ShooterComponent shooter = mock(ShooterComponent.class);
+        ShooterController shooterController = new ShooterController(logger, timer, shooter);
+
+        Driver driver = mock(Driver.class);
+        shooterController.setDriver(driver);
+
+        doReturn(true).when(driver).getDigital(Operation.ShooterDisablePID);
+        doReturn(true).when(driver).getDigital(Operation.ShooterExtendHood);
+        doReturn(false).when(driver).getDigital(Operation.ShooterFeed);
+        doReturn(true).when(driver).getDigital(Operation.ShooterTargetingLight);
+        doReturn(0.0).when(driver).getAnalog(Operation.ShooterSpeed);
+        doReturn(0).when(shooter).getShooterTicks();
+        doReturn(0.0).when(shooter).getShooterSpeed();
+
+        shooterController.update();
+
+        verify(shooter).extendOrRetract(eq(true));
+        verify(shooter).setFeederPower(eq(0.0));
+        verify(shooter).setShooterPower(eq(0.0));
+        verify(shooter).getShooterTicks();
+        verify(shooter).getShooterSpeed();
+        verify(shooter).setReadyLight(eq(false));
+        verify(shooter).setTargetingLight(eq(true));
         verifyNoMoreInteractions(shooter);
     }
 
@@ -87,6 +122,7 @@ public class ShooterControllerTest
         doReturn(true).when(driver).getDigital(Operation.ShooterDisablePID);
         doReturn(true).when(driver).getDigital(Operation.ShooterExtendHood);
         doReturn(false).when(driver).getDigital(Operation.ShooterFeed);
+        doReturn(false).when(driver).getDigital(Operation.ShooterTargetingLight);
         doReturn(1.0).when(driver).getAnalog(Operation.ShooterSpeed);
         doReturn(0).when(shooter).getShooterTicks();
         doReturn(0.999 * TuningConstants.SHOOTER_MAX_VELOCITY).when(shooter).getShooterSpeed();
@@ -99,6 +135,7 @@ public class ShooterControllerTest
         verify(shooter).getShooterTicks();
         verify(shooter).getShooterSpeed();
         verify(shooter).setReadyLight(eq(true));
+        verify(shooter).setTargetingLight(eq(false));
         verifyNoMoreInteractions(shooter);
     }
 
@@ -116,6 +153,7 @@ public class ShooterControllerTest
         doReturn(true).when(driver).getDigital(Operation.ShooterDisablePID);
         doReturn(true).when(driver).getDigital(Operation.ShooterExtendHood);
         doReturn(false).when(driver).getDigital(Operation.ShooterFeed);
+        doReturn(false).when(driver).getDigital(Operation.ShooterTargetingLight);
         doReturn(1.0).when(driver).getAnalog(Operation.ShooterSpeed);
         doReturn(0).when(shooter).getShooterTicks();
         doReturn(0.5 * TuningConstants.SHOOTER_MAX_VELOCITY).when(shooter).getShooterSpeed();
@@ -128,6 +166,7 @@ public class ShooterControllerTest
         verify(shooter).getShooterTicks();
         verify(shooter).getShooterSpeed();
         verify(shooter).setReadyLight(eq(false));
+        verify(shooter).setTargetingLight(eq(false));
         verifyNoMoreInteractions(shooter);
     }
 
@@ -145,6 +184,7 @@ public class ShooterControllerTest
         doReturn(true).when(driver).getDigital(Operation.ShooterDisablePID);
         doReturn(true).when(driver).getDigital(Operation.ShooterExtendHood);
         doReturn(false).when(driver).getDigital(Operation.ShooterFeed);
+        doReturn(false).when(driver).getDigital(Operation.ShooterTargetingLight);
         doReturn(0.0).when(driver).getAnalog(Operation.ShooterSpeed);
         doReturn(0).when(shooter).getShooterTicks();
         doReturn(0.0).when(shooter).getShooterSpeed();
@@ -157,6 +197,7 @@ public class ShooterControllerTest
         verify(shooter).getShooterTicks();
         verify(shooter).getShooterSpeed();
         verify(shooter).setReadyLight(eq(false));
+        verify(shooter).setTargetingLight(eq(false));
         verifyNoMoreInteractions(shooter);
     }
 
@@ -174,6 +215,7 @@ public class ShooterControllerTest
         doReturn(true).when(driver).getDigital(Operation.ShooterDisablePID);
         doReturn(true).when(driver).getDigital(Operation.ShooterExtendHood);
         doReturn(true).when(driver).getDigital(Operation.ShooterFeed);
+        doReturn(false).when(driver).getDigital(Operation.ShooterTargetingLight);
         doReturn(0.1).when(driver).getAnalog(Operation.ShooterSpeed);
         doReturn(0).when(shooter).getShooterTicks();
         doReturn(0.101 * TuningConstants.SHOOTER_MAX_VELOCITY).when(shooter).getShooterSpeed();
@@ -186,6 +228,7 @@ public class ShooterControllerTest
         verify(shooter).getShooterTicks();
         verify(shooter).getShooterSpeed();
         verify(shooter).setReadyLight(eq(true));
+        verify(shooter).setTargetingLight(eq(false));
         verifyNoMoreInteractions(shooter);
     }
 
@@ -203,6 +246,7 @@ public class ShooterControllerTest
         doReturn(true).when(driver).getDigital(Operation.ShooterDisablePID);
         doReturn(true).when(driver).getDigital(Operation.ShooterExtendHood);
         doReturn(false).when(driver).getDigital(Operation.ShooterFeed);
+        doReturn(false).when(driver).getDigital(Operation.ShooterTargetingLight);
         doReturn(0.0).when(driver).getAnalog(Operation.ShooterSpeed);
         doReturn(0).when(shooter).getShooterTicks();
         doReturn(0.0).when(shooter).getShooterSpeed();
@@ -215,6 +259,7 @@ public class ShooterControllerTest
         verify(shooter).getShooterTicks();
         verify(shooter).getShooterSpeed();
         verify(shooter).setReadyLight(eq(false));
+        verify(shooter).setTargetingLight(eq(false));
         verifyNoMoreInteractions(shooter);
     }
 
@@ -232,6 +277,7 @@ public class ShooterControllerTest
         doReturn(true).when(driver).getDigital(Operation.ShooterDisablePID);
         doReturn(false).when(driver).getDigital(Operation.ShooterExtendHood);
         doReturn(false).when(driver).getDigital(Operation.ShooterFeed);
+        doReturn(false).when(driver).getDigital(Operation.ShooterTargetingLight);
         doReturn(0.5).when(driver).getAnalog(Operation.ShooterSpeed);
         doReturn(0).when(shooter).getShooterTicks();
         doReturn(0.6 * TuningConstants.SHOOTER_MAX_VELOCITY).when(shooter).getShooterSpeed();
@@ -244,6 +290,7 @@ public class ShooterControllerTest
         verify(shooter).getShooterTicks();
         verify(shooter).getShooterSpeed();
         verify(shooter).setReadyLight(eq(false));
+        verify(shooter).setTargetingLight(eq(false));
         verifyNoMoreInteractions(shooter);
     }
 
@@ -261,6 +308,7 @@ public class ShooterControllerTest
         doReturn(true).when(driver).getDigital(Operation.ShooterDisablePID);
         doReturn(false).when(driver).getDigital(Operation.ShooterExtendHood);
         doReturn(false).when(driver).getDigital(Operation.ShooterFeed);
+        doReturn(false).when(driver).getDigital(Operation.ShooterTargetingLight);
         doReturn(0.0).when(driver).getAnalog(Operation.ShooterSpeed);
         doReturn(0).when(shooter).getShooterTicks();
         doReturn(0.0).when(shooter).getShooterSpeed();
@@ -273,6 +321,7 @@ public class ShooterControllerTest
         verify(shooter).getShooterTicks();
         verify(shooter).getShooterSpeed();
         verify(shooter).setReadyLight(eq(false));
+        verify(shooter).setTargetingLight(eq(false));
         verifyNoMoreInteractions(shooter);
     }
 }

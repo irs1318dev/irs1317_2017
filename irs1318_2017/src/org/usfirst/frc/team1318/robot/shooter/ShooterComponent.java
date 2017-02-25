@@ -5,6 +5,7 @@ import org.usfirst.frc.team1318.robot.common.wpilibmocks.DoubleSolenoidValue;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IDoubleSolenoid;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IEncoder;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IMotor;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.IRelay;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.ISolenoid;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.ITimer;
 
@@ -21,6 +22,7 @@ public class ShooterComponent
     private final IDoubleSolenoid hood;
     private final IMotor feeder;
     private final ISolenoid readyLight;
+    private final IRelay targetingLight;
     private final IMotor shooter;
     private final IEncoder encoder;
 
@@ -36,7 +38,8 @@ public class ShooterComponent
         ITimer timer,
         @Named("SHOOTER_HOOD") IDoubleSolenoid hood,
         @Named("SHOOTER_FEEDER") IMotor feeder,
-        //@Named("SHOOTER_LIGHT") ISolenoid readyLight,
+        //@Named("SHOOTER_READY_LIGHT") ISolenoid readyLight,
+        //@Named("SHOOTER_TARGETING_LIGHT") IRelay targetingLight,
         @Named("SHOOTER_SHOOTER") IMotor shooter,
         @Named("SHOOTER_ENCODER") IEncoder encoder)
     {
@@ -45,6 +48,7 @@ public class ShooterComponent
         this.hood = hood;
         this.feeder = feeder;
         this.readyLight = null; //readyLight;
+        this.targetingLight = null; //targetingLight;
         this.shooter = shooter;
         this.encoder = encoder;
 
@@ -126,11 +130,17 @@ public class ShooterComponent
         //this.readyLight.set(on);
     }
 
+    public void setTargetingLight(boolean on)
+    {
+        //this.targetingLight.set(on ? RelayValue.kForward : RelayValue.kOff);
+    }
+
     public void stop()
     {
         this.hood.set(DoubleSolenoidValue.kOff);
         this.feeder.set(0.0);
         //this.readyLight.set(false);
+        //this.targetingLight.set(RelayValue.kOff);
         this.shooter.set(0.0);
 
         this.encoder.reset();

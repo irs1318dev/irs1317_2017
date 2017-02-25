@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Relay.Direction;
 import edu.wpi.first.wpilibj.Relay.Value;
 
-public class RelayWrapper
+public class RelayWrapper implements IRelay
 {
     private final Relay wrappedObject;
 
