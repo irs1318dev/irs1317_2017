@@ -8,7 +8,8 @@ package org.usfirst.frc.team1318.robot;
  */
 public class TuningConstants
 {
-    public static final boolean THROW_EXCEPTIONS = true;
+    public static final boolean COMPETITION_ROBOT = false;
+    public static final boolean THROW_EXCEPTIONS = !TuningConstants.COMPETITION_ROBOT;
 
     //================================================== Autonomous ==============================================================
 
