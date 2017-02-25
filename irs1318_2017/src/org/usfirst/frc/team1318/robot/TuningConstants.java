@@ -8,7 +8,7 @@ package org.usfirst.frc.team1318.robot;
  */
 public class TuningConstants
 {
-    public static final boolean COMPETITION_ROBOT = false;
+    public static final boolean COMPETITION_ROBOT = true;
     public static final boolean THROW_EXCEPTIONS = !TuningConstants.COMPETITION_ROBOT;
 
     //================================================== Autonomous ==============================================================
@@ -93,7 +93,7 @@ public class TuningConstants
 
     //================================================== Intake ==============================================================
 
-    public static final double INTAKE_MAX_MOTOR_SPEED = 0.9;
+    public static final double INTAKE_MAX_MOTOR_SPEED = 0.8;
 
     //================================================== Climber ==============================================================
 
