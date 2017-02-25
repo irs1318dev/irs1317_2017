@@ -45,14 +45,14 @@ public class TuningConstants
     public static final boolean DRIVETRAIN_USE_PID = true;
 
     // Velocity PID (right)
-    public static final double DRIVETRAIN_VELOCITY_PID_RIGHT_KP = 0.02;
+    public static final double DRIVETRAIN_VELOCITY_PID_RIGHT_KP = TuningConstants.COMPETITION_ROBOT ? 0.015 : 0.02;
     public static final double DRIVETRAIN_VELOCITY_PID_RIGHT_KI = 0.0;
     public static final double DRIVETRAIN_VELOCITY_PID_RIGHT_KD = 0.0;
     public static final double DRIVETRAIN_VELOCITY_PID_RIGHT_KF = 0.4;
     public static final double DRIVETRAIN_VELOCITY_PID_RIGHT_KS = 100.0;
 
     // Velocity PID (left)
-    public static final double DRIVETRAIN_VELOCITY_PID_LEFT_KP = 0.02;
+    public static final double DRIVETRAIN_VELOCITY_PID_LEFT_KP = TuningConstants.COMPETITION_ROBOT ? 0.015 : 0.02;
     public static final double DRIVETRAIN_VELOCITY_PID_LEFT_KI = 0.0;
     public static final double DRIVETRAIN_VELOCITY_PID_LEFT_KD = 0.0;
     public static final double DRIVETRAIN_VELOCITY_PID_LEFT_KF = 0.4;

@@ -297,7 +297,6 @@ public class ButtonMap implements IButtonMap
                         Operation.ShooterSpeed,
                         Operation.ShooterExtendHood
                     }));
-
             put(
                 MacroOperation.SpinClose,
                 new MacroOperationDescription(
@@ -310,7 +309,6 @@ public class ButtonMap implements IButtonMap
                         Operation.ShooterSpeed,
                         Operation.ShooterExtendHood
                     }));
-
             put(
                 MacroOperation.SpinCloseLowGoal,
                 new MacroOperationDescription(
