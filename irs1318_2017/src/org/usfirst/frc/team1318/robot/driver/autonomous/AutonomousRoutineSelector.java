@@ -13,8 +13,8 @@ import org.usfirst.frc.team1318.robot.driver.controltasks.SequentialTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.ShooterFeedTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.ShooterSpinTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.TurnTimedTask;
-import org.usfirst.frc.team1318.robot.driver.controltasks.VisionCenteringTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.VisionAdvanceAndCenterTask;
+import org.usfirst.frc.team1318.robot.driver.controltasks.VisionCenteringTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.WaitTask;
 
 import com.google.inject.Inject;
@@ -109,11 +109,11 @@ public class AutonomousRoutineSelector
                 new IntakeExtendTask(true, 1.0),
                 new IntakeExtendTask(false, 0.5)),
             SequentialTask.Sequence(
-                new DriveDistanceTimedTask(74.375, 6.0),
+                new DriveDistanceTimedTask(72, 6.0), // 90 inches forwards, minus 18 from center of robot to bumper...
                 new TurnTimedTask(isOnRedSide ? 60.0 : -60.0, 2.0),
                 new VisionCenteringTask(true),
                 new VisionAdvanceAndCenterTask(true),
-                new DriveDistanceTimedTask(18.0, 2.0)));
+                new DriveDistanceTimedTask(12.0, 1.5)));
     }
 
     private static IControlTask GetShootCloseRoutine(boolean isOnRedSide)
@@ -166,10 +166,9 @@ public class AutonomousRoutineSelector
                 new IntakeExtendTask(true, 1.0),
                 new IntakeExtendTask(false, 0.5)),
             SequentialTask.Sequence(
-                new DriveDistanceTimedTask(48.0, 2.0),
                 new VisionCenteringTask(true),
                 new VisionAdvanceAndCenterTask(true),
-                new DriveDistanceTimedTask(18.0, 2.0)));
+                new DriveDistanceTimedTask(12.0, 1.5)));
     }
 }
 
