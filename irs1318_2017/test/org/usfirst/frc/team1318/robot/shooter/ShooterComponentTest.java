@@ -15,6 +15,7 @@ import org.usfirst.frc.team1318.robot.common.wpilibmocks.IMotor;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IRelay;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.ISolenoid;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.ITimer;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.RelayValue;
 
 public class ShooterComponentTest
 {
@@ -154,7 +155,7 @@ public class ShooterComponentTest
 
         shooterComponent.setReadyLight(true);
 
-        //        verify(readyLight).set(eq(true));
+        verify(readyLight).set(eq(true));
         verifyNoMoreInteractions(hood, feeder, shooter, readyLight, targetingLight);
     }
 
@@ -174,7 +175,7 @@ public class ShooterComponentTest
 
         shooterComponent.setReadyLight(false);
 
-        //        verify(readyLight).set(eq(false));
+        verify(readyLight).set(eq(false));
         verifyNoMoreInteractions(hood, feeder, shooter, readyLight, targetingLight);
     }
 
@@ -194,7 +195,7 @@ public class ShooterComponentTest
 
         shooterComponent.setTargetingLight(true);
 
-        //        verify(targetingLight).set(eq(RelayValue.kForward));
+        verify(targetingLight).set(eq(RelayValue.kForward));
         verifyNoMoreInteractions(hood, feeder, shooter, readyLight, targetingLight);
     }
 
@@ -214,7 +215,7 @@ public class ShooterComponentTest
 
         shooterComponent.setTargetingLight(false);
 
-        //        verify(targetingLight).set(eq(RelayValue.kOff));
+        verify(targetingLight).set(eq(RelayValue.kOff));
         verifyNoMoreInteractions(hood, feeder, shooter, readyLight, targetingLight);
     }
 
@@ -236,8 +237,8 @@ public class ShooterComponentTest
 
         verify(hood).set(eq(DoubleSolenoidValue.kOff));
         verify(feeder).set(eq(0.0));
-        //        verify(readyLight).set(eq(false));
-        //        verify(targetingLight).set(eq(RelayValue.kOff));
+        verify(readyLight).set(eq(false));
+        verify(targetingLight).set(eq(RelayValue.kOff));
         verify(shooter).set(eq(0.0));
         verifyNoMoreInteractions(hood, feeder, shooter, readyLight, targetingLight);
     }
