@@ -9,7 +9,6 @@ import org.junit.Test;
 import org.usfirst.frc.team1318.robot.TuningConstants;
 import org.usfirst.frc.team1318.robot.common.IDashboardLogger;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.DoubleSolenoidValue;
-import org.usfirst.frc.team1318.robot.common.wpilibmocks.ICANTalon;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IDoubleSolenoid;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IEncoder;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IMotor;
@@ -26,12 +25,12 @@ public class ShooterComponentTest
         ITimer timer = mock(ITimer.class);
         IDoubleSolenoid hood = mock(IDoubleSolenoid.class);
         IMotor feeder = mock(IMotor.class);
-        ICANTalon shooter = mock(ICANTalon.class);
         ISolenoid readyLight = mock(ISolenoid.class);
         IRelay targetingLight = mock(IRelay.class);
+        IMotor shooter = mock(IMotor.class);
         IEncoder encoder = mock(IEncoder.class);
 
-        ShooterComponent shooterComponent = new ShooterComponent(logger, timer, hood, feeder, shooter, encoder);
+        ShooterComponent shooterComponent = new ShooterComponent(logger, timer, hood, feeder, readyLight, targetingLight, shooter, encoder);
 
         shooterComponent.setFeederPower(TuningConstants.SHOOTER_MAX_FEEDER_POWER);
 
@@ -46,12 +45,12 @@ public class ShooterComponentTest
         ITimer timer = mock(ITimer.class);
         IDoubleSolenoid hood = mock(IDoubleSolenoid.class);
         IMotor feeder = mock(IMotor.class);
-        ICANTalon shooter = mock(ICANTalon.class);
         ISolenoid readyLight = mock(ISolenoid.class);
         IRelay targetingLight = mock(IRelay.class);
+        IMotor shooter = mock(IMotor.class);
         IEncoder encoder = mock(IEncoder.class);
 
-        ShooterComponent shooterComponent = new ShooterComponent(logger, timer, hood, feeder, shooter, encoder);
+        ShooterComponent shooterComponent = new ShooterComponent(logger, timer, hood, feeder, readyLight, targetingLight, shooter, encoder);
 
         shooterComponent.setFeederPower(0.0);
 
@@ -66,12 +65,12 @@ public class ShooterComponentTest
         ITimer timer = mock(ITimer.class);
         IDoubleSolenoid hood = mock(IDoubleSolenoid.class);
         IMotor feeder = mock(IMotor.class);
-        ICANTalon shooter = mock(ICANTalon.class);
         ISolenoid readyLight = mock(ISolenoid.class);
         IRelay targetingLight = mock(IRelay.class);
+        IMotor shooter = mock(IMotor.class);
         IEncoder encoder = mock(IEncoder.class);
 
-        ShooterComponent shooterComponent = new ShooterComponent(logger, timer, hood, feeder, shooter, encoder);
+        ShooterComponent shooterComponent = new ShooterComponent(logger, timer, hood, feeder, readyLight, targetingLight, shooter, encoder);
 
         shooterComponent.setShooterPower(100.0);
 
@@ -86,12 +85,12 @@ public class ShooterComponentTest
         ITimer timer = mock(ITimer.class);
         IDoubleSolenoid hood = mock(IDoubleSolenoid.class);
         IMotor feeder = mock(IMotor.class);
-        IMotor shooter = mock(IMotor.class);
         ISolenoid readyLight = mock(ISolenoid.class);
         IRelay targetingLight = mock(IRelay.class);
+        IMotor shooter = mock(IMotor.class);
         IEncoder encoder = mock(IEncoder.class);
 
-        ShooterComponent shooterComponent = new ShooterComponent(logger, timer, hood, feeder, shooter, encoder);
+        ShooterComponent shooterComponent = new ShooterComponent(logger, timer, hood, feeder, readyLight, targetingLight, shooter, encoder);
 
         shooterComponent.setShooterPower(0.0);
 
@@ -106,12 +105,12 @@ public class ShooterComponentTest
         ITimer timer = mock(ITimer.class);
         IDoubleSolenoid hood = mock(IDoubleSolenoid.class);
         IMotor feeder = mock(IMotor.class);
-        ICANTalon shooter = mock(ICANTalon.class);
         ISolenoid readyLight = mock(ISolenoid.class);
         IRelay targetingLight = mock(IRelay.class);
+        IMotor shooter = mock(IMotor.class);
         IEncoder encoder = mock(IEncoder.class);
 
-        ShooterComponent shooterComponent = new ShooterComponent(logger, timer, hood, feeder, shooter, encoder);
+        ShooterComponent shooterComponent = new ShooterComponent(logger, timer, hood, feeder, readyLight, targetingLight, shooter, encoder);
 
         shooterComponent.extendOrRetract(true);
 
@@ -126,12 +125,12 @@ public class ShooterComponentTest
         ITimer timer = mock(ITimer.class);
         IDoubleSolenoid hood = mock(IDoubleSolenoid.class);
         IMotor feeder = mock(IMotor.class);
-        ICANTalon shooter = mock(ICANTalon.class);
         ISolenoid readyLight = mock(ISolenoid.class);
         IRelay targetingLight = mock(IRelay.class);
+        IMotor shooter = mock(IMotor.class);
         IEncoder encoder = mock(IEncoder.class);
 
-        ShooterComponent shooterComponent = new ShooterComponent(logger, timer, hood, feeder, shooter, encoder);
+        ShooterComponent shooterComponent = new ShooterComponent(logger, timer, hood, feeder, readyLight, targetingLight, shooter, encoder);
 
         shooterComponent.extendOrRetract(false);
 
@@ -146,12 +145,12 @@ public class ShooterComponentTest
         ITimer timer = mock(ITimer.class);
         IDoubleSolenoid hood = mock(IDoubleSolenoid.class);
         IMotor feeder = mock(IMotor.class);
-        ICANTalon shooter = mock(ICANTalon.class);
         ISolenoid readyLight = mock(ISolenoid.class);
         IRelay targetingLight = mock(IRelay.class);
+        IMotor shooter = mock(IMotor.class);
         IEncoder encoder = mock(IEncoder.class);
 
-        ShooterComponent shooterComponent = new ShooterComponent(logger, timer, hood, feeder, shooter, encoder);
+        ShooterComponent shooterComponent = new ShooterComponent(logger, timer, hood, feeder, readyLight, targetingLight, shooter, encoder);
 
         shooterComponent.setReadyLight(true);
 
@@ -166,12 +165,12 @@ public class ShooterComponentTest
         ITimer timer = mock(ITimer.class);
         IDoubleSolenoid hood = mock(IDoubleSolenoid.class);
         IMotor feeder = mock(IMotor.class);
-        ICANTalon shooter = mock(ICANTalon.class);
         ISolenoid readyLight = mock(ISolenoid.class);
         IRelay targetingLight = mock(IRelay.class);
+        IMotor shooter = mock(IMotor.class);
         IEncoder encoder = mock(IEncoder.class);
 
-        ShooterComponent shooterComponent = new ShooterComponent(logger, timer, hood, feeder, shooter, encoder);
+        ShooterComponent shooterComponent = new ShooterComponent(logger, timer, hood, feeder, readyLight, targetingLight, shooter, encoder);
 
         shooterComponent.setReadyLight(false);
 
@@ -186,12 +185,12 @@ public class ShooterComponentTest
         ITimer timer = mock(ITimer.class);
         IDoubleSolenoid hood = mock(IDoubleSolenoid.class);
         IMotor feeder = mock(IMotor.class);
-        ICANTalon shooter = mock(ICANTalon.class);
         ISolenoid readyLight = mock(ISolenoid.class);
         IRelay targetingLight = mock(IRelay.class);
+        IMotor shooter = mock(IMotor.class);
         IEncoder encoder = mock(IEncoder.class);
 
-        ShooterComponent shooterComponent = new ShooterComponent(logger, timer, hood, feeder, shooter, encoder);
+        ShooterComponent shooterComponent = new ShooterComponent(logger, timer, hood, feeder, readyLight, targetingLight, shooter, encoder);
 
         shooterComponent.setTargetingLight(true);
 
@@ -206,12 +205,12 @@ public class ShooterComponentTest
         ITimer timer = mock(ITimer.class);
         IDoubleSolenoid hood = mock(IDoubleSolenoid.class);
         IMotor feeder = mock(IMotor.class);
-        ICANTalon shooter = mock(ICANTalon.class);
         ISolenoid readyLight = mock(ISolenoid.class);
         IRelay targetingLight = mock(IRelay.class);
+        IMotor shooter = mock(IMotor.class);
         IEncoder encoder = mock(IEncoder.class);
 
-        ShooterComponent shooterComponent = new ShooterComponent(logger, timer, hood, feeder, shooter, encoder);
+        ShooterComponent shooterComponent = new ShooterComponent(logger, timer, hood, feeder, readyLight, targetingLight, shooter, encoder);
 
         shooterComponent.setTargetingLight(false);
 
@@ -226,12 +225,12 @@ public class ShooterComponentTest
         ITimer timer = mock(ITimer.class);
         IDoubleSolenoid hood = mock(IDoubleSolenoid.class);
         IMotor feeder = mock(IMotor.class);
-        ICANTalon shooter = mock(ICANTalon.class);
         ISolenoid readyLight = mock(ISolenoid.class);
         IRelay targetingLight = mock(IRelay.class);
+        IMotor shooter = mock(IMotor.class);
         IEncoder encoder = mock(IEncoder.class);
 
-        ShooterComponent shooterComponent = new ShooterComponent(logger, timer, hood, feeder, shooter, encoder);
+        ShooterComponent shooterComponent = new ShooterComponent(logger, timer, hood, feeder, readyLight, targetingLight, shooter, encoder);
 
         shooterComponent.stop();
 
