@@ -75,10 +75,6 @@ public class ShooterController implements IController
         {
             shooterPower = this.pidHandler.calculateVelocity(shooterSpeedPercentage, shooterTicks);
         }
-        //        else if (TuningConstants.SHOOTER_USE_CAN_PID)
-        //        {
-        //            shooterPower = shooterSpeedGoal;
-        //        }
         else
         {
             shooterPower = shooterSpeedPercentage;
@@ -143,6 +139,8 @@ public class ShooterController implements IController
                 TuningConstants.SHOOTER_ROBORIO_PID_KS,
                 TuningConstants.SHOOTER_MIN_POWER,
                 TuningConstants.SHOOTER_MAX_POWER,
+                "shooter",
+                this.logger,
                 this.timer);
         }
         else

@@ -8,6 +8,7 @@ import org.usfirst.frc.team1318.robot.common.wpilibmocks.IMotor;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IRelay;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.ISolenoid;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.ITimer;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.RelayValue;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -38,8 +39,8 @@ public class ShooterComponent
         ITimer timer,
         @Named("SHOOTER_HOOD") IDoubleSolenoid hood,
         @Named("SHOOTER_FEEDER") IMotor feeder,
-        //@Named("SHOOTER_READY_LIGHT") ISolenoid readyLight,
-        //@Named("SHOOTER_TARGETING_LIGHT") IRelay targetingLight,
+        @Named("SHOOTER_READY_LIGHT") ISolenoid readyLight,
+        @Named("SHOOTER_TARGETING_LIGHT") IRelay targetingLight,
         @Named("SHOOTER_SHOOTER") IMotor shooter,
         @Named("SHOOTER_ENCODER") IEncoder encoder)
     {
@@ -47,8 +48,8 @@ public class ShooterComponent
 
         this.hood = hood;
         this.feeder = feeder;
-        this.readyLight = null; //readyLight;
-        this.targetingLight = null; //targetingLight;
+        this.readyLight = readyLight;
+        this.targetingLight = targetingLight;
         this.shooter = shooter;
         this.encoder = encoder;
 
@@ -61,20 +62,8 @@ public class ShooterComponent
 
     public void setShooterPower(double power)
     {
-        //        if (TuningConstants.SHOOTER_USE_CAN_PID)
-        //        {
-        //            if (power == 0.0)
-        //            {
-        //                this.shooter.changeControlMode(CANTalonControlMode.Voltage);
-        //            }
-        //            else
-        //            {
-        //                this.shooter.changeControlMode(CANTalonControlMode.Speed);
-        //            }
-        //        }
-
-        this.shooter.set(power);
         this.logger.logNumber(ShooterComponent.LogName, "power", power);
+        this.shooter.set(power);
     }
 
     public void setFeederPower(double power)
@@ -107,7 +96,7 @@ public class ShooterComponent
             this.prevVelocity = deltaX * timeRatio;
         }
 
-        double speed = this.prevVelocity; // = this.encoder.getRate(); // this.shooter.getSpeed();
+        double speed = this.prevVelocity; // = this.encoder.getRate();
         this.logger.logNumber(ShooterComponent.LogName, "speed", speed);
         return speed;
     }
@@ -127,20 +116,20 @@ public class ShooterComponent
 
     public void setReadyLight(boolean on)
     {
-        //this.readyLight.set(on);
+        this.readyLight.set(on);
     }
 
     public void setTargetingLight(boolean on)
     {
-        //this.targetingLight.set(on ? RelayValue.kForward : RelayValue.kOff);
+        this.targetingLight.set(on ? RelayValue.kForward : RelayValue.kOff);
     }
 
     public void stop()
     {
         this.hood.set(DoubleSolenoidValue.kOff);
         this.feeder.set(0.0);
-        //this.readyLight.set(false);
-        //this.targetingLight.set(RelayValue.kOff);
+        this.readyLight.set(false);
+        this.targetingLight.set(RelayValue.kOff);
         this.shooter.set(0.0);
 
         this.encoder.reset();

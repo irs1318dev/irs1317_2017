@@ -297,34 +297,6 @@ public class RobotModule extends AbstractModule
         return talon;
     }
 
-    //    @Singleton
-    //    @Provides
-    //    @Named("SHOOTER_SHOOTER")
-    //    public ICANTalon getShooterShooter()
-    //    {
-    //        CANTalonWrapper master = new CANTalonWrapper(ElectronicsConstants.SHOOTER_MASTER_MOTOR_CHANNEL);
-    //        master.enableBrakeMode(true);
-    //        master.reverseSensor(false);
-    //
-    //        CANTalonWrapper follower = new CANTalonWrapper(ElectronicsConstants.SHOOTER_FOLLOWER_MOTOR_CHANNEL);
-    //        follower.enableBrakeMode(true);
-    //        follower.reverseOutput(true);
-    //        follower.changeControlMode(CANTalonControlMode.Follower);
-    //        follower.set(ElectronicsConstants.SHOOTER_MASTER_MOTOR_CHANNEL);
-    //
-    //        if (TuningConstants.SHOOTER_USE_CAN_PID)
-    //        {
-    //            master.changeControlMode(CANTalonControlMode.Speed);
-    //            master.setPIDF(
-    //                TuningConstants.SHOOTER_CAN_PID_KP,
-    //                TuningConstants.SHOOTER_CAN_PID_KI,
-    //                TuningConstants.SHOOTER_CAN_PID_KD,
-    //                TuningConstants.SHOOTER_CAN_PID_KF);
-    //        }
-    //
-    //        return master;
-    //    }
-
     @Singleton
     @Provides
     @Named("SHOOTER_ENCODER")
