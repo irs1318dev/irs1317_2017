@@ -57,17 +57,17 @@ public class AutonomousRoutineSelector
         int routineSelection = 0;
 
         // add next base2 number (1, 2, 4, 8, 16, etc.) here based on number of dipswitches and which is on...
-        if (this.dipSwitchA.get())
+        if (!this.dipSwitchA.get())
         {
             routineSelection += 1;
         }
 
-        if (this.dipSwitchB.get())
+        if (!this.dipSwitchB.get())
         {
             routineSelection += 2;
         }
 
-        boolean isOnRedSide = this.sideOfField.get();
+        boolean isOnRedSide = !this.sideOfField.get();
 
         // print routine selection to the smartdash
         this.logger.logInteger(AutonomousRoutineSelector.LogName, "routine", routineSelection);
@@ -109,8 +109,8 @@ public class AutonomousRoutineSelector
                 new IntakeExtendTask(true, 1.0),
                 new IntakeExtendTask(false, 0.5)),
             SequentialTask.Sequence(
-                new DriveDistanceTimedTask(72, 6.0), // 90 inches forwards, minus 18 from center of robot to bumper...
-                new TurnTimedTask(isOnRedSide ? 60.0 : -60.0, 2.0),
+                new DriveDistanceTimedTask(72, 4.0), // 90 inches forwards, minus 18 from center of robot to bumper...
+                new TurnTimedTask(60.0, 1.5),
                 new VisionCenteringTask(true),
                 new VisionAdvanceAndCenterTask(true),
                 new DriveDistanceTimedTask(12.0, 1.5)));
@@ -155,7 +155,7 @@ public class AutonomousRoutineSelector
                     4.0),
                 new VisionCenteringTask(true),
                 new VisionAdvanceAndCenterTask(true),
-                new DriveDistanceTimedTask(18.0, 2.0)));
+                new DriveDistanceTimedTask(12.0, 1.5)));
     }
 
     private static IControlTask GetStraightRoutine(boolean isOnRedSide)
@@ -166,7 +166,6 @@ public class AutonomousRoutineSelector
                 new IntakeExtendTask(true, 1.0),
                 new IntakeExtendTask(false, 0.5)),
             SequentialTask.Sequence(
-                new VisionCenteringTask(true),
                 new VisionAdvanceAndCenterTask(true),
                 new DriveDistanceTimedTask(12.0, 1.5)));
     }

@@ -16,15 +16,15 @@ public class TuningConstants
     public static final double DRIVETRAIN_POSITIONAL_ACCEPTABLE_DELTA = 1.0;
 
     // Acceptable vision centering range values in degrees
-    public static final double MAX_VISION_CENTERING_RANGE_DEGREES = 0.5;
+    public static final double MAX_VISION_CENTERING_RANGE_DEGREES = 1.0;
 
     // Acceptable vision distance from tape in inches
     public static final double MAX_VISION_ACCEPTABLE_FORWARD_DISTANCE = 18.0;
 
     // PID settings for Centering the robot on a vision target
-    public static final double VISION_CENTERING_PID_KP = 0.065;
+    public static final double VISION_CENTERING_PID_KP = 0.075;
     public static final double VISION_CENTERING_PID_KI = 0.0;
-    public static final double VISION_CENTERING_PID_KD = 0.0;
+    public static final double VISION_CENTERING_PID_KD = 0.1;
     public static final double VISION_CENTERING_PID_KF = 0.0;
     public static final double VISION_CENTERING_PID_KS = 1.0;
     public static final double VISION_CENTERING_PID_MIN = -0.3;
