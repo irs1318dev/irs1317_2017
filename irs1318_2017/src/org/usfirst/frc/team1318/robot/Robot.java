@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 
 /**
  * Main class for the FRC 2017 Steamworks Competition
- * Robot for IRS1318 - [robot name]
+ * Robot for IRS1318 - Cerberus
  * 
  * 
  * The VM is configured to automatically run this class, and to call the
