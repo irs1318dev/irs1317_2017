@@ -14,6 +14,7 @@ public class ShooterFeedTask extends TimedTask implements IControlTask
     @Override
     public void begin()
     {
+        super.begin();
         this.setDigitalOperationState(Operation.ShooterFeed, true);
     }
 
@@ -37,5 +38,11 @@ public class ShooterFeedTask extends TimedTask implements IControlTask
         super.end();
 
         this.setDigitalOperationState(Operation.ShooterFeed, false);
+    }
+
+    @Override
+    public boolean hasCompleted()
+    {
+        return super.hasCompleted();
     }
 }

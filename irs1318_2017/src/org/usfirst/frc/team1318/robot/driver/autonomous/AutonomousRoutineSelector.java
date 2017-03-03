@@ -54,7 +54,7 @@ public class AutonomousRoutineSelector
      */
     public IControlTask selectRoutine()
     {
-        int routineSelection = 0;
+        int routineSelection = 0; // 0
 
         // add next base2 number (1, 2, 4, 8, 16, etc.) here based on number of dipswitches and which is on...
         if (!this.dipSwitchA.get())
@@ -128,31 +128,31 @@ public class AutonomousRoutineSelector
                     new ShooterSpinTask(false, TuningConstants.SHOOTER_CLOSE_SHOT_VELOCITY),
                     SequentialTask.Sequence(
                         new WaitTask(1.0),
-                        new ShooterFeedTask(3.0))),
+                        new ShooterFeedTask(8.0))),
                 new DriveRouteTask(
                     percentage ->
                     {
                         if (isOnRedSide)
                         {
-                            return percentage * 40.0;
+                            return percentage * 20.0;
                         }
                         else
                         {
-                            return percentage * 20.0;
+                            return percentage * 45.0;
                         }
                     },
                     percentage ->
                     {
                         if (isOnRedSide)
                         {
-                            return percentage * 20.0;
+                            return percentage * 45.0;
                         }
                         else
                         {
-                            return percentage * 40.0;
+                            return percentage * 20.0;
                         }
                     },
-                    4.0),
+                    3.0),
                 new VisionCenteringTask(true),
                 new VisionAdvanceAndCenterTask(true),
                 new DriveDistanceTimedTask(12.0, 1.5)));
