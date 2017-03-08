@@ -151,7 +151,12 @@ public class HSVGearCenterPipeline implements ICentroidVisionPipeline
         }
 
         // third, find the largest contour.
-        MatOfPoint[] largestContours = ContourHelper.findTwoLargestContours(image, VisionConstants.CONTOUR_MIN_AREA);
+        MatOfPoint[] largestContours = ContourHelper.findTwoLargestContours(
+            image,
+            VisionConstants.CONTOUR_MIN_AREA,
+            VisionConstants.GEAR_RETROREFLECTIVE_TAPE_HxW_RATIO,
+            VisionConstants.GEAR_HxW_ALLOWABLE_RATIO_RANGE,
+            VisionConstants.GEAR_CONTOUR_ALLOWABLE_RATIO);
         MatOfPoint largestContour = largestContours[0];
         MatOfPoint secondLargestContour = largestContours[1];
 

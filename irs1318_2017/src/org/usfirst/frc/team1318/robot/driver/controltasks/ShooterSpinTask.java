@@ -38,6 +38,8 @@ public class ShooterSpinTask extends ControlTaskBase implements IControlTask
     @Override
     public void end()
     {
+        this.setAnalogOperationState(Operation.ShooterSpeed, 0.0);
+        this.setDigitalOperationState(Operation.ShooterExtendHood, false);
     }
 
     @Override

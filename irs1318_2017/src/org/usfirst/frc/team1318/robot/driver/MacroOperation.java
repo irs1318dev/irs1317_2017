@@ -8,6 +8,10 @@ public enum MacroOperation
     GearCenterAndAdvance,
     ShooterCenter,
 
+    // Gear-holder operations
+    GearSetup,
+    GearGrabber,
+
     // Shooter operations:
     SpinFar,
     SpinClose,

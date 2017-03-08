@@ -5,9 +5,9 @@ import org.usfirst.frc.team1318.robot.driver.Operation;
 
 public class IntakeSpinTask extends TimedTask implements IControlTask
 {
-    private final boolean in;
+    private final Boolean in;
 
-    public IntakeSpinTask(boolean in, double duration)
+    public IntakeSpinTask(Boolean in, double duration)
     {
         super(duration);
 
@@ -19,15 +19,31 @@ public class IntakeSpinTask extends TimedTask implements IControlTask
     {
         super.begin();
 
-        this.setDigitalOperationState(Operation.IntakeIn, this.in);
-        this.setDigitalOperationState(Operation.IntakeOut, !this.in);
+        if (this.in == null)
+        {
+            this.setDigitalOperationState(Operation.IntakeIn, false);
+            this.setDigitalOperationState(Operation.IntakeOut, false);
+        }
+        else
+        {
+            this.setDigitalOperationState(Operation.IntakeIn, this.in);
+            this.setDigitalOperationState(Operation.IntakeOut, !this.in);
+        }
     }
 
     @Override
     public void update()
     {
-        this.setDigitalOperationState(Operation.IntakeIn, this.in);
-        this.setDigitalOperationState(Operation.IntakeOut, !this.in);
+        if (this.in == null)
+        {
+            this.setDigitalOperationState(Operation.IntakeIn, false);
+            this.setDigitalOperationState(Operation.IntakeOut, false);
+        }
+        else
+        {
+            this.setDigitalOperationState(Operation.IntakeIn, this.in);
+            this.setDigitalOperationState(Operation.IntakeOut, !this.in);
+        }
     }
 
     @Override

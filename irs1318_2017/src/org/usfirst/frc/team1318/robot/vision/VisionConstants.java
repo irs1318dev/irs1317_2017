@@ -61,6 +61,10 @@ public class VisionConstants
 
     // Real Measurements
     public static final double GEAR_RETROREFLECTIVE_TAPE_HEIGHT = 5.0; // 5 inches tall
+    public static final double GEAR_RETROREFLECTIVE_TAPE_WIDTH = 2.0; // 2 inches wide
+    public static final double GEAR_RETROREFLECTIVE_TAPE_HxW_RATIO = 2.5; // height-to-width ratio
+    public static final double GEAR_HxW_ALLOWABLE_RATIO_RANGE = 1.0; // allowable height-to-width ratio range
+    public static final double GEAR_CONTOUR_ALLOWABLE_RATIO = 0.9; // the ratio of the second-largest contour to the largest
     public static final double GEAR_CAMERA_HORIZONTAL_OFFSET_FROM_CENTER = TuningConstants.COMPETITION_ROBOT ? 8.0 : 7.0; // camera is 12 inches (~11 for practice) to the left from center of the robot, tape center is 4 inches to the left of the center of the robot
     public static final double GEAR_CAMERA_HORIZONTAL_OFFSET_ANGLE = 0.0; // camera is pointed 0 degrees to the right
 

@@ -16,13 +16,13 @@ public class TuningConstants
     public static final double DRIVETRAIN_POSITIONAL_ACCEPTABLE_DELTA = 1.0;
 
     // Acceptable vision centering range values in degrees
-    public static final double MAX_VISION_CENTERING_RANGE_DEGREES = 1.0;
+    public static final double MAX_VISION_CENTERING_RANGE_DEGREES = 5.0;
 
     // Acceptable vision distance from tape in inches
-    public static final double MAX_VISION_ACCEPTABLE_FORWARD_DISTANCE = 18.0;
+    public static final double MAX_VISION_ACCEPTABLE_FORWARD_DISTANCE = 24.0;
 
     // PID settings for Centering the robot on a vision target
-    public static final double VISION_CENTERING_PID_KP = 0.075;
+    public static final double VISION_CENTERING_PID_KP = 0.075; // TuningConstants.COMPETITION_ROBOT ? 0.1 : 0.075;
     public static final double VISION_CENTERING_PID_KI = 0.0;
     public static final double VISION_CENTERING_PID_KD = 0.1;
     public static final double VISION_CENTERING_PID_KF = 0.0;
@@ -45,14 +45,14 @@ public class TuningConstants
     public static final boolean DRIVETRAIN_USE_PID = true;
 
     // Velocity PID (right)
-    public static final double DRIVETRAIN_VELOCITY_PID_RIGHT_KP = TuningConstants.COMPETITION_ROBOT ? 0.015 : 0.02;
+    public static final double DRIVETRAIN_VELOCITY_PID_RIGHT_KP = 0.02; // TuningConstants.COMPETITION_ROBOT ? 0.015 : 0.02;
     public static final double DRIVETRAIN_VELOCITY_PID_RIGHT_KI = 0.0;
     public static final double DRIVETRAIN_VELOCITY_PID_RIGHT_KD = 0.0;
     public static final double DRIVETRAIN_VELOCITY_PID_RIGHT_KF = 0.4;
     public static final double DRIVETRAIN_VELOCITY_PID_RIGHT_KS = 100.0;
 
     // Velocity PID (left)
-    public static final double DRIVETRAIN_VELOCITY_PID_LEFT_KP = TuningConstants.COMPETITION_ROBOT ? 0.015 : 0.02;
+    public static final double DRIVETRAIN_VELOCITY_PID_LEFT_KP = 0.02; // TuningConstants.COMPETITION_ROBOT ? 0.015 : 0.02;
     public static final double DRIVETRAIN_VELOCITY_PID_LEFT_KI = 0.0;
     public static final double DRIVETRAIN_VELOCITY_PID_LEFT_KD = 0.0;
     public static final double DRIVETRAIN_VELOCITY_PID_LEFT_KF = 0.4;
@@ -93,7 +93,7 @@ public class TuningConstants
 
     //================================================== Intake ==============================================================
 
-    public static final double INTAKE_MAX_MOTOR_SPEED = 0.8;
+    public static final double INTAKE_MAX_MOTOR_SPEED = 0.95; //0.9; //0.8;
 
     //================================================== Climber ==============================================================
 
@@ -107,7 +107,7 @@ public class TuningConstants
     public static final double SHOOTER_MAX_FEEDER_POWER = 0.5;
 
     public static final boolean SHOOTER_USE_ROBORIO_PID = true;
-    public static final double SHOOTER_ROBORIO_PID_KP = 0.002;
+    public static final double SHOOTER_ROBORIO_PID_KP = 0.0035; //0.002;
     public static final double SHOOTER_ROBORIO_PID_KI = 0.0;
     public static final double SHOOTER_ROBORIO_PID_KD = 0.0;
     public static final double SHOOTER_ROBORIO_PID_KF = 0.8;
@@ -120,6 +120,6 @@ public class TuningConstants
     public static final double SHOOTER_ALLOWABLE_ERROR = 0.035; // plus or minus 3.5% error is max allowed  .035
 
     public static final double SHOOTER_FAR_SHOT_VELOCITY = 0.84; // 0.84
-    public static final double SHOOTER_CLOSE_SHOT_VELOCITY = 0.6; // 0.6
+    public static final double SHOOTER_CLOSE_SHOT_VELOCITY = 0.63; //0.65; // 0.6
     public static final double SHOOTER_CLOSE_SHOT_LOW_GOAL_VELOCITY = 0.22; // 0.22
 }

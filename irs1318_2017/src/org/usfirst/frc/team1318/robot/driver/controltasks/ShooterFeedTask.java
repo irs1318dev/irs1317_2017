@@ -15,6 +15,7 @@ public class ShooterFeedTask extends TimedTask implements IControlTask
     public void begin()
     {
         super.begin();
+
         this.setDigitalOperationState(Operation.ShooterFeed, true);
     }
 

@@ -5,9 +5,13 @@ import org.usfirst.frc.team1318.robot.driver.Operation;
 
 public class GearExtendTask extends TimedTask implements IControlTask
 {
-    public GearExtendTask(double duration)
+    private final boolean extend;
+
+    public GearExtendTask(boolean extend, double duration)
     {
         super(duration);
+
+        this.extend = extend;
     }
 
     @Override
@@ -15,13 +19,15 @@ public class GearExtendTask extends TimedTask implements IControlTask
     {
         super.begin();
 
-        this.setDigitalOperationState(Operation.IntakeGearHolderExtend, true);
+        this.setDigitalOperationState(Operation.IntakeGearHolderExtend, this.extend);
+        this.setDigitalOperationState(Operation.IntakeGearHolderRetract, !this.extend);
     }
 
     @Override
     public void update()
     {
-        this.setDigitalOperationState(Operation.IntakeGearHolderExtend, true);
+        this.setDigitalOperationState(Operation.IntakeGearHolderExtend, this.extend);
+        this.setDigitalOperationState(Operation.IntakeGearHolderRetract, !this.extend);
     }
 
     @Override
@@ -30,6 +36,7 @@ public class GearExtendTask extends TimedTask implements IControlTask
         super.stop();
 
         this.setDigitalOperationState(Operation.IntakeGearHolderExtend, false);
+        this.setDigitalOperationState(Operation.IntakeGearHolderRetract, false);
     }
 
     @Override
@@ -38,6 +45,7 @@ public class GearExtendTask extends TimedTask implements IControlTask
         super.end();
 
         this.setDigitalOperationState(Operation.IntakeGearHolderExtend, false);
+        this.setDigitalOperationState(Operation.IntakeGearHolderRetract, false);
     }
 
     @Override
