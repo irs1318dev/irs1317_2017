@@ -3,8 +3,6 @@ package org.usfirst.frc.team1318.robot.shooter;
 import org.usfirst.frc.team1318.robot.TuningConstants;
 import org.usfirst.frc.team1318.robot.common.IController;
 import org.usfirst.frc.team1318.robot.common.IDashboardLogger;
-import org.usfirst.frc.team1318.robot.common.PIDHandler;
-import org.usfirst.frc.team1318.robot.common.wpilibmocks.ITimer;
 import org.usfirst.frc.team1318.robot.driver.Driver;
 import org.usfirst.frc.team1318.robot.driver.Operation;
 
@@ -16,41 +14,34 @@ public class ShooterController implements IController
 
     private final ShooterComponent shooter;
     private final IDashboardLogger logger;
-    private final ITimer timer;
 
     private boolean feederWait;
     private boolean usePID;
-    private PIDHandler pidHandler;
     private Driver driver;
 
     @Inject
     public ShooterController(
         IDashboardLogger logger,
-        ITimer timer,
         ShooterComponent shooter)
     {
         this.logger = logger;
-        this.timer = timer;
         this.shooter = shooter;
-        this.feederWait = TuningConstants.SHOOTER_USE_ROBORIO_PID;
-        this.usePID = TuningConstants.SHOOTER_USE_ROBORIO_PID;
-
-        this.createPIDHandler();
+        this.feederWait = TuningConstants.SHOOTER_USE_CAN_PID;
+        this.usePID = TuningConstants.SHOOTER_USE_CAN_PID;
     }
 
     @Override
     public void update()
     {
+        // enable/disable PID, feeder-wait
         if (this.driver.getDigital(Operation.ShooterEnablePID))
         {
             this.usePID = true;
-            this.createPIDHandler();
         }
         else if (this.driver.getDigital(Operation.ShooterDisablePID))
         {
             this.feederWait = false;
             this.usePID = false;
-            this.createPIDHandler();
         }
 
         if (this.driver.getDigital(Operation.ShooterEnableFeederWait))
@@ -62,32 +53,32 @@ public class ShooterController implements IController
             this.feederWait = false;
         }
 
+        // set hood extend/retract
         boolean shooterExtendHood = this.driver.getDigital(Operation.ShooterExtendHood);
         this.shooter.extendOrRetract(shooterExtendHood);
 
+        // calculate and apply desired shooter setting
         double shooterSpeedPercentage = this.driver.getAnalog(Operation.ShooterSpeed);
-        double shooterSpeedGoal = shooterSpeedPercentage * TuningConstants.SHOOTER_MAX_VELOCITY;
-
-        int shooterTicks = this.shooter.getShooterTicks();
-
+        double shooterSpeedGoal = shooterSpeedPercentage * TuningConstants.SHOOTER_CAN_MAX_VELOCITY;
         double shooterPower;
-        if (this.usePID && shooterSpeedPercentage != 0.0)
+        if (this.usePID)
         {
-            shooterPower = this.pidHandler.calculateVelocity(shooterSpeedPercentage, shooterTicks);
+            shooterPower = shooterSpeedGoal;
         }
         else
         {
             shooterPower = shooterSpeedPercentage;
         }
 
-        this.shooter.setShooterPower(shooterPower);
+        this.shooter.setShooterPower(shooterPower, this.usePID);
 
-        double error = shooterSpeedGoal - this.shooter.getShooterSpeed();
+        // determine if shooter is up to speed, set ready indicator light
+        this.shooter.getShooterTicks();
+        this.shooter.getShooterSpeed();
+        double error = this.shooter.getShooterError();
         double errorPercentage = error / shooterSpeedGoal;
-
-        this.logger.logNumber(ShooterController.LogName, "shooterSpeedGoal", shooterSpeedGoal);
-        this.logger.logNumber(ShooterController.LogName, "shooterError", error);
-        this.logger.logNumber(ShooterController.LogName, "shooterErrorPercentage", errorPercentage);
+        this.logger.logNumber(ShooterController.LogName, "speedGoal", shooterSpeedGoal);
+        this.logger.logNumber(ShooterController.LogName, "error%", errorPercentage * 100.0);
         boolean shooterIsUpToSpeed = false;
         if (shooterSpeedPercentage != 0.0)
         {
@@ -96,9 +87,11 @@ public class ShooterController implements IController
 
         this.shooter.setReadyLight(shooterIsUpToSpeed);
 
+        // enable/disable targeting light
         boolean targetingLightOn = this.driver.getDigital(Operation.ShooterTargetingLight);
         this.shooter.setTargetingLight(targetingLightOn);
 
+        // enable/disable feeding
         boolean shooterFeed = this.driver.getDigital(Operation.ShooterFeed);
         if (shooterFeed && (!this.feederWait || shooterIsUpToSpeed))
         {
@@ -114,38 +107,11 @@ public class ShooterController implements IController
     public void stop()
     {
         this.shooter.stop();
-
-        if (this.pidHandler != null)
-        {
-            this.pidHandler.reset();
-        }
     }
 
     @Override
     public void setDriver(Driver driver)
     {
         this.driver = driver;
-    }
-
-    private void createPIDHandler()
-    {
-        if (this.usePID)
-        {
-            this.pidHandler = new PIDHandler(
-                TuningConstants.SHOOTER_ROBORIO_PID_KP,
-                TuningConstants.SHOOTER_ROBORIO_PID_KI,
-                TuningConstants.SHOOTER_ROBORIO_PID_KD,
-                TuningConstants.SHOOTER_ROBORIO_PID_KF,
-                TuningConstants.SHOOTER_ROBORIO_PID_KS,
-                TuningConstants.SHOOTER_MIN_POWER,
-                TuningConstants.SHOOTER_MAX_POWER,
-                "shooter",
-                this.logger,
-                this.timer);
-        }
-        else
-        {
-            this.pidHandler = null;
-        }
     }
 }

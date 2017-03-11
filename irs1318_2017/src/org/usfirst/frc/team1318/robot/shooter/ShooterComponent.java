@@ -1,9 +1,10 @@
 package org.usfirst.frc.team1318.robot.shooter;
 
 import org.usfirst.frc.team1318.robot.common.IDashboardLogger;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.CANTalonControlMode;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.DoubleSolenoidValue;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.ICANTalon;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IDoubleSolenoid;
-import org.usfirst.frc.team1318.robot.common.wpilibmocks.IEncoder;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IMotor;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IRelay;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.ISolenoid;
@@ -24,14 +25,7 @@ public class ShooterComponent
     private final IMotor feeder;
     private final ISolenoid readyLight;
     private final IRelay targetingLight;
-    private final IMotor shooter;
-    private final IEncoder encoder;
-
-    private final ITimer timer;
-
-    private double prevTime;
-    private int prevTicks;
-    private double prevVelocity;
+    private final ICANTalon shooter;
 
     @Inject
     public ShooterComponent(
@@ -41,8 +35,7 @@ public class ShooterComponent
         @Named("SHOOTER_FEEDER") IMotor feeder,
         @Named("SHOOTER_READY_LIGHT") ISolenoid readyLight,
         @Named("SHOOTER_TARGETING_LIGHT") IRelay targetingLight,
-        @Named("SHOOTER_SHOOTER") IMotor shooter,
-        @Named("SHOOTER_ENCODER") IEncoder encoder)
+        @Named("SHOOTER_SHOOTER") ICANTalon shooter)
     {
         this.logger = logger;
 
@@ -51,17 +44,19 @@ public class ShooterComponent
         this.readyLight = readyLight;
         this.targetingLight = targetingLight;
         this.shooter = shooter;
-        this.encoder = encoder;
-
-        this.timer = timer;
-
-        this.prevTime = this.timer.get();
-        this.prevTicks = 0;
-        this.prevVelocity = 0.0;
     }
 
-    public void setShooterPower(double power)
+    public void setShooterPower(double power, boolean usePID)
     {
+        if (power == 0.0 || !usePID)
+        {
+            this.shooter.changeControlMode(CANTalonControlMode.Voltage);
+        }
+        else
+        {
+            this.shooter.changeControlMode(CANTalonControlMode.Speed);
+        }
+
         this.logger.logNumber(ShooterComponent.LogName, "power", power);
         this.shooter.set(power);
     }
@@ -74,31 +69,23 @@ public class ShooterComponent
 
     public int getShooterTicks()
     {
-        int ticks = this.encoder.get(); // this.shooter.getTicks();
+        int ticks = this.shooter.getTicks();
         this.logger.logNumber(ShooterComponent.LogName, "ticks", ticks);
         return ticks;
     }
 
     public double getShooterSpeed()
     {
-        int currTicks = this.encoder.get();
-        double currTime = this.timer.get();
-        double dt = currTime - this.prevTime;
-        if (dt >= 0.01)
-        {
-            this.prevTime = currTime;
-
-            // calculate change in ticks since our last measurement
-            double deltaX = currTicks - this.prevTicks;
-            double timeRatio = 0.02 / dt;
-
-            this.prevTicks = currTicks;
-            this.prevVelocity = deltaX * timeRatio;
-        }
-
-        double speed = this.prevVelocity; // = this.encoder.getRate();
+        double speed = this.shooter.getSpeed();
         this.logger.logNumber(ShooterComponent.LogName, "speed", speed);
         return speed;
+    }
+
+    public double getShooterError()
+    {
+        double error = this.shooter.getError();
+        this.logger.logNumber(ShooterComponent.LogName, "error", error);
+        return error;
     }
 
     public void extendOrRetract(boolean extend)
@@ -131,10 +118,6 @@ public class ShooterComponent
         this.readyLight.set(false);
         this.targetingLight.set(RelayValue.kOff);
         this.shooter.set(0.0);
-
-        this.encoder.reset();
-        this.prevTicks = 0;
-        this.prevTime = 0.0;
-        this.prevVelocity = 0.0;
+        this.shooter.reset();
     }
 }

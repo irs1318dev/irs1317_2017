@@ -106,17 +106,16 @@ public class TuningConstants
 
     public static final double SHOOTER_MAX_FEEDER_POWER = 0.5;
 
-    public static final boolean SHOOTER_USE_ROBORIO_PID = true;
-    public static final double SHOOTER_ROBORIO_PID_KP = 0.0035; //0.002;
-    public static final double SHOOTER_ROBORIO_PID_KI = 0.0;
-    public static final double SHOOTER_ROBORIO_PID_KD = 0.0;
-    public static final double SHOOTER_ROBORIO_PID_KF = 0.8;
-    public static final double SHOOTER_ROBORIO_PID_KS = TuningConstants.COMPETITION_ROBOT ? 1850.0 : 2000.0;
+    public static final boolean SHOOTER_USE_CAN_PID = true;
+    public static final double SHOOTER_CAN_PID_KP = 0.024;
+    public static final double SHOOTER_CAN_PID_KI = 0.0;
+    public static final double SHOOTER_CAN_PID_KD = 0.0;
+    public static final double SHOOTER_CAN_PID_KF = 0.0095;
 
     public static final double SHOOTER_MIN_POWER = -1.0;
     public static final double SHOOTER_MAX_POWER = 1.0;
 
-    public static final double SHOOTER_MAX_VELOCITY = 1850.0;
+    public static final double SHOOTER_CAN_MAX_VELOCITY = 36000.0;
     public static final double SHOOTER_ALLOWABLE_ERROR = 0.035; // plus or minus 3.5% error is max allowed  .035
 
     public static final double SHOOTER_FAR_SHOT_VELOCITY = 0.84; // 0.84
