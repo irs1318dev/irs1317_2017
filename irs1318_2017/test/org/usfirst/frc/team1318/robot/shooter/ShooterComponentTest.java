@@ -94,7 +94,7 @@ public class ShooterComponentTest
         shooterComponent.setShooterPower(0.0, false);
 
         verify(shooter).set(eq(0.0));
-        verify(shooter).changeControlMode(eq(CANTalonControlMode.Voltage));
+        verify(shooter).changeControlMode(eq(CANTalonControlMode.PercentVbus));
         verifyNoMoreInteractions(hood, feeder, shooter, readyLight, targetingLight);
     }
 
@@ -232,7 +232,6 @@ public class ShooterComponentTest
         verify(readyLight).set(eq(false));
         verify(targetingLight).set(eq(RelayValue.kOff));
         verify(shooter).set(eq(0.0));
-        verify(shooter).reset();
         verifyNoMoreInteractions(hood, feeder, shooter, readyLight, targetingLight);
     }
 }

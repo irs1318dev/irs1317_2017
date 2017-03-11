@@ -106,7 +106,7 @@ public class TuningConstants
 
     public static final double SHOOTER_MAX_FEEDER_POWER = 0.5;
 
-    public static final boolean SHOOTER_USE_CAN_PID = true;
+    public static final boolean SHOOTER_USE_CAN_PID = false;
     public static final double SHOOTER_CAN_PID_KP = 0.024;
     public static final double SHOOTER_CAN_PID_KI = 0.0;
     public static final double SHOOTER_CAN_PID_KD = 0.0;
@@ -115,10 +115,10 @@ public class TuningConstants
     public static final double SHOOTER_MIN_POWER = -1.0;
     public static final double SHOOTER_MAX_POWER = 1.0;
 
-    public static final double SHOOTER_CAN_MAX_VELOCITY = 36000.0;
+    public static final double SHOOTER_CAN_MAX_VELOCITY = 39500.0; // practice robot...
     public static final double SHOOTER_ALLOWABLE_ERROR = 0.035; // plus or minus 3.5% error is max allowed  .035
 
-    public static final double SHOOTER_FAR_SHOT_VELOCITY = 0.84; // 0.84
-    public static final double SHOOTER_CLOSE_SHOT_VELOCITY = 0.63; //0.65; // 0.6
-    public static final double SHOOTER_CLOSE_SHOT_LOW_GOAL_VELOCITY = 0.22; // 0.22
+    public static final double SHOOTER_FAR_SHOT_VELOCITY = 1.0;//0.84; // 0.84
+    public static final double SHOOTER_CLOSE_SHOT_VELOCITY = 0.1; //0.63; //0.65; // 0.6
+    public static final double SHOOTER_CLOSE_SHOT_LOW_GOAL_VELOCITY = 0.1; //0.22; // 0.22
 }

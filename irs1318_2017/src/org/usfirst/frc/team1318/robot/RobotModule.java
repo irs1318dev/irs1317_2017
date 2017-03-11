@@ -292,7 +292,7 @@ public class RobotModule extends AbstractModule
 
     @Singleton
     @Provides
-    @Named("ONEMOTOR_MOTOR")
+    @Named("SHOOTER_SHOOTER")
     public ICANTalon getOneMotorMotor()
     {
         CANTalonWrapper master = new CANTalonWrapper(ElectronicsConstants.SHOOTER_MASTER_MOTOR_CHANNEL);
@@ -313,6 +313,10 @@ public class RobotModule extends AbstractModule
                 TuningConstants.SHOOTER_CAN_PID_KI,
                 TuningConstants.SHOOTER_CAN_PID_KD,
                 TuningConstants.SHOOTER_CAN_PID_KF);
+        }
+        else
+        {
+            master.changeControlMode(CANTalonControlMode.PercentVbus);
         }
 
         return master;

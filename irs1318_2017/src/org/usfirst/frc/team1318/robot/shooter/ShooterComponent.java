@@ -50,7 +50,7 @@ public class ShooterComponent
     {
         if (power == 0.0 || !usePID)
         {
-            this.shooter.changeControlMode(CANTalonControlMode.Voltage);
+            this.shooter.changeControlMode(CANTalonControlMode.PercentVbus);
         }
         else
         {
@@ -118,6 +118,5 @@ public class ShooterComponent
         this.readyLight.set(false);
         this.targetingLight.set(RelayValue.kOff);
         this.shooter.set(0.0);
-        this.shooter.reset();
     }
 }
