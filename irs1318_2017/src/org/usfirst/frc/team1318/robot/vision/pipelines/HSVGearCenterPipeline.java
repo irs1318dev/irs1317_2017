@@ -32,7 +32,6 @@ public class HSVGearCenterPipeline implements ICentroidVisionPipeline
     private Double measuredAngleX;
 
     private Double desiredAngleX;
-    private Double distanceFromCam;
     private Double distanceFromRobot;
 
     // FPS Measurement
@@ -62,7 +61,6 @@ public class HSVGearCenterPipeline implements ICentroidVisionPipeline
         this.measuredAngleX = null;
 
         this.desiredAngleX = null;
-        this.distanceFromCam = null;
         this.distanceFromRobot = null;
 
         this.analyzedFrameCount = 0;
@@ -221,7 +219,6 @@ public class HSVGearCenterPipeline implements ICentroidVisionPipeline
         if (this.largestCenter == null && this.secondLargestCenter == null)
         {
             this.desiredAngleX = null;
-            this.distanceFromCam = null;
             this.distanceFromRobot = null;
 
             this.measuredAngleX = null;
@@ -251,13 +248,13 @@ public class HSVGearCenterPipeline implements ICentroidVisionPipeline
 
         // Find desired data
         double xOffsetMeasured = gearMarkerCenter.x - VisionConstants.LIFECAM_CAMERA_CENTER_WIDTH;
-        this.measuredAngleX = Math.atan(xOffsetMeasured / VisionConstants.LIFECAM_CAMERA_FOCAL_LENGTH_X) * VisionConstants.RADIANS_TO_ANGLE - VisionConstants.GEAR_CAMERA_HORIZONTAL_OFFSET_ANGLE;
+        this.measuredAngleX = Math.atan(xOffsetMeasured / VisionConstants.LIFECAM_CAMERA_FOCAL_LENGTH_X) * VisionConstants.RADIANS_TO_ANGLE - VisionConstants.GEAR_CAMERA_HORIZONTAL_MOUNTING_ANGLE;
         // this.thetaXOffsetMeasured = xOffsetMeasured * VisionConstants.LIFECAM_CAMERA_FIELD_OF_VIEW_X / (double)VisionConstants.LIFECAM_CAMERA_RESOLUTION_X;
 
-        this.distanceFromCam = ((VisionConstants.GEAR_RETROREFLECTIVE_TAPE_HEIGHT) / (Math.tan(VisionConstants.LIFECAM_CAMERA_FIELD_OF_VIEW_Y_RADIANS)))
+        double distanceFromCam = ((VisionConstants.GEAR_RETROREFLECTIVE_TAPE_HEIGHT) / (Math.tan(VisionConstants.LIFECAM_CAMERA_FIELD_OF_VIEW_Y_RADIANS)))
             * ((double)VisionConstants.LIFECAM_CAMERA_RESOLUTION_Y / (double)gearMarkerHeight);
-        this.distanceFromRobot = this.distanceFromCam * Math.cos(this.measuredAngleX * VisionConstants.ANGLE_TO_RADIANS);
-        this.desiredAngleX = Math.asin(VisionConstants.GEAR_CAMERA_HORIZONTAL_OFFSET_FROM_CENTER / this.distanceFromCam) * VisionConstants.RADIANS_TO_ANGLE;
+        this.distanceFromRobot = distanceFromCam * Math.cos(this.measuredAngleX * VisionConstants.ANGLE_TO_RADIANS) + VisionConstants.GEAR_CAMERA_MOUNTING_DISTANCE;
+        this.desiredAngleX = Math.asin(VisionConstants.GEAR_CAMERA_HORIZONTAL_MOUNTING_OFFSET / distanceFromCam) * VisionConstants.RADIANS_TO_ANGLE;
     }
 
     public void setActivation(boolean isActive)
@@ -283,11 +280,6 @@ public class HSVGearCenterPipeline implements ICentroidVisionPipeline
     public Double getMeasuredAngleX()
     {
         return this.measuredAngleX;
-    }
-
-    public Double getCameraDistance()
-    {
-        return this.distanceFromCam;
     }
 
     public Double getRobotDistance()
