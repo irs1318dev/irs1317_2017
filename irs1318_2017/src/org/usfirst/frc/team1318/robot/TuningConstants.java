@@ -39,6 +39,9 @@ public class TuningConstants
     public static final double VISION_ADVANCING_PID_MIN = -0.3;
     public static final double VISION_ADVANCING_PID_MAX = 0.3;
 
+    // Distance from alliance station wall to the airship
+    public static final double AIRSHIP_DISTANCE = 80.0;
+
     //================================================== DriveTrain ==============================================================
 
     // Drivetrain PID keys/default values:
@@ -111,7 +114,8 @@ public class TuningConstants
     public static final double SHOOTER_ROBORIO_PID_KI = 0.0;
     public static final double SHOOTER_ROBORIO_PID_KD = 0.0;
     public static final double SHOOTER_ROBORIO_PID_KF = 0.8;
-    public static final double SHOOTER_ROBORIO_PID_KS = TuningConstants.COMPETITION_ROBOT ? 1850.0 : 2000.0;
+    public static final double SHOOTER_ROBORIO_PID_KS = TuningConstants.COMPETITION_ROBOT
+        ? 1850.0 : 2000.0;
 
     public static final double SHOOTER_MIN_POWER = -1.0;
     public static final double SHOOTER_MAX_POWER = 1.0;
