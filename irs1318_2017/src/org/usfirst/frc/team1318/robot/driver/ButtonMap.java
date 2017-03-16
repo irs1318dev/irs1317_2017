@@ -115,28 +115,33 @@ public class ButtonMap implements IButtonMap
                     ButtonType.Click));
 
             put(Operation.IntakeIn,
-                new DigitalOperationDescription(UserInputDevice.Driver,
+                new DigitalOperationDescription(
+                    UserInputDevice.Driver,
                     UserInputDeviceButton.JOYSTICK_STICK_BOTTOM_LEFT_BUTTON,
                     ButtonType.Simple));
 
             put(Operation.IntakeOut,
-                new DigitalOperationDescription(UserInputDevice.Driver,
+                new DigitalOperationDescription(
+                    UserInputDevice.Driver,
                     UserInputDeviceButton.JOYSTICK_STICK_TOP_LEFT_BUTTON,
                     ButtonType.Simple));
 
             put(Operation.IntakeGearHolderExtend,
-                new DigitalOperationDescription(UserInputDevice.Driver,
-                    UserInputDeviceButton.JOYSTICK_BASE_MIDDLE_LEFT_BUTTON,
+                new DigitalOperationDescription(
+                    UserInputDevice.Driver,
+                    UserInputDeviceButton.NONE,//JOYSTICK_BASE_MIDDLE_LEFT_BUTTON,
                     ButtonType.Click));
 
             put(Operation.IntakeGearHolderRetract,
-                new DigitalOperationDescription(UserInputDevice.None,
-                    UserInputDeviceButton.JOYSTICK_BASE_BOTTOM_LEFT_BUTTON,
+                new DigitalOperationDescription(
+                    UserInputDevice.None,
+                    UserInputDeviceButton.NONE,//JOYSTICK_BASE_BOTTOM_LEFT_BUTTON,
                     ButtonType.Click));
 
             // Operations for the climber
             put(Operation.ClimberSpeed,
-                new AnalogOperationDescription(UserInputDevice.Driver,
+                new AnalogOperationDescription(
+                    UserInputDevice.Driver,
                     AnalogAxis.Throttle,
                     true,
                     TuningConstants.CLIMBER_THROTTLE_DEAD_ZONE));
@@ -178,12 +183,12 @@ public class ButtonMap implements IButtonMap
                     UserInputDeviceButton.JOYSTICK_STICK_TRIGGER_BUTTON,
                     ButtonType.Simple));
 
-            put(Operation.ShooterSpeed, 
+            put(Operation.ShooterSpeed,
                 new AnalogOperationDescription(
-                UserInputDevice.None, 
-                AnalogAxis.None, 
-                false, 
-                0.0));
+                    UserInputDevice.None,
+                    AnalogAxis.None,
+                    false,
+                    0.0));
 
             put(Operation.ShooterTargetingLight,
                 new DigitalOperationDescription(
@@ -262,10 +267,8 @@ public class ButtonMap implements IButtonMap
                     //                            new IntakeExtendTask(false, 1.5),
                     //                            new DriveDistanceTimedTask(TuningConstants.MAX_VISION_ACCEPTABLE_FORWARD_DISTANCE, 1.5))),
                     () -> SequentialTask.Sequence(
-                        new VisionAdvanceAndCenterTask(
-                            true),
-                        new DriveDistanceTimedTask(18.0,
-                            1.5)),
+                        new VisionAdvanceAndCenterTask(true),
+                        new DriveDistanceTimedTask(18.0, 1.5)),
                     new Operation[]
                     {
                         Operation.EnableGearVision,
@@ -304,14 +307,12 @@ public class ButtonMap implements IButtonMap
                 MacroOperation.GearGrabber,
                 new MacroOperationDescription(
                     UserInputDevice.Driver,
-                    UserInputDeviceButton.JOYSTICK_BASE_TOP_LEFT_BUTTON,
+                    UserInputDeviceButton.JOYSTICK_BASE_MIDDLE_LEFT_BUTTON,
                     ButtonType.Toggle,
                     () -> SequentialTask.Sequence(
                         ConcurrentTask.AllTasks(
-                            new IntakeExtendTask(false,
-                                0.25),
-                            new IntakeSpinTask(false,
-                                0.15)),
+                            new IntakeExtendTask(false, 0.25),
+                            new IntakeSpinTask(false, 0.15)),
                         new GearExtendTask(true, 0.25)),
                     new Operation[]
                     {
