@@ -114,8 +114,7 @@ public class TuningConstants
     public static final double SHOOTER_ROBORIO_PID_KI = 0.0;
     public static final double SHOOTER_ROBORIO_PID_KD = 0.0;
     public static final double SHOOTER_ROBORIO_PID_KF = 0.8;
-    public static final double SHOOTER_ROBORIO_PID_KS = TuningConstants.COMPETITION_ROBOT
-        ? 1850.0 : 2000.0;
+    public static final double SHOOTER_ROBORIO_PID_KS = TuningConstants.COMPETITION_ROBOT ? 1850.0 : 2000.0;
 
     public static final double SHOOTER_MIN_POWER = -1.0;
     public static final double SHOOTER_MAX_POWER = 1.0;
@@ -126,4 +125,6 @@ public class TuningConstants
     public static final double SHOOTER_FAR_SHOT_VELOCITY = 0.84; // 0.84
     public static final double SHOOTER_CLOSE_SHOT_VELOCITY = 0.63; //0.65; // 0.6
     public static final double SHOOTER_CLOSE_SHOT_LOW_GOAL_VELOCITY = 0.22; // 0.22
+
+    public static final double SHOOTER_CLOSE_SHOT_BACKWARDS_DISTANCE = 24.0;
 }
