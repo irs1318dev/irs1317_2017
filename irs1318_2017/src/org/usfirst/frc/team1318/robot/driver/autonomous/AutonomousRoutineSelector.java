@@ -69,24 +69,31 @@ public class AutonomousRoutineSelector
         boolean turnLeft = this.turnLeftSwitch.get();
 
         // print routine selection to the smartdash
-        this.logger.logInteger(AutonomousRoutineSelector.LogName, "routine", routineSelection);
+        this.logger.logInteger(
+            AutonomousRoutineSelector.LogName, "routine",
+            routineSelection);
 
         switch (routineSelection)
         {
             case 0: // No switches flipped
-                return AutonomousRoutineSelector.GetFillerRoutine();
+                return AutonomousRoutineSelector
+                    .GetFillerRoutine();
 
             case 1: // Just A flipped
-                return AutonomousRoutineSelector.GetShootCloseRoutine(turnLeft);
+                return AutonomousRoutineSelector
+                    .GetShootCloseRoutine(turnLeft);
 
             case 2: // Just B flipped
-                return AutonomousRoutineSelector.GetFarGearRoutine(turnLeft);
+                return AutonomousRoutineSelector
+                    .GetFarGearRoutine(turnLeft);
 
             case 3: // A and B flipped
-                return AutonomousRoutineSelector.GetStraightRoutine(turnLeft);
+                return AutonomousRoutineSelector
+                    .GetStraightRoutine(turnLeft);
 
             default: // CANNOT READ
-                return AutonomousRoutineSelector.GetFillerRoutine();
+                return AutonomousRoutineSelector
+                    .GetFillerRoutine();
         }
     }
 
@@ -109,7 +116,8 @@ public class AutonomousRoutineSelector
                 new IntakeExtendTask(false, 0.5)),
             SequentialTask.Sequence(
                 new DriveDistanceTimedTask(88, 4.0), // 90 inches forwards, minus 18 from center of robot to bumper...
-                new TurnTimedTask(turnLeft ? -60.0 : 60.0, 1.5),
+                new TurnTimedTask(turnLeft ? -60.0 : 60.0,
+                    1.5),
                 new VisionAdvanceAndCenterTask(true),
                 new DriveDistanceTimedTask(16.0, 1.5)));
     }
@@ -123,7 +131,8 @@ public class AutonomousRoutineSelector
                 new IntakeExtendTask(false, 0.5)),
             SequentialTask.Sequence(
                 ConcurrentTask.AnyTasks(
-                    new ShooterSpinTask(false, TuningConstants.SHOOTER_CLOSE_SHOT_VELOCITY),
+                    new ShooterSpinTask(false,
+                        TuningConstants.SHOOTER_CLOSE_SHOT_VELOCITY),
                     SequentialTask.Sequence(
                         new WaitTask(1.0),
                         new ShooterFeedTask(4.0))),
@@ -152,7 +161,8 @@ public class AutonomousRoutineSelector
                     },
                     3.0),
                 new DriveDistanceTimedTask(50.0, 1.5),
-                new TurnTimedTask(turnLeft ? -68.0 : 68.0, 1.5),
+                new TurnTimedTask(turnLeft ? -68.0 : 68.0,
+                    1.5),
                 new VisionAdvanceAndCenterTask(true),
                 new DriveDistanceTimedTask(16.0, 1.5)));
     }
@@ -168,6 +178,11 @@ public class AutonomousRoutineSelector
                 new DriveDistanceTimedTask(48.0, 2.5),
                 new VisionAdvanceAndCenterTask(true),
                 new DriveDistanceTimedTask(16.0, 1.5)));
+    }
+
+    private static IControlTask GetStraightDeadReckoningRoutine()
+    {
+        return new DriveDistanceTimedTask(TuningConstants.AIRSHIP_DISTANCE, 5.0);
     }
 }
 

@@ -39,6 +39,9 @@ public class TuningConstants
     public static final double VISION_ADVANCING_PID_MIN = -0.3;
     public static final double VISION_ADVANCING_PID_MAX = 0.3;
 
+    // Distance from alliance station wall to the airship
+    public static final double AIRSHIP_DISTANCE = 80.0;
+
     //================================================== DriveTrain ==============================================================
 
     // Drivetrain PID keys/default values:
@@ -121,4 +124,6 @@ public class TuningConstants
     public static final double SHOOTER_FAR_SHOT_VELOCITY = 0.84; // 0.84
     public static final double SHOOTER_CLOSE_SHOT_VELOCITY = 0.63; //0.65; // 0.6
     public static final double SHOOTER_CLOSE_SHOT_LOW_GOAL_VELOCITY = 0.22; // 0.22
+
+    public static final double SHOOTER_CLOSE_SHOT_BACKWARDS_DISTANCE = 24.0;
 }
