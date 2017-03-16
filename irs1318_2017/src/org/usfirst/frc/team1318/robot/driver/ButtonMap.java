@@ -31,53 +31,88 @@ public class ButtonMap implements IButtonMap
         {
             // Operations for vision
             put(Operation.EnableGearVision,
-                new DigitalOperationDescription(UserInputDevice.None,
-                    UserInputDeviceButton.BUTTON_PAD_BUTTON_2, ButtonType.Toggle));
+                new DigitalOperationDescription(
+                    UserInputDevice.None,
+                    UserInputDeviceButton.BUTTON_PAD_BUTTON_2,
+                    ButtonType.Toggle));
 
             put(Operation.EnableShooterVision,
-                new DigitalOperationDescription(UserInputDevice.None,
-                    UserInputDeviceButton.BUTTON_PAD_BUTTON_3, ButtonType.Toggle));
+                new DigitalOperationDescription(
+                    UserInputDevice.None,
+                    UserInputDeviceButton.BUTTON_PAD_BUTTON_3,
+                    ButtonType.Toggle));
 
             // Operations for the drive train
             put(Operation.DriveTrainDisablePID,
-                new DigitalOperationDescription(UserInputDevice.None,
-                    UserInputDeviceButton.BUTTON_PAD_BUTTON_11, ButtonType.Click));
+                new DigitalOperationDescription(
+                    UserInputDevice.None,
+                    UserInputDeviceButton.BUTTON_PAD_BUTTON_11,
+                    ButtonType.Click));
 
             put(Operation.DriveTrainEnablePID,
-                new DigitalOperationDescription(UserInputDevice.None,
-                    UserInputDeviceButton.BUTTON_PAD_BUTTON_12, ButtonType.Click));
+                new DigitalOperationDescription(
+                    UserInputDevice.None,
+                    UserInputDeviceButton.BUTTON_PAD_BUTTON_12,
+                    ButtonType.Click));
 
             put(Operation.DriveTrainMoveForward,
-                new AnalogOperationDescription(UserInputDevice.Driver, AnalogAxis.Y,
+                new AnalogOperationDescription(
+                    UserInputDevice.Driver,
+                    AnalogAxis.Y,
                     ElectronicsConstants.INVERT_Y_AXIS,
                     TuningConstants.DRIVETRAIN_Y_DEAD_ZONE));
 
             put(Operation.DriveTrainTurn,
-                new AnalogOperationDescription(UserInputDevice.Driver, AnalogAxis.X,
+                new AnalogOperationDescription(
+                    UserInputDevice.Driver,
+                    AnalogAxis.X,
                     ElectronicsConstants.INVERT_X_AXIS,
                     TuningConstants.DRIVETRAIN_X_DEAD_ZONE));
 
-            put(Operation.DriveTrainSimpleMode, new DigitalOperationDescription(
-                UserInputDevice.None, UserInputDeviceButton.NONE, ButtonType.Toggle));
+            put(Operation.DriveTrainSimpleMode,
+                new DigitalOperationDescription(
+                    UserInputDevice.None,
+                    UserInputDeviceButton.NONE,
+                    ButtonType.Toggle));
 
-            put(Operation.DriveTrainUsePositionalMode, new DigitalOperationDescription(
-                UserInputDevice.None, UserInputDeviceButton.NONE, ButtonType.Toggle));
+            put(Operation.DriveTrainUsePositionalMode,
+                new DigitalOperationDescription(
+                    UserInputDevice.None,
+                    UserInputDeviceButton.NONE,
+                    ButtonType.Toggle));
 
-            put(Operation.DriveTrainLeftPosition, new AnalogOperationDescription(
-                UserInputDevice.None, AnalogAxis.None, false, 0.0));
+            put(Operation.DriveTrainLeftPosition,
+                new AnalogOperationDescription(
+                    UserInputDevice.None,
+                    AnalogAxis.None,
+                    false,
+                    0.0));
 
-            put(Operation.DriveTrainRightPosition, new AnalogOperationDescription(
-                UserInputDevice.None, AnalogAxis.None, false, 0.0));
+            put(Operation.DriveTrainRightPosition,
+                new AnalogOperationDescription(
+                    UserInputDevice.None,
+                    AnalogAxis.None,
+                    false,
+                    0.0));
 
-            put(Operation.DriveTrainSwapFrontOrientation, new DigitalOperationDescription(
-                UserInputDevice.None, UserInputDeviceButton.NONE, ButtonType.Toggle));
+            put(Operation.DriveTrainSwapFrontOrientation,
+                new DigitalOperationDescription(
+                    UserInputDevice.None,
+                    UserInputDeviceButton.NONE,
+                    ButtonType.Toggle));
 
             // Operations for the intake
-            put(Operation.IntakeArmExtend, new DigitalOperationDescription(
-                UserInputDevice.Driver, 0, ButtonType.Click));
+            put(Operation.IntakeArmExtend,
+                new DigitalOperationDescription(
+                    UserInputDevice.Driver,
+                    0,
+                    ButtonType.Click));
 
-            put(Operation.IntakeArmRetract, new DigitalOperationDescription(
-                UserInputDevice.Driver, 180, ButtonType.Click));
+            put(Operation.IntakeArmRetract,
+                new DigitalOperationDescription(
+                    UserInputDevice.Driver,
+                    180,
+                    ButtonType.Click));
 
             put(Operation.IntakeIn,
                 new DigitalOperationDescription(UserInputDevice.Driver,
@@ -102,39 +137,57 @@ public class ButtonMap implements IButtonMap
             // Operations for the climber
             put(Operation.ClimberSpeed,
                 new AnalogOperationDescription(UserInputDevice.Driver,
-                    AnalogAxis.Throttle, true,
+                    AnalogAxis.Throttle,
+                    true,
                     TuningConstants.CLIMBER_THROTTLE_DEAD_ZONE));
 
             // Operations for the shooter
             put(Operation.ShooterDisablePID,
-                new DigitalOperationDescription(UserInputDevice.None,
-                    UserInputDeviceButton.BUTTON_PAD_BUTTON_6, ButtonType.Click));
+                new DigitalOperationDescription(
+                    UserInputDevice.None,
+                    UserInputDeviceButton.BUTTON_PAD_BUTTON_6,
+                    ButtonType.Click));
 
             put(Operation.ShooterEnablePID,
-                new DigitalOperationDescription(UserInputDevice.None,
-                    UserInputDeviceButton.BUTTON_PAD_BUTTON_7, ButtonType.Click));
+                new DigitalOperationDescription(
+                    UserInputDevice.None,
+                    UserInputDeviceButton.BUTTON_PAD_BUTTON_7,
+                    ButtonType.Click));
 
             put(Operation.ShooterDisableFeederWait,
-                new DigitalOperationDescription(UserInputDevice.None,
-                    UserInputDeviceButton.BUTTON_PAD_BUTTON_8, ButtonType.Click));
+                new DigitalOperationDescription(
+                    UserInputDevice.None,
+                    UserInputDeviceButton.BUTTON_PAD_BUTTON_8,
+                    ButtonType.Click));
 
             put(Operation.ShooterEnableFeederWait,
-                new DigitalOperationDescription(UserInputDevice.None,
-                    UserInputDeviceButton.BUTTON_PAD_BUTTON_9, ButtonType.Click));
+                new DigitalOperationDescription(
+                    UserInputDevice.None,
+                    UserInputDeviceButton.BUTTON_PAD_BUTTON_9,
+                    ButtonType.Click));
 
-            put(Operation.ShooterExtendHood, new DigitalOperationDescription(
-                UserInputDevice.None, UserInputDeviceButton.NONE, ButtonType.Simple));
+            put(Operation.ShooterExtendHood,
+                new DigitalOperationDescription(
+                    UserInputDevice.None,
+                    UserInputDeviceButton.NONE,
+                    ButtonType.Simple));
 
             put(Operation.ShooterFeed,
-                new DigitalOperationDescription(UserInputDevice.Driver,
+                new DigitalOperationDescription(
+                    UserInputDevice.Driver,
                     UserInputDeviceButton.JOYSTICK_STICK_TRIGGER_BUTTON,
                     ButtonType.Simple));
 
-            put(Operation.ShooterSpeed, new AnalogOperationDescription(
-                UserInputDevice.None, AnalogAxis.None, false, 0.0));
+            put(Operation.ShooterSpeed, 
+                new AnalogOperationDescription(
+                UserInputDevice.None, 
+                AnalogAxis.None, 
+                false, 
+                0.0));
 
             put(Operation.ShooterTargetingLight,
-                new DigitalOperationDescription(UserInputDevice.None,
+                new DigitalOperationDescription(
+                    UserInputDevice.None,
                     UserInputDeviceButton.JOYSTICK_BASE_TOP_LEFT_BUTTON,
                     ButtonType.Simple));
         }
