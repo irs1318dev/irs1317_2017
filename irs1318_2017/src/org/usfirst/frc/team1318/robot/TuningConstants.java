@@ -97,6 +97,7 @@ public class TuningConstants
     //================================================== Intake ==============================================================
 
     public static final double INTAKE_MAX_MOTOR_SPEED = 0.95; //0.9; //0.8;
+    public static final double THROUGH_BEAM_BROKEN_VOLTAGE_MIN = 0.06;
 
     //================================================== Climber ==============================================================
 

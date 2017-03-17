@@ -9,14 +9,20 @@ import com.google.inject.Inject;
 
 public class IntakeController implements IController
 {
-    private final IntakeComponent intake;
+    private final IntakeComponent intakeComponent;
 
     private Driver driver;
 
+    private boolean isArmExtended;
+    private boolean isConveyorExtended;
+
     @Inject
-    public IntakeController(IntakeComponent intakeArm)
+    public IntakeController(IntakeComponent intakeComponent)
     {
-        this.intake = intakeArm;
+        this.intakeComponent = intakeComponent;
+
+        this.isArmExtended = false;
+        this.isConveyorExtended = false;
     }
 
     @Override
@@ -25,42 +31,49 @@ public class IntakeController implements IController
         // spin intake motor at speed if button is clicked
         if (this.driver.getDigital(Operation.IntakeIn))
         {
-            this.intake.setMotorSpeed(TuningConstants.INTAKE_MAX_MOTOR_SPEED);
+            this.intakeComponent.setMotorSpeed(TuningConstants.INTAKE_MAX_MOTOR_SPEED);
         }
         else if (this.driver.getDigital(Operation.IntakeOut))
         {
-            this.intake.setMotorSpeed(-TuningConstants.INTAKE_MAX_MOTOR_SPEED);
+            this.intakeComponent.setMotorSpeed(-TuningConstants.INTAKE_MAX_MOTOR_SPEED);
         }
         else
         {
-            this.intake.setMotorSpeed(0.0);
+            this.intakeComponent.setMotorSpeed(0.0);
         }
 
         // extend intake arm if button is clicked
         if (this.driver.getDigital(Operation.IntakeArmExtend))
         {
-            this.intake.extendIntake(true);
+            this.intakeComponent.extendArm(true);
+            this.isArmExtended = true;
         }
         else if (this.driver.getDigital(Operation.IntakeArmRetract))
         {
-            this.intake.extendIntake(false);
+            this.intakeComponent.extendArm(false);
+            this.isArmExtended = false;
         }
 
-        // extend gear holder
-        if (this.driver.getDigital(Operation.IntakeGearHolderExtend))
+        // extend conveyor
+        if (this.driver.getDigital(Operation.IntakeConveyorExtend))
         {
-            this.intake.extendGearHolder(true);
+            this.intakeComponent.extendConveyor(true);
+            this.isConveyorExtended = true;
         }
         else if (this.driver.getDigital(Operation.IntakeGearHolderRetract))
         {
-            this.intake.extendGearHolder(false);
+            this.intakeComponent.extendConveyor(false);
+            this.isConveyorExtended = false;
         }
+
+        boolean throughBeamBroken = this.intakeComponent.getThroughBeamBroken();
+        this.intakeComponent.setIndicator(throughBeamBroken && this.isArmExtended && !this.isConveyorExtended);
     }
 
     @Override
     public void stop()
     {
-        this.intake.stop();
+        this.intakeComponent.stop();
     }
 
     @Override

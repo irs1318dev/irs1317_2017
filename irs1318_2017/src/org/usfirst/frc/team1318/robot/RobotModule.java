@@ -10,12 +10,14 @@ import org.usfirst.frc.team1318.robot.climber.ClimberController;
 import org.usfirst.frc.team1318.robot.common.IController;
 import org.usfirst.frc.team1318.robot.common.IDashboardLogger;
 import org.usfirst.frc.team1318.robot.common.SmartDashboardLogger;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.AnalogInputWrapper;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.CANTalonControlMode;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.CANTalonWrapper;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.CompressorWrapper;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.DigitalInputWrapper;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.DoubleSolenoidWrapper;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.EncoderWrapper;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.IAnalogInput;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.ICANTalon;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.ICompressor;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IDigitalInput;
@@ -224,13 +226,34 @@ public class RobotModule extends AbstractModule
 
     @Singleton
     @Provides
-    @Named("GEAR_SOLENOID")
+    @Named("INTAKE_CONVEYOR_SOLENOID")
     public IDoubleSolenoid getIntakeGearExtender()
     {
-        DoubleSolenoidWrapper intakeGearExtender = new DoubleSolenoidWrapper(
-            ElectronicsConstants.INTAKE_GEAR_EXTENDER_SOLENOID_CHANNEL_A,
-            ElectronicsConstants.INTAKE_GEAR_EXTENDER_SOLENOID_CHANNEL_B);
-        return intakeGearExtender;
+        DoubleSolenoidWrapper intakeConveyorExtender = new DoubleSolenoidWrapper(
+            ElectronicsConstants.INTAKE_CONVEYOR_EXTENDER_SOLENOID_CHANNEL_A,
+            ElectronicsConstants.INTAKE_CONVEYOR_EXTENDER_SOLENOID_CHANNEL_B);
+        return intakeConveyorExtender;
+    }
+
+    @Singleton
+    @Provides
+    @Named("INTAKE_GEAR_THROUGH_BEAM_SENSOR")
+    public IAnalogInput getThroughBeamSensor()
+    {
+        AnalogInputWrapper throughBeamSensor = new AnalogInputWrapper(
+            ElectronicsConstants.INTAKE_GEAR_THROUGH_BEAM_SENSOR_CHANNEL);
+        return throughBeamSensor;
+    }
+
+    @Singleton
+    @Provides
+    @Named("INTAKE_GEAR_INDICATOR_LIGHT")
+    public ISolenoid getGearIndicator()
+    {
+        SolenoidWrapper gearLight = new SolenoidWrapper(
+            ElectronicsConstants.PCM_B_MODULE,
+            ElectronicsConstants.INTAKE_GEAR_INDICATOR_CHANNEL);
+        return gearLight;
     }
 
     @Singleton

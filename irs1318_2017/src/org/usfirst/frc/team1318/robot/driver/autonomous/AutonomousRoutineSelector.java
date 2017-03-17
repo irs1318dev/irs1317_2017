@@ -7,8 +7,8 @@ import org.usfirst.frc.team1318.robot.driver.IControlTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.ConcurrentTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.DriveDistanceTimedTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.DriveRouteTask;
-import org.usfirst.frc.team1318.robot.driver.controltasks.GearExtendTask;
-import org.usfirst.frc.team1318.robot.driver.controltasks.IntakeExtendTask;
+import org.usfirst.frc.team1318.robot.driver.controltasks.IntakeConveyorExtendTask;
+import org.usfirst.frc.team1318.robot.driver.controltasks.IntakeArmExtendTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.SequentialTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.ShooterFeedTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.ShooterSpinTask;
@@ -183,16 +183,16 @@ public class AutonomousRoutineSelector
     private static IControlTask GearSetUp()
     {
         return SequentialTask.Sequence(
-            new GearExtendTask(true, 0.5),
-            new IntakeExtendTask(true, 1.5),
-            new IntakeExtendTask(false, 0.5));
+            new IntakeConveyorExtendTask(true, 0.5),
+            new IntakeArmExtendTask(true, 1.5),
+            new IntakeArmExtendTask(false, 0.5));
     }
 
     private static IControlTask PlaceGear()
     {
         return ConcurrentTask.AllTasks(
-            new IntakeExtendTask(true, 0.25),
-            new GearExtendTask(false, 0.25));
+            new IntakeArmExtendTask(true, 0.25),
+            new IntakeConveyorExtendTask(false, 0.25));
     }
 }
 

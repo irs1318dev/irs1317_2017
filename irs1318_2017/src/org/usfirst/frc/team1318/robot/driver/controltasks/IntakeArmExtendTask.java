@@ -3,11 +3,11 @@ package org.usfirst.frc.team1318.robot.driver.controltasks;
 import org.usfirst.frc.team1318.robot.driver.IControlTask;
 import org.usfirst.frc.team1318.robot.driver.Operation;
 
-public class IntakeExtendTask extends TimedTask implements IControlTask
+public class IntakeArmExtendTask extends TimedTask implements IControlTask
 {
     private final boolean extend;
 
-    public IntakeExtendTask(boolean extend, double duration)
+    public IntakeArmExtendTask(boolean extend, double duration)
     {
         super(duration);
 

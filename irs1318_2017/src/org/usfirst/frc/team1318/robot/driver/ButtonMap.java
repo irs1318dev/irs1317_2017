@@ -9,8 +9,8 @@ import org.usfirst.frc.team1318.robot.driver.buttons.AnalogAxis;
 import org.usfirst.frc.team1318.robot.driver.buttons.ButtonType;
 import org.usfirst.frc.team1318.robot.driver.controltasks.ConcurrentTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.DriveDistanceTimedTask;
-import org.usfirst.frc.team1318.robot.driver.controltasks.GearExtendTask;
-import org.usfirst.frc.team1318.robot.driver.controltasks.IntakeExtendTask;
+import org.usfirst.frc.team1318.robot.driver.controltasks.IntakeConveyorExtendTask;
+import org.usfirst.frc.team1318.robot.driver.controltasks.IntakeArmExtendTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.IntakeSpinTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.PIDBrakeTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.SequentialTask;
@@ -126,7 +126,7 @@ public class ButtonMap implements IButtonMap
                     UserInputDeviceButton.NONE, // JOYSTICK_STICK_TOP_LEFT_BUTTON
                     ButtonType.Simple));
 
-            put(Operation.IntakeGearHolderExtend,
+            put(Operation.IntakeConveyorExtend,
                 new DigitalOperationDescription(
                     UserInputDevice.None,
                     UserInputDeviceButton.NONE, // JOYSTICK_BASE_MIDDLE_LEFT_BUTTON
@@ -292,11 +292,11 @@ public class ButtonMap implements IButtonMap
                     270, // POV left
                     ButtonType.Toggle,
                     () -> ConcurrentTask.AllTasks(
-                        new IntakeExtendTask(false, 0.25),
-                        new GearExtendTask(false, 0.25)),
+                        new IntakeArmExtendTask(false, 0.25),
+                        new IntakeConveyorExtendTask(false, 0.25)),
                     new Operation[]
                     {
-                        Operation.IntakeGearHolderExtend,
+                        Operation.IntakeConveyorExtend,
                         Operation.IntakeGearHolderRetract,
                         Operation.IntakeArmExtend,
                         Operation.IntakeArmRetract,
@@ -310,11 +310,11 @@ public class ButtonMap implements IButtonMap
                     0, // POV up
                     ButtonType.Toggle,
                     () -> ConcurrentTask.AllTasks(
-                        new IntakeExtendTask(true, 0.25),
-                        new GearExtendTask(false, 0.25)),
+                        new IntakeArmExtendTask(true, 0.25),
+                        new IntakeConveyorExtendTask(false, 0.25)),
                     new Operation[]
                     {
-                        Operation.IntakeGearHolderExtend,
+                        Operation.IntakeConveyorExtend,
                         Operation.IntakeGearHolderRetract,
                         Operation.IntakeArmExtend,
                         Operation.IntakeArmRetract,
@@ -329,12 +329,12 @@ public class ButtonMap implements IButtonMap
                     ButtonType.Toggle,
                     () -> SequentialTask.Sequence(
                         ConcurrentTask.AllTasks(
-                            new IntakeExtendTask(false, 0.25),
+                            new IntakeArmExtendTask(false, 0.25),
                             new IntakeSpinTask(false, 0.15)),
-                        new GearExtendTask(true, 0.25)),
+                        new IntakeConveyorExtendTask(true, 0.25)),
                     new Operation[]
                     {
-                        Operation.IntakeGearHolderExtend,
+                        Operation.IntakeConveyorExtend,
                         Operation.IntakeGearHolderRetract,
                         Operation.IntakeArmExtend,
                         Operation.IntakeArmRetract,
@@ -348,11 +348,11 @@ public class ButtonMap implements IButtonMap
                     90, // POV right
                     ButtonType.Toggle,
                     () -> ConcurrentTask.AllTasks(
-                        new IntakeExtendTask(true, 0.25),
-                        new GearExtendTask(true, 0.25)),
+                        new IntakeArmExtendTask(true, 0.25),
+                        new IntakeConveyorExtendTask(true, 0.25)),
                     new Operation[]
                     {
-                        Operation.IntakeGearHolderExtend,
+                        Operation.IntakeConveyorExtend,
                         Operation.IntakeGearHolderRetract,
                         Operation.IntakeArmExtend,
                         Operation.IntakeArmRetract,

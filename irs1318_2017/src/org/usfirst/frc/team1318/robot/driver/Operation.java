@@ -22,7 +22,7 @@ public enum Operation
     IntakeArmRetract,
     IntakeIn,
     IntakeOut,
-    IntakeGearHolderExtend,
+    IntakeConveyorExtend,
     IntakeGearHolderRetract,
 
     // Climber

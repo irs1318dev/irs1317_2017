@@ -55,8 +55,11 @@ public class ElectronicsConstants
     public static final int INTAKE_EXTENDER_SOLENOID_CHANNEL_A = 4;
     public static final int INTAKE_EXTENDER_SOLENOID_CHANNEL_B = 5;
 
-    public static final int INTAKE_GEAR_EXTENDER_SOLENOID_CHANNEL_A = 2;
-    public static final int INTAKE_GEAR_EXTENDER_SOLENOID_CHANNEL_B = 3;
+    public static final int INTAKE_CONVEYOR_EXTENDER_SOLENOID_CHANNEL_A = 2;
+    public static final int INTAKE_CONVEYOR_EXTENDER_SOLENOID_CHANNEL_B = 3;
+
+    public static final int INTAKE_GEAR_THROUGH_BEAM_SENSOR_CHANNEL = 0;
+    public static final int INTAKE_GEAR_INDICATOR_CHANNEL = 1;
 
     //================================================== Shooter ==============================================================
 

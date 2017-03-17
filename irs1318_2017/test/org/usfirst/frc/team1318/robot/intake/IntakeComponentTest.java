@@ -22,7 +22,7 @@ public class IntakeComponentTest
 
         IntakeComponent intakeComponent = new IntakeComponent(motor, intakeExtender, gearExtender);
 
-        intakeComponent.extendGearHolder(true);
+        intakeComponent.extendConveyor(true);
 
         verify(gearExtender).set(eq(DoubleSolenoidValue.kForward));
         verifyNoMoreInteractions(motor, intakeExtender, gearExtender);
@@ -37,7 +37,7 @@ public class IntakeComponentTest
 
         IntakeComponent intakeComponent = new IntakeComponent(motor, intakeExtender, gearholderSolenoid);
 
-        intakeComponent.extendGearHolder(false);
+        intakeComponent.extendConveyor(false);
 
         verify(gearholderSolenoid).set(eq(DoubleSolenoidValue.kReverse));
         verifyNoMoreInteractions(motor, intakeExtender, gearholderSolenoid);
@@ -52,7 +52,7 @@ public class IntakeComponentTest
 
         IntakeComponent intakeComponent = new IntakeComponent(motor, intakeExtender, gearholderSolenoid);
 
-        intakeComponent.extendIntake(false);
+        intakeComponent.extendArm(false);
 
         verify(intakeExtender).set(eq(DoubleSolenoidValue.kReverse));
         verifyNoMoreInteractions(motor, intakeExtender, gearholderSolenoid);
@@ -67,7 +67,7 @@ public class IntakeComponentTest
 
         IntakeComponent intakeComponent = new IntakeComponent(motor, intakeExtender, gearholderSolenoid);
 
-        intakeComponent.extendIntake(true);
+        intakeComponent.extendArm(true);
 
         verify(intakeExtender).set(eq(DoubleSolenoidValue.kForward));
         verifyNoMoreInteractions(motor, intakeExtender, gearholderSolenoid);

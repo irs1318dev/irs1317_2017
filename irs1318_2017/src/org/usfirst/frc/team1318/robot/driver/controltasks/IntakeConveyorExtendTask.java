@@ -3,11 +3,11 @@ package org.usfirst.frc.team1318.robot.driver.controltasks;
 import org.usfirst.frc.team1318.robot.driver.IControlTask;
 import org.usfirst.frc.team1318.robot.driver.Operation;
 
-public class GearExtendTask extends TimedTask implements IControlTask
+public class IntakeConveyorExtendTask extends TimedTask implements IControlTask
 {
     private final boolean extend;
 
-    public GearExtendTask(boolean extend, double duration)
+    public IntakeConveyorExtendTask(boolean extend, double duration)
     {
         super(duration);
 
@@ -19,14 +19,14 @@ public class GearExtendTask extends TimedTask implements IControlTask
     {
         super.begin();
 
-        this.setDigitalOperationState(Operation.IntakeGearHolderExtend, this.extend);
+        this.setDigitalOperationState(Operation.IntakeConveyorExtend, this.extend);
         this.setDigitalOperationState(Operation.IntakeGearHolderRetract, !this.extend);
     }
 
     @Override
     public void update()
     {
-        this.setDigitalOperationState(Operation.IntakeGearHolderExtend, this.extend);
+        this.setDigitalOperationState(Operation.IntakeConveyorExtend, this.extend);
         this.setDigitalOperationState(Operation.IntakeGearHolderRetract, !this.extend);
     }
 
@@ -35,7 +35,7 @@ public class GearExtendTask extends TimedTask implements IControlTask
     {
         super.stop();
 
-        this.setDigitalOperationState(Operation.IntakeGearHolderExtend, false);
+        this.setDigitalOperationState(Operation.IntakeConveyorExtend, false);
         this.setDigitalOperationState(Operation.IntakeGearHolderRetract, false);
     }
 
@@ -44,7 +44,7 @@ public class GearExtendTask extends TimedTask implements IControlTask
     {
         super.end();
 
-        this.setDigitalOperationState(Operation.IntakeGearHolderExtend, false);
+        this.setDigitalOperationState(Operation.IntakeConveyorExtend, false);
         this.setDigitalOperationState(Operation.IntakeGearHolderRetract, false);
     }
 

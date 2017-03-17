@@ -21,7 +21,7 @@ public class IntakeControllerTest
 
         doReturn(false).when(driver).getDigital(Operation.IntakeArmExtend);
         doReturn(false).when(driver).getDigital(Operation.IntakeArmRetract);
-        doReturn(false).when(driver).getDigital(Operation.IntakeGearHolderExtend);
+        doReturn(false).when(driver).getDigital(Operation.IntakeConveyorExtend);
         doReturn(false).when(driver).getDigital(Operation.IntakeGearHolderRetract);
         doReturn(false).when(driver).getDigital(Operation.IntakeIn);
         doReturn(false).when(driver).getDigital(Operation.IntakeOut);
@@ -43,7 +43,7 @@ public class IntakeControllerTest
 
         doReturn(true).when(driver).getDigital(Operation.IntakeArmExtend);
         doReturn(false).when(driver).getDigital(Operation.IntakeArmRetract);
-        doReturn(false).when(driver).getDigital(Operation.IntakeGearHolderExtend);
+        doReturn(false).when(driver).getDigital(Operation.IntakeConveyorExtend);
         doReturn(false).when(driver).getDigital(Operation.IntakeGearHolderRetract);
         doReturn(false).when(driver).getDigital(Operation.IntakeIn);
         doReturn(false).when(driver).getDigital(Operation.IntakeOut);
@@ -54,7 +54,7 @@ public class IntakeControllerTest
         controller.update();
 
         verify(intake).setMotorSpeed(0.0);
-        verify(intake).extendIntake(eq(true));
+        verify(intake).extendArm(eq(true));
         verifyNoMoreInteractions(intake);
     }
 
@@ -66,7 +66,7 @@ public class IntakeControllerTest
 
         doReturn(false).when(driver).getDigital(Operation.IntakeArmExtend);
         doReturn(true).when(driver).getDigital(Operation.IntakeArmRetract);
-        doReturn(false).when(driver).getDigital(Operation.IntakeGearHolderExtend);
+        doReturn(false).when(driver).getDigital(Operation.IntakeConveyorExtend);
         doReturn(false).when(driver).getDigital(Operation.IntakeGearHolderRetract);
         doReturn(false).when(driver).getDigital(Operation.IntakeIn);
         doReturn(false).when(driver).getDigital(Operation.IntakeOut);
@@ -77,7 +77,7 @@ public class IntakeControllerTest
         controller.update();
 
         verify(intake).setMotorSpeed(0.0);
-        verify(intake).extendIntake(eq(false));
+        verify(intake).extendArm(eq(false));
         verifyNoMoreInteractions(intake);
     }
 
@@ -89,7 +89,7 @@ public class IntakeControllerTest
 
         doReturn(false).when(driver).getDigital(Operation.IntakeArmExtend);
         doReturn(false).when(driver).getDigital(Operation.IntakeArmRetract);
-        doReturn(true).when(driver).getDigital(Operation.IntakeGearHolderExtend);
+        doReturn(true).when(driver).getDigital(Operation.IntakeConveyorExtend);
         doReturn(false).when(driver).getDigital(Operation.IntakeGearHolderRetract);
         doReturn(false).when(driver).getDigital(Operation.IntakeIn);
         doReturn(false).when(driver).getDigital(Operation.IntakeOut);
@@ -100,7 +100,7 @@ public class IntakeControllerTest
         controller.update();
 
         verify(intake).setMotorSpeed(0.0);
-        verify(intake).extendGearHolder(eq(true));
+        verify(intake).extendConveyor(eq(true));
         verifyNoMoreInteractions(intake);
     }
 
@@ -112,7 +112,7 @@ public class IntakeControllerTest
 
         doReturn(false).when(driver).getDigital(Operation.IntakeArmExtend);
         doReturn(false).when(driver).getDigital(Operation.IntakeArmRetract);
-        doReturn(false).when(driver).getDigital(Operation.IntakeGearHolderExtend);
+        doReturn(false).when(driver).getDigital(Operation.IntakeConveyorExtend);
         doReturn(true).when(driver).getDigital(Operation.IntakeGearHolderRetract);
         doReturn(false).when(driver).getDigital(Operation.IntakeIn);
         doReturn(false).when(driver).getDigital(Operation.IntakeOut);
@@ -123,7 +123,7 @@ public class IntakeControllerTest
         controller.update();
 
         verify(intake).setMotorSpeed(0.0);
-        verify(intake).extendGearHolder(eq(false));
+        verify(intake).extendConveyor(eq(false));
         verifyNoMoreInteractions(intake);
     }
 
@@ -135,7 +135,7 @@ public class IntakeControllerTest
 
         doReturn(false).when(driver).getDigital(Operation.IntakeArmExtend);
         doReturn(false).when(driver).getDigital(Operation.IntakeArmRetract);
-        doReturn(false).when(driver).getDigital(Operation.IntakeGearHolderExtend);
+        doReturn(false).when(driver).getDigital(Operation.IntakeConveyorExtend);
         doReturn(false).when(driver).getDigital(Operation.IntakeGearHolderRetract);
         doReturn(true).when(driver).getDigital(Operation.IntakeIn);
         doReturn(false).when(driver).getDigital(Operation.IntakeOut);
@@ -157,7 +157,7 @@ public class IntakeControllerTest
 
         doReturn(false).when(driver).getDigital(Operation.IntakeArmExtend);
         doReturn(false).when(driver).getDigital(Operation.IntakeArmRetract);
-        doReturn(false).when(driver).getDigital(Operation.IntakeGearHolderExtend);
+        doReturn(false).when(driver).getDigital(Operation.IntakeConveyorExtend);
         doReturn(false).when(driver).getDigital(Operation.IntakeGearHolderRetract);
         doReturn(false).when(driver).getDigital(Operation.IntakeIn);
         doReturn(true).when(driver).getDigital(Operation.IntakeOut);
