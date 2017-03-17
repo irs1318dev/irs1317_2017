@@ -110,29 +110,22 @@ public class AutonomousRoutineSelector
     private static IControlTask GetFarGearRoutine(boolean turnLeft)
     {
         return ConcurrentTask.AllTasks(
-            SequentialTask.Sequence(
-                new GearExtendTask(true, 0.5),
-                new IntakeExtendTask(true, 1.5),
-                new IntakeExtendTask(false, 0.5)),
+            AutonomousRoutineSelector.GearSetUp(),
             SequentialTask.Sequence(
                 new DriveDistanceTimedTask(88, 4.0), // 90 inches forwards, minus 18 from center of robot to bumper...
-                new TurnTimedTask(turnLeft ? -60.0 : 60.0,
-                    1.5),
+                new TurnTimedTask(turnLeft ? -60.0 : 60.0, 1.5),
                 new VisionAdvanceAndCenterTask(true),
-                new DriveDistanceTimedTask(16.0, 1.5)));
+                new DriveDistanceTimedTask(16.0, 1.5),
+                AutonomousRoutineSelector.PlaceGear()));
     }
 
     private static IControlTask GetShootCloseRoutine(boolean turnLeft)
     {
         return ConcurrentTask.AllTasks(
-            SequentialTask.Sequence(
-                new GearExtendTask(true, 0.5),
-                new IntakeExtendTask(true, 1.5),
-                new IntakeExtendTask(false, 0.5)),
+            AutonomousRoutineSelector.GearSetUp(),
             SequentialTask.Sequence(
                 ConcurrentTask.AnyTasks(
-                    new ShooterSpinTask(false,
-                        TuningConstants.SHOOTER_CLOSE_SHOT_VELOCITY),
+                    new ShooterSpinTask(false, TuningConstants.SHOOTER_CLOSE_SHOT_VELOCITY),
                     SequentialTask.Sequence(
                         new WaitTask(1.0),
                         new ShooterFeedTask(4.0))),
@@ -161,28 +154,45 @@ public class AutonomousRoutineSelector
                     },
                     3.0),
                 new DriveDistanceTimedTask(50.0, 1.5),
-                new TurnTimedTask(turnLeft ? -68.0 : 68.0,
-                    1.5),
+                new TurnTimedTask(turnLeft ? -68.0 : 68.0, 1.5),
                 new VisionAdvanceAndCenterTask(true),
-                new DriveDistanceTimedTask(16.0, 1.5)));
+                new DriveDistanceTimedTask(16.0, 1.5),
+                AutonomousRoutineSelector.PlaceGear()));
     }
 
     private static IControlTask GetStraightRoutine(boolean isOnRedSide)
     {
         return ConcurrentTask.AllTasks(
-            SequentialTask.Sequence(
-                new GearExtendTask(true, 0.5),
-                new IntakeExtendTask(true, 1.5),
-                new IntakeExtendTask(false, 0.5)),
+            AutonomousRoutineSelector.GearSetUp(),
             SequentialTask.Sequence(
                 new DriveDistanceTimedTask(48.0, 2.5),
                 new VisionAdvanceAndCenterTask(true),
-                new DriveDistanceTimedTask(16.0, 1.5)));
+                new DriveDistanceTimedTask(16.0, 1.5),
+                AutonomousRoutineSelector.PlaceGear()));
     }
 
     private static IControlTask GetStraightDeadReckoningRoutine()
     {
-        return new DriveDistanceTimedTask(TuningConstants.AIRSHIP_DISTANCE, 5.0);
+        return ConcurrentTask.AllTasks(
+            AutonomousRoutineSelector.GearSetUp(),
+            SequentialTask.Sequence(
+                new DriveDistanceTimedTask(TuningConstants.AIRSHIP_DISTANCE, 5.0),
+                AutonomousRoutineSelector.PlaceGear()));
+    }
+
+    private static IControlTask GearSetUp()
+    {
+        return SequentialTask.Sequence(
+            new GearExtendTask(true, 0.5),
+            new IntakeExtendTask(true, 1.5),
+            new IntakeExtendTask(false, 0.5));
+    }
+
+    private static IControlTask PlaceGear()
+    {
+        return ConcurrentTask.AllTasks(
+            new IntakeExtendTask(true, 0.25),
+            new GearExtendTask(false, 0.25));
     }
 }
 

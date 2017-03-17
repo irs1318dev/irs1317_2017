@@ -330,8 +330,7 @@ public class ButtonMap implements IButtonMap
                     UserInputDevice.Driver,
                     UserInputDeviceButton.JOYSTICK_BASE_MIDDLE_RIGHT_BUTTON,
                     ButtonType.Toggle,
-                    () -> new ShooterSpinTask(true,
-                        TuningConstants.SHOOTER_FAR_SHOT_VELOCITY),
+                    () -> new ShooterSpinTask(true, TuningConstants.SHOOTER_FAR_SHOT_VELOCITY),
                     new Operation[]
                     {
                         Operation.ShooterSpeed,
@@ -348,8 +347,7 @@ public class ButtonMap implements IButtonMap
                             TuningConstants.SHOOTER_CLOSE_SHOT_BACKWARDS_DISTANCE, 1.0),
                         new ShooterSpinTask(false,
                             TuningConstants.SHOOTER_CLOSE_SHOT_VELOCITY)),*/
-                    () -> new ShooterSpinTask(false,
-                        TuningConstants.SHOOTER_CLOSE_SHOT_VELOCITY),
+                    () -> new ShooterSpinTask(false, TuningConstants.SHOOTER_CLOSE_SHOT_VELOCITY),
                     new Operation[]
                     {
                         Operation.ShooterSpeed,
@@ -365,8 +363,7 @@ public class ButtonMap implements IButtonMap
                     UserInputDevice.Driver,
                     UserInputDeviceButton.JOYSTICK_BASE_BOTTOM_RIGHT_BUTTON,
                     ButtonType.Toggle,
-                    () -> new ShooterSpinTask(true,
-                        TuningConstants.SHOOTER_CLOSE_SHOT_LOW_GOAL_VELOCITY),
+                    () -> new ShooterSpinTask(true, TuningConstants.SHOOTER_CLOSE_SHOT_LOW_GOAL_VELOCITY),
                     new Operation[]
                     {
                         Operation.ShooterSpeed,
