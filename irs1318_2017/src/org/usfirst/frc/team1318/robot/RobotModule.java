@@ -143,6 +143,7 @@ public class RobotModule extends AbstractModule
     public ISolenoid getVisionGearLight()
     {
         SolenoidWrapper gearLight = new SolenoidWrapper(
+            ElectronicsConstants.PCM_B_MODULE,
             ElectronicsConstants.VISION_GEAR_LIGHT_CHANNEL);
 
         return gearLight;
@@ -154,6 +155,7 @@ public class RobotModule extends AbstractModule
     public ISolenoid getVisionShooterLight()
     {
         SolenoidWrapper shooterLight = new SolenoidWrapper(
+            ElectronicsConstants.PCM_B_MODULE,
             ElectronicsConstants.VISION_SHOOTER_LIGHT_CHANNEL);
 
         return shooterLight;
