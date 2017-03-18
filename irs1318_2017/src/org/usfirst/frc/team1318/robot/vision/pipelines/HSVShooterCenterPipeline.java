@@ -64,7 +64,7 @@ public class HSVShooterCenterPipeline implements ICentroidVisionPipeline
 
         this.isActive = true;
 
-        if (VisionConstants.DEBUG && VisionConstants.DEBUG_OUTPUT_FRAMES)
+        if (VisionConstants.DEBUG && VisionConstants.DEBUG_OUTPUT_SHOOTER_FRAMES)
         {
             this.frameInput = CameraServer.getInstance().putVideo("s.input", VisionConstants.LIFECAM_CAMERA_RESOLUTION_X, VisionConstants.LIFECAM_CAMERA_RESOLUTION_Y);
             this.hsvOutput = CameraServer.getInstance().putVideo("s.hsv", VisionConstants.LIFECAM_CAMERA_RESOLUTION_X, VisionConstants.LIFECAM_CAMERA_RESOLUTION_Y);
@@ -112,7 +112,7 @@ public class HSVShooterCenterPipeline implements ICentroidVisionPipeline
                 Imgcodecs.imwrite(String.format("%simage%d-1.undistorted.jpg", VisionConstants.DEBUG_OUTPUT_FOLDER, this.analyzedFrameCount), image);
             }
 
-            if (VisionConstants.DEBUG_OUTPUT_FRAMES)
+            if (VisionConstants.DEBUG_OUTPUT_SHOOTER_FRAMES)
             {
                 this.frameInput.putFrame(image);
             }
@@ -137,7 +137,7 @@ public class HSVShooterCenterPipeline implements ICentroidVisionPipeline
                 Imgcodecs.imwrite(String.format("%simage%d-2.hsvfiltered.jpg", VisionConstants.DEBUG_OUTPUT_FOLDER, this.analyzedFrameCount), image);
             }
 
-            if (VisionConstants.DEBUG_OUTPUT_FRAMES)
+            if (VisionConstants.DEBUG_OUTPUT_SHOOTER_FRAMES)
             {
                 this.hsvOutput.putFrame(image);
             }
