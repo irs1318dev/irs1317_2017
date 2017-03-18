@@ -55,7 +55,8 @@ public class ShooterController implements IController
 
         // set hood extend/retract
         boolean shooterExtendHood = this.driver.getDigital(Operation.ShooterExtendHood);
-        this.shooter.extendOrRetract(shooterExtendHood);
+        boolean isClimberRunning = this.driver.getAnalog(Operation.ClimberSpeed) > 0.01;
+        this.shooter.extendOrRetract(shooterExtendHood || isClimberRunning);
 
         // calculate and apply desired shooter setting
         double shooterSpeedPercentage = this.driver.getAnalog(Operation.ShooterSpeed);
