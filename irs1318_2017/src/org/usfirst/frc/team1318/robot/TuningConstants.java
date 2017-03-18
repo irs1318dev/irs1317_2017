@@ -121,9 +121,9 @@ public class TuningConstants
     public static final double SHOOTER_CAN_MAX_VELOCITY = 40000.0; // practice robot...
     public static final double SHOOTER_ALLOWABLE_ERROR = 0.035; // plus or minus 3.5% error is max allowed  .035
 
-    public static final double SHOOTER_FAR_SHOT_VELOCITY = 1.0;//0.84; // 0.84
-    public static final double SHOOTER_CLOSE_SHOT_VELOCITY = 0.5;//0.63; //0.65; // 0.6
-    public static final double SHOOTER_CLOSE_SHOT_LOW_GOAL_VELOCITY = 0.2;//0.22; // 0.22
+    public static final double SHOOTER_FAR_SHOT_VELOCITY = 0.84;
+    public static final double SHOOTER_CLOSE_SHOT_VELOCITY = 0.63;
+    public static final double SHOOTER_CLOSE_SHOT_LOW_GOAL_VELOCITY = 0.22;
 
     public static final double SHOOTER_CLOSE_SHOT_BACKWARDS_DISTANCE = 24.0;
 }
