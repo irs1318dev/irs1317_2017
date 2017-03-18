@@ -105,13 +105,13 @@ public class ButtonMap implements IButtonMap
             put(Operation.IntakeArmExtend,
                 new DigitalOperationDescription(
                     UserInputDevice.None,
-                    UserInputDeviceButton.NONE, // 0
+                    UserInputDeviceButton.NONE,
                     ButtonType.Click));
 
             put(Operation.IntakeArmRetract,
                 new DigitalOperationDescription(
                     UserInputDevice.None,
-                    UserInputDeviceButton.NONE, // 180
+                    UserInputDeviceButton.NONE,
                     ButtonType.Click));
 
             put(Operation.IntakeIn,
@@ -129,13 +129,13 @@ public class ButtonMap implements IButtonMap
             put(Operation.IntakeConveyorExtend,
                 new DigitalOperationDescription(
                     UserInputDevice.None,
-                    UserInputDeviceButton.NONE, // JOYSTICK_BASE_MIDDLE_LEFT_BUTTON
+                    UserInputDeviceButton.NONE,
                     ButtonType.Click));
 
             put(Operation.IntakeGearHolderRetract,
                 new DigitalOperationDescription(
                     UserInputDevice.None,
-                    UserInputDeviceButton.NONE, // JOYSTICK_BASE_BOTTOM_LEFT_BUTTON
+                    UserInputDeviceButton.NONE,
                     ButtonType.Click));
 
             // Operations for the climber
@@ -258,14 +258,6 @@ public class ButtonMap implements IButtonMap
                     UserInputDevice.Driver,
                     UserInputDeviceButton.JOYSTICK_STICK_TOP_RIGHT_BUTTON,
                     ButtonType.Toggle,
-                    //                    () -> SequentialTask.Sequence(
-                    //                        ConcurrentTask.AnyTasks(
-                    //                            new VisionAdvanceAndCenterTask(true),
-                    //                            new IntakeSpinTask(true, 15.0)),
-                    //                        ConcurrentTask.AllTasks(
-                    //                            new IntakeSpinTask(true, 1.5),
-                    //                            new IntakeExtendTask(false, 1.5),
-                    //                            new DriveDistanceTimedTask(TuningConstants.MAX_VISION_ACCEPTABLE_FORWARD_DISTANCE, 1.5))),
                     () -> SequentialTask.Sequence(
                         new VisionAdvanceAndCenterTask(true),
                         new DriveDistanceTimedTask(18.0, 1.5)),
@@ -378,20 +370,11 @@ public class ButtonMap implements IButtonMap
                     UserInputDevice.Driver,
                     UserInputDeviceButton.JOYSTICK_BASE_TOP_RIGHT_BUTTON,
                     ButtonType.Toggle,
-                    /*() -> ConcurrentTask.AllTasks(
-                        new DriveDistanceTimedTask(
-                            TuningConstants.SHOOTER_CLOSE_SHOT_BACKWARDS_DISTANCE, 1.0),
-                        new ShooterSpinTask(false,
-                            TuningConstants.SHOOTER_CLOSE_SHOT_VELOCITY)),*/
                     () -> new ShooterSpinTask(false, TuningConstants.SHOOTER_CLOSE_SHOT_VELOCITY),
                     new Operation[]
                     {
                         Operation.ShooterSpeed,
                         Operation.ShooterExtendHood,
-                /*Operation.DriveTrainMoveForward,
-                Operation.DriveTrainUsePositionalMode,
-                Operation.DriveTrainLeftPosition,
-                Operation.DriveTrainRightPosition*/
                     }));
             put(
                 MacroOperation.SpinCloseLowGoal,
@@ -414,11 +397,11 @@ public class ButtonMap implements IButtonMap
                     () -> new DriveDistanceTimedTask(TuningConstants.SHOOTER_CLOSE_SHOT_BACKWARDS_DISTANCE, 1.0),
                     new Operation[]
                     {
-                            Operation.DriveTrainUsePositionalMode,
-                            Operation.DriveTrainLeftPosition,
-                            Operation.DriveTrainRightPosition,
-                            Operation.DriveTrainMoveForward,
-                            Operation.DriveTrainTurn
+                        Operation.DriveTrainUsePositionalMode,
+                        Operation.DriveTrainLeftPosition,
+                        Operation.DriveTrainRightPosition,
+                        Operation.DriveTrainMoveForward,
+                        Operation.DriveTrainTurn
                     }));
         }
     };
