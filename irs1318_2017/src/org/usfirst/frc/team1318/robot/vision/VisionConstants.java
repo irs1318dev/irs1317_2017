@@ -6,7 +6,7 @@ import org.usfirst.frc.team1318.robot.TuningConstants;
 public class VisionConstants
 {
     // Debug output settings:
-    public static final boolean DEBUG = true;
+    public static final boolean DEBUG = false;
     public static final boolean DEBUG_PRINT_OUTPUT = false;
     public static final boolean DEBUG_PRINT_ANALYZER_DATA = false;
     public static final int DEBUG_FPS_AVERAGING_INTERVAL = 25;
@@ -47,7 +47,7 @@ public class VisionConstants
     public static final double LIFECAM_CAMERA_FOCAL_LENGTH_Y = 366.058; // focal_length = res_* / (2.0 * tan (FOV_* / 2.0)
     public static final int LIFECAM_CAMERA_EXPOSURE = 1;
     public static final int LIFECAM_CAMERA_BRIGHTNESS = 1;
-    public static final int LIFECAM_CAMERA_FPS = 25; // Max supported value is 30
+    public static final int LIFECAM_CAMERA_FPS = 20; // Max supported value is 30
 
     // Undistort constants
     public static final boolean SHOULD_UNDISTORT = false;

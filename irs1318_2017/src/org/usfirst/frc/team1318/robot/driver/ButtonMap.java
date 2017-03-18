@@ -221,7 +221,7 @@ public class ButtonMap implements IButtonMap
             put(
                 MacroOperation.ShooterCenter,
                 new MacroOperationDescription(
-                    UserInputDevice.None,
+                    UserInputDevice.Driver,
                     UserInputDeviceButton.JOYSTICK_BASE_MIDDLE_LEFT_BUTTON,
                     ButtonType.Toggle,
                     () -> new VisionCenteringTask(false),
