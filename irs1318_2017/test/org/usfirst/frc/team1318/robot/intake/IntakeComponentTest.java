@@ -7,116 +7,140 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 import org.junit.Test;
 import org.usfirst.frc.team1318.robot.TuningConstants;
+import org.usfirst.frc.team1318.robot.common.IDashboardLogger;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.DoubleSolenoidValue;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.IAnalogInput;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IDoubleSolenoid;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IMotor;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.ISolenoid;
 
 public class IntakeComponentTest
 {
     @Test
     public void testExtendGearHolder_true()
     {
-        IDoubleSolenoid gearExtender = mock(IDoubleSolenoid.class);
+        IDashboardLogger logger = mock(IDashboardLogger.class);
         IMotor motor = mock(IMotor.class);
-        IDoubleSolenoid intakeExtender = mock(IDoubleSolenoid.class);
+        IDoubleSolenoid armExtender = mock(IDoubleSolenoid.class);
+        IDoubleSolenoid conveyorExtender = mock(IDoubleSolenoid.class);
+        IAnalogInput throughBeam = mock(IAnalogInput.class);
+        ISolenoid gearIndicator = mock(ISolenoid.class);
 
-        IntakeComponent intakeComponent = new IntakeComponent(motor, intakeExtender, gearExtender);
+        IntakeComponent intakeComponent = new IntakeComponent(logger, motor, armExtender, conveyorExtender, throughBeam, gearIndicator);
 
         intakeComponent.extendConveyor(true);
 
-        verify(gearExtender).set(eq(DoubleSolenoidValue.kForward));
-        verifyNoMoreInteractions(motor, intakeExtender, gearExtender);
+        verify(conveyorExtender).set(eq(DoubleSolenoidValue.kForward));
+        verifyNoMoreInteractions(motor, armExtender, conveyorExtender, throughBeam, gearIndicator);
     }
 
     @Test
     public void testExtendGearHolder_false()
     {
-        IDoubleSolenoid gearholderSolenoid = mock(IDoubleSolenoid.class);
+        IDashboardLogger logger = mock(IDashboardLogger.class);
         IMotor motor = mock(IMotor.class);
-        IDoubleSolenoid intakeExtender = mock(IDoubleSolenoid.class);
+        IDoubleSolenoid armExtender = mock(IDoubleSolenoid.class);
+        IDoubleSolenoid conveyorExtender = mock(IDoubleSolenoid.class);
+        IAnalogInput throughBeam = mock(IAnalogInput.class);
+        ISolenoid gearIndicator = mock(ISolenoid.class);
 
-        IntakeComponent intakeComponent = new IntakeComponent(motor, intakeExtender, gearholderSolenoid);
+        IntakeComponent intakeComponent = new IntakeComponent(logger, motor, armExtender, conveyorExtender, throughBeam, gearIndicator);
 
         intakeComponent.extendConveyor(false);
 
-        verify(gearholderSolenoid).set(eq(DoubleSolenoidValue.kReverse));
-        verifyNoMoreInteractions(motor, intakeExtender, gearholderSolenoid);
+        verify(conveyorExtender).set(eq(DoubleSolenoidValue.kReverse));
+        verifyNoMoreInteractions(motor, armExtender, conveyorExtender, throughBeam, gearIndicator);
     }
 
     @Test
     public void testExtend_false()
     {
-        IDoubleSolenoid gearholderSolenoid = mock(IDoubleSolenoid.class);
+        IDashboardLogger logger = mock(IDashboardLogger.class);
         IMotor motor = mock(IMotor.class);
-        IDoubleSolenoid intakeExtender = mock(IDoubleSolenoid.class);
+        IDoubleSolenoid armExtender = mock(IDoubleSolenoid.class);
+        IDoubleSolenoid conveyorExtender = mock(IDoubleSolenoid.class);
+        IAnalogInput throughBeam = mock(IAnalogInput.class);
+        ISolenoid gearIndicator = mock(ISolenoid.class);
 
-        IntakeComponent intakeComponent = new IntakeComponent(motor, intakeExtender, gearholderSolenoid);
+        IntakeComponent intakeComponent = new IntakeComponent(logger, motor, armExtender, conveyorExtender, throughBeam, gearIndicator);
 
         intakeComponent.extendArm(false);
 
-        verify(intakeExtender).set(eq(DoubleSolenoidValue.kReverse));
-        verifyNoMoreInteractions(motor, intakeExtender, gearholderSolenoid);
+        verify(armExtender).set(eq(DoubleSolenoidValue.kReverse));
+        verifyNoMoreInteractions(motor, armExtender, conveyorExtender, throughBeam, gearIndicator);
     }
 
     @Test
     public void testExtend_true()
     {
-        IDoubleSolenoid gearholderSolenoid = mock(IDoubleSolenoid.class);
+        IDashboardLogger logger = mock(IDashboardLogger.class);
         IMotor motor = mock(IMotor.class);
-        IDoubleSolenoid intakeExtender = mock(IDoubleSolenoid.class);
+        IDoubleSolenoid armExtender = mock(IDoubleSolenoid.class);
+        IDoubleSolenoid conveyorExtender = mock(IDoubleSolenoid.class);
+        IAnalogInput throughBeam = mock(IAnalogInput.class);
+        ISolenoid gearIndicator = mock(ISolenoid.class);
 
-        IntakeComponent intakeComponent = new IntakeComponent(motor, intakeExtender, gearholderSolenoid);
+        IntakeComponent intakeComponent = new IntakeComponent(logger, motor, armExtender, conveyorExtender, throughBeam, gearIndicator);
 
         intakeComponent.extendArm(true);
 
-        verify(intakeExtender).set(eq(DoubleSolenoidValue.kForward));
-        verifyNoMoreInteractions(motor, intakeExtender, gearholderSolenoid);
+        verify(armExtender).set(eq(DoubleSolenoidValue.kForward));
+        verifyNoMoreInteractions(motor, armExtender, conveyorExtender, throughBeam, gearIndicator);
     }
 
     @Test
     public void testMotorSpeed_MAX_POWER_LEVEL()
     {
+        IDashboardLogger logger = mock(IDashboardLogger.class);
         IMotor motor = mock(IMotor.class);
-        IDoubleSolenoid gearholderSolenoid = mock(IDoubleSolenoid.class);
-        IDoubleSolenoid intakeExtender = mock(IDoubleSolenoid.class);
+        IDoubleSolenoid armExtender = mock(IDoubleSolenoid.class);
+        IDoubleSolenoid conveyorExtender = mock(IDoubleSolenoid.class);
+        IAnalogInput throughBeam = mock(IAnalogInput.class);
+        ISolenoid gearIndicator = mock(ISolenoid.class);
 
-        IntakeComponent intakeComponent = new IntakeComponent(motor, intakeExtender, gearholderSolenoid);
+        IntakeComponent intakeComponent = new IntakeComponent(logger, motor, armExtender, conveyorExtender, throughBeam, gearIndicator);
 
         intakeComponent.setMotorSpeed(TuningConstants.INTAKE_MAX_MOTOR_SPEED);
 
         verify(motor).set(eq(TuningConstants.INTAKE_MAX_MOTOR_SPEED));
-        verifyNoMoreInteractions(motor, intakeExtender, gearholderSolenoid);
+        verifyNoMoreInteractions(motor, armExtender, conveyorExtender, throughBeam, gearIndicator);
     }
 
     @Test
     public void testMotorSpeed_0()
     {
+        IDashboardLogger logger = mock(IDashboardLogger.class);
         IMotor motor = mock(IMotor.class);
-        IDoubleSolenoid gearholderSolenoid = mock(IDoubleSolenoid.class);
-        IDoubleSolenoid intakeExtender = mock(IDoubleSolenoid.class);
+        IDoubleSolenoid armExtender = mock(IDoubleSolenoid.class);
+        IDoubleSolenoid conveyorExtender = mock(IDoubleSolenoid.class);
+        IAnalogInput throughBeam = mock(IAnalogInput.class);
+        ISolenoid gearIndicator = mock(ISolenoid.class);
 
-        IntakeComponent intakeComponent = new IntakeComponent(motor, intakeExtender, gearholderSolenoid);
+        IntakeComponent intakeComponent = new IntakeComponent(logger, motor, armExtender, conveyorExtender, throughBeam, gearIndicator);
 
         intakeComponent.setMotorSpeed(0.0);
 
         verify(motor).set(eq(0.0));
-        verifyNoMoreInteractions(motor, intakeExtender, gearholderSolenoid);
+        verifyNoMoreInteractions(motor, armExtender, conveyorExtender, throughBeam, gearIndicator);
     }
 
     @Test
     public void testStop()
     {
+        IDashboardLogger logger = mock(IDashboardLogger.class);
         IMotor motor = mock(IMotor.class);
-        IDoubleSolenoid gearholderSolenoid = mock(IDoubleSolenoid.class);
-        IDoubleSolenoid intakeExtender = mock(IDoubleSolenoid.class);
+        IDoubleSolenoid armExtender = mock(IDoubleSolenoid.class);
+        IDoubleSolenoid conveyorExtender = mock(IDoubleSolenoid.class);
+        IAnalogInput throughBeam = mock(IAnalogInput.class);
+        ISolenoid gearIndicator = mock(ISolenoid.class);
 
-        IntakeComponent intakeComponent = new IntakeComponent(motor, intakeExtender, gearholderSolenoid);
+        IntakeComponent intakeComponent = new IntakeComponent(logger, motor, armExtender, conveyorExtender, throughBeam, gearIndicator);
 
         intakeComponent.stop();
 
         verify(motor).set(eq(0.0));
-        verify(gearholderSolenoid).set(eq(DoubleSolenoidValue.kOff));
-        verify(intakeExtender).set(eq(DoubleSolenoidValue.kOff));
-        verifyNoMoreInteractions(motor, gearholderSolenoid, intakeExtender);
+        verify(conveyorExtender).set(eq(DoubleSolenoidValue.kOff));
+        verify(armExtender).set(eq(DoubleSolenoidValue.kOff));
+        verifyNoMoreInteractions(motor, conveyorExtender, armExtender);
     }
 }

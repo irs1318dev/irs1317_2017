@@ -25,13 +25,16 @@ public class IntakeControllerTest
         doReturn(false).when(driver).getDigital(Operation.IntakeGearHolderRetract);
         doReturn(false).when(driver).getDigital(Operation.IntakeIn);
         doReturn(false).when(driver).getDigital(Operation.IntakeOut);
+        doReturn(false).when(intake).getThroughBeamBroken();
 
         IntakeController controller = new IntakeController(intake);
         controller.setDriver(driver);
 
         controller.update();
 
-        verify(intake).setMotorSpeed(0.0);
+        verify(intake).setMotorSpeed(eq(0.0));
+        verify(intake).getThroughBeamBroken();
+        verify(intake).setIndicator(eq(false));
         verifyNoMoreInteractions(intake);
     }
 
@@ -47,14 +50,17 @@ public class IntakeControllerTest
         doReturn(false).when(driver).getDigital(Operation.IntakeGearHolderRetract);
         doReturn(false).when(driver).getDigital(Operation.IntakeIn);
         doReturn(false).when(driver).getDigital(Operation.IntakeOut);
+        doReturn(false).when(intake).getThroughBeamBroken();
 
         IntakeController controller = new IntakeController(intake);
         controller.setDriver(driver);
 
         controller.update();
 
-        verify(intake).setMotorSpeed(0.0);
+        verify(intake).setMotorSpeed(eq(0.0));
         verify(intake).extendArm(eq(true));
+        verify(intake).getThroughBeamBroken();
+        verify(intake).setIndicator(eq(false));
         verifyNoMoreInteractions(intake);
     }
 
@@ -70,14 +76,17 @@ public class IntakeControllerTest
         doReturn(false).when(driver).getDigital(Operation.IntakeGearHolderRetract);
         doReturn(false).when(driver).getDigital(Operation.IntakeIn);
         doReturn(false).when(driver).getDigital(Operation.IntakeOut);
+        doReturn(false).when(intake).getThroughBeamBroken();
 
         IntakeController controller = new IntakeController(intake);
         controller.setDriver(driver);
 
         controller.update();
 
-        verify(intake).setMotorSpeed(0.0);
+        verify(intake).setMotorSpeed(eq(0.0));
         verify(intake).extendArm(eq(false));
+        verify(intake).getThroughBeamBroken();
+        verify(intake).setIndicator(eq(false));
         verifyNoMoreInteractions(intake);
     }
 
@@ -93,14 +102,17 @@ public class IntakeControllerTest
         doReturn(false).when(driver).getDigital(Operation.IntakeGearHolderRetract);
         doReturn(false).when(driver).getDigital(Operation.IntakeIn);
         doReturn(false).when(driver).getDigital(Operation.IntakeOut);
+        doReturn(false).when(intake).getThroughBeamBroken();
 
         IntakeController controller = new IntakeController(intake);
         controller.setDriver(driver);
 
         controller.update();
 
-        verify(intake).setMotorSpeed(0.0);
+        verify(intake).setMotorSpeed(eq(0.0));
         verify(intake).extendConveyor(eq(true));
+        verify(intake).getThroughBeamBroken();
+        verify(intake).setIndicator(eq(false));
         verifyNoMoreInteractions(intake);
     }
 
@@ -116,14 +128,17 @@ public class IntakeControllerTest
         doReturn(true).when(driver).getDigital(Operation.IntakeGearHolderRetract);
         doReturn(false).when(driver).getDigital(Operation.IntakeIn);
         doReturn(false).when(driver).getDigital(Operation.IntakeOut);
+        doReturn(false).when(intake).getThroughBeamBroken();
 
         IntakeController controller = new IntakeController(intake);
         controller.setDriver(driver);
 
         controller.update();
 
-        verify(intake).setMotorSpeed(0.0);
+        verify(intake).setMotorSpeed(eq(0.0));
         verify(intake).extendConveyor(eq(false));
+        verify(intake).getThroughBeamBroken();
+        verify(intake).setIndicator(eq(false));
         verifyNoMoreInteractions(intake);
     }
 
@@ -139,13 +154,16 @@ public class IntakeControllerTest
         doReturn(false).when(driver).getDigital(Operation.IntakeGearHolderRetract);
         doReturn(true).when(driver).getDigital(Operation.IntakeIn);
         doReturn(false).when(driver).getDigital(Operation.IntakeOut);
+        doReturn(false).when(intake).getThroughBeamBroken();
 
         IntakeController controller = new IntakeController(intake);
         controller.setDriver(driver);
 
         controller.update();
 
-        verify(intake).setMotorSpeed(TuningConstants.INTAKE_MAX_MOTOR_SPEED);
+        verify(intake).setMotorSpeed(eq(TuningConstants.INTAKE_MAX_MOTOR_SPEED));
+        verify(intake).getThroughBeamBroken();
+        verify(intake).setIndicator(eq(false));
         verifyNoMoreInteractions(intake);
     }
 
@@ -161,13 +179,43 @@ public class IntakeControllerTest
         doReturn(false).when(driver).getDigital(Operation.IntakeGearHolderRetract);
         doReturn(false).when(driver).getDigital(Operation.IntakeIn);
         doReturn(true).when(driver).getDigital(Operation.IntakeOut);
+        doReturn(false).when(intake).getThroughBeamBroken();
 
         IntakeController controller = new IntakeController(intake);
         controller.setDriver(driver);
 
         controller.update();
 
-        verify(intake).setMotorSpeed(-TuningConstants.INTAKE_MAX_MOTOR_SPEED);
+        verify(intake).setMotorSpeed(eq(-TuningConstants.INTAKE_MAX_MOTOR_SPEED));
+        verify(intake).getThroughBeamBroken();
+        verify(intake).setIndicator(eq(false));
+        verifyNoMoreInteractions(intake);
+    }
+
+    @Test
+    public void testUpdate_GearIndicator()
+    {
+        IntakeComponent intake = mock(IntakeComponent.class);
+        Driver driver = mock(Driver.class);
+
+        doReturn(true).when(driver).getDigital(Operation.IntakeArmExtend);
+        doReturn(false).when(driver).getDigital(Operation.IntakeArmRetract);
+        doReturn(false).when(driver).getDigital(Operation.IntakeConveyorExtend);
+        doReturn(true).when(driver).getDigital(Operation.IntakeGearHolderRetract);
+        doReturn(false).when(driver).getDigital(Operation.IntakeIn);
+        doReturn(false).when(driver).getDigital(Operation.IntakeOut);
+        doReturn(true).when(intake).getThroughBeamBroken();
+
+        IntakeController controller = new IntakeController(intake);
+        controller.setDriver(driver);
+
+        controller.update();
+
+        verify(intake).setMotorSpeed(eq(0.0));
+        verify(intake).extendArm(eq(true));
+        verify(intake).extendConveyor(eq(false));
+        verify(intake).getThroughBeamBroken();
+        verify(intake).setIndicator(eq(true));
         verifyNoMoreInteractions(intake);
     }
 
