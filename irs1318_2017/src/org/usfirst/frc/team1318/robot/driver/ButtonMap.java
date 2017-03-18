@@ -116,26 +116,26 @@ public class ButtonMap implements IButtonMap
 
             put(Operation.IntakeIn,
                 new DigitalOperationDescription(
-                    UserInputDevice.Driver,
-                    UserInputDeviceButton.JOYSTICK_STICK_BOTTOM_LEFT_BUTTON,
+                    UserInputDevice.None,
+                    UserInputDeviceButton.NONE, // JOYSTICK_STICK_BOTTOM_LEFT_BUTTON
                     ButtonType.Simple));
 
             put(Operation.IntakeOut,
                 new DigitalOperationDescription(
-                    UserInputDevice.Driver,
-                    UserInputDeviceButton.JOYSTICK_STICK_TOP_LEFT_BUTTON,
+                    UserInputDevice.None,
+                    UserInputDeviceButton.NONE, // JOYSTICK_STICK_TOP_LEFT_BUTTON
                     ButtonType.Simple));
 
             put(Operation.IntakeGearHolderExtend,
                 new DigitalOperationDescription(
-                    UserInputDevice.Driver,
-                    UserInputDeviceButton.NONE,//JOYSTICK_BASE_MIDDLE_LEFT_BUTTON,
+                    UserInputDevice.None,
+                    UserInputDeviceButton.NONE, // JOYSTICK_BASE_MIDDLE_LEFT_BUTTON
                     ButtonType.Click));
 
             put(Operation.IntakeGearHolderRetract,
                 new DigitalOperationDescription(
                     UserInputDevice.None,
-                    UserInputDeviceButton.NONE,//JOYSTICK_BASE_BOTTOM_LEFT_BUTTON,
+                    UserInputDeviceButton.NONE, // JOYSTICK_BASE_BOTTOM_LEFT_BUTTON
                     ButtonType.Click));
 
             // Operations for the climber
@@ -286,10 +286,28 @@ public class ButtonMap implements IButtonMap
 
             // Other operations
             put(
-                MacroOperation.GearSetup,
+                MacroOperation.StartingPosition,
                 new MacroOperationDescription(
                     UserInputDevice.Driver,
-                    UserInputDeviceButton.JOYSTICK_BASE_BOTTOM_LEFT_BUTTON,
+                    270, // POV left
+                    ButtonType.Toggle,
+                    () -> ConcurrentTask.AllTasks(
+                        new IntakeExtendTask(false, 0.25),
+                        new GearExtendTask(false, 0.25)),
+                    new Operation[]
+                    {
+                        Operation.IntakeGearHolderExtend,
+                        Operation.IntakeGearHolderRetract,
+                        Operation.IntakeArmExtend,
+                        Operation.IntakeArmRetract,
+                        Operation.IntakeIn,
+                        Operation.IntakeOut,
+                    }));
+            put(
+                MacroOperation.GearSetupPosition,
+                new MacroOperationDescription(
+                    UserInputDevice.Driver,
+                    0, // POV up
                     ButtonType.Toggle,
                     () -> ConcurrentTask.AllTasks(
                         new IntakeExtendTask(true, 0.25),
@@ -304,15 +322,33 @@ public class ButtonMap implements IButtonMap
                         Operation.IntakeOut,
                     }));
             put(
-                MacroOperation.GearGrabber,
+                MacroOperation.GearGrabPosition,
                 new MacroOperationDescription(
                     UserInputDevice.Driver,
-                    UserInputDeviceButton.JOYSTICK_BASE_MIDDLE_LEFT_BUTTON,
+                    180, // POV down
                     ButtonType.Toggle,
                     () -> SequentialTask.Sequence(
                         ConcurrentTask.AllTasks(
                             new IntakeExtendTask(false, 0.25),
                             new IntakeSpinTask(false, 0.15)),
+                        new GearExtendTask(true, 0.25)),
+                    new Operation[]
+                    {
+                        Operation.IntakeGearHolderExtend,
+                        Operation.IntakeGearHolderRetract,
+                        Operation.IntakeArmExtend,
+                        Operation.IntakeArmRetract,
+                        Operation.IntakeIn,
+                        Operation.IntakeOut,
+                    }));
+            put(
+                MacroOperation.BallIntakePosition,
+                new MacroOperationDescription(
+                    UserInputDevice.Driver,
+                    90, // POV right
+                    ButtonType.Toggle,
+                    () -> ConcurrentTask.AllTasks(
+                        new IntakeExtendTask(true, 0.25),
                         new GearExtendTask(true, 0.25)),
                     new Operation[]
                     {

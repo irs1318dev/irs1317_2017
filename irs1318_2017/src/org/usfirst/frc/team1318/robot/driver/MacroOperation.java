@@ -9,8 +9,10 @@ public enum MacroOperation
     ShooterCenter,
 
     // Gear-holder operations
-    GearSetup,
-    GearGrabber,
+    StartingPosition,
+    GearSetupPosition,
+    GearGrabPosition,
+    BallIntakePosition,
 
     // Shooter operations:
     SpinFar,
