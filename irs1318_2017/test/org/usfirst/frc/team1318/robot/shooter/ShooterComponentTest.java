@@ -111,7 +111,7 @@ public class ShooterComponentTest
 
         ShooterComponent shooterComponent = new ShooterComponent(logger, timer, hood, feeder, readyLight, targetingLight, shooter);
 
-        shooterComponent.extendOrRetract(true);
+        shooterComponent.extendHood(true);
 
         verify(hood).set(eq(DoubleSolenoidValue.kForward));
         verifyNoMoreInteractions(hood, feeder, shooter, readyLight, targetingLight);
@@ -130,7 +130,7 @@ public class ShooterComponentTest
 
         ShooterComponent shooterComponent = new ShooterComponent(logger, timer, hood, feeder, readyLight, targetingLight, shooter);
 
-        shooterComponent.extendOrRetract(false);
+        shooterComponent.extendHood(false);
 
         verify(hood).set(eq(DoubleSolenoidValue.kReverse));
         verifyNoMoreInteractions(hood, feeder, shooter, readyLight, targetingLight);

@@ -88,7 +88,7 @@ public class ShooterComponent
         return error;
     }
 
-    public void extendOrRetract(boolean extend)
+    public void extendHood(boolean extend)
     {
         this.logger.logString(ShooterComponent.LogName, "hood", extend ? "extend" : "retract");
         if (extend)

@@ -34,7 +34,7 @@ public class ShooterControllerTest
 
         shooterController.update();
 
-        verify(shooter).extendOrRetract(eq(true));
+        verify(shooter).extendHood(eq(true));
         verify(shooter).setFeederPower(eq(0.0));
         verify(shooter).setShooterPower(eq(0.0), eq(true));
         verify(shooter).getShooterTicks();
@@ -65,7 +65,7 @@ public class ShooterControllerTest
 
         shooterController.update();
 
-        verify(shooter).extendOrRetract(eq(false));
+        verify(shooter).extendHood(eq(false));
         verify(shooter).setFeederPower(eq(0.0));
         verify(shooter).setShooterPower(eq(0.0), eq(true));
         verify(shooter).getShooterTicks();
@@ -97,7 +97,7 @@ public class ShooterControllerTest
 
         shooterController.update();
 
-        verify(shooter).extendOrRetract(eq(true));
+        verify(shooter).extendHood(eq(true));
         verify(shooter).setFeederPower(eq(0.0));
         verify(shooter).setShooterPower(eq(0.0), eq(false));
         verify(shooter).getShooterTicks();
@@ -128,7 +128,7 @@ public class ShooterControllerTest
 
         shooterController.update();
 
-        verify(shooter).extendOrRetract(eq(true));
+        verify(shooter).extendHood(eq(true));
         verify(shooter).setFeederPower(eq(0.0));
         verify(shooter).setShooterPower(eq(TuningConstants.SHOOTER_CAN_MAX_VELOCITY), eq(true));
         verify(shooter).getShooterTicks();
@@ -159,7 +159,7 @@ public class ShooterControllerTest
 
         shooterController.update();
 
-        verify(shooter).extendOrRetract(eq(true));
+        verify(shooter).extendHood(eq(true));
         verify(shooter).setFeederPower(eq(0.0));
         verify(shooter).setShooterPower(eq(TuningConstants.SHOOTER_CAN_MAX_VELOCITY), eq(true));
         verify(shooter).getShooterTicks();
@@ -190,7 +190,7 @@ public class ShooterControllerTest
 
         shooterController.update();
 
-        verify(shooter).extendOrRetract(eq(true));
+        verify(shooter).extendHood(eq(true));
         verify(shooter).setFeederPower(eq(0.0));
         verify(shooter).setShooterPower(eq(0.0), eq(true));
         verify(shooter).getShooterTicks();
@@ -221,7 +221,7 @@ public class ShooterControllerTest
 
         shooterController.update();
 
-        verify(shooter).extendOrRetract(eq(true));
+        verify(shooter).extendHood(eq(true));
         verify(shooter).setFeederPower(eq(TuningConstants.SHOOTER_MAX_FEEDER_POWER));
         verify(shooter).setShooterPower(eq(0.1 * TuningConstants.SHOOTER_CAN_MAX_VELOCITY), eq(true));
         verify(shooter).getShooterTicks();
@@ -252,7 +252,7 @@ public class ShooterControllerTest
 
         shooterController.update();
 
-        verify(shooter).extendOrRetract(eq(true));
+        verify(shooter).extendHood(eq(true));
         verify(shooter).setFeederPower(eq(0.0));
         verify(shooter).setShooterPower(eq(0.0), eq(true));
         verify(shooter).getShooterTicks();
@@ -283,7 +283,7 @@ public class ShooterControllerTest
 
         shooterController.update();
 
-        verify(shooter).extendOrRetract(eq(false));
+        verify(shooter).extendHood(eq(false));
         verify(shooter).setFeederPower(eq(0.0));
         verify(shooter).setShooterPower(eq(0.5 * TuningConstants.SHOOTER_CAN_MAX_VELOCITY), eq(true));
         verify(shooter).getShooterTicks();
@@ -314,7 +314,7 @@ public class ShooterControllerTest
 
         shooterController.update();
 
-        verify(shooter).extendOrRetract(eq(false));
+        verify(shooter).extendHood(eq(false));
         verify(shooter).setFeederPower(eq(0.0));
         verify(shooter).setShooterPower(eq(0.0), eq(true));
         verify(shooter).getShooterTicks();
