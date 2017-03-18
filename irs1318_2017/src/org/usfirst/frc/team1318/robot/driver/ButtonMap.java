@@ -222,7 +222,7 @@ public class ButtonMap implements IButtonMap
                 MacroOperation.ShooterCenter,
                 new MacroOperationDescription(
                     UserInputDevice.None,
-                    UserInputDeviceButton.JOYSTICK_BASE_TOP_LEFT_BUTTON,
+                    UserInputDeviceButton.JOYSTICK_BASE_MIDDLE_LEFT_BUTTON,
                     ButtonType.Toggle,
                     () -> new VisionCenteringTask(false),
                     new Operation[]
@@ -409,7 +409,7 @@ public class ButtonMap implements IButtonMap
                 MacroOperation.CloseShotDriveBackwards,
                 new MacroOperationDescription(
                     UserInputDevice.Driver,
-                    UserInputDeviceButton.JOYSTICK_BASE_MIDDLE_LEFT_BUTTON,
+                    UserInputDeviceButton.JOYSTICK_BASE_TOP_LEFT_BUTTON,
                     ButtonType.Toggle,
                     () -> new DriveDistanceTimedTask(TuningConstants.SHOOTER_CLOSE_SHOT_BACKWARDS_DISTANCE, 1.0),
                     new Operation[]
