@@ -215,7 +215,7 @@ public class RobotModule extends AbstractModule
 
     @Singleton
     @Provides
-    @Named("INTAKE_SOLENOID")
+    @Named("INTAKE_ARM_SOLENOID")
     public IDoubleSolenoid getIntakeExtender()
     {
         DoubleSolenoidWrapper intakeExtender = new DoubleSolenoidWrapper(

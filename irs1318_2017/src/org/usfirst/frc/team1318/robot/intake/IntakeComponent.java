@@ -44,6 +44,7 @@ public class IntakeComponent
     public void setMotorSpeed(double speed)
     {
         this.motor.set(speed);
+        this.logger.logNumber(IntakeComponent.LogName, "motor", speed);
     }
 
     public void extendArm(boolean extend)

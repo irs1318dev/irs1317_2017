@@ -9,8 +9,8 @@ import org.usfirst.frc.team1318.robot.driver.buttons.AnalogAxis;
 import org.usfirst.frc.team1318.robot.driver.buttons.ButtonType;
 import org.usfirst.frc.team1318.robot.driver.controltasks.ConcurrentTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.DriveDistanceTimedTask;
-import org.usfirst.frc.team1318.robot.driver.controltasks.IntakeConveyorExtendTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.IntakeArmExtendTask;
+import org.usfirst.frc.team1318.robot.driver.controltasks.IntakeConveyorExtendTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.IntakeSpinTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.PIDBrakeTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.SequentialTask;
@@ -104,26 +104,26 @@ public class ButtonMap implements IButtonMap
             // Operations for the intake
             put(Operation.IntakeArmExtend,
                 new DigitalOperationDescription(
-                    UserInputDevice.Driver,
-                    0,
+                    UserInputDevice.None,
+                    UserInputDeviceButton.NONE, // 0
                     ButtonType.Click));
 
             put(Operation.IntakeArmRetract,
                 new DigitalOperationDescription(
-                    UserInputDevice.Driver,
-                    180,
+                    UserInputDevice.None,
+                    UserInputDeviceButton.NONE, // 180
                     ButtonType.Click));
 
             put(Operation.IntakeIn,
                 new DigitalOperationDescription(
-                    UserInputDevice.None,
-                    UserInputDeviceButton.NONE, // JOYSTICK_STICK_BOTTOM_LEFT_BUTTON
+                    UserInputDevice.Driver,
+                    UserInputDeviceButton.JOYSTICK_STICK_BOTTOM_LEFT_BUTTON,
                     ButtonType.Simple));
 
             put(Operation.IntakeOut,
                 new DigitalOperationDescription(
-                    UserInputDevice.None,
-                    UserInputDeviceButton.NONE, // JOYSTICK_STICK_TOP_LEFT_BUTTON
+                    UserInputDevice.Driver,
+                    UserInputDeviceButton.JOYSTICK_STICK_TOP_LEFT_BUTTON,
                     ButtonType.Simple));
 
             put(Operation.IntakeConveyorExtend,
