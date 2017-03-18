@@ -405,6 +405,21 @@ public class ButtonMap implements IButtonMap
                         Operation.ShooterSpeed,
                         Operation.ShooterExtendHood
                     }));
+            put(
+                MacroOperation.CloseShotDriveBackwards,
+                new MacroOperationDescription(
+                    UserInputDevice.Driver,
+                    UserInputDeviceButton.JOYSTICK_BASE_MIDDLE_LEFT_BUTTON,
+                    ButtonType.Toggle,
+                    () -> new DriveDistanceTimedTask(TuningConstants.SHOOTER_CLOSE_SHOT_BACKWARDS_DISTANCE, 1.0),
+                    new Operation[]
+                    {
+                            Operation.DriveTrainUsePositionalMode,
+                            Operation.DriveTrainLeftPosition,
+                            Operation.DriveTrainRightPosition,
+                            Operation.DriveTrainMoveForward,
+                            Operation.DriveTrainTurn
+                    }));
         }
     };
 

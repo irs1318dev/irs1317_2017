@@ -17,5 +17,6 @@ public enum MacroOperation
     // Shooter operations:
     SpinFar,
     SpinClose,
-    SpinCloseLowGoal
+    SpinCloseLowGoal,
+    CloseShotDriveBackwards
 }
