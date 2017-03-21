@@ -6,7 +6,7 @@ import org.usfirst.frc.team1318.robot.TuningConstants;
 public class VisionConstants
 {
     // Debug output settings:
-    public static final boolean DEBUG = false;
+    public static final boolean DEBUG = true;
     public static final boolean DEBUG_PRINT_OUTPUT = false;
     public static final boolean DEBUG_PRINT_ANALYZER_DATA = false;
     public static final int DEBUG_FPS_AVERAGING_INTERVAL = 25;
@@ -69,7 +69,7 @@ public class VisionConstants
     public static final double GEAR_CONTOUR_ALLOWABLE_RATIO = 0.9; // the ratio of the second-largest contour to the largest
     public static final double GEAR_CAMERA_MOUNTING_DISTANCE = 0.0; // camera is 0 inches back from the end of the robot in front of the camera
     public static final double GEAR_CAMERA_HORIZONTAL_MOUNTING_OFFSET = 8.0; // camera is 12 inches (~11 for practice) to the left from center line of the robot, tape center is 4 inches to the left of the center of the robot
-    public static final double GEAR_CAMERA_HORIZONTAL_MOUNTING_ANGLE = TuningConstants.COMPETITION_ROBOT ? 0.0 : -3.0; // practice robot camera is pointed 3 degrees to the right
+    public static final double GEAR_CAMERA_HORIZONTAL_MOUNTING_ANGLE = TuningConstants.COMPETITION_ROBOT ? 0.0 : -1.0; // practice robot camera is pointed 3 degrees to the right
 
     public static final double SHOOTER_LARGER_RETROREFLECTIVE_TAPE_HEIGHT_CENTROID_FROM_GROUND = 86; // 7 feet, 2 inches from floor to center of upper retroreflective tape on boiler
     public static final double SHOOTER_CAMERA_VERTICAL_MOUNTING_HEIGHT = 16.25; // 16.25 inches from ground

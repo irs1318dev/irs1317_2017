@@ -44,15 +44,7 @@ public class VisionCenteringTask extends ControlTaskBase implements IControlTask
     public void begin()
     {
         this.visionManager = this.getInjector().getInstance(VisionManager.class);
-        this.turnPidHandler = new PIDHandler(
-            TuningConstants.VISION_CENTERING_PID_KP,
-            TuningConstants.VISION_CENTERING_PID_KI,
-            TuningConstants.VISION_CENTERING_PID_KD,
-            TuningConstants.VISION_CENTERING_PID_KF,
-            TuningConstants.VISION_CENTERING_PID_KS,
-            TuningConstants.VISION_CENTERING_PID_MIN,
-            TuningConstants.VISION_CENTERING_PID_MAX,
-            this.getInjector().getInstance(ITimer.class));
+        this.turnPidHandler = this.createTurnHandler();
 
         if (this.visionMode)
         {
@@ -159,5 +151,18 @@ public class VisionCenteringTask extends ControlTaskBase implements IControlTask
         }
 
         return this.noCenterCount >= VisionCenteringTask.NO_CENTER_THRESHOLD;
+    }
+
+    protected PIDHandler createTurnHandler()
+    {
+        return new PIDHandler(
+            TuningConstants.VISION_STATIONARY_CENTERING_PID_KP,
+            TuningConstants.VISION_STATIONARY_CENTERING_PID_KI,
+            TuningConstants.VISION_STATIONARY_CENTERING_PID_KD,
+            TuningConstants.VISION_STATIONARY_CENTERING_PID_KF,
+            TuningConstants.VISION_STATIONARY_CENTERING_PID_KS,
+            TuningConstants.VISION_STATIONARY_CENTERING_PID_MIN,
+            TuningConstants.VISION_STATIONARY_CENTERING_PID_MAX,
+            this.getInjector().getInstance(ITimer.class));
     }
 }

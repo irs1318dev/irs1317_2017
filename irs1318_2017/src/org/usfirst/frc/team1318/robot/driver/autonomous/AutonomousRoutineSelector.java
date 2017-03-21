@@ -7,8 +7,9 @@ import org.usfirst.frc.team1318.robot.driver.IControlTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.ConcurrentTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.DriveDistanceTimedTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.DriveRouteTask;
-import org.usfirst.frc.team1318.robot.driver.controltasks.IntakeConveyorExtendTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.IntakeArmExtendTask;
+import org.usfirst.frc.team1318.robot.driver.controltasks.IntakeConveyorExtendTask;
+import org.usfirst.frc.team1318.robot.driver.controltasks.IntakeSpinTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.SequentialTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.ShooterFeedTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.ShooterSpinTask;
@@ -76,24 +77,19 @@ public class AutonomousRoutineSelector
         switch (routineSelection)
         {
             case 0: // No switches flipped
-                return AutonomousRoutineSelector
-                    .GetFillerRoutine();
+                return AutonomousRoutineSelector.GetFillerRoutine();
 
             case 1: // Just A flipped
-                return AutonomousRoutineSelector
-                    .GetShootCloseRoutine(turnLeft);
+                return AutonomousRoutineSelector.GetShootCloseRoutine(turnLeft);
 
             case 2: // Just B flipped
-                return AutonomousRoutineSelector
-                    .GetFarGearRoutine(turnLeft);
+                return AutonomousRoutineSelector.GetFarGearRoutine(turnLeft);
 
             case 3: // A and B flipped
-                return AutonomousRoutineSelector
-                    .GetStraightRoutine(turnLeft);
+                return AutonomousRoutineSelector.GetStraightRoutine(turnLeft);
 
             default: // CANNOT READ
-                return AutonomousRoutineSelector
-                    .GetFillerRoutine();
+                return AutonomousRoutineSelector.GetFillerRoutine();
         }
     }
 
@@ -115,7 +111,7 @@ public class AutonomousRoutineSelector
                 new DriveDistanceTimedTask(88, 4.0), // 90 inches forwards, minus 18 from center of robot to bumper...
                 new TurnTimedTask(turnLeft ? -60.0 : 60.0, 1.5),
                 new VisionAdvanceAndCenterTask(true),
-                new DriveDistanceTimedTask(16.0, 1.5),
+                new DriveDistanceTimedTask(24.0, 1.5),
                 AutonomousRoutineSelector.PlaceGear()));
     }
 
@@ -156,7 +152,7 @@ public class AutonomousRoutineSelector
                 new DriveDistanceTimedTask(50.0, 1.5),
                 new TurnTimedTask(turnLeft ? -68.0 : 68.0, 1.5),
                 new VisionAdvanceAndCenterTask(true),
-                new DriveDistanceTimedTask(16.0, 1.5),
+                new DriveDistanceTimedTask(24.0, 1.5),
                 AutonomousRoutineSelector.PlaceGear()));
     }
 
@@ -165,9 +161,9 @@ public class AutonomousRoutineSelector
         return ConcurrentTask.AllTasks(
             AutonomousRoutineSelector.GearSetUp(),
             SequentialTask.Sequence(
-                new DriveDistanceTimedTask(48.0, 2.5),
+                new DriveDistanceTimedTask(40.0, 2.5),
                 new VisionAdvanceAndCenterTask(true),
-                new DriveDistanceTimedTask(16.0, 1.5),
+                new DriveDistanceTimedTask(24.0, 1.5),
                 AutonomousRoutineSelector.PlaceGear()));
     }
 
@@ -183,16 +179,20 @@ public class AutonomousRoutineSelector
     private static IControlTask GearSetUp()
     {
         return SequentialTask.Sequence(
-            new IntakeConveyorExtendTask(true, 0.5),
-            new IntakeArmExtendTask(true, 1.5),
-            new IntakeArmExtendTask(false, 0.5));
+            ConcurrentTask.AllTasks(
+                new IntakeSpinTask(true, 0.15),
+                new IntakeArmExtendTask(true, 0.15)),
+            new IntakeArmExtendTask(false, 1.0),
+            new IntakeConveyorExtendTask(true, 0.5));
     }
 
     private static IControlTask PlaceGear()
     {
-        return ConcurrentTask.AllTasks(
-            new IntakeArmExtendTask(true, 0.25),
-            new IntakeConveyorExtendTask(false, 0.25));
+        return SequentialTask.Sequence(
+            ConcurrentTask.AllTasks(
+                new IntakeArmExtendTask(true, 0.25),
+                new IntakeConveyorExtendTask(false, 0.25)),
+            new DriveDistanceTimedTask(-12.0, 1.0));
     }
 }
 

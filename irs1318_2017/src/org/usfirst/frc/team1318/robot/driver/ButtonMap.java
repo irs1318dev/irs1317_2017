@@ -260,7 +260,7 @@ public class ButtonMap implements IButtonMap
                     ButtonType.Toggle,
                     () -> SequentialTask.Sequence(
                         new VisionAdvanceAndCenterTask(true),
-                        new DriveDistanceTimedTask(18.0, 1.5)),
+                        new DriveDistanceTimedTask(24.0, 1.5)),
                     new Operation[]
                     {
                         Operation.EnableGearVision,
