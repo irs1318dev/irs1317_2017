@@ -11,6 +11,7 @@ import org.usfirst.frc.team1318.robot.driver.controltasks.ConcurrentTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.DriveDistanceTimedTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.IntakeArmExtendTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.IntakeConveyorExtendTask;
+import org.usfirst.frc.team1318.robot.driver.controltasks.IntakeOutSensorTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.IntakeSpinTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.PIDBrakeTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.SequentialTask;
@@ -132,7 +133,7 @@ public class ButtonMap implements IButtonMap
                     UserInputDeviceButton.NONE,
                     ButtonType.Click));
 
-            put(Operation.IntakeGearHolderRetract,
+            put(Operation.IntakeConveyorRetract,
                 new DigitalOperationDescription(
                     UserInputDevice.None,
                     UserInputDeviceButton.NONE,
@@ -289,7 +290,7 @@ public class ButtonMap implements IButtonMap
                     new Operation[]
                     {
                         Operation.IntakeConveyorExtend,
-                        Operation.IntakeGearHolderRetract,
+                        Operation.IntakeConveyorRetract,
                         Operation.IntakeArmExtend,
                         Operation.IntakeArmRetract,
                         Operation.IntakeIn,
@@ -301,13 +302,11 @@ public class ButtonMap implements IButtonMap
                     UserInputDevice.Driver,
                     0, // POV up
                     ButtonType.Toggle,
-                    () -> ConcurrentTask.AllTasks(
-                        new IntakeArmExtendTask(true, 0.25),
-                        new IntakeConveyorExtendTask(false, 0.25)),
+                    () -> ButtonMap.GearSetupPositionMacro(),
                     new Operation[]
                     {
                         Operation.IntakeConveyorExtend,
-                        Operation.IntakeGearHolderRetract,
+                        Operation.IntakeConveyorRetract,
                         Operation.IntakeArmExtend,
                         Operation.IntakeArmRetract,
                         Operation.IntakeIn,
@@ -319,15 +318,11 @@ public class ButtonMap implements IButtonMap
                     UserInputDevice.Driver,
                     180, // POV down
                     ButtonType.Toggle,
-                    () -> SequentialTask.Sequence(
-                        ConcurrentTask.AllTasks(
-                            new IntakeArmExtendTask(false, 0.25),
-                            new IntakeSpinTask(false, 0.15)),
-                        new IntakeConveyorExtendTask(true, 0.25)),
+                    () -> ButtonMap.GearGrabMacro(),
                     new Operation[]
                     {
                         Operation.IntakeConveyorExtend,
-                        Operation.IntakeGearHolderRetract,
+                        Operation.IntakeConveyorRetract,
                         Operation.IntakeArmExtend,
                         Operation.IntakeArmRetract,
                         Operation.IntakeIn,
@@ -345,12 +340,32 @@ public class ButtonMap implements IButtonMap
                     new Operation[]
                     {
                         Operation.IntakeConveyorExtend,
-                        Operation.IntakeGearHolderRetract,
+                        Operation.IntakeConveyorRetract,
                         Operation.IntakeArmExtend,
                         Operation.IntakeArmRetract,
                         Operation.IntakeIn,
                         Operation.IntakeOut,
                     }));
+
+            put(
+                MacroOperation.AutomaticGearPickUp,
+                new MacroOperationDescription(
+                    UserInputDevice.Driver,
+                    UserInputDeviceButton.JOYSTICK_BASE_BOTTOM_LEFT_BUTTON,
+                    ButtonType.Toggle,
+                    () -> SequentialTask.Sequence(
+                        ButtonMap.GearSetupPositionMacro(),
+                        new IntakeOutSensorTask(),
+                        ButtonMap.GearGrabMacro()),
+                    new Operation[]
+                        {
+                            Operation.IntakeOut,
+                            Operation.IntakeIn,
+                            Operation.IntakeConveyorRetract,
+                            Operation.IntakeConveyorExtend,
+                            Operation.IntakeArmRetract,
+                            Operation.IntakeArmExtend,
+                        }));
 
             put(
                 MacroOperation.SpinFar,
@@ -405,6 +420,22 @@ public class ButtonMap implements IButtonMap
                     }));
         }
     };
+
+    public static IControlTask GearSetupPositionMacro()
+    {
+        return ConcurrentTask.AllTasks(
+            new IntakeArmExtendTask(true, 0.25),
+            new IntakeConveyorExtendTask(false, 0.25));
+    }
+
+    public static SequentialTask GearGrabMacro()
+    {
+        return SequentialTask.Sequence(
+            ConcurrentTask.AllTasks(
+                new IntakeArmExtendTask(false, 0.25),
+                new IntakeSpinTask(false, 0.15)),
+            new IntakeConveyorExtendTask(true, 0.25));
+    }
 
     @Override
     public Map<Operation, OperationDescription> getOperationSchema()

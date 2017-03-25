@@ -20,14 +20,14 @@ public class IntakeConveyorExtendTask extends TimedTask implements IControlTask
         super.begin();
 
         this.setDigitalOperationState(Operation.IntakeConveyorExtend, this.extend);
-        this.setDigitalOperationState(Operation.IntakeGearHolderRetract, !this.extend);
+        this.setDigitalOperationState(Operation.IntakeConveyorRetract, !this.extend);
     }
 
     @Override
     public void update()
     {
         this.setDigitalOperationState(Operation.IntakeConveyorExtend, this.extend);
-        this.setDigitalOperationState(Operation.IntakeGearHolderRetract, !this.extend);
+        this.setDigitalOperationState(Operation.IntakeConveyorRetract, !this.extend);
     }
 
     @Override
@@ -36,7 +36,7 @@ public class IntakeConveyorExtendTask extends TimedTask implements IControlTask
         super.stop();
 
         this.setDigitalOperationState(Operation.IntakeConveyorExtend, false);
-        this.setDigitalOperationState(Operation.IntakeGearHolderRetract, false);
+        this.setDigitalOperationState(Operation.IntakeConveyorRetract, false);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class IntakeConveyorExtendTask extends TimedTask implements IControlTask
         super.end();
 
         this.setDigitalOperationState(Operation.IntakeConveyorExtend, false);
-        this.setDigitalOperationState(Operation.IntakeGearHolderRetract, false);
+        this.setDigitalOperationState(Operation.IntakeConveyorRetract, false);
     }
 
     @Override

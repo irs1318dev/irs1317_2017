@@ -13,6 +13,8 @@ public enum MacroOperation
     GearSetupPosition,
     GearGrabPosition,
     BallIntakePosition,
+    
+    AutomaticGearPickUp,
 
     // Shooter operations:
     SpinFar,
