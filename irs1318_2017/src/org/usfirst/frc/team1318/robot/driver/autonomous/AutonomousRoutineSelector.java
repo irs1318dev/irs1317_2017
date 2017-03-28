@@ -5,6 +5,7 @@ import org.usfirst.frc.team1318.robot.common.IDashboardLogger;
 import org.usfirst.frc.team1318.robot.common.wpilibmocks.IDigitalInput;
 import org.usfirst.frc.team1318.robot.driver.IControlTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.ConcurrentTask;
+import org.usfirst.frc.team1318.robot.driver.controltasks.DriveDistancePositionTimedTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.DriveDistanceTimedTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.DriveRouteTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.IntakeArmExtendTask;
@@ -108,10 +109,12 @@ public class AutonomousRoutineSelector
         return ConcurrentTask.AllTasks(
             AutonomousRoutineSelector.GearSetUp(),
             SequentialTask.Sequence(
-                new DriveDistanceTimedTask(88, 4.0), // 90 inches forwards, minus 18 from center of robot to bumper...
-                new TurnTimedTask(turnLeft ? -60.0 : 60.0, 1.5),
+                // new DriveDistanceTimedTask(88.0, 4.0), // 88 inches forwards
+                new DriveDistancePositionTimedTask(0.3, 88.0, 4.0), // changed due to drifting left
+                // new TurnTimedTask(turnLeft ? -60.0 : 60.0, 1.5),
+                new TurnTimedTask(turnLeft ? -55.0 : 65.0, 1.5), // changed due to drifting left
                 new VisionAdvanceAndCenterTask(true),
-                new DriveDistanceTimedTask(24.0, 1.5),
+                new DriveDistancePositionTimedTask(0.15, 24.0, 1.5),
                 AutonomousRoutineSelector.PlaceGear()));
     }
 
@@ -161,7 +164,7 @@ public class AutonomousRoutineSelector
         return ConcurrentTask.AllTasks(
             AutonomousRoutineSelector.GearSetUp(),
             SequentialTask.Sequence(
-                new DriveDistanceTimedTask(40.0, 2.5),
+                // new DriveDistanceTimedTask(40.0, 2.5), // changed due to drifting left
                 new VisionAdvanceAndCenterTask(true),
                 new DriveDistanceTimedTask(24.0, 1.5),
                 AutonomousRoutineSelector.PlaceGear()));
@@ -180,9 +183,10 @@ public class AutonomousRoutineSelector
     {
         return SequentialTask.Sequence(
             ConcurrentTask.AllTasks(
-                new IntakeSpinTask(true, 0.15),
-                new IntakeArmExtendTask(true, 0.15)),
-            new IntakeArmExtendTask(false, 1.0),
+                new IntakeSpinTask(false, 0.20),
+                new IntakeArmExtendTask(true, 0.20)),
+            new IntakeArmExtendTask(false, 0.5),
+            new IntakeSpinTask(false, 0.5),
             new IntakeConveyorExtendTask(true, 0.5));
     }
 

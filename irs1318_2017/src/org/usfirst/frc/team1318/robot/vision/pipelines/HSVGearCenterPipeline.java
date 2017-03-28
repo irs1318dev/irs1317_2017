@@ -88,6 +88,19 @@ public class HSVGearCenterPipeline implements ICentroidVisionPipeline
     @Override
     public void process(Mat image)
     {
+        if (VisionConstants.DEBUG)
+        {
+            if (VisionConstants.DEBUG_SAVE_FRAMES && this.analyzedFrameCount % VisionConstants.DEBUG_FRAME_OUTPUT_GAP == 0)
+            {
+                Imgcodecs.imwrite(String.format("%simage%d-1.undistorted.jpg", VisionConstants.DEBUG_OUTPUT_FOLDER, this.analyzedFrameCount), image);
+            }
+
+            if (VisionConstants.DEBUG_OUTPUT_GEAR_FRAMES)
+            {
+                this.frameInput.putFrame(image);
+            }
+        }
+
         if (!this.isActive)
         {
             return;
@@ -108,19 +121,6 @@ public class HSVGearCenterPipeline implements ICentroidVisionPipeline
         if (this.shouldUndistort)
         {
             image = this.undistorter.undistortFrame(image);
-        }
-
-        if (VisionConstants.DEBUG)
-        {
-            if (VisionConstants.DEBUG_SAVE_FRAMES && this.analyzedFrameCount % VisionConstants.DEBUG_FRAME_OUTPUT_GAP == 0)
-            {
-                Imgcodecs.imwrite(String.format("%simage%d-1.undistorted.jpg", VisionConstants.DEBUG_OUTPUT_FOLDER, this.analyzedFrameCount), image);
-            }
-
-            if (VisionConstants.DEBUG_OUTPUT_GEAR_FRAMES)
-            {
-                this.frameInput.putFrame(image);
-            }
         }
 
         // save the undistorted image for possible output later...

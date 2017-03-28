@@ -105,7 +105,7 @@ public class TuningConstants
 
     //================================================== Intake ==============================================================
 
-    public static final double INTAKE_MAX_MOTOR_SPEED = 0.95; //0.9; //0.8;
+    public static final double INTAKE_MAX_MOTOR_SPEED = 0.85; //0.95; //0.9; //0.8;
     public static final double THROUGH_BEAM_BROKEN_VOLTAGE_MIN = 0.6;
 
     //================================================== Climber ==============================================================
@@ -117,7 +117,7 @@ public class TuningConstants
 
     //================================================== Shooter ==============================================================
 
-    public static final double SHOOTER_MAX_FEEDER_POWER = 0.5;
+    public static final double SHOOTER_MAX_FEEDER_POWER = 0.6;
 
     public static final boolean SHOOTER_USE_CAN_PID = true;
     public static final double SHOOTER_CAN_PID_KP = 0.0825;
@@ -131,7 +131,7 @@ public class TuningConstants
     public static final double SHOOTER_CAN_MAX_VELOCITY = 40000.0; // practice robot...
     public static final double SHOOTER_ALLOWABLE_ERROR = 0.035; // plus or minus 3.5% error is max allowed  .035
 
-    public static final double SHOOTER_FAR_SHOT_VELOCITY = 0.65;
+    public static final double SHOOTER_FAR_SHOT_VELOCITY = 0.6;
     public static final double SHOOTER_CLOSE_SHOT_VELOCITY = 0.63;
     public static final double SHOOTER_CLOSE_SHOT_LOW_GOAL_VELOCITY = 0.22;
 

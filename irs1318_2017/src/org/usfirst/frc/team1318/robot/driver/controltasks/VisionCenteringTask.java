@@ -14,7 +14,7 @@ import org.usfirst.frc.team1318.robot.vision.VisionManager;
  */
 public class VisionCenteringTask extends ControlTaskBase implements IControlTask
 {
-    private static final int NO_CENTER_THRESHOLD = 10;
+    private static final int NO_CENTER_THRESHOLD = 20;
 
     private final boolean visionMode;
     private PIDHandler turnPidHandler;
