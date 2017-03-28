@@ -8,6 +8,7 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 import org.junit.Test;
 import org.usfirst.frc.team1318.robot.TuningConstants;
+import org.usfirst.frc.team1318.robot.common.wpilibmocks.ITimer;
 import org.usfirst.frc.team1318.robot.driver.Driver;
 import org.usfirst.frc.team1318.robot.driver.Operation;
 
@@ -17,6 +18,7 @@ public class IntakeControllerTest
     public void testUpdate_doNothing()
     {
         IntakeComponent intake = mock(IntakeComponent.class);
+        ITimer timer = mock(ITimer.class);
         Driver driver = mock(Driver.class);
 
         doReturn(false).when(driver).getDigital(Operation.IntakeArmExtend);
@@ -27,7 +29,7 @@ public class IntakeControllerTest
         doReturn(false).when(driver).getDigital(Operation.IntakeOut);
         doReturn(false).when(intake).getThroughBeamBroken();
 
-        IntakeController controller = new IntakeController(intake);
+        IntakeController controller = new IntakeController(timer, intake);
         controller.setDriver(driver);
 
         controller.update();
@@ -42,6 +44,7 @@ public class IntakeControllerTest
     public void testUpdate_IntakeArmExtend()
     {
         IntakeComponent intake = mock(IntakeComponent.class);
+        ITimer timer = mock(ITimer.class);
         Driver driver = mock(Driver.class);
 
         doReturn(true).when(driver).getDigital(Operation.IntakeArmExtend);
@@ -52,7 +55,7 @@ public class IntakeControllerTest
         doReturn(false).when(driver).getDigital(Operation.IntakeOut);
         doReturn(false).when(intake).getThroughBeamBroken();
 
-        IntakeController controller = new IntakeController(intake);
+        IntakeController controller = new IntakeController(timer, intake);
         controller.setDriver(driver);
 
         controller.update();
@@ -68,6 +71,7 @@ public class IntakeControllerTest
     public void testUpdate_IntakeArmRetract()
     {
         IntakeComponent intake = mock(IntakeComponent.class);
+        ITimer timer = mock(ITimer.class);
         Driver driver = mock(Driver.class);
 
         doReturn(false).when(driver).getDigital(Operation.IntakeArmExtend);
@@ -78,7 +82,7 @@ public class IntakeControllerTest
         doReturn(false).when(driver).getDigital(Operation.IntakeOut);
         doReturn(false).when(intake).getThroughBeamBroken();
 
-        IntakeController controller = new IntakeController(intake);
+        IntakeController controller = new IntakeController(timer, intake);
         controller.setDriver(driver);
 
         controller.update();
@@ -94,6 +98,7 @@ public class IntakeControllerTest
     public void testUpdate_IntakeGearHolderExtend()
     {
         IntakeComponent intake = mock(IntakeComponent.class);
+        ITimer timer = mock(ITimer.class);
         Driver driver = mock(Driver.class);
 
         doReturn(false).when(driver).getDigital(Operation.IntakeArmExtend);
@@ -104,7 +109,7 @@ public class IntakeControllerTest
         doReturn(false).when(driver).getDigital(Operation.IntakeOut);
         doReturn(false).when(intake).getThroughBeamBroken();
 
-        IntakeController controller = new IntakeController(intake);
+        IntakeController controller = new IntakeController(timer, intake);
         controller.setDriver(driver);
 
         controller.update();
@@ -120,6 +125,7 @@ public class IntakeControllerTest
     public void testUpdate_IntakeGearHolderRetract()
     {
         IntakeComponent intake = mock(IntakeComponent.class);
+        ITimer timer = mock(ITimer.class);
         Driver driver = mock(Driver.class);
 
         doReturn(false).when(driver).getDigital(Operation.IntakeArmExtend);
@@ -130,7 +136,7 @@ public class IntakeControllerTest
         doReturn(false).when(driver).getDigital(Operation.IntakeOut);
         doReturn(false).when(intake).getThroughBeamBroken();
 
-        IntakeController controller = new IntakeController(intake);
+        IntakeController controller = new IntakeController(timer, intake);
         controller.setDriver(driver);
 
         controller.update();
@@ -146,6 +152,7 @@ public class IntakeControllerTest
     public void testUpdate_IntakeIn()
     {
         IntakeComponent intake = mock(IntakeComponent.class);
+        ITimer timer = mock(ITimer.class);
         Driver driver = mock(Driver.class);
 
         doReturn(false).when(driver).getDigital(Operation.IntakeArmExtend);
@@ -156,7 +163,7 @@ public class IntakeControllerTest
         doReturn(false).when(driver).getDigital(Operation.IntakeOut);
         doReturn(false).when(intake).getThroughBeamBroken();
 
-        IntakeController controller = new IntakeController(intake);
+        IntakeController controller = new IntakeController(timer, intake);
         controller.setDriver(driver);
 
         controller.update();
@@ -171,6 +178,7 @@ public class IntakeControllerTest
     public void testUpdate_IntakeOut()
     {
         IntakeComponent intake = mock(IntakeComponent.class);
+        ITimer timer = mock(ITimer.class);
         Driver driver = mock(Driver.class);
 
         doReturn(false).when(driver).getDigital(Operation.IntakeArmExtend);
@@ -181,7 +189,7 @@ public class IntakeControllerTest
         doReturn(true).when(driver).getDigital(Operation.IntakeOut);
         doReturn(false).when(intake).getThroughBeamBroken();
 
-        IntakeController controller = new IntakeController(intake);
+        IntakeController controller = new IntakeController(timer, intake);
         controller.setDriver(driver);
 
         controller.update();
@@ -196,6 +204,7 @@ public class IntakeControllerTest
     public void testUpdate_GearIndicator()
     {
         IntakeComponent intake = mock(IntakeComponent.class);
+        ITimer timer = mock(ITimer.class);
         Driver driver = mock(Driver.class);
 
         doReturn(true).when(driver).getDigital(Operation.IntakeArmExtend);
@@ -206,7 +215,7 @@ public class IntakeControllerTest
         doReturn(false).when(driver).getDigital(Operation.IntakeOut);
         doReturn(true).when(intake).getThroughBeamBroken();
 
-        IntakeController controller = new IntakeController(intake);
+        IntakeController controller = new IntakeController(timer, intake);
         controller.setDriver(driver);
 
         controller.update();
@@ -223,9 +232,10 @@ public class IntakeControllerTest
     public void testStop()
     {
         IntakeComponent intake = mock(IntakeComponent.class);
+        ITimer timer = mock(ITimer.class);
         Driver driver = mock(Driver.class);
 
-        IntakeController controller = new IntakeController(intake);
+        IntakeController controller = new IntakeController(timer, intake);
         controller.setDriver(driver);
 
         controller.stop();
