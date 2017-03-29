@@ -23,6 +23,8 @@ public class IntakeControllerTest
         doReturn(false).when(driver).getDigital(Operation.IntakeArmRetract);
         doReturn(false).when(driver).getDigital(Operation.IntakeConveyorExtend);
         doReturn(false).when(driver).getDigital(Operation.IntakeConveyorRetract);
+        doReturn(false).when(driver).getDigital(Operation.IntakeMouthExtend);
+        doReturn(false).when(driver).getDigital(Operation.IntakeMouthRetract);
         doReturn(false).when(driver).getDigital(Operation.IntakeIn);
         doReturn(false).when(driver).getDigital(Operation.IntakeOut);
         doReturn(false).when(intake).getThroughBeamBroken();
@@ -48,6 +50,8 @@ public class IntakeControllerTest
         doReturn(false).when(driver).getDigital(Operation.IntakeArmRetract);
         doReturn(false).when(driver).getDigital(Operation.IntakeConveyorExtend);
         doReturn(false).when(driver).getDigital(Operation.IntakeConveyorRetract);
+        doReturn(false).when(driver).getDigital(Operation.IntakeMouthExtend);
+        doReturn(false).when(driver).getDigital(Operation.IntakeMouthRetract);
         doReturn(false).when(driver).getDigital(Operation.IntakeIn);
         doReturn(false).when(driver).getDigital(Operation.IntakeOut);
         doReturn(false).when(intake).getThroughBeamBroken();
@@ -74,6 +78,8 @@ public class IntakeControllerTest
         doReturn(true).when(driver).getDigital(Operation.IntakeArmRetract);
         doReturn(false).when(driver).getDigital(Operation.IntakeConveyorExtend);
         doReturn(false).when(driver).getDigital(Operation.IntakeConveyorRetract);
+        doReturn(false).when(driver).getDigital(Operation.IntakeMouthExtend);
+        doReturn(false).when(driver).getDigital(Operation.IntakeMouthRetract);
         doReturn(false).when(driver).getDigital(Operation.IntakeIn);
         doReturn(false).when(driver).getDigital(Operation.IntakeOut);
         doReturn(false).when(intake).getThroughBeamBroken();
@@ -91,7 +97,7 @@ public class IntakeControllerTest
     }
 
     @Test
-    public void testUpdate_IntakeGearHolderExtend()
+    public void testUpdate_IntakeConveyorExtend()
     {
         IntakeComponent intake = mock(IntakeComponent.class);
         Driver driver = mock(Driver.class);
@@ -100,6 +106,8 @@ public class IntakeControllerTest
         doReturn(false).when(driver).getDigital(Operation.IntakeArmRetract);
         doReturn(true).when(driver).getDigital(Operation.IntakeConveyorExtend);
         doReturn(false).when(driver).getDigital(Operation.IntakeConveyorRetract);
+        doReturn(false).when(driver).getDigital(Operation.IntakeMouthExtend);
+        doReturn(false).when(driver).getDigital(Operation.IntakeMouthRetract);
         doReturn(false).when(driver).getDigital(Operation.IntakeIn);
         doReturn(false).when(driver).getDigital(Operation.IntakeOut);
         doReturn(false).when(intake).getThroughBeamBroken();
@@ -117,7 +125,7 @@ public class IntakeControllerTest
     }
 
     @Test
-    public void testUpdate_IntakeGearHolderRetract()
+    public void testUpdate_IntakeConveyorRetract()
     {
         IntakeComponent intake = mock(IntakeComponent.class);
         Driver driver = mock(Driver.class);
@@ -126,6 +134,8 @@ public class IntakeControllerTest
         doReturn(false).when(driver).getDigital(Operation.IntakeArmRetract);
         doReturn(false).when(driver).getDigital(Operation.IntakeConveyorExtend);
         doReturn(true).when(driver).getDigital(Operation.IntakeConveyorRetract);
+        doReturn(false).when(driver).getDigital(Operation.IntakeMouthExtend);
+        doReturn(false).when(driver).getDigital(Operation.IntakeMouthRetract);
         doReturn(false).when(driver).getDigital(Operation.IntakeIn);
         doReturn(false).when(driver).getDigital(Operation.IntakeOut);
         doReturn(false).when(intake).getThroughBeamBroken();
@@ -143,6 +153,62 @@ public class IntakeControllerTest
     }
 
     @Test
+    public void testUpdate_IntakeMothExtend()
+    {
+        IntakeComponent intake = mock(IntakeComponent.class);
+        Driver driver = mock(Driver.class);
+
+        doReturn(false).when(driver).getDigital(Operation.IntakeArmExtend);
+        doReturn(false).when(driver).getDigital(Operation.IntakeArmRetract);
+        doReturn(false).when(driver).getDigital(Operation.IntakeConveyorExtend);
+        doReturn(false).when(driver).getDigital(Operation.IntakeConveyorRetract);
+        doReturn(true).when(driver).getDigital(Operation.IntakeMouthExtend);
+        doReturn(false).when(driver).getDigital(Operation.IntakeMouthRetract);
+        doReturn(false).when(driver).getDigital(Operation.IntakeIn);
+        doReturn(false).when(driver).getDigital(Operation.IntakeOut);
+        doReturn(false).when(intake).getThroughBeamBroken();
+
+        IntakeController controller = new IntakeController(intake);
+        controller.setDriver(driver);
+
+        controller.update();
+
+        verify(intake).setMotorSpeed(eq(0.0));
+        verify(intake).extendMouth(eq(true));
+        verify(intake).getThroughBeamBroken();
+        verify(intake).setIndicator(eq(false));
+        verifyNoMoreInteractions(intake);
+    }
+
+    @Test
+    public void testUpdate_IntakeMouthRetract()
+    {
+        IntakeComponent intake = mock(IntakeComponent.class);
+        Driver driver = mock(Driver.class);
+
+        doReturn(false).when(driver).getDigital(Operation.IntakeArmExtend);
+        doReturn(false).when(driver).getDigital(Operation.IntakeArmRetract);
+        doReturn(false).when(driver).getDigital(Operation.IntakeConveyorExtend);
+        doReturn(false).when(driver).getDigital(Operation.IntakeConveyorRetract);
+        doReturn(false).when(driver).getDigital(Operation.IntakeMouthExtend);
+        doReturn(true).when(driver).getDigital(Operation.IntakeMouthRetract);
+        doReturn(false).when(driver).getDigital(Operation.IntakeIn);
+        doReturn(false).when(driver).getDigital(Operation.IntakeOut);
+        doReturn(false).when(intake).getThroughBeamBroken();
+
+        IntakeController controller = new IntakeController(intake);
+        controller.setDriver(driver);
+
+        controller.update();
+
+        verify(intake).setMotorSpeed(eq(0.0));
+        verify(intake).extendMouth(eq(false));
+        verify(intake).getThroughBeamBroken();
+        verify(intake).setIndicator(eq(false));
+        verifyNoMoreInteractions(intake);
+    }
+
+    @Test
     public void testUpdate_IntakeIn()
     {
         IntakeComponent intake = mock(IntakeComponent.class);
@@ -152,6 +218,8 @@ public class IntakeControllerTest
         doReturn(false).when(driver).getDigital(Operation.IntakeArmRetract);
         doReturn(false).when(driver).getDigital(Operation.IntakeConveyorExtend);
         doReturn(false).when(driver).getDigital(Operation.IntakeConveyorRetract);
+        doReturn(false).when(driver).getDigital(Operation.IntakeMouthExtend);
+        doReturn(false).when(driver).getDigital(Operation.IntakeMouthRetract);
         doReturn(true).when(driver).getDigital(Operation.IntakeIn);
         doReturn(false).when(driver).getDigital(Operation.IntakeOut);
         doReturn(false).when(intake).getThroughBeamBroken();
@@ -177,6 +245,8 @@ public class IntakeControllerTest
         doReturn(false).when(driver).getDigital(Operation.IntakeArmRetract);
         doReturn(false).when(driver).getDigital(Operation.IntakeConveyorExtend);
         doReturn(false).when(driver).getDigital(Operation.IntakeConveyorRetract);
+        doReturn(false).when(driver).getDigital(Operation.IntakeMouthExtend);
+        doReturn(false).when(driver).getDigital(Operation.IntakeMouthRetract);
         doReturn(false).when(driver).getDigital(Operation.IntakeIn);
         doReturn(true).when(driver).getDigital(Operation.IntakeOut);
         doReturn(false).when(intake).getThroughBeamBroken();
@@ -202,6 +272,8 @@ public class IntakeControllerTest
         doReturn(false).when(driver).getDigital(Operation.IntakeArmRetract);
         doReturn(false).when(driver).getDigital(Operation.IntakeConveyorExtend);
         doReturn(true).when(driver).getDigital(Operation.IntakeConveyorRetract);
+        doReturn(false).when(driver).getDigital(Operation.IntakeMouthExtend);
+        doReturn(false).when(driver).getDigital(Operation.IntakeMouthRetract);
         doReturn(false).when(driver).getDigital(Operation.IntakeIn);
         doReturn(false).when(driver).getDigital(Operation.IntakeOut);
         doReturn(true).when(intake).getThroughBeamBroken();

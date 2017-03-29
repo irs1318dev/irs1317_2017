@@ -104,5 +104,6 @@ public class IntakeComponent
         this.motor.set(0.0);
         this.armExtender.set(DoubleSolenoidValue.kOff);
         this.conveyorExtender.set(DoubleSolenoidValue.kOff);
+        this.mouthExtender.set(DoubleSolenoidValue.kOff);
     }
 }

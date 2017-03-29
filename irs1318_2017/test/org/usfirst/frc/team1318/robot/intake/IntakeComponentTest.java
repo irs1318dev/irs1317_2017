@@ -23,15 +23,16 @@ public class IntakeComponentTest
         IMotor motor = mock(IMotor.class);
         IDoubleSolenoid armExtender = mock(IDoubleSolenoid.class);
         IDoubleSolenoid conveyorExtender = mock(IDoubleSolenoid.class);
+        IDoubleSolenoid mouthExtender = mock(IDoubleSolenoid.class);
         IAnalogInput throughBeam = mock(IAnalogInput.class);
         ISolenoid gearIndicator = mock(ISolenoid.class);
 
-        IntakeComponent intakeComponent = new IntakeComponent(logger, motor, armExtender, conveyorExtender, throughBeam, gearIndicator);
+        IntakeComponent intakeComponent = new IntakeComponent(logger, motor, armExtender, conveyorExtender, mouthExtender, throughBeam, gearIndicator);
 
         intakeComponent.extendConveyor(true);
 
         verify(conveyorExtender).set(eq(DoubleSolenoidValue.kForward));
-        verifyNoMoreInteractions(motor, armExtender, conveyorExtender, throughBeam, gearIndicator);
+        verifyNoMoreInteractions(motor, armExtender, conveyorExtender, throughBeam, gearIndicator, mouthExtender);
     }
 
     @Test
@@ -41,15 +42,16 @@ public class IntakeComponentTest
         IMotor motor = mock(IMotor.class);
         IDoubleSolenoid armExtender = mock(IDoubleSolenoid.class);
         IDoubleSolenoid conveyorExtender = mock(IDoubleSolenoid.class);
+        IDoubleSolenoid mouthExtender = mock(IDoubleSolenoid.class);
         IAnalogInput throughBeam = mock(IAnalogInput.class);
         ISolenoid gearIndicator = mock(ISolenoid.class);
 
-        IntakeComponent intakeComponent = new IntakeComponent(logger, motor, armExtender, conveyorExtender, throughBeam, gearIndicator);
+        IntakeComponent intakeComponent = new IntakeComponent(logger, motor, armExtender, conveyorExtender, mouthExtender, throughBeam, gearIndicator);
 
         intakeComponent.extendConveyor(false);
 
         verify(conveyorExtender).set(eq(DoubleSolenoidValue.kReverse));
-        verifyNoMoreInteractions(motor, armExtender, conveyorExtender, throughBeam, gearIndicator);
+        verifyNoMoreInteractions(motor, armExtender, conveyorExtender, throughBeam, gearIndicator, mouthExtender);
     }
 
     @Test
@@ -59,15 +61,16 @@ public class IntakeComponentTest
         IMotor motor = mock(IMotor.class);
         IDoubleSolenoid armExtender = mock(IDoubleSolenoid.class);
         IDoubleSolenoid conveyorExtender = mock(IDoubleSolenoid.class);
+        IDoubleSolenoid mouthExtender = mock(IDoubleSolenoid.class);
         IAnalogInput throughBeam = mock(IAnalogInput.class);
         ISolenoid gearIndicator = mock(ISolenoid.class);
 
-        IntakeComponent intakeComponent = new IntakeComponent(logger, motor, armExtender, conveyorExtender, throughBeam, gearIndicator);
+        IntakeComponent intakeComponent = new IntakeComponent(logger, motor, armExtender, conveyorExtender, mouthExtender, throughBeam, gearIndicator);
 
         intakeComponent.extendArm(false);
 
         verify(armExtender).set(eq(DoubleSolenoidValue.kReverse));
-        verifyNoMoreInteractions(motor, armExtender, conveyorExtender, throughBeam, gearIndicator);
+        verifyNoMoreInteractions(motor, armExtender, conveyorExtender, throughBeam, gearIndicator, mouthExtender);
     }
 
     @Test
@@ -77,15 +80,54 @@ public class IntakeComponentTest
         IMotor motor = mock(IMotor.class);
         IDoubleSolenoid armExtender = mock(IDoubleSolenoid.class);
         IDoubleSolenoid conveyorExtender = mock(IDoubleSolenoid.class);
+        IDoubleSolenoid mouthExtender = mock(IDoubleSolenoid.class);
         IAnalogInput throughBeam = mock(IAnalogInput.class);
         ISolenoid gearIndicator = mock(ISolenoid.class);
 
-        IntakeComponent intakeComponent = new IntakeComponent(logger, motor, armExtender, conveyorExtender, throughBeam, gearIndicator);
+        IntakeComponent intakeComponent = new IntakeComponent(logger, motor, armExtender, conveyorExtender, mouthExtender, throughBeam, gearIndicator);
 
         intakeComponent.extendArm(true);
 
         verify(armExtender).set(eq(DoubleSolenoidValue.kForward));
-        verifyNoMoreInteractions(motor, armExtender, conveyorExtender, throughBeam, gearIndicator);
+        verifyNoMoreInteractions(motor, armExtender, conveyorExtender, throughBeam, gearIndicator, mouthExtender);
+    }
+    
+    @Test
+    public void testMouthExtend_true()
+    {
+        IDashboardLogger logger = mock(IDashboardLogger.class);
+        IMotor motor = mock(IMotor.class);
+        IDoubleSolenoid armExtender = mock(IDoubleSolenoid.class);
+        IDoubleSolenoid conveyorExtender = mock(IDoubleSolenoid.class);
+        IDoubleSolenoid mouthExtender = mock(IDoubleSolenoid.class);
+        IAnalogInput throughBeam = mock(IAnalogInput.class);
+        ISolenoid gearIndicator = mock(ISolenoid.class);
+
+        IntakeComponent intakeComponent = new IntakeComponent(logger, motor, armExtender, conveyorExtender, mouthExtender, throughBeam, gearIndicator);
+
+        intakeComponent.extendMouth(true);
+
+        verify(mouthExtender).set(eq(DoubleSolenoidValue.kForward));
+        verifyNoMoreInteractions(motor, armExtender, conveyorExtender, throughBeam, gearIndicator, mouthExtender);
+    }
+    
+    @Test
+    public void testMouthExtend_false()
+    {
+        IDashboardLogger logger = mock(IDashboardLogger.class);
+        IMotor motor = mock(IMotor.class);
+        IDoubleSolenoid armExtender = mock(IDoubleSolenoid.class);
+        IDoubleSolenoid conveyorExtender = mock(IDoubleSolenoid.class);
+        IDoubleSolenoid mouthExtender = mock(IDoubleSolenoid.class);
+        IAnalogInput throughBeam = mock(IAnalogInput.class);
+        ISolenoid gearIndicator = mock(ISolenoid.class);
+
+        IntakeComponent intakeComponent = new IntakeComponent(logger, motor, armExtender, conveyorExtender, mouthExtender, throughBeam, gearIndicator);
+
+        intakeComponent.extendMouth(false);
+
+        verify(mouthExtender).set(eq(DoubleSolenoidValue.kReverse));
+        verifyNoMoreInteractions(motor, armExtender, conveyorExtender, throughBeam, gearIndicator, mouthExtender);
     }
 
     @Test
@@ -95,15 +137,16 @@ public class IntakeComponentTest
         IMotor motor = mock(IMotor.class);
         IDoubleSolenoid armExtender = mock(IDoubleSolenoid.class);
         IDoubleSolenoid conveyorExtender = mock(IDoubleSolenoid.class);
+        IDoubleSolenoid mouthExtender = mock(IDoubleSolenoid.class);
         IAnalogInput throughBeam = mock(IAnalogInput.class);
         ISolenoid gearIndicator = mock(ISolenoid.class);
 
-        IntakeComponent intakeComponent = new IntakeComponent(logger, motor, armExtender, conveyorExtender, throughBeam, gearIndicator);
+        IntakeComponent intakeComponent = new IntakeComponent(logger, motor, armExtender, conveyorExtender, mouthExtender, throughBeam, gearIndicator);
 
         intakeComponent.setMotorSpeed(TuningConstants.INTAKE_MAX_MOTOR_SPEED);
 
         verify(motor).set(eq(TuningConstants.INTAKE_MAX_MOTOR_SPEED));
-        verifyNoMoreInteractions(motor, armExtender, conveyorExtender, throughBeam, gearIndicator);
+        verifyNoMoreInteractions(motor, armExtender, conveyorExtender, throughBeam, gearIndicator, mouthExtender);
     }
 
     @Test
@@ -113,15 +156,16 @@ public class IntakeComponentTest
         IMotor motor = mock(IMotor.class);
         IDoubleSolenoid armExtender = mock(IDoubleSolenoid.class);
         IDoubleSolenoid conveyorExtender = mock(IDoubleSolenoid.class);
+        IDoubleSolenoid mouthExtender = mock(IDoubleSolenoid.class);
         IAnalogInput throughBeam = mock(IAnalogInput.class);
         ISolenoid gearIndicator = mock(ISolenoid.class);
 
-        IntakeComponent intakeComponent = new IntakeComponent(logger, motor, armExtender, conveyorExtender, throughBeam, gearIndicator);
+        IntakeComponent intakeComponent = new IntakeComponent(logger, motor, armExtender, conveyorExtender, mouthExtender, throughBeam, gearIndicator);
 
         intakeComponent.setMotorSpeed(0.0);
 
         verify(motor).set(eq(0.0));
-        verifyNoMoreInteractions(motor, armExtender, conveyorExtender, throughBeam, gearIndicator);
+        verifyNoMoreInteractions(motor, armExtender, conveyorExtender, throughBeam, gearIndicator, mouthExtender);
     }
 
     @Test
@@ -131,16 +175,18 @@ public class IntakeComponentTest
         IMotor motor = mock(IMotor.class);
         IDoubleSolenoid armExtender = mock(IDoubleSolenoid.class);
         IDoubleSolenoid conveyorExtender = mock(IDoubleSolenoid.class);
+        IDoubleSolenoid mouthExtender = mock(IDoubleSolenoid.class);
         IAnalogInput throughBeam = mock(IAnalogInput.class);
         ISolenoid gearIndicator = mock(ISolenoid.class);
 
-        IntakeComponent intakeComponent = new IntakeComponent(logger, motor, armExtender, conveyorExtender, throughBeam, gearIndicator);
+        IntakeComponent intakeComponent = new IntakeComponent(logger, motor, armExtender, conveyorExtender, mouthExtender, throughBeam, gearIndicator);
 
         intakeComponent.stop();
 
         verify(motor).set(eq(0.0));
         verify(conveyorExtender).set(eq(DoubleSolenoidValue.kOff));
         verify(armExtender).set(eq(DoubleSolenoidValue.kOff));
-        verifyNoMoreInteractions(motor, conveyorExtender, armExtender);
+        verify(mouthExtender).set(eq(DoubleSolenoidValue.kOff));
+        verifyNoMoreInteractions(motor, conveyorExtender, armExtender, mouthExtender);
     }
 }
