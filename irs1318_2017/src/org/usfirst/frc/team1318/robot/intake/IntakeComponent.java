@@ -21,6 +21,7 @@ public class IntakeComponent
     private final IMotor motor;
     private final IDoubleSolenoid armExtender;
     private final IDoubleSolenoid conveyorExtender;
+    private final IDoubleSolenoid mouthExtender;
     private final IAnalogInput throughBeamSensor;
     private final ISolenoid gearIndicator;
 
@@ -30,6 +31,7 @@ public class IntakeComponent
         @Named("INTAKE_MOTOR") IMotor motor,
         @Named("INTAKE_ARM_SOLENOID") IDoubleSolenoid armExtender,
         @Named("INTAKE_CONVEYOR_SOLENOID") IDoubleSolenoid conveyorExtender,
+        @Named("INTAKE_MOUTH_SOLENOID") IDoubleSolenoid mouthExtender,
         @Named("INTAKE_GEAR_THROUGH_BEAM_SENSOR") IAnalogInput throughBeamSensor,
         @Named("INTAKE_GEAR_INDICATOR_LIGHT") ISolenoid gearIndicator)
     {
@@ -37,6 +39,7 @@ public class IntakeComponent
         this.motor = motor;
         this.armExtender = armExtender;
         this.conveyorExtender = conveyorExtender;
+        this.mouthExtender = mouthExtender;
         this.throughBeamSensor = throughBeamSensor;
         this.gearIndicator = gearIndicator;
     }
@@ -68,6 +71,18 @@ public class IntakeComponent
         else
         {
             this.conveyorExtender.set(DoubleSolenoidValue.kReverse);
+        }
+    }
+    
+    public void extendMouth(boolean extend)
+    {
+        if (extend)
+        {
+            this.mouthExtender.set(DoubleSolenoidValue.kForward);
+        }
+        else
+        {
+            this.mouthExtender.set(DoubleSolenoidValue.kReverse);
         }
     }
 

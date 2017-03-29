@@ -28,8 +28,8 @@ public class ElectronicsConstants
 
     //================================================== Vision ==============================================================
 
-    public static final int VISION_GEAR_LIGHT_CHANNEL = 2;
-    public static final int VISION_SHOOTER_LIGHT_CHANNEL = 3;
+    public static final int VISION_GEAR_LIGHT_CHANNEL = 2; // PCM B
+    public static final int VISION_SHOOTER_LIGHT_CHANNEL = 3; // PCM B
 
     //================================================== DriveTrain ==============================================================
 
@@ -60,6 +60,9 @@ public class ElectronicsConstants
 
     public static final int INTAKE_GEAR_THROUGH_BEAM_SENSOR_CHANNEL = 0;
     public static final int INTAKE_GEAR_INDICATOR_CHANNEL = 1;
+    
+    public static final int INTAKE_MOUTH_EXTENDER_CHANNEL_A = 4; // PCM B
+    public static final int INTAKE_MOUTH_EXTENDER_CHANNEL_B = 5; // PCM B
 
     //================================================== Shooter ==============================================================
 

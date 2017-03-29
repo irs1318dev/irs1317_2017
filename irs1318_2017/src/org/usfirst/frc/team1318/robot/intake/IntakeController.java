@@ -64,6 +64,16 @@ public class IntakeController implements IController
             this.intakeComponent.extendConveyor(false);
             this.isConveyorExtended = false;
         }
+        
+        // extend mouth
+        if (this.driver.getDigital(Operation.IntakeMouthExtend))
+        {
+            this.intakeComponent.extendMouth(true);
+        }
+        else if (this.driver.getDigital(Operation.IntakeMouthRetract))
+        {
+            this.intakeComponent.extendMouth(false);
+        }
 
         boolean throughBeamBroken = this.intakeComponent.getThroughBeamBroken();
         this.intakeComponent.setIndicator(throughBeamBroken && this.isArmExtended && !this.isConveyorExtended);

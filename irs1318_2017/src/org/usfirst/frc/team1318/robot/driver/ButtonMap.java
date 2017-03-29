@@ -11,6 +11,7 @@ import org.usfirst.frc.team1318.robot.driver.controltasks.ConcurrentTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.DriveDistanceTimedTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.IntakeArmExtendTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.IntakeConveyorExtendTask;
+import org.usfirst.frc.team1318.robot.driver.controltasks.IntakeMouthExtendTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.IntakeOutSensorTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.IntakeSpinTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.PIDBrakeTask;
@@ -135,6 +136,18 @@ public class ButtonMap implements IButtonMap
                     ButtonType.Click));
 
             put(Operation.IntakeConveyorRetract,
+                new DigitalOperationDescription(
+                    UserInputDevice.None,
+                    UserInputDeviceButton.NONE,
+                    ButtonType.Click));
+            
+            put(Operation.IntakeMouthExtend,
+                new DigitalOperationDescription(
+                    UserInputDevice.None,
+                    UserInputDeviceButton.NONE,
+                    ButtonType.Click));
+            
+            put(Operation.IntakeMouthRetract,
                 new DigitalOperationDescription(
                     UserInputDevice.None,
                     UserInputDeviceButton.NONE,
@@ -347,12 +360,55 @@ public class ButtonMap implements IButtonMap
                         Operation.IntakeIn,
                         Operation.IntakeOut,
                     }));
+            
+            put(
+                MacroOperation.SwallowGear,
+                new MacroOperationDescription(
+                    UserInputDevice.Driver,
+                    UserInputDeviceButton.JOYSTICK_BASE_BOTTOM_LEFT_BUTTON,
+                    ButtonType.Toggle,
+                    () -> SequentialTask.Sequence(
+                        new IntakeMouthExtendTask(false, 0.25),
+                        ConcurrentTask.AllTasks(
+                            new IntakeSpinTask(false, 0.20),
+                            new IntakeArmExtendTask(true, 0.20)),
+                        new IntakeArmExtendTask(false, 0.5),
+                        new IntakeSpinTask(false, 0.5)),
+                    new Operation[]
+                    {
+                        Operation.IntakeMouthExtend,
+                        Operation.IntakeMouthRetract,
+                        Operation.IntakeArmExtend,
+                        Operation.IntakeArmRetract,
+                        Operation.IntakeIn,
+                        Operation.IntakeOut,
+                    }));
+            
+            put(
+                MacroOperation.SwallowGearSetup,
+                new MacroOperationDescription(
+                    UserInputDevice.Driver,
+                    UserInputDeviceButton.JOYSTICK_BASE_BOTTOM_RIGHT_BUTTON,
+                    ButtonType.Toggle,
+                    () -> ConcurrentTask.AllTasks(
+                        new IntakeArmExtendTask(false, 0.25),
+                        new IntakeConveyorExtendTask(true, 0.25),
+                        new IntakeMouthExtendTask(true, 0.25)),
+                    new Operation[]
+                    {
+                        Operation.IntakeConveyorExtend,
+                        Operation.IntakeConveyorRetract,
+                        Operation.IntakeArmExtend,
+                        Operation.IntakeArmRetract,
+                        Operation.IntakeMouthExtend,
+                        Operation.IntakeMouthRetract,
+                    }));
 
             put(
                 MacroOperation.AutomaticGearPickUp,
                 new MacroOperationDescription(
                     UserInputDevice.Driver,
-                    UserInputDeviceButton.JOYSTICK_BASE_BOTTOM_LEFT_BUTTON,
+                    UserInputDeviceButton.NONE,
                     ButtonType.Toggle,
                     () -> SequentialTask.Sequence(
                         ButtonMap.GearSetupPositionMacro(),
@@ -397,7 +453,7 @@ public class ButtonMap implements IButtonMap
                 MacroOperation.SpinCloseLowGoal,
                 new MacroOperationDescription(
                     UserInputDevice.Driver,
-                    UserInputDeviceButton.JOYSTICK_BASE_BOTTOM_RIGHT_BUTTON,
+                    UserInputDeviceButton.NONE,
                     ButtonType.Toggle,
                     () -> new ShooterSpinTask(true, TuningConstants.SHOOTER_CLOSE_SHOT_LOW_GOAL_VELOCITY),
                     new Operation[]

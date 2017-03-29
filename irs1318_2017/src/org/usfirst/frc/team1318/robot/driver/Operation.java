@@ -24,6 +24,8 @@ public enum Operation
     IntakeOut,
     IntakeConveyorExtend,
     IntakeConveyorRetract,
+    IntakeMouthExtend,
+    IntakeMouthRetract,
 
     // Climber
     ClimberSpeed,

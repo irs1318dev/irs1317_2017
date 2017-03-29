@@ -257,6 +257,18 @@ public class RobotModule extends AbstractModule
             ElectronicsConstants.INTAKE_GEAR_INDICATOR_CHANNEL);
         return gearLight;
     }
+    
+    @Singleton
+    @Provides
+    @Named("INTAKE_MOUTH_SOLENOID")
+    public IDoubleSolenoid getIntakeMouthExtender()
+    {
+        DoubleSolenoidWrapper intakeMouthExtender = new DoubleSolenoidWrapper(
+            ElectronicsConstants.PCM_B_MODULE,
+            ElectronicsConstants.INTAKE_MOUTH_EXTENDER_CHANNEL_A,
+            ElectronicsConstants.INTAKE_MOUTH_EXTENDER_CHANNEL_B);
+        return intakeMouthExtender;
+    }
 
     @Singleton
     @Provides
