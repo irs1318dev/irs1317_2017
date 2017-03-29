@@ -13,8 +13,8 @@ public class VisionConstants
     public static final boolean DEBUG_OUTPUT_FRAMES = false;
     public static final boolean DEBUG_OUTPUT_GEAR_FRAMES = true;
     public static final boolean DEBUG_OUTPUT_SHOOTER_FRAMES = false;
-    public static final boolean DEBUG_SAVE_FRAMES = false;
-    public static final int DEBUG_FRAME_OUTPUT_GAP = 50; // the number of frames to wait between saving debug image output
+    public static final boolean DEBUG_SAVE_FRAMES = true;
+    public static final int DEBUG_FRAME_OUTPUT_GAP = 20; // the number of frames to wait between saving debug image output
     public static final String DEBUG_OUTPUT_FOLDER = "/home/lvuser/vision/";
 
     // Conversion constants...
@@ -45,7 +45,7 @@ public class VisionConstants
     public static final double LIFECAM_CAMERA_FOCAL_LENGTH_Y = 366.058; // focal_length = res_* / (2.0 * tan (FOV_* / 2.0)
     public static final int LIFECAM_CAMERA_VISION_EXPOSURE = 1;
     public static final int LIFECAM_CAMERA_VISION_BRIGHTNESS = 1;
-    public static final int LIFECAM_CAMERA_OPERATOR_BRIGHTNESS = 40;
+    public static final int LIFECAM_CAMERA_OPERATOR_BRIGHTNESS = 35;
     public static final int LIFECAM_CAMERA_FPS = 20; // Max supported value is 30
 
     // Undistort constants
@@ -55,7 +55,7 @@ public class VisionConstants
     public static final Scalar AXIS_HSV_FILTER_LOW = new Scalar(85, 65, 65);
     public static final Scalar AXIS_HSV_FILTER_HIGH = new Scalar(90, 255, 255);
     public static final Scalar LIFECAM_HSV_FILTER_LOW = new Scalar(52, 150, 100);
-    public static final Scalar LIFECAM_HSV_FILTER_HIGH = new Scalar(80, 255, 255);
+    public static final Scalar LIFECAM_HSV_FILTER_HIGH = new Scalar(95, 255, 255);
 
     // Contour filtering constants
     public static final double CONTOUR_MIN_AREA = 25.0;

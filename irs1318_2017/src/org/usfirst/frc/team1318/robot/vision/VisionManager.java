@@ -165,13 +165,13 @@ public class VisionManager implements IController, VisionRunner.Listener<ICentro
         
         if (!gearActive)
         {
-            this.gearCamera.setBrightness(VisionConstants.LIFECAM_CAMERA_OPERATOR_BRIGHTNESS);
             this.gearCamera.setExposureAuto();
+            this.gearCamera.setBrightness(VisionConstants.LIFECAM_CAMERA_OPERATOR_BRIGHTNESS);
         }
         else 
         {
-            this.gearCamera.setBrightness(VisionConstants.LIFECAM_CAMERA_VISION_BRIGHTNESS);
             this.gearCamera.setExposureManual(VisionConstants.LIFECAM_CAMERA_VISION_EXPOSURE);
+            this.gearCamera.setBrightness(VisionConstants.LIFECAM_CAMERA_VISION_BRIGHTNESS);
         }
 
         this.shooterLight.set(shooterActive);

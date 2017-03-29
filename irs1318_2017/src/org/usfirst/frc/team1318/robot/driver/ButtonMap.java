@@ -8,7 +8,6 @@ import org.usfirst.frc.team1318.robot.TuningConstants;
 import org.usfirst.frc.team1318.robot.driver.buttons.AnalogAxis;
 import org.usfirst.frc.team1318.robot.driver.buttons.ButtonType;
 import org.usfirst.frc.team1318.robot.driver.controltasks.ConcurrentTask;
-import org.usfirst.frc.team1318.robot.driver.controltasks.DriveDistancePositionTimedTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.DriveDistanceTimedTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.IntakeArmExtendTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.IntakeConveyorExtendTask;
@@ -412,8 +411,8 @@ public class ButtonMap implements IButtonMap
                     UserInputDevice.Driver,
                     UserInputDeviceButton.JOYSTICK_BASE_TOP_LEFT_BUTTON,
                     ButtonType.Toggle,
-                    () -> new DriveDistancePositionTimedTask(0.3, TuningConstants.SHOOTER_CLOSE_SHOT_BACKWARDS_DISTANCE, 1.5), // changed due to drifting left
-                    // () -> new DriveDistanceTimedTask(TuningConstants.SHOOTER_CLOSE_SHOT_BACKWARDS_DISTANCE, 1.0),
+                    // () -> new DriveDistancePositionTimedTask(0.3, TuningConstants.SHOOTER_CLOSE_SHOT_BACKWARDS_DISTANCE, 1.5), // changed due to drifting left
+                    () -> new DriveDistanceTimedTask(TuningConstants.SHOOTER_CLOSE_SHOT_BACKWARDS_DISTANCE, 1.0),
                     new Operation[]
                     {
                         Operation.DriveTrainUsePositionalMode,
