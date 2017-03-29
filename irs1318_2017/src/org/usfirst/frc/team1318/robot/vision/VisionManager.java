@@ -36,16 +36,17 @@ public class VisionManager implements IController, VisionRunner.Listener<ICentro
     private final ISolenoid gearLight;
 
     private final Object visionLock;
-
+    
+    private final UsbCamera shooterCamera;
     private final VisionThread shooterVisionThread;
     private final HSVShooterCenterPipeline shooterVisionPipeline;
 
     private final UsbCamera gearCamera;
-
     private final VisionThread gearVisionThread;
     private final HSVGearCenterPipeline gearVisionPipeline;
 
     private Driver driver;
+    private VisionState currentState;
 
     private Point center;
 
@@ -65,6 +66,7 @@ public class VisionManager implements IController, VisionRunner.Listener<ICentro
         @Named("VISION_SHOOTER_LIGHT") ISolenoid shooterLight,
         @Named("VISION_GEAR_LIGHT") ISolenoid gearLight)
     {
+    	this.currentState = VisionState.None;
         this.logger = logger;
         this.timer = timer;
         this.shooterLight = shooterLight;
@@ -74,11 +76,11 @@ public class VisionManager implements IController, VisionRunner.Listener<ICentro
 
         this.visionLock = new Object();
 
-        UsbCamera shooterCamera = new UsbCamera("usb1", 1);
-        shooterCamera.setResolution(VisionConstants.LIFECAM_CAMERA_RESOLUTION_X, VisionConstants.LIFECAM_CAMERA_RESOLUTION_Y);
-        shooterCamera.setExposureManual(VisionConstants.LIFECAM_CAMERA_VISION_EXPOSURE);
-        shooterCamera.setBrightness(VisionConstants.LIFECAM_CAMERA_VISION_BRIGHTNESS);
-        shooterCamera.setFPS(VisionConstants.LIFECAM_CAMERA_FPS);
+        this.shooterCamera = new UsbCamera("usb1", 1);
+        this.shooterCamera.setResolution(VisionConstants.LIFECAM_CAMERA_RESOLUTION_X, VisionConstants.LIFECAM_CAMERA_RESOLUTION_Y);
+        this.shooterCamera.setExposureManual(VisionConstants.LIFECAM_CAMERA_VISION_EXPOSURE);
+        this.shooterCamera.setBrightness(VisionConstants.LIFECAM_CAMERA_VISION_BRIGHTNESS);
+        this.shooterCamera.setFPS(VisionConstants.LIFECAM_CAMERA_FPS);
 
         this.shooterVisionPipeline = new HSVShooterCenterPipeline(this.timer, VisionConstants.SHOULD_UNDISTORT);
         this.shooterVisionThread = new VisionThread(shooterCamera, this.shooterVisionPipeline, this);
@@ -145,40 +147,39 @@ public class VisionManager implements IController, VisionRunner.Listener<ICentro
     @Override
     public void update()
     {
-        boolean shooterActive;
-        boolean gearActive;
-        if (this.driver.getDigital(Operation.EnableShooterVision))
+        VisionState desiredState = VisionState.None;
+        if (this.driver.getDigital(Operation.EnableGearVision))
         {
-            shooterActive = true;
-            gearActive = false;
+            desiredState = VisionState.Gear;
         }
-        else if (this.driver.getDigital(Operation.EnableGearVision))
+        else if (this.driver.getDigital(Operation.EnableShooterVision))
         {
-            shooterActive = false;
-            gearActive = true;
-        }
-        else
-        {
-            shooterActive = false;
-            gearActive = false;
-        }
-        
-        if (!gearActive)
-        {
-            this.gearCamera.setExposureAuto();
-            this.gearCamera.setBrightness(VisionConstants.LIFECAM_CAMERA_OPERATOR_BRIGHTNESS);
-        }
-        else 
-        {
-            this.gearCamera.setExposureManual(VisionConstants.LIFECAM_CAMERA_VISION_EXPOSURE);
-            this.gearCamera.setBrightness(VisionConstants.LIFECAM_CAMERA_VISION_BRIGHTNESS);
+            desiredState = VisionState.Shooter;
         }
 
-        this.shooterLight.set(shooterActive);
-        this.shooterVisionPipeline.setActivation(shooterActive);
+        if (this.currentState != desiredState)
+        {
+            if (desiredState != VisionState.Gear)
+            {
+                this.gearCamera.setExposureAuto();
+                this.gearCamera.setBrightness(VisionConstants.LIFECAM_CAMERA_OPERATOR_BRIGHTNESS);
+                this.gearCamera.setFPS(VisionConstants.LIFECAM_CAMERA_FPS);
+            }
+            else 
+            {
+                this.gearCamera.setExposureManual(VisionConstants.LIFECAM_CAMERA_VISION_EXPOSURE);
+                this.gearCamera.setBrightness(VisionConstants.LIFECAM_CAMERA_VISION_BRIGHTNESS);
+                this.gearCamera.setFPS(VisionConstants.LIFECAM_CAMERA_FPS);
+            }
 
-        this.gearLight.set(gearActive);
-        this.gearVisionPipeline.setActivation(gearActive);
+            this.shooterLight.set(desiredState == VisionState.Shooter);
+            this.shooterVisionPipeline.setActivation(desiredState == VisionState.Shooter);
+
+            this.gearLight.set(desiredState == VisionState.Gear);
+            this.gearVisionPipeline.setActivation(desiredState == VisionState.Gear);
+
+            this.currentState = desiredState;
+        }
 
         Point center = this.getCenter();
         this.logger.logPoint(VisionManager.LogName, "center", center);
