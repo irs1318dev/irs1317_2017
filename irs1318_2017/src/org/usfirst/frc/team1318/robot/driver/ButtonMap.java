@@ -300,7 +300,8 @@ public class ButtonMap implements IButtonMap
                     ButtonType.Toggle,
                     () -> ConcurrentTask.AllTasks(
                         new IntakeArmExtendTask(false, 0.25),
-                        new IntakeConveyorExtendTask(false, 0.25)),
+                        new IntakeConveyorExtendTask(false, 0.25),
+                        new IntakeMouthExtendTask(false, 0.25)),
                     new Operation[]
                     {
                         Operation.IntakeConveyorExtend,
@@ -350,7 +351,8 @@ public class ButtonMap implements IButtonMap
                     ButtonType.Toggle,
                     () -> ConcurrentTask.AllTasks(
                         new IntakeArmExtendTask(true, 0.25),
-                        new IntakeConveyorExtendTask(true, 0.25)),
+                        new IntakeConveyorExtendTask(true, 0.25),
+                        new IntakeMouthExtendTask(false, 0.25)),
                     new Operation[]
                     {
                         Operation.IntakeConveyorExtend,
@@ -360,30 +362,6 @@ public class ButtonMap implements IButtonMap
                         Operation.IntakeIn,
                         Operation.IntakeOut,
                     }));
-            
-            put(
-                MacroOperation.SwallowGear,
-                new MacroOperationDescription(
-                    UserInputDevice.Driver,
-                    UserInputDeviceButton.JOYSTICK_BASE_BOTTOM_LEFT_BUTTON,
-                    ButtonType.Toggle,
-                    () -> SequentialTask.Sequence(
-                        new IntakeMouthExtendTask(false, 0.25),
-                        ConcurrentTask.AllTasks(
-                            new IntakeSpinTask(false, 0.20),
-                            new IntakeArmExtendTask(true, 0.20)),
-                        new IntakeArmExtendTask(false, 0.5),
-                        new IntakeSpinTask(false, 0.5)),
-                    new Operation[]
-                    {
-                        Operation.IntakeMouthExtend,
-                        Operation.IntakeMouthRetract,
-                        Operation.IntakeArmExtend,
-                        Operation.IntakeArmRetract,
-                        Operation.IntakeIn,
-                        Operation.IntakeOut,
-                    }));
-            
             put(
                 MacroOperation.SwallowGearSetup,
                 new MacroOperationDescription(
@@ -403,7 +381,28 @@ public class ButtonMap implements IButtonMap
                         Operation.IntakeMouthExtend,
                         Operation.IntakeMouthRetract,
                     }));
-
+            put(
+                MacroOperation.SwallowGear,
+                new MacroOperationDescription(
+                    UserInputDevice.Driver,
+                    UserInputDeviceButton.JOYSTICK_BASE_BOTTOM_LEFT_BUTTON,
+                    ButtonType.Toggle,
+                    () -> SequentialTask.Sequence(
+                        new IntakeMouthExtendTask(false, 0.25),
+                        ConcurrentTask.AllTasks(
+                            new IntakeSpinTask(false, 0.20),
+                            new IntakeArmExtendTask(true, 0.20)),
+                        new IntakeArmExtendTask(false, 0.5),
+                        new IntakeSpinTask(false, 0.5)),
+                    new Operation[]
+                    {
+                        Operation.IntakeArmExtend,
+                        Operation.IntakeArmRetract,
+                        Operation.IntakeMouthExtend,
+                        Operation.IntakeMouthRetract,
+                        Operation.IntakeIn,
+                        Operation.IntakeOut,
+                    }));
             put(
                 MacroOperation.AutomaticGearPickUp,
                 new MacroOperationDescription(
@@ -484,7 +483,8 @@ public class ButtonMap implements IButtonMap
     {
         return ConcurrentTask.AllTasks(
             new IntakeArmExtendTask(true, 0.25),
-            new IntakeConveyorExtendTask(false, 0.25));
+            new IntakeConveyorExtendTask(false, 0.25),
+            new IntakeMouthExtendTask(false, 0.25));
     }
 
     public static SequentialTask GearGrabMacro()
@@ -492,6 +492,7 @@ public class ButtonMap implements IButtonMap
         return SequentialTask.Sequence(
             ConcurrentTask.AllTasks(
                 new IntakeArmExtendTask(false, 0.25),
+                new IntakeMouthExtendTask(false, 0.25),
                 new IntakeSpinTask(false, 0.15)),
             new IntakeConveyorExtendTask(true, 0.25));
     }
