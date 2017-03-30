@@ -363,10 +363,10 @@ public class ButtonMap implements IButtonMap
                         Operation.IntakeOut,
                     }));
             put(
-                MacroOperation.SwallowGearSetup,
+                MacroOperation.GearFeederPosition,
                 new MacroOperationDescription(
                     UserInputDevice.Driver,
-                    UserInputDeviceButton.JOYSTICK_BASE_BOTTOM_RIGHT_BUTTON,
+                    UserInputDeviceButton.JOYSTICK_BASE_BOTTOM_LEFT_BUTTON,
                     ButtonType.Toggle,
                     () -> ConcurrentTask.AllTasks(
                         new IntakeArmExtendTask(false, 0.25),
@@ -382,10 +382,10 @@ public class ButtonMap implements IButtonMap
                         Operation.IntakeMouthRetract,
                     }));
             put(
-                MacroOperation.SwallowGear,
+                MacroOperation.SwallowGearPosition,
                 new MacroOperationDescription(
                     UserInputDevice.Driver,
-                    UserInputDeviceButton.JOYSTICK_BASE_BOTTOM_LEFT_BUTTON,
+                    UserInputDeviceButton.JOYSTICK_BASE_BOTTOM_RIGHT_BUTTON,
                     ButtonType.Toggle,
                     () -> SequentialTask.Sequence(
                         new IntakeMouthExtendTask(false, 0.25),

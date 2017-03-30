@@ -14,8 +14,8 @@ public enum MacroOperation
     GearGrabPosition,
     BallIntakePosition,
     
-    SwallowGear,
-    SwallowGearSetup,
+    SwallowGearPosition,
+    GearFeederPosition,
     
     AutomaticGearPickUp,
 
