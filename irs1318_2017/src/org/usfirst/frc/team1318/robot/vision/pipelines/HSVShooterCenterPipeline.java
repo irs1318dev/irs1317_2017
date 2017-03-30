@@ -229,7 +229,7 @@ public class HSVShooterCenterPipeline implements ICentroidVisionPipeline
         this.measuredAngleX = Math.atan(xOffsetMeasured / VisionConstants.LIFECAM_CAMERA_FOCAL_LENGTH_X) * VisionConstants.RADIANS_TO_ANGLE;
 
         double yOffsetMeasured = upperCenterOfMass.y - VisionConstants.LIFECAM_CAMERA_CENTER_HEIGHT;
-        double measuredAngleY = Math.atan(yOffsetMeasured / VisionConstants.LIFECAM_CAMERA_FOCAL_LENGTH_Y) * VisionConstants.RADIANS_TO_ANGLE;
+        double measuredAngleY = -Math.atan(yOffsetMeasured / VisionConstants.LIFECAM_CAMERA_FOCAL_LENGTH_Y) * VisionConstants.RADIANS_TO_ANGLE;
 
         double angleY = measuredAngleY + VisionConstants.SHOOTER_CAMERA_VERTICAL_MOUNTING_ANGLE;
         double distanceFromCamera = VisionConstants.SHOOTER_CAMERA_TO_RETROREFLECTIVE_TAPE_HEIGHT / Math.tan(angleY * VisionConstants.ANGLE_TO_RADIANS);

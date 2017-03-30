@@ -12,7 +12,7 @@ public class VisionConstants
     public static final int DEBUG_FPS_AVERAGING_INTERVAL = 25;
     public static final boolean DEBUG_OUTPUT_FRAMES = false;
     public static final boolean DEBUG_OUTPUT_GEAR_FRAMES = true;
-    public static final boolean DEBUG_OUTPUT_SHOOTER_FRAMES = false;
+    public static final boolean DEBUG_OUTPUT_SHOOTER_FRAMES = true;
     public static final boolean DEBUG_SAVE_FRAMES = true;
     public static final int DEBUG_FRAME_OUTPUT_GAP = 20; // the number of frames to wait between saving debug image output
     public static final String DEBUG_OUTPUT_FOLDER = "/home/lvuser/vision/";
@@ -72,7 +72,7 @@ public class VisionConstants
 
     public static final double SHOOTER_LARGER_RETROREFLECTIVE_TAPE_HEIGHT_CENTROID_FROM_GROUND = 86; // 7 feet, 2 inches from floor to center of upper retroreflective tape on boiler
     public static final double SHOOTER_CAMERA_VERTICAL_MOUNTING_HEIGHT = 20.0; // 20.0 inches from floor
-    public static final double SHOOTER_CAMERA_VERTICAL_MOUNTING_ANGLE = 45.0; // 45 degrees
+    public static final double SHOOTER_CAMERA_VERTICAL_MOUNTING_ANGLE = 53.0; // 53 degrees from horizontal
     public static final double SHOOTER_CAMERA_MOUNTING_DISTANCE = 17.0; // camera is 17 inches back from the end of the robot in front of the camera
     public static final double SHOOTER_CAMERA_HORIZONTAL_MOUNTING_OFFSET = -11.0; // camera is 11 inches to the right from the center line of the robot
     public static final double SHOOTER_CAMERA_HORIZONTAL_MOUNTING_ANGLE = 0.0; // camera is pointed 0 degrees to the right
