@@ -366,7 +366,7 @@ public class ButtonMap implements IButtonMap
                 MacroOperation.GearFeederPosition,
                 new MacroOperationDescription(
                     UserInputDevice.Driver,
-                    UserInputDeviceButton.JOYSTICK_BASE_BOTTOM_LEFT_BUTTON,
+                    UserInputDeviceButton.JOYSTICK_BASE_TOP_LEFT_BUTTON,
                     ButtonType.Toggle,
                     () -> ConcurrentTask.AllTasks(
                         new IntakeArmExtendTask(false, 0.25),
@@ -385,7 +385,7 @@ public class ButtonMap implements IButtonMap
                 MacroOperation.SwallowGearPosition,
                 new MacroOperationDescription(
                     UserInputDevice.Driver,
-                    UserInputDeviceButton.JOYSTICK_BASE_BOTTOM_RIGHT_BUTTON,
+                    UserInputDeviceButton.JOYSTICK_BASE_TOP_RIGHT_BUTTON,
                     ButtonType.Toggle,
                     () -> SequentialTask.Sequence(
                         new IntakeMouthExtendTask(false, 0.25),
@@ -440,7 +440,7 @@ public class ButtonMap implements IButtonMap
                 MacroOperation.SpinClose,
                 new MacroOperationDescription(
                     UserInputDevice.Driver,
-                    UserInputDeviceButton.JOYSTICK_BASE_TOP_RIGHT_BUTTON,
+                    UserInputDeviceButton.JOYSTICK_BASE_BOTTOM_RIGHT_BUTTON,
                     ButtonType.Toggle,
                     () -> new ShooterSpinTask(false, TuningConstants.SHOOTER_CLOSE_SHOT_VELOCITY),
                     new Operation[]
@@ -464,7 +464,7 @@ public class ButtonMap implements IButtonMap
                 MacroOperation.CloseShotDriveBackwards,
                 new MacroOperationDescription(
                     UserInputDevice.Driver,
-                    UserInputDeviceButton.JOYSTICK_BASE_TOP_LEFT_BUTTON,
+                    UserInputDeviceButton.JOYSTICK_BASE_BOTTOM_LEFT_BUTTON,
                     ButtonType.Toggle,
                     // () -> new DriveDistancePositionTimedTask(0.3, TuningConstants.SHOOTER_CLOSE_SHOT_BACKWARDS_DISTANCE, 1.5), // changed due to drifting left
                     () -> new DriveDistanceTimedTask(TuningConstants.SHOOTER_CLOSE_SHOT_BACKWARDS_DISTANCE, 1.0),

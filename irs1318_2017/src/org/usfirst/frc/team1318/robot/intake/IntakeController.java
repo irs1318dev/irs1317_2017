@@ -27,6 +27,8 @@ public class IntakeController implements IController
     @Override
     public void update()
     {
+        boolean isClimbing = this.driver.getAnalog(Operation.ClimberSpeed) > .01;
+        
         // spin intake motor at speed if button is clicked
         if (this.driver.getDigital(Operation.IntakeIn))
         {
@@ -42,37 +44,37 @@ public class IntakeController implements IController
         }
 
         // extend intake arm if button is clicked
-        if (this.driver.getDigital(Operation.IntakeArmExtend))
-        {
-            this.intakeComponent.extendArm(true);
-            this.isArmExtended = true;
-        }
-        else if (this.driver.getDigital(Operation.IntakeArmRetract))
+        if (this.driver.getDigital(Operation.IntakeArmRetract) || isClimbing)
         {
             this.intakeComponent.extendArm(false);
             this.isArmExtended = false;
         }
+        else if (this.driver.getDigital(Operation.IntakeArmExtend))
+        {
+            this.intakeComponent.extendArm(true);
+            this.isArmExtended = true;
+        }
 
         // extend conveyor
-        if (this.driver.getDigital(Operation.IntakeConveyorExtend))
-        {
-            this.intakeComponent.extendConveyor(true);
-            this.isConveyorExtended = true;
-        }
-        else if (this.driver.getDigital(Operation.IntakeConveyorRetract))
+        if (this.driver.getDigital(Operation.IntakeConveyorRetract) || isClimbing)
         {
             this.intakeComponent.extendConveyor(false);
             this.isConveyorExtended = false;
         }
+        else if (this.driver.getDigital(Operation.IntakeConveyorExtend))
+        {
+            this.intakeComponent.extendConveyor(true);
+            this.isConveyorExtended = true;
+        }
         
         // extend mouth
-        if (this.driver.getDigital(Operation.IntakeMouthExtend))
-        {
-            this.intakeComponent.extendMouth(true);
-        }
-        else if (this.driver.getDigital(Operation.IntakeMouthRetract))
+        if (this.driver.getDigital(Operation.IntakeMouthRetract) || isClimbing)
         {
             this.intakeComponent.extendMouth(false);
+        }
+        else if (this.driver.getDigital(Operation.IntakeMouthExtend))
+        {
+            this.intakeComponent.extendMouth(true);
         }
 
         boolean throughBeamBroken = this.intakeComponent.getThroughBeamBroken();
