@@ -7,15 +7,16 @@ import org.usfirst.frc.team1318.robot.driver.IControlTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.ConcurrentTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.DriveDistancePositionTimedTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.DriveDistanceTimedTask;
-import org.usfirst.frc.team1318.robot.driver.controltasks.DriveRouteTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.IntakeArmExtendTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.IntakeConveyorExtendTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.IntakeSpinTask;
+import org.usfirst.frc.team1318.robot.driver.controltasks.PIDBrakeTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.SequentialTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.ShooterFeedTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.ShooterSpinTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.TurnTimedTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.VisionAdvanceAndCenterTask;
+import org.usfirst.frc.team1318.robot.driver.controltasks.VisionCenteringTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.WaitTask;
 
 import com.google.inject.Inject;
@@ -78,17 +79,17 @@ public class AutonomousRoutineSelector
         switch (routineSelection)
         {
             case 0: // No switches flipped
-                return AutonomousRoutineSelector.GetFillerRoutine();
+                return AutonomousRoutineSelector.GetDriveStraightRoutine();
 
             case 1: // Just A flipped
-                return AutonomousRoutineSelector.GetShootCloseRoutine(turnLeft);
+                return AutonomousRoutineSelector.GetTurnGearAndShootRoutine(turnLeft);
 
             case 2: // Just B flipped
-                return AutonomousRoutineSelector.GetFarGearRoutine(turnLeft);
+                return AutonomousRoutineSelector.GetTurnGearRoutine(turnLeft);
 
             case 3: // A and B flipped
-                return AutonomousRoutineSelector.GetStraightRoutine(turnLeft);
-
+                return AutonomousRoutineSelector.GetStraightGearRoutine(turnLeft);
+                
             default: // CANNOT READ
                 return AutonomousRoutineSelector.GetFillerRoutine();
         }
@@ -104,79 +105,110 @@ public class AutonomousRoutineSelector
         return new WaitTask(0);
     }
 
-    private static IControlTask GetFarGearRoutine(boolean turnLeft)
+    private static IControlTask GetTurnGearRoutine(boolean turnLeft)
     {
         return ConcurrentTask.AllTasks(
             AutonomousRoutineSelector.GearSetUp(),
             SequentialTask.Sequence(
-                new DriveDistanceTimedTask(88.0, 4.0), // 88 inches forwards
-                // new DriveDistancePositionTimedTask(0.3, 88.0, 4.0), // changed due to drifting left
+                new DriveDistanceTimedTask(85.0, 4.0), // 88 inches forwards
                 new TurnTimedTask(turnLeft ? -60.0 : 60.0, 1.5),
-                // new TurnTimedTask(turnLeft ? -55.0 : 65.0, 1.5), // changed due to drifting left
-                new VisionAdvanceAndCenterTask(true),
-                new DriveDistancePositionTimedTask(0.15, 24.0, 1.5),
-                AutonomousRoutineSelector.PlaceGear()));
-    }
-
-    private static IControlTask GetShootCloseRoutine(boolean turnLeft)
-    {
-        return ConcurrentTask.AllTasks(
-            AutonomousRoutineSelector.GearSetUp(),
-            SequentialTask.Sequence(
-                ConcurrentTask.AnyTasks(
-                    new ShooterSpinTask(false, TuningConstants.SHOOTER_CLOSE_SHOT_VELOCITY),
-                    SequentialTask.Sequence(
-                        new WaitTask(1.0),
-                        new ShooterFeedTask(4.0))),
-                new DriveRouteTask(
-                    percentage ->
-                    {
-                        if (turnLeft)
-                        {
-                            return percentage * 41.0;
-                        }
-                        else
-                        {
-                            return percentage * 13.0;
-                        }
-                    },
-                    percentage ->
-                    {
-                        if (turnLeft)
-                        {
-                            return percentage * 13.0;
-                        }
-                        else
-                        {
-                            return percentage * 41.0;
-                        }
-                    },
-                    3.0),
-                new DriveDistanceTimedTask(50.0, 1.5),
-                new TurnTimedTask(turnLeft ? -68.0 : 68.0, 1.5),
+                new VisionCenteringTask(true),
                 new VisionAdvanceAndCenterTask(true),
                 new DriveDistanceTimedTask(24.0, 1.5),
                 AutonomousRoutineSelector.PlaceGear()));
     }
 
-    private static IControlTask GetStraightRoutine(boolean isOnRedSide)
+    private static IControlTask GetTurnGearAndShootRoutine(boolean turnLeft)
+    {
+        return ConcurrentTask.AllTasks(
+            AutonomousRoutineSelector.GearSetUp(),
+            SequentialTask.Sequence(
+                new DriveDistanceTimedTask(85.0, 3.0), // 88 inches forwards
+                new TurnTimedTask(turnLeft ? -60.0 : 60.0, 1.0),
+                new VisionCenteringTask(true),
+                new VisionAdvanceAndCenterTask(true),
+                new DriveDistanceTimedTask(24.0, 0.75),
+                AutonomousRoutineSelector.PlaceGear(),
+                ConcurrentTask.AnyTasks(
+                    new ShooterSpinTask(true, TuningConstants.SHOOTER_FAR_SHOT_VELOCITY),
+                    new IntakeArmExtendTask(false, 15.0),
+                    SequentialTask.Sequence(
+                        new TurnTimedTask(turnLeft ? 10.0 : -10.0, 0.75),
+                        ConcurrentTask.AnyTasks(
+                            new VisionCenteringTask(false),
+                            new WaitTask(2.5)),
+                        ConcurrentTask.AnyTasks(
+                            new ShooterFeedTask(4.0),
+                            new PIDBrakeTask())))));
+//        return ConcurrentTask.AllTasks(
+//            AutonomousRoutineSelector.GearSetUp(),
+//            SequentialTask.Sequence(
+//                ConcurrentTask.AnyTasks(
+//                    new ShooterSpinTask(false, TuningConstants.SHOOTER_FAR_SHOT_VELOCITY),
+//                    SequentialTask.Sequence(
+//                        new WaitTask(1.0),
+//                        new ShooterFeedTask(4.0))),
+//                new DriveRouteTask(
+//                    percentage ->
+//                    {
+//                        if (turnLeft)
+//                        {
+//                            return percentage * 41.0;
+//                        }
+//                        else
+//                        {
+//                            return percentage * 13.0;
+//                        }
+//                    },
+//                    percentage ->
+//                    {
+//                        if (turnLeft)
+//                        {
+//                            return percentage * 13.0;
+//                        }
+//                        else
+//                        {
+//                            return percentage * 41.0;
+//                        }
+//                    },
+//                    3.0),
+//                new DriveDistanceTimedTask(50.0, 1.5),
+//                new TurnTimedTask(turnLeft ? -68.0 : 68.0, 1.5),
+//                new VisionAdvanceAndCenterTask(true),
+//                new DriveDistanceTimedTask(24.0, 1.5),
+//                AutonomousRoutineSelector.PlaceGear()));
+    }
+
+    private static IControlTask GetStraightGearRoutine(boolean turnLeft)
     {
         return ConcurrentTask.AllTasks(
             AutonomousRoutineSelector.GearSetUp(),
             SequentialTask.Sequence(
                 // new DriveDistanceTimedTask(40.0, 2.5), // changed due to drifting left
                 new VisionAdvanceAndCenterTask(true),
-                new DriveDistanceTimedTask(24.0, 1.5),
-                AutonomousRoutineSelector.PlaceGear()));
+                new DriveDistanceTimedTask(24.0, 0.75),
+                AutonomousRoutineSelector.PlaceGear(),
+                new DriveDistanceTimedTask(-12.0, 0.5),
+                new TurnTimedTask(turnLeft ? 77.5 : -77.5, 1.0),
+                ConcurrentTask.AnyTasks(
+                    new ShooterSpinTask(true, TuningConstants.SHOOTER_FAR_SHOT_VELOCITY),
+                    new IntakeArmExtendTask(false, 15.0),
+                    SequentialTask.Sequence(
+                        new TurnTimedTask(turnLeft ? 10.0 : -10.0, 0.75),
+                        new DriveDistanceTimedTask(-24.0, 0.5),
+                        ConcurrentTask.AnyTasks(
+                            new VisionCenteringTask(false),
+                            new WaitTask(2.5)),
+                        ConcurrentTask.AnyTasks(
+                            new ShooterFeedTask(4.0),
+                            new PIDBrakeTask())))));
     }
 
-    private static IControlTask GetStraightDeadReckoningRoutine()
+    private static IControlTask GetDriveStraightRoutine()
     {
         return ConcurrentTask.AllTasks(
             AutonomousRoutineSelector.GearSetUp(),
-            SequentialTask.Sequence(
-                new DriveDistanceTimedTask(TuningConstants.AIRSHIP_DISTANCE, 5.0),
-                AutonomousRoutineSelector.PlaceGear()));
+            new DriveDistancePositionTimedTask(0.35, TuningConstants.AIRSHIP_DISTANCE, 5.0));
     }
 
     private static IControlTask GearSetUp()
@@ -185,7 +217,7 @@ public class AutonomousRoutineSelector
             ConcurrentTask.AllTasks(
                 new IntakeSpinTask(false, 0.20),
                 new IntakeArmExtendTask(true, 0.20)),
-            new IntakeArmExtendTask(false, 0.5),
+            new IntakeArmExtendTask(false, 0.58),
             new IntakeSpinTask(false, 0.5),
             new IntakeConveyorExtendTask(true, 0.5));
     }

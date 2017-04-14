@@ -23,5 +23,5 @@ public enum MacroOperation
     SpinFar,
     SpinClose,
     SpinCloseLowGoal,
-    CloseShotDriveBackwards
+    FarShotDriveBackwards
 }

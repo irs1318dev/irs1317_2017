@@ -28,7 +28,6 @@ public class HSVShooterCenterPipeline implements ICentroidVisionPipeline
     // measured values
     private Point center;
     private Double measuredAngleX;
-    private Double desiredAngleX;
     private Double distanceFromRobot;
 
     // FPS Measurement
@@ -55,7 +54,6 @@ public class HSVShooterCenterPipeline implements ICentroidVisionPipeline
 
         this.center = null;
         this.measuredAngleX = null;
-        this.desiredAngleX = null;
         this.distanceFromRobot = null;
 
         this.analyzedFrameCount = 0;
@@ -218,7 +216,6 @@ public class HSVShooterCenterPipeline implements ICentroidVisionPipeline
         {
             this.center = null;
             this.measuredAngleX = null;
-            this.desiredAngleX = null;
             this.distanceFromRobot = null;
             return;
         }
@@ -226,15 +223,13 @@ public class HSVShooterCenterPipeline implements ICentroidVisionPipeline
         this.center = upperCenterOfMass;
 
         double xOffsetMeasured = upperCenterOfMass.x - VisionConstants.LIFECAM_CAMERA_CENTER_WIDTH;
-        this.measuredAngleX = Math.atan(xOffsetMeasured / VisionConstants.LIFECAM_CAMERA_FOCAL_LENGTH_X) * VisionConstants.RADIANS_TO_ANGLE;
+        this.measuredAngleX = -(Math.atan(xOffsetMeasured / VisionConstants.LIFECAM_CAMERA_FOCAL_LENGTH_X) * VisionConstants.RADIANS_TO_ANGLE - VisionConstants.SHOOTER_CAMERA_HORIZONTAL_MOUNTING_ANGLE);
 
         double yOffsetMeasured = upperCenterOfMass.y - VisionConstants.LIFECAM_CAMERA_CENTER_HEIGHT;
-        double measuredAngleY = -Math.atan(yOffsetMeasured / VisionConstants.LIFECAM_CAMERA_FOCAL_LENGTH_Y) * VisionConstants.RADIANS_TO_ANGLE;
+        double measuredAngleY = Math.atan(yOffsetMeasured / VisionConstants.LIFECAM_CAMERA_FOCAL_LENGTH_Y) * VisionConstants.RADIANS_TO_ANGLE;
 
         double angleY = measuredAngleY + VisionConstants.SHOOTER_CAMERA_VERTICAL_MOUNTING_ANGLE;
-        double distanceFromCamera = VisionConstants.SHOOTER_CAMERA_TO_RETROREFLECTIVE_TAPE_HEIGHT / Math.tan(angleY * VisionConstants.ANGLE_TO_RADIANS);
-        this.distanceFromRobot = distanceFromCamera * Math.cos(this.measuredAngleX * VisionConstants.ANGLE_TO_RADIANS) + VisionConstants.SHOOTER_CAMERA_MOUNTING_DISTANCE;
-        this.desiredAngleX = Math.asin(VisionConstants.SHOOTER_CAMERA_HORIZONTAL_MOUNTING_OFFSET / distanceFromCamera) * VisionConstants.RADIANS_TO_ANGLE;
+        this.distanceFromRobot = VisionConstants.SHOOTER_CAMERA_TO_RETROREFLECTIVE_TAPE_HEIGHT / Math.tan(angleY * VisionConstants.ANGLE_TO_RADIANS);
     }
 
     public void setActivation(boolean isActive)
@@ -254,7 +249,7 @@ public class HSVShooterCenterPipeline implements ICentroidVisionPipeline
 
     public Double getDesiredAngleX()
     {
-        return this.desiredAngleX;
+        return 0.0;
     }
 
     public Double getMeasuredAngleX()

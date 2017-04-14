@@ -22,9 +22,9 @@ public class TuningConstants
     public static final double MAX_VISION_ACCEPTABLE_FORWARD_DISTANCE = 30.0;
 
     // PID settings for Centering the robot on a vision target from one stationary place
-    public static final double VISION_STATIONARY_CENTERING_PID_KP = 0.05;
+    public static final double VISION_STATIONARY_CENTERING_PID_KP = 0.08;
     public static final double VISION_STATIONARY_CENTERING_PID_KI = 0.0;
-    public static final double VISION_STATIONARY_CENTERING_PID_KD = 0.1;
+    public static final double VISION_STATIONARY_CENTERING_PID_KD = 0.08;
     public static final double VISION_STATIONARY_CENTERING_PID_KF = 0.0;
     public static final double VISION_STATIONARY_CENTERING_PID_KS = 1.0;
     public static final double VISION_STATIONARY_CENTERING_PID_MIN = -0.3;
@@ -123,17 +123,17 @@ public class TuningConstants
     public static final double SHOOTER_CAN_PID_KP = 0.0825;
     public static final double SHOOTER_CAN_PID_KI = 0.0;
     public static final double SHOOTER_CAN_PID_KD = 0.0;
-    public static final double SHOOTER_CAN_PID_KF = 0.026;
+    public static final double SHOOTER_CAN_PID_KF = 0.032; // 0.026;
 
     public static final double SHOOTER_MIN_POWER = -1.0;
     public static final double SHOOTER_MAX_POWER = 1.0;
 
-    public static final double SHOOTER_CAN_MAX_VELOCITY = 40000.0; // practice robot...
+    public static final double SHOOTER_CAN_MAX_VELOCITY = 32000.0; // practice robot... is 40000
     public static final double SHOOTER_ALLOWABLE_ERROR = 0.035; // plus or minus 3.5% error is max allowed  .035
 
-    public static final double SHOOTER_FAR_SHOT_VELOCITY = 0.6;
-    public static final double SHOOTER_CLOSE_SHOT_VELOCITY = 0.63;
-    public static final double SHOOTER_CLOSE_SHOT_LOW_GOAL_VELOCITY = 0.22;
+    //public static final double SHOOTER_FAR_SHOT_VELOCITY = 0.6;
+    public static final double SHOOTER_FAR_SHOT_VELOCITY = 0.85; // 0.72;
+    public static final double SHOOTER_CLOSE_SHOT_LOW_GOAL_VELOCITY = 0.9; // 0.22;
 
-    public static final double SHOOTER_CLOSE_SHOT_BACKWARDS_DISTANCE = 24.0; // 24 inches
+    public static final double SHOOTER_LONG_SHOT_BACKWARDS_DISTANCE = 108.0; // 108 inches
 }

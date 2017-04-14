@@ -71,10 +71,10 @@ public class VisionConstants
     public static final double GEAR_CAMERA_HORIZONTAL_MOUNTING_ANGLE = TuningConstants.COMPETITION_ROBOT ? 0.0 : -1.0; // practice robot camera is pointed 3 degrees to the right
 
     public static final double SHOOTER_LARGER_RETROREFLECTIVE_TAPE_HEIGHT_CENTROID_FROM_GROUND = 86; // 7 feet, 2 inches from floor to center of upper retroreflective tape on boiler
-    public static final double SHOOTER_CAMERA_VERTICAL_MOUNTING_HEIGHT = 20.0; // 20.0 inches from floor
-    public static final double SHOOTER_CAMERA_VERTICAL_MOUNTING_ANGLE = 53.0; // 53 degrees from horizontal
+    public static final double SHOOTER_CAMERA_VERTICAL_MOUNTING_HEIGHT = 18.0; // 20.0 inches from floor
+    public static final double SHOOTER_CAMERA_VERTICAL_MOUNTING_ANGLE = 32.0; // 53 degrees from horizontal
     public static final double SHOOTER_CAMERA_MOUNTING_DISTANCE = 17.0; // camera is 17 inches back from the end of the robot in front of the camera
-    public static final double SHOOTER_CAMERA_HORIZONTAL_MOUNTING_OFFSET = -11.0; // camera is 11 inches to the right from the center line of the robot
-    public static final double SHOOTER_CAMERA_HORIZONTAL_MOUNTING_ANGLE = 0.0; // camera is pointed 0 degrees to the right
+    public static final double SHOOTER_CAMERA_HORIZONTAL_MOUNTING_OFFSET = 0.0; // camera is 11 inches to the right from the center line of the robot
+    public static final double SHOOTER_CAMERA_HORIZONTAL_MOUNTING_ANGLE = -1.0; // camera is pointed 0.25 degrees to the right
     public static final double SHOOTER_CAMERA_TO_RETROREFLECTIVE_TAPE_HEIGHT = VisionConstants.SHOOTER_LARGER_RETROREFLECTIVE_TAPE_HEIGHT_CENTROID_FROM_GROUND - VisionConstants.SHOOTER_CAMERA_VERTICAL_MOUNTING_HEIGHT;
 }

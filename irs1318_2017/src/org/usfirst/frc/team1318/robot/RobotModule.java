@@ -63,16 +63,16 @@ public class RobotModule extends AbstractModule
     public IDashboardLogger getLogger()
     {
         IDashboardLogger logger = new SmartDashboardLogger();
-        //        try
-        //        {
-        //            String fileName = String.format("/home/lvuser/%1$d.csv", Calendar.getInstance().getTime().getTime());
-        //            IDashboardLogger csvLogger = new CSVLogger(fileName, new String[] { "r.time", "shooter.speed", "shooter.shooterSpeedGoal" });
-        //            logger = new MultiLogger(logger, csvLogger);
-        //        }
-        //        catch (IOException e)
-        //        {
-        //            e.printStackTrace();
-        //        }
+//        try
+//        {
+//            String fileName = String.format("/home/lvuser/%1$d.csv", Calendar.getInstance().getTime().getTime());
+//            IDashboardLogger csvLogger = new CSVLogger(fileName, new String[] { "r.time", "shooter.power", "vision.mAngle", "vision.dist" });
+//            logger = new MultiLogger(logger, csvLogger);
+//        }
+//        catch (IOException e)
+//        {
+//            e.printStackTrace();
+//        }
 
         return logger;
     }

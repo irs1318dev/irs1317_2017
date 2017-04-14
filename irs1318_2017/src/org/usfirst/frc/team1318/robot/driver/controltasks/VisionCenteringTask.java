@@ -17,6 +17,8 @@ public class VisionCenteringTask extends ControlTaskBase implements IControlTask
     private static final int NO_CENTER_THRESHOLD = 20;
 
     private final boolean visionMode;
+    private final boolean useTime;
+
     private PIDHandler turnPidHandler;
     private Double centeredTime;
     protected VisionManager visionManager;
@@ -29,7 +31,18 @@ public class VisionCenteringTask extends ControlTaskBase implements IControlTask
     */
     public VisionCenteringTask(boolean visionMode)
     {
+        this(visionMode, true);
+    }
+
+    /**
+    * Initializes a new VisionCenteringTask
+    * @param visionMode whether to use Gear (true) or Shooter (false) vision mode
+    * @param useTime whether to make sure we are centered for a second or not
+    */
+    public VisionCenteringTask(boolean visionMode, boolean useTime)
+    {
         this.visionMode = visionMode;
+        this.useTime = useTime;
 
         this.turnPidHandler = null;
         this.centeredTime = null;
@@ -122,19 +135,26 @@ public class VisionCenteringTask extends ControlTaskBase implements IControlTask
             return false;
         }
 
-        ITimer timer = this.getInjector().getInstance(ITimer.class);
-        if (this.centeredTime == null)
+        if (!this.useTime)
         {
-            this.centeredTime = timer.get();
-            return false;
-        }
-        else if (timer.get() - this.centeredTime < 1.0)
-        {
-            return false;
+            return true;
         }
         else
         {
-            return true;
+            ITimer timer = this.getInjector().getInstance(ITimer.class);
+            if (this.centeredTime == null)
+            {
+                this.centeredTime = timer.get();
+                return false;
+            }
+            else if (timer.get() - this.centeredTime < 0.75)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
     }
 

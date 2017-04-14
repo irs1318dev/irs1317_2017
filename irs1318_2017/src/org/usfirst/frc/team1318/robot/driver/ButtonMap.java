@@ -435,6 +435,7 @@ public class ButtonMap implements IButtonMap
                     {
                         Operation.ShooterSpeed,
                         Operation.ShooterExtendHood
+                        
                     }));
             put(
                 MacroOperation.SpinClose,
@@ -442,7 +443,7 @@ public class ButtonMap implements IButtonMap
                     UserInputDevice.Driver,
                     UserInputDeviceButton.JOYSTICK_BASE_BOTTOM_RIGHT_BUTTON,
                     ButtonType.Toggle,
-                    () -> new ShooterSpinTask(false, TuningConstants.SHOOTER_CLOSE_SHOT_VELOCITY),
+                    () -> new ShooterSpinTask(true, TuningConstants.SHOOTER_FAR_SHOT_VELOCITY),
                     new Operation[]
                     {
                         Operation.ShooterSpeed,
@@ -461,13 +462,13 @@ public class ButtonMap implements IButtonMap
                         Operation.ShooterExtendHood
                     }));
             put(
-                MacroOperation.CloseShotDriveBackwards,
+                MacroOperation.FarShotDriveBackwards,
                 new MacroOperationDescription(
                     UserInputDevice.Driver,
                     UserInputDeviceButton.JOYSTICK_BASE_BOTTOM_LEFT_BUTTON,
                     ButtonType.Toggle,
                     // () -> new DriveDistancePositionTimedTask(0.3, TuningConstants.SHOOTER_CLOSE_SHOT_BACKWARDS_DISTANCE, 1.5), // changed due to drifting left
-                    () -> new DriveDistanceTimedTask(TuningConstants.SHOOTER_CLOSE_SHOT_BACKWARDS_DISTANCE, 1.0),
+                    () -> new DriveDistanceTimedTask(TuningConstants.SHOOTER_LONG_SHOT_BACKWARDS_DISTANCE, 2.5),
                     new Operation[]
                     {
                         Operation.DriveTrainUsePositionalMode,
