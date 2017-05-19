@@ -110,11 +110,11 @@ public class AutonomousRoutineSelector
         return ConcurrentTask.AllTasks(
             AutonomousRoutineSelector.GearSetUp(),
             SequentialTask.Sequence(
-                new DriveDistanceTimedTask(85.0, 4.0), // 88 inches forwards
-                new TurnTimedTask(turnLeft ? -60.0 : 60.0, 1.5),
+                new DriveDistanceTimedTask(85.0, 3.0), // 88 inches forwards
+                new TurnTimedTask(turnLeft ? -60.0 : 60.0, 1.0),
                 new VisionCenteringTask(true),
                 new VisionAdvanceAndCenterTask(true),
-                new DriveDistanceTimedTask(24.0, 1.5),
+                new DriveDistanceTimedTask(24.0, 0.75),
                 AutonomousRoutineSelector.PlaceGear()));
     }
 
