@@ -46,7 +46,7 @@ public class VisionManager implements IController, VisionRunner.Listener<ICentro
     private final HSVGearCenterPipeline gearVisionPipeline;
 
     private Driver driver;
-    private VisionState currentState;
+    private VisionProcessingState currentState;
 
     private Point center;
 
@@ -94,7 +94,7 @@ public class VisionManager implements IController, VisionRunner.Listener<ICentro
         this.gearVisionThread.start();
 
         this.driver = null;
-    	this.currentState = VisionState.None;
+    	this.currentState = VisionProcessingState.None;
 
         this.center = null;
         this.desiredAngleX = null;
@@ -147,19 +147,19 @@ public class VisionManager implements IController, VisionRunner.Listener<ICentro
     @Override
     public void update()
     {
-        VisionState desiredState = VisionState.None;
+        VisionProcessingState desiredState = VisionProcessingState.None;
         if (this.driver.getDigital(Operation.EnableGearVision))
         {
-            desiredState = VisionState.Gear;
+            desiredState = VisionProcessingState.Gear;
         }
         else if (this.driver.getDigital(Operation.EnableShooterVision))
         {
-            desiredState = VisionState.Shooter;
+            desiredState = VisionProcessingState.Shooter;
         }
 
         if (this.currentState != desiredState)
         {
-            if (desiredState == VisionState.Gear)
+            if (desiredState == VisionProcessingState.Gear)
             {
                 this.gearCamera.setExposureManual(VisionConstants.LIFECAM_CAMERA_VISION_EXPOSURE);
                 this.gearCamera.setBrightness(VisionConstants.LIFECAM_CAMERA_VISION_BRIGHTNESS);
@@ -172,7 +172,7 @@ public class VisionManager implements IController, VisionRunner.Listener<ICentro
                 this.gearCamera.setFPS(VisionConstants.LIFECAM_CAMERA_FPS);
             }
 
-            if (desiredState == VisionState.Shooter)
+            if (desiredState == VisionProcessingState.Shooter)
             {
                 this.shooterCamera.setExposureManual(VisionConstants.LIFECAM_CAMERA_VISION_EXPOSURE);
                 this.shooterCamera.setBrightness(VisionConstants.LIFECAM_CAMERA_VISION_BRIGHTNESS);
@@ -185,11 +185,11 @@ public class VisionManager implements IController, VisionRunner.Listener<ICentro
                 this.shooterCamera.setFPS(VisionConstants.LIFECAM_CAMERA_FPS);
             }
 
-            this.shooterLight.set(desiredState == VisionState.Shooter);
-            this.shooterVisionPipeline.setActivation(desiredState == VisionState.Shooter);
+            this.shooterLight.set(desiredState == VisionProcessingState.Shooter);
+            this.shooterVisionPipeline.setActivation(desiredState == VisionProcessingState.Shooter);
 
-            this.gearLight.set(desiredState == VisionState.Gear);
-            this.gearVisionPipeline.setActivation(desiredState == VisionState.Gear);
+            this.gearLight.set(desiredState == VisionProcessingState.Gear);
+            this.gearVisionPipeline.setActivation(desiredState == VisionProcessingState.Gear);
 
             this.currentState = desiredState;
         }
