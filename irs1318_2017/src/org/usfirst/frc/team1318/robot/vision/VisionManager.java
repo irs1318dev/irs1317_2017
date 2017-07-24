@@ -1,10 +1,12 @@
 package org.usfirst.frc.team1318.robot.vision;
 
 import org.opencv.core.Point;
-import org.usfirst.frc.team1318.robot.common.IController;
+import org.usfirst.frc.team1318.robot.ElectronicsConstants;
 import org.usfirst.frc.team1318.robot.common.IDashboardLogger;
-import org.usfirst.frc.team1318.robot.common.wpilibmocks.ISolenoid;
-import org.usfirst.frc.team1318.robot.common.wpilibmocks.ITimer;
+import org.usfirst.frc.team1318.robot.common.IMechanism;
+import org.usfirst.frc.team1318.robot.common.wpilib.ISolenoid;
+import org.usfirst.frc.team1318.robot.common.wpilib.ITimer;
+import org.usfirst.frc.team1318.robot.common.wpilib.IWpilibProvider;
 import org.usfirst.frc.team1318.robot.driver.Driver;
 import org.usfirst.frc.team1318.robot.driver.Operation;
 import org.usfirst.frc.team1318.robot.vision.pipelines.HSVGearCenterPipeline;
@@ -13,7 +15,6 @@ import org.usfirst.frc.team1318.robot.vision.pipelines.ICentroidVisionPipeline;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.google.inject.name.Named;
 
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.vision.VisionRunner;
@@ -26,7 +27,7 @@ import edu.wpi.first.wpilibj.vision.VisionThread;
  *
  */
 @Singleton
-public class VisionManager implements IController, VisionRunner.Listener<ICentroidVisionPipeline>
+public class VisionManager implements IMechanism, VisionRunner.Listener<ICentroidVisionPipeline>
 {
     private final static String LogName = "vision";
 
@@ -58,18 +59,20 @@ public class VisionManager implements IController, VisionRunner.Listener<ICentro
 
     /**
      * Initializes a new VisionManager
+     * @param logger to use
+     * @param timer to use
+     * @param provider for obtaining electronics objects
      */
     @Inject
     public VisionManager(
         IDashboardLogger logger,
         ITimer timer,
-        @Named("VISION_SHOOTER_LIGHT") ISolenoid shooterLight,
-        @Named("VISION_GEAR_LIGHT") ISolenoid gearLight)
+        IWpilibProvider provider)
     {
         this.logger = logger;
         this.timer = timer;
-        this.shooterLight = shooterLight;
-        this.gearLight = gearLight;
+        this.shooterLight = provider.getSolenoid(ElectronicsConstants.PCM_B_MODULE, ElectronicsConstants.VISION_SHOOTER_LIGHT_CHANNEL);
+        this.gearLight = provider.getSolenoid(ElectronicsConstants.PCM_B_MODULE, ElectronicsConstants.VISION_GEAR_LIGHT_CHANNEL);
 
         this.visionLock = new Object();
 

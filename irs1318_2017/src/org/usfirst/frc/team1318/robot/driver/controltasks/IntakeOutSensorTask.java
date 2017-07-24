@@ -1,11 +1,11 @@
 package org.usfirst.frc.team1318.robot.driver.controltasks;
 
 import org.usfirst.frc.team1318.robot.driver.Operation;
-import org.usfirst.frc.team1318.robot.intake.IntakeComponent;
+import org.usfirst.frc.team1318.robot.intake.IntakeMechanism;
 
 public class IntakeOutSensorTask extends ControlTaskBase
 {
-    private IntakeComponent intakeComponent;
+    private IntakeMechanism intakeMechanism;
     
     public IntakeOutSensorTask() 
     {
@@ -14,7 +14,7 @@ public class IntakeOutSensorTask extends ControlTaskBase
     @Override
     public void begin()
     {
-        this.intakeComponent = this.getInjector().getInstance(IntakeComponent.class);
+        this.intakeMechanism = this.getInjector().getInstance(IntakeMechanism.class);
 
         this.setDigitalOperationState(Operation.IntakeIn, false);
         this.setDigitalOperationState(Operation.IntakeOut, true);
@@ -44,7 +44,7 @@ public class IntakeOutSensorTask extends ControlTaskBase
     @Override
     public boolean hasCompleted()
     {
-        return this.intakeComponent.getThroughBeamBroken();
+        return this.intakeMechanism.getThroughBeamBroken();
     }
 
     @Override
