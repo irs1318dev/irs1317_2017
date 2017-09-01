@@ -1,7 +1,7 @@
 package org.usfirst.frc.team1318.robot.driver.controltasks;
 
-import org.usfirst.frc.team1318.robot.driver.IControlTask;
 import org.usfirst.frc.team1318.robot.driver.Operation;
+import org.usfirst.frc.team1318.robot.driver.common.IControlTask;
 
 public class ShooterSpinTask extends ControlTaskBase implements IControlTask
 {

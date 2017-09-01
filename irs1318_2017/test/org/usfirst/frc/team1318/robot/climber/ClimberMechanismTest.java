@@ -12,8 +12,8 @@ import org.usfirst.frc.team1318.robot.TestWpilibProvider;
 import org.usfirst.frc.team1318.robot.TuningConstants;
 import org.usfirst.frc.team1318.robot.common.IDashboardLogger;
 import org.usfirst.frc.team1318.robot.common.wpilib.IMotor;
-import org.usfirst.frc.team1318.robot.driver.Driver;
 import org.usfirst.frc.team1318.robot.driver.Operation;
+import org.usfirst.frc.team1318.robot.driver.common.Driver;
 import org.usfirst.frc.team1318.robot.general.PowerManager;
 
 public class ClimberMechanismTest
