@@ -61,8 +61,8 @@ public class ElectronicsConstants
     public static final int INTAKE_GEAR_THROUGH_BEAM_SENSOR_CHANNEL = 0;
     public static final int INTAKE_GEAR_INDICATOR_CHANNEL = 1;
     
-    public static final int INTAKE_MOUTH_EXTENDER_CHANNEL_A = 6; // PCM B
-    public static final int INTAKE_MOUTH_EXTENDER_CHANNEL_B = 7; // PCM B
+    public static final int INTAKE_MOUTH_EXTENDER_CHANNEL_A = 4; // PCM B
+    public static final int INTAKE_MOUTH_EXTENDER_CHANNEL_B = 5; // PCM B
 
     //================================================== Shooter ==============================================================
 
