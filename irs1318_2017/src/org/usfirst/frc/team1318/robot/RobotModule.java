@@ -40,6 +40,22 @@ public class RobotModule extends AbstractModule
 
     @Singleton
     @Provides
+    public MechanismManager getMechanismManager(Injector injector)
+    {
+        List<IMechanism> mechanismList = new ArrayList<>();
+        mechanismList.add(injector.getInstance(PowerManager.class));
+        mechanismList.add(injector.getInstance(PositionManager.class));
+        mechanismList.add(injector.getInstance(VisionManager.class));
+        mechanismList.add(injector.getInstance(CompressorMechanism.class));
+        mechanismList.add(injector.getInstance(DriveTrainMechanism.class));
+        mechanismList.add(injector.getInstance(ClimberMechanism.class));
+        mechanismList.add(injector.getInstance(IntakeMechanism.class));
+        mechanismList.add(injector.getInstance(ShooterMechanism.class));
+        return new MechanismManager(mechanismList);
+    }
+
+    @Singleton
+    @Provides
     public IDashboardLogger getLogger()
     {
         IDashboardLogger logger = new SmartDashboardLogger();
@@ -55,21 +71,5 @@ public class RobotModule extends AbstractModule
         //        }
 
         return logger;
-    }
-
-    @Singleton
-    @Provides
-    public MechanismManager getMechanismManager(Injector injector)
-    {
-        List<IMechanism> mechanismList = new ArrayList<>();
-        mechanismList.add(injector.getInstance(PowerManager.class));
-        mechanismList.add(injector.getInstance(PositionManager.class));
-        mechanismList.add(injector.getInstance(VisionManager.class));
-        mechanismList.add(injector.getInstance(CompressorMechanism.class));
-        mechanismList.add(injector.getInstance(DriveTrainMechanism.class));
-        mechanismList.add(injector.getInstance(ClimberMechanism.class));
-        mechanismList.add(injector.getInstance(IntakeMechanism.class));
-        mechanismList.add(injector.getInstance(ShooterMechanism.class));
-        return new MechanismManager(mechanismList);
     }
 }
