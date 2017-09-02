@@ -3,6 +3,8 @@ package org.usfirst.frc.team1318.robot.driver;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.inject.Singleton;
+
 import org.usfirst.frc.team1318.robot.ElectronicsConstants;
 import org.usfirst.frc.team1318.robot.TuningConstants;
 import org.usfirst.frc.team1318.robot.driver.common.IButtonMap;
@@ -29,6 +31,7 @@ import org.usfirst.frc.team1318.robot.driver.controltasks.VisionAdvanceAndCenter
 import org.usfirst.frc.team1318.robot.driver.controltasks.VisionCenteringTask;
 import org.usfirst.frc.team1318.robot.driver.controltasks.WaitTask;
 
+@Singleton
 public class ButtonMap implements IButtonMap
 {
     @SuppressWarnings("serial")
