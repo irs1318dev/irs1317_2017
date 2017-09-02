@@ -1,5 +1,7 @@
 package org.usfirst.frc.team1318.robot.intake;
 
+import javax.inject.Singleton;
+
 import org.usfirst.frc.team1318.robot.ElectronicsConstants;
 import org.usfirst.frc.team1318.robot.TuningConstants;
 import org.usfirst.frc.team1318.robot.common.IDashboardLogger;
@@ -15,6 +17,7 @@ import org.usfirst.frc.team1318.robot.driver.common.Driver;
 
 import com.google.inject.Inject;
 
+@Singleton
 public class IntakeMechanism implements IMechanism
 {
     private static final String LogName = "intake";
