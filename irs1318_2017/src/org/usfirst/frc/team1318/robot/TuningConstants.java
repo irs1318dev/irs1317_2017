@@ -22,13 +22,13 @@ public class TuningConstants
     public static final double MAX_VISION_ACCEPTABLE_FORWARD_DISTANCE = 30.0;
 
     // PID settings for Centering the robot on a vision target from one stationary place
-    public static final double VISION_STATIONARY_CENTERING_PID_KP = 0.08;
+    public static final double VISION_STATIONARY_CENTERING_PID_KP = 0.10;
     public static final double VISION_STATIONARY_CENTERING_PID_KI = 0.0;
     public static final double VISION_STATIONARY_CENTERING_PID_KD = 0.08;
     public static final double VISION_STATIONARY_CENTERING_PID_KF = 0.0;
     public static final double VISION_STATIONARY_CENTERING_PID_KS = 1.0;
-    public static final double VISION_STATIONARY_CENTERING_PID_MIN = -0.3;
-    public static final double VISION_STATIONARY_CENTERING_PID_MAX = 0.3;
+    public static final double VISION_STATIONARY_CENTERING_PID_MIN = -0.35;
+    public static final double VISION_STATIONARY_CENTERING_PID_MAX = 0.35;
 
     // PID settings for Centering the robot on a vision target
     public static final double VISION_MOVING_CENTERING_PID_KP = 0.015;
