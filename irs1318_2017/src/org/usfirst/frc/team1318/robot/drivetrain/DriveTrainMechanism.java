@@ -214,7 +214,7 @@ public class DriveTrainMechanism implements IMechanism
 
         // apply the power settings to the motors
         this.leftMotor.set(leftPower);
-        this.rightMotor.set(rightPower);
+        this.rightMotor.set(-rightPower); // note: the right motor is oriented "backwards"
     }
 
     /**
