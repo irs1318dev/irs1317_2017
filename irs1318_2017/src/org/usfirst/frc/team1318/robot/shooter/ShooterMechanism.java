@@ -38,6 +38,10 @@ public class ShooterMechanism implements IMechanism
     private boolean usePID;
     private Driver driver;
 
+    private double shooterSpeed;
+    private double shooterError;
+    private int shooterTicks;
+
     @Inject
     public ShooterMechanism(
         IDashboardLogger logger,
@@ -81,6 +85,25 @@ public class ShooterMechanism implements IMechanism
 
         this.feederWait = TuningConstants.SHOOTER_USE_CAN_PID;
         this.usePID = TuningConstants.SHOOTER_USE_CAN_PID;
+
+        this.shooterSpeed = 0.0;
+        this.shooterError = 0.0;
+        this.shooterTicks = 0;
+    }
+
+    public int getShooterTicks()
+    {
+        return this.shooterTicks;
+    }
+
+    public double getShooterSpeed()
+    {
+        return this.shooterSpeed;
+    }
+
+    public double getShooterError()
+    {
+        return this.shooterError;
     }
 
     @Override
@@ -106,10 +129,28 @@ public class ShooterMechanism implements IMechanism
             this.feederWait = false;
         }
 
-        // set hood extend/retract
-        boolean shooterExtendHood = this.driver.getDigital(Operation.ShooterExtendHood);
+        // read from sensors
+        this.shooterSpeed = this.shooter.getSpeed();
+        this.shooterError = this.shooter.getError();
+        this.shooterTicks = this.shooter.getTicks();
+
+        this.logger.logNumber(ShooterMechanism.LogName, "speed", this.shooterSpeed);
+        this.logger.logNumber(ShooterMechanism.LogName, "error", this.shooterError);
+        this.logger.logNumber(ShooterMechanism.LogName, "ticks", this.shooterTicks);
+
         boolean isClimberRunning = this.driver.getAnalog(Operation.ClimberSpeed) > 0.01;
-        this.extendHood(shooterExtendHood || isClimberRunning);
+
+        // set hood extend/retract
+        boolean shooterExtendHood = this.driver.getDigital(Operation.ShooterExtendHood) || isClimberRunning;
+        this.logger.logString(ShooterMechanism.LogName, "hood", shooterExtendHood ? "extend" : "retract");
+        if (shooterExtendHood)
+        {
+            this.hood.set(DoubleSolenoidValue.kForward);
+        }
+        else
+        {
+            this.hood.set(DoubleSolenoidValue.kReverse);
+        }
 
         // calculate and apply desired shooter setting
         double shooterSpeedPercentage = this.driver.getAnalog(Operation.ShooterSpeed);
@@ -124,13 +165,20 @@ public class ShooterMechanism implements IMechanism
             shooterPower = shooterSpeedPercentage;
         }
 
-        this.setShooterPower(shooterPower, this.usePID);
+        if (shooterPower == 0.0 || !this.usePID)
+        {
+            this.shooter.changeControlMode(CANTalonControlMode.PercentVbus);
+        }
+        else
+        {
+            this.shooter.changeControlMode(CANTalonControlMode.Speed);
+        }
+
+        this.logger.logNumber(ShooterMechanism.LogName, "power", shooterPower);
+        this.shooter.set(shooterPower);
 
         // determine if shooter is up to speed, set ready indicator light
-        this.getShooterTicks();
-        this.getShooterSpeed();
-        double error = this.getShooterError();
-        double errorPercentage = error / shooterSpeedGoal;
+        double errorPercentage = this.shooterError / shooterSpeedGoal;
         this.logger.logNumber(ShooterMechanism.LogName, "speedGoal", shooterSpeedGoal);
         this.logger.logNumber(ShooterMechanism.LogName, "error%", errorPercentage * 100.0);
         boolean shooterIsUpToSpeed = false;
@@ -139,22 +187,23 @@ public class ShooterMechanism implements IMechanism
             shooterIsUpToSpeed = Math.abs(errorPercentage) < TuningConstants.SHOOTER_ALLOWABLE_ERROR;
         }
 
-        this.setReadyLight(shooterIsUpToSpeed);
+        // set the ready light
+        this.readyLight.set(shooterIsUpToSpeed);
 
         // enable/disable targeting light
         boolean targetingLightOn = this.driver.getDigital(Operation.ShooterTargetingLight);
-        this.setTargetingLight(targetingLightOn);
+        this.targetingLight.set(targetingLightOn ? RelayValue.kForward : RelayValue.kOff);
 
         // enable/disable feeding
+        double feederPower = 0.0;
         boolean shooterFeed = this.driver.getDigital(Operation.ShooterFeed);
         if (shooterFeed && (!this.feederWait || shooterIsUpToSpeed))
         {
-            this.setFeederPower(TuningConstants.SHOOTER_MAX_FEEDER_POWER);
+            feederPower = TuningConstants.SHOOTER_MAX_FEEDER_POWER;
         }
-        else
-        {
-            this.setFeederPower(0.0);
-        }
+
+        this.logger.logNumber(ShooterMechanism.LogName, "feederPower", feederPower);
+        this.feeder.set(-feederPower); // feeder motor installed "backwards"
     }
 
     @Override
@@ -171,70 +220,5 @@ public class ShooterMechanism implements IMechanism
     public void setDriver(Driver driver)
     {
         this.driver = driver;
-    }
-
-    public int getShooterTicks()
-    {
-        int ticks = this.shooter.getTicks();
-        this.logger.logNumber(ShooterMechanism.LogName, "ticks", ticks);
-        return ticks;
-    }
-
-    public double getShooterSpeed()
-    {
-        double speed = this.shooter.getSpeed();
-        this.logger.logNumber(ShooterMechanism.LogName, "speed", speed);
-        return speed;
-    }
-
-    public double getShooterError()
-    {
-        double error = this.shooter.getError();
-        this.logger.logNumber(ShooterMechanism.LogName, "error", error);
-        return error;
-    }
-
-    private void setShooterPower(double power, boolean usePID)
-    {
-        if (power == 0.0 || !usePID)
-        {
-            this.shooter.changeControlMode(CANTalonControlMode.PercentVbus);
-        }
-        else
-        {
-            this.shooter.changeControlMode(CANTalonControlMode.Speed);
-        }
-
-        this.logger.logNumber(ShooterMechanism.LogName, "power", power);
-        this.shooter.set(power);
-    }
-
-    private void setFeederPower(double power)
-    {
-        this.logger.logNumber(ShooterMechanism.LogName, "feederPower", power);
-        this.feeder.set(-power); // motor installed backwards
-    }
-
-    private void extendHood(boolean extend)
-    {
-        this.logger.logString(ShooterMechanism.LogName, "hood", extend ? "extend" : "retract");
-        if (extend)
-        {
-            this.hood.set(DoubleSolenoidValue.kForward);
-        }
-        else
-        {
-            this.hood.set(DoubleSolenoidValue.kReverse);
-        }
-    }
-
-    private void setReadyLight(boolean on)
-    {
-        this.readyLight.set(on);
-    }
-
-    private void setTargetingLight(boolean on)
-    {
-        this.targetingLight.set(on ? RelayValue.kForward : RelayValue.kOff);
     }
 }

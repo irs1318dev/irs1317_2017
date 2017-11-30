@@ -54,25 +54,22 @@ public class ClimberMechanism implements IMechanism
         {
             climberSpeed = 0.0;
         }
+        
+        climberSpeed *= TuningConstants.CLIMBER_MAX_MOTOR_POWER;
 
-        this.setMotorSpeed(climberSpeed * TuningConstants.CLIMBER_MAX_MOTOR_POWER);
+        this.logger.logNumber(ClimberMechanism.LogName, "speed", climberSpeed);
+        this.motor.set(climberSpeed);
     }
 
     @Override
     public void stop()
     {
-        this.setMotorSpeed(0.0);
+        this.motor.set(0.0);
     }
 
     @Override
     public void setDriver(Driver driver)
     {
         this.driver = driver;
-    }
-
-    public void setMotorSpeed(double speed)
-    {
-        this.motor.set(speed);
-        this.logger.logNumber(LogName, "Speed", speed);
     }
 }

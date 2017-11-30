@@ -32,8 +32,7 @@ public class IntakeMechanism implements IMechanism
 
     private Driver driver;
 
-    private boolean isArmExtended;
-    private boolean isConveyorExtended;
+    private boolean isThroughBeamBroken;
 
     @Inject
     public IntakeMechanism(
@@ -55,8 +54,12 @@ public class IntakeMechanism implements IMechanism
         this.throughBeamSensor = provider.getAnalogInput(ElectronicsConstants.INTAKE_GEAR_THROUGH_BEAM_SENSOR_CHANNEL);
         this.gearIndicator = provider.getSolenoid(ElectronicsConstants.PCM_B_MODULE, ElectronicsConstants.INTAKE_GEAR_INDICATOR_CHANNEL);
 
-        this.isArmExtended = false;
-        this.isConveyorExtended = false;
+        this.isThroughBeamBroken = false;
+    }
+
+    public boolean getThroughBeamBroken()
+    {
+    	return this.isThroughBeamBroken;
     }
 
     @Override
@@ -65,61 +68,61 @@ public class IntakeMechanism implements IMechanism
         boolean isClimbing = this.driver.getAnalog(Operation.ClimberSpeed) > .01;
         
         // spin intake motor at speed if button is clicked
+        double speed = 0.0;
         if (this.driver.getDigital(Operation.IntakeIn))
         {
-            this.setMotorSpeed(TuningConstants.INTAKE_MAX_MOTOR_SPEED);
+            speed = TuningConstants.INTAKE_MAX_MOTOR_SPEED;
         }
         else if (this.driver.getDigital(Operation.IntakeOut))
         {
-            this.setMotorSpeed(-TuningConstants.INTAKE_MAX_MOTOR_SPEED);
+            speed = -TuningConstants.INTAKE_MAX_MOTOR_SPEED;
         }
-        else
-        {
-            this.setMotorSpeed(0.0);
-        }
+
+        this.motor.set(speed);
+        this.logger.logNumber(IntakeMechanism.LogName, "motor", speed);
 
         // extend intake arm if button is clicked
         if (this.driver.getDigital(Operation.IntakeArmRetract) || isClimbing)
         {
-            this.extendArm(false);
-            this.isArmExtended = false;
+            this.armExtender.set(DoubleSolenoidValue.kReverse);
         }
         else if (this.driver.getDigital(Operation.IntakeArmExtend))
         {
-            this.extendArm(true);
-            this.isArmExtended = true;
+            this.armExtender.set(DoubleSolenoidValue.kForward);
         }
 
         // extend conveyor
         if (this.driver.getDigital(Operation.IntakeConveyorRetract) || isClimbing)
         {
-            this.extendConveyor(false);
-            this.isConveyorExtended = false;
+            this.conveyorExtender.set(DoubleSolenoidValue.kReverse);
         }
         else if (this.driver.getDigital(Operation.IntakeConveyorExtend))
         {
-            this.extendConveyor(true);
-            this.isConveyorExtended = true;
+            this.conveyorExtender.set(DoubleSolenoidValue.kForward);
         }
 
         // extend mouth
         if (this.driver.getDigital(Operation.IntakeMouthRetract) || isClimbing)
         {
-            this.extendMouth(false);
+            this.mouthExtender.set(DoubleSolenoidValue.kReverse);
         }
         else if (this.driver.getDigital(Operation.IntakeMouthExtend))
         {
-            this.extendMouth(true);
+            this.mouthExtender.set(DoubleSolenoidValue.kForward);
         }
 
-        boolean throughBeamBroken = this.getThroughBeamBroken();
-        this.setIndicator(throughBeamBroken && this.isArmExtended && !this.isConveyorExtended);
+        double voltage = this.throughBeamSensor.getVoltage();
+        this.logger.logNumber(IntakeMechanism.LogName, "throughBeam", voltage);
+        this.isThroughBeamBroken = voltage > TuningConstants.THROUGH_BEAM_BROKEN_VOLTAGE_MIN;
+        
+        this.gearIndicator.set(this.isThroughBeamBroken);
+        this.logger.logBoolean(IntakeMechanism.LogName, "gearIndicator", this.isThroughBeamBroken);
     }
 
     @Override
     public void stop()
     {
-        this.setMotorSpeed(0.0);
+        this.motor.set(0.0);
         this.armExtender.set(DoubleSolenoidValue.kOff);
         this.conveyorExtender.set(DoubleSolenoidValue.kOff);
         this.mouthExtender.set(DoubleSolenoidValue.kOff);
@@ -129,60 +132,5 @@ public class IntakeMechanism implements IMechanism
     public void setDriver(Driver driver)
     {
         this.driver = driver;
-    }
-
-    public boolean getThroughBeamBroken()
-    {
-        double voltage = this.throughBeamSensor.getVoltage();
-        this.logger.logNumber(IntakeMechanism.LogName, "throughBeam", voltage);
-        return voltage > TuningConstants.THROUGH_BEAM_BROKEN_VOLTAGE_MIN;
-    }
-
-    private void setMotorSpeed(double speed)
-    {
-        this.motor.set(speed);
-        this.logger.logNumber(IntakeMechanism.LogName, "motor", speed);
-    }
-
-    private void extendArm(boolean extend)
-    {
-        if (extend)
-        {
-            this.armExtender.set(DoubleSolenoidValue.kForward);
-        }
-        else
-        {
-            this.armExtender.set(DoubleSolenoidValue.kReverse);
-        }
-    }
-
-    private void extendConveyor(boolean extend)
-    {
-        if (extend)
-        {
-            this.conveyorExtender.set(DoubleSolenoidValue.kForward);
-        }
-        else
-        {
-            this.conveyorExtender.set(DoubleSolenoidValue.kReverse);
-        }
-    }
-    
-    private void extendMouth(boolean extend)
-    {
-        if (extend)
-        {
-            this.mouthExtender.set(DoubleSolenoidValue.kForward);
-        }
-        else
-        {
-            this.mouthExtender.set(DoubleSolenoidValue.kReverse);
-        }
-    }
-
-    private void setIndicator(boolean on)
-    {
-        this.gearIndicator.set(on);
-        this.logger.logBoolean(IntakeMechanism.LogName, "gearIndicator", on);
     }
 }
