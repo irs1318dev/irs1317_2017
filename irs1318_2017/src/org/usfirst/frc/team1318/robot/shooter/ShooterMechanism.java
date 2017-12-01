@@ -213,6 +213,7 @@ public class ShooterMechanism implements IMechanism
         this.feeder.set(0.0);
         this.readyLight.set(false);
         this.targetingLight.set(RelayValue.kOff);
+        this.shooter.changeControlMode(CANTalonControlMode.PercentVbus);
         this.shooter.set(0.0);
     }
 
