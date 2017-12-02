@@ -55,6 +55,7 @@ public class ShooterMechanismTest
         doReturn(0.0).when(shooterMotor).getSpeed();
         doReturn(0.0).when(shooterMotor).getError();
 
+        shooter.readSensors();
         shooter.update();
 
         verify(hood).set(eq(DoubleSolenoidValue.kForward));
@@ -99,6 +100,7 @@ public class ShooterMechanismTest
         doReturn(0.0).when(shooterMotor).getSpeed();
         doReturn(0.0).when(shooterMotor).getError();
 
+        shooter.readSensors();
         shooter.update();
 
         verify(hood).set(eq(DoubleSolenoidValue.kReverse));
@@ -144,6 +146,7 @@ public class ShooterMechanismTest
         doReturn(0.0).when(shooterMotor).getSpeed();
         doReturn(0.0).when(shooterMotor).getError();
 
+        shooter.readSensors();
         shooter.update();
 
         verify(hood).set(eq(DoubleSolenoidValue.kForward));
@@ -188,6 +191,7 @@ public class ShooterMechanismTest
         doReturn(0.999 * TuningConstants.SHOOTER_CAN_MAX_VELOCITY).when(shooterMotor).getSpeed();
         doReturn(0.0).when(shooterMotor).getError();
 
+        shooter.readSensors();
         shooter.update();
 
         verify(hood).set(eq(DoubleSolenoidValue.kForward));
@@ -232,6 +236,7 @@ public class ShooterMechanismTest
         doReturn(0.5 * TuningConstants.SHOOTER_CAN_MAX_VELOCITY).when(shooterMotor).getSpeed();
         doReturn(0.5 * TuningConstants.SHOOTER_CAN_MAX_VELOCITY).when(shooterMotor).getError();
 
+        shooter.readSensors();
         shooter.update();
 
         verify(hood).set(eq(DoubleSolenoidValue.kForward));
@@ -276,6 +281,7 @@ public class ShooterMechanismTest
         doReturn(0.0).when(shooterMotor).getSpeed();
         doReturn(0.0).when(shooterMotor).getError();
 
+        shooter.readSensors();
         shooter.update();
 
         verify(hood).set(eq(DoubleSolenoidValue.kForward));
@@ -320,6 +326,7 @@ public class ShooterMechanismTest
         doReturn(0.101 * TuningConstants.SHOOTER_CAN_MAX_VELOCITY).when(shooterMotor).getSpeed();
         doReturn(0.0).when(shooterMotor).getError();
 
+        shooter.readSensors();
         shooter.update();
 
         verify(hood).set(eq(DoubleSolenoidValue.kForward));
@@ -364,6 +371,7 @@ public class ShooterMechanismTest
         doReturn(0.0).when(shooterMotor).getSpeed();
         doReturn(0.0).when(shooterMotor).getError();
 
+        shooter.readSensors();
         shooter.update();
 
         verify(hood).set(eq(DoubleSolenoidValue.kForward));
@@ -408,6 +416,7 @@ public class ShooterMechanismTest
         doReturn(0.6 * TuningConstants.SHOOTER_CAN_MAX_VELOCITY).when(shooterMotor).getSpeed();
         doReturn(0.1 * TuningConstants.SHOOTER_CAN_MAX_VELOCITY).when(shooterMotor).getError();
 
+        shooter.readSensors();
         shooter.update();
 
         verify(hood).set(eq(DoubleSolenoidValue.kReverse));
@@ -452,6 +461,7 @@ public class ShooterMechanismTest
         doReturn(0.0).when(shooterMotor).getSpeed();
         doReturn(0.0).when(shooterMotor).getError();
 
+        shooter.readSensors();
         shooter.update();
 
         verify(hood).set(eq(DoubleSolenoidValue.kReverse));

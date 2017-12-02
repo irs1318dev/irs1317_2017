@@ -107,6 +107,19 @@ public class ShooterMechanism implements IMechanism
     }
 
     @Override
+    public void readSensors()
+    {
+        // read from sensors
+        this.shooterSpeed = this.shooter.getSpeed();
+        this.shooterError = this.shooter.getError();
+        this.shooterTicks = this.shooter.getTicks();
+
+        this.logger.logNumber(ShooterMechanism.LogName, "speed", this.shooterSpeed);
+        this.logger.logNumber(ShooterMechanism.LogName, "error", this.shooterError);
+        this.logger.logNumber(ShooterMechanism.LogName, "ticks", this.shooterTicks);
+    }
+
+    @Override
     public void update()
     {
         // enable/disable PID, feeder-wait
@@ -128,15 +141,6 @@ public class ShooterMechanism implements IMechanism
         {
             this.feederWait = false;
         }
-
-        // read from sensors
-        this.shooterSpeed = this.shooter.getSpeed();
-        this.shooterError = this.shooter.getError();
-        this.shooterTicks = this.shooter.getTicks();
-
-        this.logger.logNumber(ShooterMechanism.LogName, "speed", this.shooterSpeed);
-        this.logger.logNumber(ShooterMechanism.LogName, "error", this.shooterError);
-        this.logger.logNumber(ShooterMechanism.LogName, "ticks", this.shooterTicks);
 
         boolean isClimberRunning = this.driver.getAnalog(Operation.ClimberSpeed) > 0.01;
 

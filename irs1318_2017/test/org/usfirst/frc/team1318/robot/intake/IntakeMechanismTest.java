@@ -58,6 +58,7 @@ public class IntakeMechanismTest
         IntakeMechanism intake = new IntakeMechanism(logger, testProvider);
         intake.setDriver(driver);
 
+        intake.readSensors();
         intake.update();
 
         verify(intakeMotor).set(eq(0.0));
@@ -103,6 +104,7 @@ public class IntakeMechanismTest
         IntakeMechanism intake = new IntakeMechanism(logger, testProvider);
         intake.setDriver(driver);
 
+        intake.readSensors();
         intake.update();
 
         verify(armExtender).set(eq(DoubleSolenoidValue.kForward));
@@ -149,6 +151,7 @@ public class IntakeMechanismTest
         IntakeMechanism intake = new IntakeMechanism(logger, testProvider);
         intake.setDriver(driver);
 
+        intake.readSensors();
         intake.update();
 
         verify(armExtender).set(eq(DoubleSolenoidValue.kReverse));
@@ -195,6 +198,7 @@ public class IntakeMechanismTest
         IntakeMechanism intake = new IntakeMechanism(logger, testProvider);
         intake.setDriver(driver);
 
+        intake.readSensors();
         intake.update();
 
         verify(conveyorExtender).set(eq(DoubleSolenoidValue.kForward));
@@ -241,6 +245,7 @@ public class IntakeMechanismTest
         IntakeMechanism intake = new IntakeMechanism(logger, testProvider);
         intake.setDriver(driver);
 
+        intake.readSensors();
         intake.update();
 
         verify(conveyorExtender).set(eq(DoubleSolenoidValue.kReverse));
@@ -287,6 +292,7 @@ public class IntakeMechanismTest
         IntakeMechanism intake = new IntakeMechanism(logger, testProvider);
         intake.setDriver(driver);
 
+        intake.readSensors();
         intake.update();
 
         verify(mouthExtender).set(eq(DoubleSolenoidValue.kForward));
@@ -333,6 +339,7 @@ public class IntakeMechanismTest
         IntakeMechanism intake = new IntakeMechanism(logger, testProvider);
         intake.setDriver(driver);
 
+        intake.readSensors();
         intake.update();
 
         verify(mouthExtender).set(eq(DoubleSolenoidValue.kReverse));
@@ -379,6 +386,7 @@ public class IntakeMechanismTest
         IntakeMechanism intake = new IntakeMechanism(logger, testProvider);
         intake.setDriver(driver);
 
+        intake.readSensors();
         intake.update();
 
         verify(intakeMotor).set(eq(TuningConstants.INTAKE_MAX_MOTOR_SPEED));
@@ -424,6 +432,7 @@ public class IntakeMechanismTest
         IntakeMechanism intake = new IntakeMechanism(logger, testProvider);
         intake.setDriver(driver);
 
+        intake.readSensors();
         intake.update();
 
         verify(intakeMotor).set(eq(-TuningConstants.INTAKE_MAX_MOTOR_SPEED));
@@ -469,6 +478,7 @@ public class IntakeMechanismTest
         IntakeMechanism intake = new IntakeMechanism(logger, testProvider);
         intake.setDriver(driver);
 
+        intake.readSensors();
         intake.update();
 
         verify(armExtender).set(eq(DoubleSolenoidValue.kForward));

@@ -63,10 +63,18 @@ public class IntakeMechanism implements IMechanism
     }
 
     @Override
+    public void readSensors()
+    {
+        double voltage = this.throughBeamSensor.getVoltage();
+        this.logger.logNumber(IntakeMechanism.LogName, "throughBeam", voltage);
+        this.isThroughBeamBroken = voltage > TuningConstants.THROUGH_BEAM_BROKEN_VOLTAGE_MIN;
+    }
+
+    @Override
     public void update()
     {
         boolean isClimbing = this.driver.getAnalog(Operation.ClimberSpeed) > .01;
-        
+
         // spin intake motor at speed if button is clicked
         double speed = 0.0;
         if (this.driver.getDigital(Operation.IntakeIn))
@@ -111,10 +119,6 @@ public class IntakeMechanism implements IMechanism
             this.mouthExtender.set(DoubleSolenoidValue.kForward);
         }
 
-        double voltage = this.throughBeamSensor.getVoltage();
-        this.logger.logNumber(IntakeMechanism.LogName, "throughBeam", voltage);
-        this.isThroughBeamBroken = voltage > TuningConstants.THROUGH_BEAM_BROKEN_VOLTAGE_MIN;
-        
         this.gearIndicator.set(this.isThroughBeamBroken);
         this.logger.logBoolean(IntakeMechanism.LogName, "gearIndicator", this.isThroughBeamBroken);
     }

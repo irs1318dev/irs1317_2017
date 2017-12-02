@@ -76,10 +76,10 @@ public class PositionManager implements IMechanism
     }
 
     /**
-     * calculate the various outputs to use based on the inputs and apply them to the outputs for the relevant mechanism
+     * read all of the sensors for the mechanism that we will use in macros/autonomous mode and record their values
      */
     @Override
-    public void update()
+    public void readSensors()
     {
         // check the current distance recorded by the encoders
         double leftDistance = 0.0;
@@ -117,6 +117,15 @@ public class PositionManager implements IMechanism
         this.logger.logNumber(PositionManager.LogName, "navx_angle", this.getNavxAngle());
         this.logger.logNumber(PositionManager.LogName, "navx_x", this.getNavxX());
         this.logger.logNumber(PositionManager.LogName, "navx_y", this.getNavxY());
+	}
+
+    /**
+     * calculate the various outputs to use based on the inputs and apply them to the outputs for the relevant mechanism
+     */
+    @Override
+    public void update()
+    {
+    	// nothing to do for this mechanism
     }
 
     /**

@@ -38,6 +38,11 @@ public class ClimberMechanism implements IMechanism
     }
 
     @Override
+    public void readSensors()
+    {
+    }
+
+    @Override
     public void update()
     {
         double climberSpeed = this.driver.getAnalog(Operation.ClimberSpeed);

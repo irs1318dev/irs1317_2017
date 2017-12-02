@@ -149,6 +149,22 @@ public class VisionManager implements IMechanism, VisionRunner.Listener<ICentroi
     }
 
     @Override
+    public void readSensors()
+    {
+        Point center = this.getCenter();
+        Double fps = this.getLastMeasuredFps();
+        Double dist = this.getMeasuredDistance();
+        Double dAngle = this.getDesiredAngle();
+        Double mAngle = this.getMeasuredAngle();
+
+        this.logger.logPoint(VisionManager.LogName, "center", center);
+        this.logger.logNumber(VisionManager.LogName, "fps", fps);
+        this.logger.logNumber(VisionManager.LogName, "dist", dist);
+        this.logger.logNumber(VisionManager.LogName, "dAngle", dAngle);
+        this.logger.logNumber(VisionManager.LogName, "mAngle", mAngle);
+    }
+
+    @Override
     public void update()
     {
         VisionProcessingState desiredState = VisionProcessingState.None;
@@ -197,21 +213,6 @@ public class VisionManager implements IMechanism, VisionRunner.Listener<ICentroi
 
             this.currentState = desiredState;
         }
-
-        Point center = this.getCenter();
-        this.logger.logPoint(VisionManager.LogName, "center", center);
-
-        Double fps = this.getLastMeasuredFps();
-        this.logger.logNumber(VisionManager.LogName, "fps", fps);
-
-        Double dist = this.getMeasuredDistance();
-        this.logger.logNumber(VisionManager.LogName, "dist", dist);
-
-        Double dAngle = this.getDesiredAngle();
-        this.logger.logNumber(VisionManager.LogName, "dAngle", dAngle);
-
-        Double mAngle = this.getMeasuredAngle();
-        this.logger.logNumber(VisionManager.LogName, "mAngle", mAngle);
     }
 
     @Override
