@@ -1,10 +1,5 @@
 package org.usfirst.frc.team1318.robot.climber;
 
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
-
 import org.junit.Test;
 import org.usfirst.frc.team1318.robot.TuningConstants;
 import org.usfirst.frc.team1318.robot.common.IDashboardLogger;
@@ -12,45 +7,66 @@ import org.usfirst.frc.team1318.robot.common.wpilibmocks.IMotor;
 
 public class ClimberComponentTest
 {
-    @Test
-    public void testSetMotorSpeed_MaxClimberPower()
-    {
-        IMotor motor = mock(IMotor.class);
-        IDashboardLogger logger = mock(IDashboardLogger.class);
-
-        ClimberComponent climberComponent = new ClimberComponent(logger, motor);
-
-        climberComponent.setMotorSpeed(TuningConstants.CLIMBER_MAX_MOTOR_POWER);
-
-        verify(motor).set(eq(TuningConstants.CLIMBER_MAX_MOTOR_POWER));
-        verifyNoMoreInteractions(motor);
-    }
-
-    @Test
-    public void testSetMotorSpeed_Zero()
-    {
-        IMotor motor = mock(IMotor.class);
-        IDashboardLogger logger = mock(IDashboardLogger.class);
-
-        ClimberComponent climberComponent = new ClimberComponent(logger, motor);
-
-        climberComponent.setMotorSpeed(0.0);
-
-        verify(motor).set(eq(0.0));
-        verifyNoMoreInteractions(motor);
-    }
-
-    @Test
-    public void testStop()
-    {
-        IMotor motor = mock(IMotor.class);
-        IDashboardLogger logger = mock(IDashboardLogger.class);
-
-        ClimberComponent climberComponent = new ClimberComponent(logger, motor);
-
-        climberComponent.stop();
-
-        verify(motor).set(eq(0.0));
-        verifyNoMoreInteractions(motor);
-    }
+	@Test
+	public void testSetMotorSpeed_MaxClimberPower() {
+		//mock motor
+			IMotor mockMotor = mock(IMotor.class);
+		
+		//mock dashboard logger
+			IDashboardLogger mockDashboardLogger = mock(IDashboardLogger.class);
+			
+		//new ClimberComponent accepts logger/motor
+			ClimberComponent climberComponent = new ClimberComponent(mockDashboardLogger, mockMotor);
+			
+		//sets speed to max motor power
+			climberComponent.setMotorSpeed(TuningConstants.CLIMBER_MAX_MOTOR_POWER);
+		
+		//test
+			verify(mockMotor).set(eq(TuningConstants.CLIMBER_MAX_MOTOR_POWER));
+			
+		//stop
+			verifyNoMoreInteractions(mockMotor);
+	}
+	
+	@Test
+	public void testSetMotorSpeed_ZeroPower() {
+		//mock motor
+			IMotor mockMotor = mock(IMotor.class);
+		
+		//mock dashboard logger
+			IDashboardLogger mockDashboardLogger = mock(IDashboardLogger.class);
+			
+		//new ClimberComponent accepts logger/motor
+			ClimberComponent climberComponent = new ClimberComponent(mockDashboardLogger, mockMotor);
+			
+		//sets speed to max motor power
+			climberComponent.setMotorSpeed(0);
+		
+		//test
+			verify(mockMotor).set(eq(0));
+			
+		//stop
+			verifyNoMoreInteractions(mockMotor);
+	}
+	
+	@Test
+	public void testStop() {
+		//mock motor
+			IMotor mockMotor = mock(IMotor.class);
+		
+		//mock dashboard logger
+			IDashboardLogger mockDashboardLogger = mock(IDashboardLogger.class);
+			
+		//new ClimberComponent accepts logger/motor
+			ClimberComponent climberComponent = new ClimberComponent(mockDashboardLogger, mockMotor);
+			
+		//stops 
+			climberComponent.stop();
+			
+		//test
+			verify(mockMotor).set(eq(0));
+			
+		//stop
+			verifyNoMoreInteractions(mockMotor);
+	}
 }
